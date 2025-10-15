@@ -51,3 +51,69 @@ docs/ → Documentation
 | **Phase 3 – Final** | Jan–May | Admin tools, reviews, reporting, deployment |
 
 ---
+
+## ⚙️ Tech Stack
+
+- **Frontend:** HTML, CSS, JavaScript  
+- **Backend:** PHP (PDO), MVC-style architecture  
+- **Database:** MySQL  
+- **Version Control:** GitHub  
+- **Server:** University-hosted PHP/MySQL environment  
+
+---
+
+## 🧠 How to Run Locally
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/austin9794/Team-Project-Group-4.git
+   
+2. Move the project to your htdocs (XAMPP) or local server directory.
+
+3. Import the SQL file in /sql/schema.sql into phpMyAdmin.
+
+4. Open localhost in your browser
+
+---
+
+## 🧾 Contribution Guidelines
+
+Each member works in a separate branch for their feature.
+
+Commit often and write clear messages.
+
+Use pull requests to merge into main.
+
+Test before merging to keep the main branch stable.
+
+---
+
+## 📋 To-Do
+
+Database schema finalization (Umair)
+
+Homepage styling (Amy)
+
+Login/Signup logic (Ayaan)
+
+Basket system (Ikram)
+
+Admin dashboard layout (Palak)
+
+Product display (Kayroba)
+
+
+---
+
+## 💾  Save and Commit
+
+In VS Code terminal:
+```bash
+git add README.md
+git commit -m "Updated README with roles, structure, and timeline"
+
+--- 
+
+## 🌐 Push to GitHub
+
+git push origin 

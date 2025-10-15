@@ -42,3 +42,12 @@ docs/ → Documentation
 
 ---
 
+## 📅 Timeline
+
+| Phase  | Period  | Goal |
+|--------|---------|------|
+| **Phase 1 – Setup** | Oct–Nov | Project skeleton, database, and static pages |
+| **Phase 2 – MVP** | Nov–Dec | Login, products, basket, checkout |
+| **Phase 3 – Final** | Jan–May | Admin tools, reviews, reporting, deployment |
+
+---

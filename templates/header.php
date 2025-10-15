@@ -1,0 +1,1 @@
+<!-- Common header with navigation bar -->

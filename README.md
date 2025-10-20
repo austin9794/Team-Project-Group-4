@@ -117,3 +117,9 @@ git commit -m "Updated README with roles, structure, and timeline"
 ## 🌐 Push to GitHub
 
 git push origin 
+
+# Creating Pull Request
+
+stage and then commit your changes on vscode
+
+create a pull request amd wait it for to be aprroved by a contributer

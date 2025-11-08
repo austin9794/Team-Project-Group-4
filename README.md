@@ -54,7 +54,7 @@ docs/ → Documentation
 
 ## ⚙️ Tech Stack
 
-- **Frontend:** HTML, CSS, JavaScript  
+- **Frontend:** HTML, CSS, JavaScript, Figma(for designing)
 - **Backend:** PHP (PDO), MVC-style architecture  
 - **Database:** MySQL  
 - **Version Control:** GitHub  

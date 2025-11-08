@@ -64,15 +64,17 @@ docs/ → Documentation
 
 ## 🧠 How to Run Locally
 
-1. Clone the repository:
+1. Install "Github Pull Request" extension is Visual Studio Code.
+
+2. Clone the repository:
    ```bash
-   git clone https://github.com/austin9794/Team-Project-Group-4.git
+    https://github.com/austin9794/Team-Project-Group-4.git
    
-2. Move the project to your htdocs (XAMPP) or local server directory.
+3. Run "git clone" followed by the url on the Visual Studio Code terminal.
 
-3. Import the SQL file in /sql/schema.sql into phpMyAdmin.
+4. Choose a local directory for the project.
 
-4. Open localhost in your browser
+5. Run "git status" to ensure the repositoryis upto date.
 
 ---
 

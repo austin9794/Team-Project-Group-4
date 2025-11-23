@@ -2,8 +2,9 @@
 // index.php
 
 // --- Include configuration and required files ---
-require_once __DIR__ . '/../src/Models/Config.php';
-require_once __DIR__ . '/../src/Models/Database.php';
+require_once __DIR__ . '/../src/Config.php';
+require_once __DIR__ . '/../src/Database.php';
+
 
 // Controllers 
 require_once __DIR__ . '/../src/Controllers/AuthController.php';
@@ -12,6 +13,7 @@ require_once __DIR__ . '/../src/Controllers/OrderController.php';
 require_once __DIR__ . '/../src/Controllers/BasketController.php';
 require_once __DIR__ . '/../src/Controllers/AdminController.php';
 require_once __DIR__ . '/../src/Controllers/ReviewController.php';
+
 
 // --- Start session ---
 session_start();

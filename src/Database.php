@@ -2,7 +2,8 @@
 class Database {
     private static $instance = null;
     private $conn;
-
+    
+    // This will store the single PDO connection instance
     private function __construct() {
         $this->conn = new PDO(
             "mysql:host=".DB_HOST.";dbname=".DB_NAME.";charset=utf8mb4",
@@ -14,7 +15,7 @@ class Database {
             ]
         );
     }
-
+    // Everyone calls this to get the single shared connection
     public static function getInstance() {
         if (!self::$instance) {
             self::$instance = new Database();

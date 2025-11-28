@@ -6,12 +6,16 @@ require_once __DIR__ . '/../src/Config.php';
 require_once __DIR__ . '/../src/Database.php';
 
 // Controllers 
+require_once __DIR__ . '/../src/Controllers/AccountController.php';
 require_once __DIR__ . '/../src/Controllers/AuthController.php';
 require_once __DIR__ . '/../src/Controllers/ProductController.php';
 require_once __DIR__ . '/../src/Controllers/OrderController.php';
 require_once __DIR__ . '/../src/Controllers/BasketController.php';
 require_once __DIR__ . '/../src/Controllers/AdminController.php';
 require_once __DIR__ . '/../src/Controllers/ReviewController.php';
+
+// TEMPORARY ONLY FOR TESTING ACCOUNT CONTROLLER
+$_SESSION['user_id'] = 2; // John Doe
 
 
 // --- Start session ---
@@ -47,7 +51,8 @@ switch ($page) {
 
         // ---- Customer Pages ----
     case 'account':
-        include __DIR__ . '/../templates/customer/account.php';
+        $controller = new AccountController();
+        $controller->showAccount();
         break;
     case 'basket':
         include __DIR__ . '/../templates/customer/basket.php';

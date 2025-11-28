@@ -6,6 +6,7 @@ require_once __DIR__ . '/../src/Config.php';
 require_once __DIR__ . '/../src/Database.php';
 
 // Controllers 
+require_once __DIR__ . '/../src/Controllers/AccountController.php';
 require_once __DIR__ . '/../src/Controllers/AuthController.php';
 require_once __DIR__ . '/../src/Controllers/ProductController.php';
 require_once __DIR__ . '/../src/Controllers/OrderController.php';

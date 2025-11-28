@@ -48,7 +48,8 @@ switch ($page) {
 
         // ---- Customer Pages ----
     case 'account':
-        include __DIR__ . '/../templates/customer/account.php';
+        $controller = new AccountController();
+        $controller->showAccount();
         break;
     case 'basket':
         include __DIR__ . '/../templates/customer/basket.php';

@@ -10,3 +10,8 @@
 <?php endif; ?>
 
 <hr>
+
+<h3>Update Details (COMING SOON)</h3>
+<p>A form will be added here to update user info.</p>
+
+<?php include __DIR__ . '/../footer.php'; ?>

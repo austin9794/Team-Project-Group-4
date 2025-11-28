@@ -12,6 +12,15 @@ class AccountController {
             exit;
         }
 
+        $conn = Database::getInstance();
+
+        // fetch user information
+        $stmt = $conn->prepare("SELECT name, email, phone, address FROM users WHERE user_id = ?");
+        $stmt->execute([$_SESSION['user_id']]);
+        $user = $stmt->fetch();
+
+        include __DIR__ . '/../../templates/customer/my_account.php';
+    
 
         }
 }

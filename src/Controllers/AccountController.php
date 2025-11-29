@@ -71,4 +71,46 @@ class AccountController {
     }
 }
 
+public function changePassword() {
+
+    if (!isset($_SESSION['user_id'])) {
+        header("Location: /Team-Project-Group-4/public/index.php?page=login");
+        exit;
+    }
+
+    $conn = Database::getInstance();
+
+    $current = $_POST['current_password'];
+    $new = $_POST['new_password'];
+    $confirm = $_POST['confirm_password'];
+
+    // 1. Check match
+    if ($new !== $confirm) {
+        header("Location: /Team-Project-Group-4/public/index.php?page=account&pw=mismatch");
+        exit;
+    }
+
+    // 2. Get stored hash
+    $stmt = $conn->prepare("SELECT password FROM users WHERE user_id = ?");
+    $stmt->execute([$_SESSION['user_id']]);
+    $stored = $stmt->fetchColumn();
+
+    // 3. Verify current password
+    if (!password_verify($current, $stored)) {
+        header("Location: /Team-Project-Group-4/public/index.php?page=account&pw=incorrect");
+        exit;
+    }
+
+    // 4. Hash new password
+    $hashed = password_hash($new, PASSWORD_BCRYPT);
+
+    // 5. Update password
+    $update = $conn->prepare("UPDATE users SET password = ? WHERE user_id = ?");
+    $update->execute([$hashed, $_SESSION['user_id']]);
+
+    header("Location: /Team-Project-Group-4/public/index.php?page=account&pw=success");
+    exit;
+}
+
+
 }

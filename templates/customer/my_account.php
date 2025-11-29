@@ -3,15 +3,25 @@
 <h2>My Account</h2>
 
 <?php if (!empty($user)): ?>
-    <p><strong>Name:</strong> <?= htmlspecialchars($user['name']) ?></p>
-    <p><strong>Email:</strong> <?= htmlspecialchars($user['email']) ?></p>
-    <p><strong>Phone:</strong> <?= htmlspecialchars($user['phone'] ?? 'Not set') ?></p>
-    <p><strong>Address:</strong> <?= nl2br(htmlspecialchars($user['address'] ?? 'Not set')) ?></p>
+    <form action="/Team-Project-Group-4/public/index.php?page=update-account" method="POST">
+
+        <label>Name:</label><br>
+        <input type="text" name="name" value="<?= htmlspecialchars($user['name']) ?>" required><br><br>
+
+        <label>Email:</label><br>
+        <input type="email" name="email" value="<?= htmlspecialchars($user['email']) ?>" required><br><br>
+
+        <label>Phone:</label><br>
+        <input type="text" name="phone" value="<?= htmlspecialchars($user['phone'] ?? '') ?>"><br><br>
+
+        <label>Address:</label><br>
+        <textarea name="address" rows="3"><?= htmlspecialchars($user['address'] ?? '') ?></textarea><br><br>
+
+        <button type="submit">Update Profile</button>
+
+    </form>
+<?php else: ?>
+    <p>Error loading account information.</p>
 <?php endif; ?>
-
-<hr>
-
-<h3>Update Details (COMING SOON)</h3>
-<p>A form will be added here to update user info.</p>
 
 <?php include __DIR__ . '/../footer.php'; ?>

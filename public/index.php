@@ -17,6 +17,7 @@ require_once __DIR__ . '/../src/Controllers/ReviewController.php';
 
 // --- Start session ---
 session_start();
+require_once __DIR__ . '/../src/Helpers/session.php';
 
 // TEMPORARY ONLY FOR TESTING ACCOUNT CONTROLLER
 $_SESSION['user_id'] = 2; // John Doe

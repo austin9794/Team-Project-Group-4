@@ -75,6 +75,7 @@ switch ($page) {
 
         // ---- Admin Pages ----
     case 'dashboard':
+        requireAdmin();
         include __DIR__ . '/../templates/admin/dashboard.php';
         break;
     case 'admin-products':
@@ -87,7 +88,8 @@ switch ($page) {
         include __DIR__ . '/../templates/admin/reports.php';
         break;
     case 'customers':
-        include __DIR__ . '/../templates/admin/customers.php';
+        requireAdmin();
+        include __DIR__ . '/../templates/admin/' . $page . '.php';
         break;
 
         // ---- Default ----

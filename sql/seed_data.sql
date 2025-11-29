@@ -1,16 +1,13 @@
--- Insert Admin + Customer Users --
-
+-- USERS
 INSERT INTO users (name, email, password, role, phone, address)
 VALUES
--- Admin account
-('Bryan Singer', 'BryanS231@gmail.com', 
-    '$2y$12$6ieDfoEBai1QyKn.w/w7t.nBDvQlzeB214Lbi.M3aJCnsFoc.qIh6', -- password: admin123
-    'admin', '0123456789', '456 Admin Street'),
+('Bryan Singer', 'BryanS231@gmail.com',
+ '$2y$12$6ieDfoEBai1QyKn.w/w7t.nBDvQlzeB214Lbi.M3aJCnsFoc.qIh6', -- admin123
+ 'admin', '0123456789', '456 Admin Street'),
 
--- Test customer
 ('John Doe', 'johndoe34@gmail.com',
-    '$2y$12$9j2iiA.J4z8ewxPT8lPLfOuALEjvO4F0zVHZxPAUu.CJF2pRp7F3y', -- password: customer456
-    'customer', '07891234567', '123 Example Road');
+ '$2y$12$9j2iiA.J4z8ewxPT8lPLfOuALEjvO4F0zVHZxPAUu.CJF2pRp7F3y', -- customer456
+ 'customer', '07891234567', '123 Example Road');
 
 
 -- Insert 5 Categories --
@@ -72,16 +69,15 @@ VALUES
 (5, 'HyperX QuadCast – Standalone Microphone for streamers, content creators and gamers', ' QuadCast includes a built-in anti-vibration shock mount, internal pop filter, and an adapter for most stands. Quickly check mic status with the LED indicator, and tap-to-mute to prevent audio accidents ', 94.99, 'mic5.jpg', 60);
 
 
--- Insert Example Orders + Order Items --
-
+-- EXAMPLE ORDER
 INSERT INTO orders (user_id, total_price, status)
 VALUES
-(2, 72.99, 'delivered');   -- John Doe
+(2, 72.99, 'delivered');
 
 INSERT INTO order_items (order_id, product_id, quantity, price_at_purchase)
 VALUES
-(1, 1, 1, 32.99),  -- Mechanical Keyboard
-(1, 3, 1, 39.99);   -- EchoPlay Headset
+(1, 1, 1, 32.99),
+(1, 3, 1, 39.99);
 
 
 -- Example Reviews --

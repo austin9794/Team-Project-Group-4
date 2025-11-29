@@ -80,18 +80,15 @@ VALUES
 (1, 3, 1, 39.99);
 
 
--- Example Reviews --
-
+-- REVIEWS
 INSERT INTO reviews (product_id, user_id, rating, comment)
 VALUES
 (1, 2, 5, 'Excellent feel and nice to use!'),
 (3, 1, 4, 'Good sound quality.');
 
-
--- Example Inventory Logs --
-
+-- INVENTORY LOGS
 INSERT INTO inventory_logs (product_id, change_amount, action)
 VALUES
 (1, -1, 'purchase'),
 (3, -1, 'purchase'),
-(1, +10, 'restock');
+(1, 10, 'restock');

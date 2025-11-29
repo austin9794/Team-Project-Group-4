@@ -2,6 +2,11 @@
 
 <h2>My Account</h2>
 
+<?php if (isset($_GET['updated']) && $_GET['updated'] == 1): ?>
+    <p style="color: green; font-weight: bold;">Profile updated successfully!</p>
+<?php endif; ?>
+
+
 <?php if (!empty($user)): ?>
     <form action="/Team-Project-Group-4/public/index.php?page=update-account" method="POST">
 

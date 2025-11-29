@@ -32,7 +32,7 @@ class AccountController {
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     header("Location: /Team-Project-Group-4/public/index.php?page=account&error=invalid_email");
     exit;
-}
+   }
 
     }
 
@@ -45,6 +45,16 @@ class AccountController {
         $address = $_POST['address'] ?? null;
 
         $conn = Database::getInstance();
+
+        // Check if email is used by another user
+          $check = $conn->prepare("SELECT user_id FROM users WHERE email = ? AND user_id != ?");
+          $check->execute([$email, $_SESSION['user_id']]);
+
+          if ($check->rowCount() > 0) {
+           header("Location: /Team-Project-Group-4/public/index.php?page=account&error=email_taken");
+           exit;
+        }
+
 
         // Update query
         $stmt = $conn->prepare("

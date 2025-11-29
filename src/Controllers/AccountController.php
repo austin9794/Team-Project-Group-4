@@ -19,7 +19,7 @@ class AccountController {
         $stmt->execute([$_SESSION['user_id']]);
         $user = $stmt->fetch();
 
-        include __DIR__ . '/../../templates/customer/my_account.php';
+        include __DIR__ . '/../../templates/customer/account.php';
     
 
         }
@@ -50,7 +50,7 @@ class AccountController {
         $stmt->execute([$name, $email, $phone, $address, $_SESSION['user_id']]);
 
         // Redirect back to account page
-        header("Location: /Team-Project-Group-4/public/index.php?page=my_account&updated=1");
+        header("Location: /Team-Project-Group-4/public/index.php?page=account&updated=1");
         exit;
     }
 }

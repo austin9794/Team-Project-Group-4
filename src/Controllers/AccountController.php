@@ -28,6 +28,12 @@ class AccountController {
     if (!isset($_SESSION['user_id'])) {
         header("Location: /Team-Project-Group-4/public/index.php?page=login");
         exit;
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    header("Location: /Team-Project-Group-4/public/index.php?page=account&error=invalid_email");
+    exit;
+}
+
     }
 
     // Check if form submitted

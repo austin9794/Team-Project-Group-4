@@ -42,6 +42,9 @@ switch ($page) {
     case 'login':
         include __DIR__ . '/../templates/auth/login.php';
         break;
+    case 'admin_login':
+        include __DIR__ . '/../templates/auth/admin_login.php';
+        break;
     case 'signup':
         include __DIR__ . '/../templates/auth/signup.php';
         break;

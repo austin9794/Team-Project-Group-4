@@ -14,12 +14,12 @@ require_once __DIR__ . '/../src/Controllers/BasketController.php';
 require_once __DIR__ . '/../src/Controllers/AdminController.php';
 require_once __DIR__ . '/../src/Controllers/ReviewController.php';
 
-// TEMPORARY ONLY FOR TESTING ACCOUNT CONTROLLER
-$_SESSION['user_id'] = 2; // John Doe
-
 
 // --- Start session ---
 session_start();
+
+// TEMPORARY ONLY FOR TESTING ACCOUNT CONTROLLER
+$_SESSION['user_id'] = 2; // John Doe
 
 // --- Basic routing setup ---
 $page = $_GET['page'] ?? 'home';

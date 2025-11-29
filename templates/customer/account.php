@@ -29,4 +29,13 @@
     <p>Error loading account information.</p>
 <?php endif; ?>
 
+<?php if (isset($_GET['error'])): ?>
+    <?php if ($_GET['error'] == 'invalid_email'): ?>
+        <p style="color: red; font-weight: bold;">Invalid email format.</p>
+    <?php elseif ($_GET['error'] == 'email_taken'): ?>
+        <p style="color: red; font-weight: bold;">Email is already in use by another account.</p>
+    <?php endif; ?>
+<?php endif; ?>
+
+
 <?php include __DIR__ . '/../footer.php'; ?>

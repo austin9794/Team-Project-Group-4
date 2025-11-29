@@ -58,6 +58,10 @@ switch ($page) {
         $controller = new AccountController();
         $controller->updateAccount();
         break;
+    case 'change-password':
+        $controller = new AccountController();
+        $controller->changePassword();
+        break;
     case 'basket':
         include __DIR__ . '/../templates/customer/basket.php';
         break;

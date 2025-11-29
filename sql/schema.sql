@@ -42,6 +42,9 @@ CCREATE TABLE products (
         ON UPDATE CASCADE
 );
 
+-- Index for faster category filtering
+CREATE INDEX idx_products_category
+    ON products(category_id);
 
 -- Orders Table --
 
@@ -49,12 +52,18 @@ CREATE TABLE orders (
     order_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
     total_price DECIMAL(10,2) NOT NULL,
-    status ENUM('pending', 'processing', 'shipped', 'delivered', 'returned') DEFAULT 'pending',
+    status ENUM('pending','processing','shipped','delivered','returned')
+        DEFAULT 'pending',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    
-    FOREIGN KEY (user_id) REFERENCES users(user_id)
+
+    FOREIGN KEY (user_id)
+        REFERENCES users(user_id)
         ON DELETE CASCADE
+        ON UPDATE CASCADE
 );
+
+CREATE INDEX idx_orders_user
+    ON orders(user_id);
 
 
 -- Order Items Table --
@@ -65,11 +74,18 @@ CREATE TABLE order_items (
     product_id INT NOT NULL,
     quantity INT NOT NULL,
     price_at_purchase DECIMAL(10,2) NOT NULL,
-    
-    FOREIGN KEY (order_id) REFERENCES orders(order_id)
-        ON DELETE CASCADE,
-    FOREIGN KEY (product_id) REFERENCES products(product_id)
+
+    FOREIGN KEY (order_id)
+        REFERENCES orders(order_id)
         ON DELETE CASCADE
+        ON UPDATE CASCADE,
+
+    FOREIGN KEY (product_id)
+        REFERENCES products(product_id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+
+    UNIQUE (order_id, product_id)
 );
 
 

@@ -5,7 +5,6 @@
 require_once __DIR__ . '/../src/Config.php';
 require_once __DIR__ . '/../src/Database.php';
 
-
 // Controllers 
 require_once __DIR__ . '/../src/Controllers/AuthController.php';
 require_once __DIR__ . '/../src/Controllers/ProductController.php';
@@ -38,6 +37,9 @@ switch ($page) {
         // ---- Authentication ----
     case 'login':
         include __DIR__ . '/../templates/auth/login.php';
+        break;
+    case 'admin_login':
+        include __DIR__ . '/../templates/auth/admin_login.php';
         break;
     case 'signup':
         include __DIR__ . '/../templates/auth/signup.php';

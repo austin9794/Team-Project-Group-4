@@ -9,5 +9,6 @@
     <a href="index.php?page=home">Home</a> |
     <a href="index.php?page=login">Login</a> |
     <a href="index.php?page=dashboard">Dashboard</a>
+    <a href=""></a>
 </nav>
 <hr>

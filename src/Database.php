@@ -1,25 +1,53 @@
 <?php
+if (!defined('ACCESS_ALLOWED')) {
+    die('Direct access not permitted');
+}
+
 class Database {
     private static $instance = null;
-    private $conn;
+    private $connection;
     
-    // This will store the single PDO connection instance
+    private $host = 'localhost';
+    private $dbname = 'team1'; // Update with your database name
+    private $username = 'root';
+    private $password = '';
+
+
     private function __construct() {
-        $this->conn = new PDO(
-            "mysql:host=".DB_HOST.";dbname=".DB_NAME.";charset=utf8mb4",
-            DB_USER,
-            DB_PASS,
-            [
-                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
-            ]
-        );
-    }
-    // Everyone calls this to get the single shared connection
-    public static function getInstance() {
-        if (!self::$instance) {
-            self::$instance = new Database();
+        try {
+            $this->connection = new PDO(
+                "mysql:host={$this->host};dbname={$this->dbname};charset=utf8mb4",
+                $this->username,
+                $this->password,
+                [
+                    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                    PDO::ATTR_EMULATE_PREPARES => false
+                ]
+            );
+        } catch (PDOException $e) {
+            die("Database connection failed: " . $e->getMessage());
         }
-        return self::$instance->conn;
+    }
+    
+
+    public static function getInstance() {
+        if (self::$instance === null) {
+            self::$instance = new self();
+        }
+        return self::$instance;
+    }
+    
+
+    public function getConnection() {
+        return $this->connection;
+    }
+    
+   
+    private function __clone() {}
+  
+    public function __wakeup() {
+        throw new Exception("Cannot unserialize singleton");
     }
 }
+?>

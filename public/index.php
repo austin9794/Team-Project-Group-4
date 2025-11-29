@@ -54,6 +54,10 @@ switch ($page) {
         $controller = new AccountController();
         $controller->showAccount();
         break;
+    case 'update-account':
+        $controller = new AccountController();
+        $controller->updateAccount();
+        break;
     case 'basket':
         include __DIR__ . '/../templates/customer/basket.php';
         break;

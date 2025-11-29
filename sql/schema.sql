@@ -113,20 +113,6 @@ CREATE TABLE inventory_logs (
 );
 
 
--- admins Table --
-
-CREATE TABLE admins (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(50) NOT NULL UNIQUE,
-  `password` varchar(255) NOT NULL,
-  `email` varchar(100) NOT NULL,
-  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-INSERT INTO `admins` (`username`, `password`, `email`) 
-VALUES ('admin1', 'admin123456', 'admin@example.com');
-
 
 
 

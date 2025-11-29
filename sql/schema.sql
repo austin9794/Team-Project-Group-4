@@ -124,11 +124,8 @@ CREATE TABLE admins (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-
--- below are admin default credentials --
-
 INSERT INTO `admins` (`username`, `password`, `email`) 
-VALUES ('admin', 'admin', 'admin@example.com');
+VALUES ('admin1', 'admin123456', 'admin@example.com');
 
 
 

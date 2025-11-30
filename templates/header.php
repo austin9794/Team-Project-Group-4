@@ -10,7 +10,7 @@ require_once __DIR__ . '/../src/Helpers/session.php';
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title><?= $title ?? 'Level Up Store' ?></title>
+    <title><?= $title ?? 'Level Up!' ?></title>
 
     <link rel="stylesheet" href="/Team-Project-Group-4/public/assets/css/style.css">
 
@@ -125,28 +125,57 @@ require_once __DIR__ . '/../src/Helpers/session.php';
     </style>
 </head>
 <body>
-<nav>
-    <a href="/Team-Project-Group-4/public/index.php?page=home">Home</a> | 
-    <a href="/Team-Project-Group-4/public/index.php?page=products">Products</a> | 
-    <a href="/Team-Project-Group-4/public/index.php?page=contact">Contact</a> |
-    
-    <?php if (isLoggedIn()): ?>
+<!-- TOP HEADER -->
+<div class="top-header">
 
-        <!-- If user is admin -->
-        <?php if (isAdmin()): ?>
-            <a href="/Team-Project-Group-4/public/index.php?page=dashboard">Admin Dashboard</a> |
+    <!-- LOGO -->
+    <div class="logo-container">
+        <a href="/Team-Project-Group-4/public/index.php?page=home">
+            <img src="/Team-Project-Group-4/public/assets/images/logo.png" alt="Level Up Logo">
+        </a>
+    </div>
+
+    <!-- NAVIGATION -->
+    <div class="nav-links">
+
+        <?php if (isLoggedIn()): ?>
+
+            <!-- Account Dropdown -->
+            <div class="dropdown">
+                <a href="#">My Account ▼</a>
+                <div class="dropdown-content">
+                    <a href="/Team-Project-Group-4/public/index.php?page=account">Profile</a>
+                    <a href="/Team-Project-Group-4/public/index.php?page=orders">My Orders</a>
+
+                    <?php if (isAdmin()): ?>
+                        <a href="/Team-Project-Group-4/public/index.php?page=dashboard">Admin Panel</a>
+                    <?php endif; ?>
+
+                    <a href="/Team-Project-Group-4/public/index.php?page=logout">Logout</a>
+                </div>
+            </div>
+
+        <?php else: ?>
+
+            <a href="/Team-Project-Group-4/public/index.php?page=login">Login</a>
+            <a href="/Team-Project-Group-4/public/index.php?page=signup">Signup</a>
+
         <?php endif; ?>
 
-        <a href="/Team-Project-Group-4/public/index.php?page=account">My Account</a> |
-        <a href="/Team-Project-Group-4/public/index.php?page=logout">Logout</a>
+        <!-- Basket -->
+        <a href="/Team-Project-Group-4/public/index.php?page=basket" class="basket-icon">
+            🛒 Basket
+        </a>
+    </div>
 
-    <?php else: ?>
+</div>
 
-        <a href="/Team-Project-Group-4/public/index.php?page=login">Login</a> |
-        <a href="/Team-Project-Group-4/public/index.php?page=signup">Signup</a>
-
-    <?php endif; ?>
-</nav>
+<!-- SUB NAV BAR -->
+<div class="sub-nav">
+    <a href="/Team-Project-Group-4/public/index.php?page=products">Products</a>
+    <a href="/Team-Project-Group-4/public/index.php?page=contact">Contact</a>
+    <a href="/Team-Project-Group-4/public/index.php?page=about">About</a>
+    <a href="/Team-Project-Group-4/public/index.php?page=orders">Orders</a>
+</div>
 
 <hr>
-

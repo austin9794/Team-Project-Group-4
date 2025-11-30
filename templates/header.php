@@ -36,6 +36,47 @@ require_once __DIR__ . '/../src/Helpers/session.php';
         .logo-container img {
             height: 45px;
         }
+        
+        /* === SEARCH BAR === */
+        .search-bar {
+         flex-grow: 1;
+         max-width: 500px;
+         margin: 0 40px;
+         display: flex;
+        }
+
+       .search-bar input {
+         flex-grow: 1;
+         padding: 10px 14px;
+         border: 2px solid var(--lavender);
+         border-radius: 6px 0 0 6px;
+         background-color: var(--black);
+         color: var(--white);
+         outline: none;
+         font-size: 14px;
+        }
+ 
+       .search-bar input::placeholder {
+         color: #bca8e6;
+        }
+
+        .search-bar button {
+         padding: 10px 14px;
+         background-color: var(--mid-purple);
+         border: 2px solid var(--lavender);
+         border-left: none;
+         border-radius: 0 6px 6px 0;
+          color: var(--white);
+          cursor: pointer;
+          font-size: 16px;
+          transition: 0.2s;
+        }
+
+       .search-bar button:hover {
+          background-color: var(--lavender);
+          color: var(--black);
+         text-shadow: 0 0 10px white;
+        }
 
         /* === NAVIGATION LINKS === */
         .nav-links {

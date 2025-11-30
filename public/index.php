@@ -17,6 +17,7 @@ require_once __DIR__ . '/../src/Controllers/ReviewController.php';
 
 // --- Start session ---
 session_start();
+require_once __DIR__ . '/../src/Helpers/session.php';
 
 // TEMPORARY ONLY FOR TESTING ACCOUNT CONTROLLER
 $_SESSION['user_id'] = 2; // John Doe
@@ -77,6 +78,7 @@ switch ($page) {
 
         // ---- Admin Pages ----
     case 'dashboard':
+        requireAdmin();
         include __DIR__ . '/../templates/admin/dashboard.php';
         break;
     case 'admin-products':
@@ -89,7 +91,8 @@ switch ($page) {
         include __DIR__ . '/../templates/admin/reports.php';
         break;
     case 'customers':
-        include __DIR__ . '/../templates/admin/customers.php';
+        requireAdmin();
+        include __DIR__ . '/../templates/admin/' . $page . '.php';
         break;
 
         // ---- Default ----

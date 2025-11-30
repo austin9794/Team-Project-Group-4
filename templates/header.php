@@ -135,6 +135,13 @@ require_once __DIR__ . '/../src/Helpers/session.php';
         </a>
     </div>
 
+    <!-- SEARCH BAR -->
+    <form class="search-bar" action="/Team-Project-Group-4/public/index.php" method="GET">
+        <input type="hidden" name="page" value="products">
+        <input type="text" name="search" placeholder="Search keyboards, mice, monitors..." required>
+        <button type="submit">🔍</button>
+    </form>
+
     <!-- NAVIGATION -->
     <div class="nav-links">
 

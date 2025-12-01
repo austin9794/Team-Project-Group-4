@@ -1,17 +1,21 @@
 <?php
 require_once __DIR__ . "/../Models/Product.php";
-require_once __DIR__ . "/../Models/Database.php";
+
 class ProductController {
+    private $product;
+    public function _construct(){$this->product = new Product();}
+
     public function listProducts($filters = []) {
-        return Product::getAll($filters);
+
+        return $this->product::getAll($filters);
     }
 
     public function showProduct($id) {
-        return Product::findById($id);
+        return $this->product::findById($id);
     }
 
     public function getCategories() {
-        return Product::getCategories();
+        return $this->product::getCategories();
     }
 }
 ?>

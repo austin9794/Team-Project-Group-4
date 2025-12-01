@@ -1,7 +1,7 @@
 ## E-Commerce Group Project
 
 This is our group project for the CS2TP module.  
-It is a fully functional e-commerce platform with both **customer** and **admin** interfaces.
+We are a fully functional e-commerce platform with both **customer** and **admin** interfaces.
 
 ##  Project Overview
 
@@ -20,7 +20,7 @@ Admins can:
 
 ##  Project Folder Structure
 
-public/ → Main entry point and front-end assets
+public/ → Main entry point and front-end assets 
 src/ → Backend logic (controllers, models, helpers)
 templates/ → Page templates (customer, admin, auth)
 sql/ → Database scripts
@@ -32,12 +32,12 @@ docs/ → Documentation
 ## 👥 Team Roles & Responsibilities
 
 | Member | Role | Main Responsibilities |
-|--------------|--------------------------------------|--------|
-| **1. Umair** | **System Architect & Database Lead** | Project setup, database, backend routing, My Account integration, testing & deployment |
-| **2. Amy**   | **Frontend & UI/UX Developer** | Page layout, theme design, responsive front-end |
-| **3. Ayaan** | **Authentication & Security Developer** | Login, signup, password management, access control |
-| **4. Ikram** | **Basket & Checkout Developer** | Basket logic, checkout flow, order history |
-| **5. Palak** | **Admin Dashboard Developer** | Admin panel, stock & order management, reporting |
+|----------------|-------------------------------------------|--------|
+| **1. Umair**   | **System Architect & Database Lead**      | Project setup, database, backend routing, My Account integration, testing & deployment |
+| **2. Amy**     | **Frontend & UI/UX Developer**            | Page layout, theme design, responsive front-end |
+| **3. Ayaan**   | **Authentication & Security Developer**   | Login, signup, password management, access control |
+| **4. Ikram**   | **Basket & Checkout Developer**           | Basket logic, checkout flow, order history |
+| **5. Palak**   | **Admin Dashboard Developer**             | Admin panel, stock & order management, reporting |
 | **6. Kayroba** | **Product Catalogue & Reviews Developer** | Product listing, filtering, and review system |
 
 ---
@@ -54,7 +54,7 @@ docs/ → Documentation
 
 ## ⚙️ Tech Stack
 
-- **Frontend:** HTML, CSS, JavaScript  
+- **Frontend:** HTML, CSS, JavaScript, Figma (for designing)
 - **Backend:** PHP (PDO), MVC-style architecture  
 - **Database:** MySQL  
 - **Version Control:** GitHub  
@@ -64,15 +64,17 @@ docs/ → Documentation
 
 ## 🧠 How to Run Locally
 
-1. Clone the repository:
+1. Install "Github Pull Request" extension is Visual Studio Code.
+
+2. Clone the repository:
    ```bash
-   git clone https://github.com/austin9794/Team-Project-Group-4.git
+    https://github.com/austin9794/Team-Project-Group-4.git
    
-2. Move the project to your htdocs (XAMPP) or local server directory.
+3. Run "git clone" followed by the url on the Visual Studio Code terminal.
 
-3. Import the SQL file in /sql/schema.sql into phpMyAdmin.
+4. Choose a local directory for the project.
 
-4. Open localhost in your browser
+5. Run "git status" to ensure the repositoryis upto date.
 
 ---
 
@@ -117,3 +119,9 @@ git commit -m "Updated README with roles, structure, and timeline"
 ## 🌐 Push to GitHub
 
 git push origin 
+
+# Creating Pull Request
+
+stage and then commit your changes on vscode
+
+create a pull request amd wait it for to be aprroved by a contributer

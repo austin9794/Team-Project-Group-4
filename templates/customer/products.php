@@ -1,6 +1,5 @@
 <?php
-require_once "../src/Controllers/ProductController.php";
-
+require_once __DIR__ . "/../../src/Controllers/ProductController.php";
 $productController = new ProductController();
 
 $filters = [

@@ -1,6 +1,6 @@
 <?php
-require_once "Models/Product.php";
-
+require_once __DIR__ . "/../Models/Product.php";
+require_once __DIR__ . "/../Models/Database.php";
 class ProductController {
     public function listProducts($filters = []) {
         return Product::getAll($filters);

@@ -1,6 +1,6 @@
 <?php
-require_once __DIR__ . "/../Models/Product.php";
-require_once __DIR__ . "/../Models/Database.php";
+require_once __DIR__ . "/Database.php";
+
 class Product {
     public static function getAll($filters = []) {
         $db = Database::getConnection();

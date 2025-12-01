@@ -25,7 +25,7 @@ class AdminLoginController {
         }
 
         if (BaseAdminController::login($username, $password)) {
-            header('Location: http://localhost/Team-Project-Group-4-main/templates/admin/dashboard.php');
+            header('Location: /Team-Project-Group-4-main/templates/admin/dashboard.php');
             exit();
         } else {
             return $this->showLoginForm('Invalid username or password');

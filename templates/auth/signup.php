@@ -1,3 +1,5 @@
+<?php include __DIR__ . '/../header.php'; ?>
+
 <?php
 session_start();
 
@@ -161,3 +163,5 @@ color:white;
 
 </body>
 </html>
+
+<?php include __DIR__ . '/../footer.php'; ?>

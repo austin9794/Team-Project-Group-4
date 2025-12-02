@@ -1,3 +1,5 @@
+<?php include __DIR__ . '/../header.php'; ?>
+
 <?php
 session_start();
 define('ACCESS_ALLOWED', true);
@@ -131,3 +133,5 @@ a:hover { color:white; }
 </div>
 </body>
 </html>
+
+<?php include __DIR__ . '/../footer.php'; ?>

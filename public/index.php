@@ -7,11 +7,13 @@ require_once __DIR__ . '/../src/Database.php';
 
 // Controllers 
 require_once __DIR__ . '/../src/Controllers/AccountController.php';
+require_once __DIR__ . '/../src/Controllers/AdminDashboardController.php';
+require_once __DIR__ . '/../src/Controllers/AdminLoginController.php';
+require_once __DIR__ . '/../src/Controllers/BaseAdminController.php';
 require_once __DIR__ . '/../src/Controllers/AuthController.php';
 require_once __DIR__ . '/../src/Controllers/ProductController.php';
 require_once __DIR__ . '/../src/Controllers/OrderController.php';
 require_once __DIR__ . '/../src/Controllers/BasketController.php';
-require_once __DIR__ . '/../src/Controllers/AdminController.php';
 require_once __DIR__ . '/../src/Controllers/ReviewController.php';
 
 

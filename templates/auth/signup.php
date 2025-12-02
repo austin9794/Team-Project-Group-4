@@ -11,7 +11,6 @@ $success = "";
 
 if (isset($_POST['signup'])) {
 
-```
 $name      = trim($_POST['name']);
 $email     = trim($_POST['email']);
 $password  = trim($_POST['password']);
@@ -51,7 +50,6 @@ if ($password !== $confirm) {
     }
 }
 
-```
 
 }
 ?>

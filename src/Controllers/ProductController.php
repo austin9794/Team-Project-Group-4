@@ -36,8 +36,23 @@ class ProductController {
             $params[] = "%" . $filters['search'] . "%";
         }
 
-        // CATEGORY FILTER
+    // CATEGORY FILTER
         if (!empty($filters['category'])) {
             $sql .= " AND c.name = ? ";
             $params[] = $filters['category'];
         }
+
+    // PRICE FILTERS
+        if (!empty($filters['min_price'])) {
+            $sql .= " AND p.price >= ? ";
+            $params[] = $filters['min_price'];
+        }
+
+        if (!empty($filters['max_price'])) {
+            $sql .= " AND p.price <= ? ";
+            $params[] = $filters['max_price'];
+        }
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute($params);
+        $products = $stmt->fetchAll();

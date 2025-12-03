@@ -9,85 +9,87 @@ class ProductController {
         $this->db = Database::getInstance();
     }
 
-    // GET ALL PRODUCTS
+    // LIST ALL PRODUCTS OR FILTERED PRODUCTS
    
-    public function getAllProducts() {
-        $stmt = $this->db->prepare("SELECT * FROM products ORDER BY created_at DESC");
-        $stmt->execute();
+    public function list() {
+
+        $filters = [
+            'category' => $_GET['category'] ?? null,
+            'search' => $_GET['search'] ?? null,
+            'min_price' => $_GET['min_price'] ?? null,
+            'max_price' => $_GET['max_price'] ?? null
+        ];
+
+   // Base query
+        $sql = "
+            SELECT p.*, c.name AS category_name
+            FROM products p
+            JOIN categories c ON p.category_id = c.category_id
+            WHERE 1=1
+        ";
+        $params = [];
+
+
+    // SEARCH FILTER
+        if (!empty($filters['search'])) {
+            $sql .= " AND p.name LIKE ? ";
+            $params[] = "%" . $filters['search'] . "%";
+        }
+
+    // CATEGORY FILTER
+        if (!empty($filters['category'])) {
+            $sql .= " AND c.name = ? ";
+            $params[] = $filters['category'];
+        }
+
+    // PRICE FILTERS
+        if (!empty($filters['min_price'])) {
+            $sql .= " AND p.price >= ? ";
+            $params[] = $filters['min_price'];
+        }
+
+        if (!empty($filters['max_price'])) {
+            $sql .= " AND p.price <= ? ";
+            $params[] = $filters['max_price'];
+        }
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute($params);
         $products = $stmt->fetchAll();
 
+    // Categories for dropdown
+        $catStmt = $this->db->query("SELECT name FROM categories");
+        $categories = $catStmt->fetchAll();
+
+    // Pass data to template
         include __DIR__ . '/../../templates/customer/products.php';
     }
 
-   // GET SINGLE PRODUCT BY ID
-    
-    public function getProductById() {
 
-        if (!isset($_GET['id'])) {
-            header("Location: /Team-Project-Group-4/public/index.php?page=products");
+    // SHOW SINGLE PRODUCT
+    
+    public function show() {
+
+        $id = $_GET['id'] ?? null;
+        if (!$id) {
+            header("Location: index.php?page=products");
             exit;
         }
 
-        $productId = $_GET['id'];
-
-        $stmt = $this->db->prepare("SELECT * FROM products WHERE product_id = ?");
-        $stmt->execute([$productId]);
+        $stmt = $this->db->prepare("
+            SELECT p.*, c.name AS category_name
+            FROM products p
+            JOIN categories c ON p.category_id = c.category_id
+            WHERE p.product_id = ?
+        ");
+        $stmt->execute([$id]);
         $product = $stmt->fetch();
 
         if (!$product) {
-            echo "<h2>Product not found</h2>";
+            echo "<h2>Product not found.</h2>";
             return;
         }
 
         include __DIR__ . '/../../templates/customer/product_detail.php';
     }
-
-    public function getCategories() {
-        return Product::getCategories();
-    }
-
-    // SEARCH PRODUCTS
-    
-    public function searchProducts() {
-
-        $search = $_GET['search'] ?? '';
-
-        $stmt = $this->db->prepare("
-            SELECT * FROM products 
-            WHERE name LIKE ? 
-               OR description LIKE ?
-        ");
-
-        $query = "%$search%";
-        $stmt->execute([$query, $query]);
-
-        $products = $stmt->fetchAll();
-
-        include __DIR__ . '/../../templates/customer/products.php';
-    }
-
-    // GET PRODUCTS BY CATEGORY
-    
-    public function getByCategory() {
-
-        if (!isset($_GET['category'])) {
-            header("Location: /Team-Project-Group-4/public/index.php?page=products");
-            exit;
-        }
-
-        $catId = $_GET['category'];
-
-        $stmt = $this->db->prepare("
-            SELECT * FROM products 
-            WHERE category_id = ?
-        ");
-
-        $stmt->execute([$catId]);
-
-        $products = $stmt->fetchAll();
-
-        include __DIR__ . '/../../templates/customer/products.php';
-    }
-
 }
-?>

@@ -74,21 +74,14 @@ switch ($page) {
     case 'orders':
         include __DIR__ . '/../templates/customer/orders.php';
         break;
-        case 'product':
-        $controller = new ProductController();
-        $controller->getProductById();
-        break;
+    case 'product':
+       $controller = new ProductController();
+       $controller->show();
+       break;
     case 'products':
-        $controller = new ProductController();
-    
-       if (isset($_GET['search'])) {
-          $controller->searchProducts();
-        } elseif (isset($_GET['category'])) {
-          $controller->getByCategory();
-        } else {
-          $controller->getAllProducts();
-        }
-        break;
+       $controller = new ProductController();
+       $controller->list();
+       break;
 
         // ---- Admin Pages ----
     case 'dashboard':

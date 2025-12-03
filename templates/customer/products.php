@@ -1,25 +1,12 @@
-<?php
-require_once __DIR__ . "/../../src/Controllers/ProductController.php";
-$productController = new ProductController();
-
-$filters = [
-    'category' => $_GET['category'] ?? null,
-    'search' => $_GET['search'] ?? null,
-    'min_price' => $_GET['min_price'] ?? null,
-    'max_price' => $_GET['max_price'] ?? null
-];
-
-$products = $productController->listProducts($filters);
-$categories = $productController->getCategories();
-?>
-
-<?php include 'header.php'; ?>
+<?php include __DIR__ . '/../header.php'; ?>
 
 <div class="container">
     <h1>Gaming Products</h1>
 
     <div class="filters">
-        <form method="GET" action="products.php">
+        <form method="GET" action="/Team-Project-Group-4/public/index.php">
+        <input type="hidden" name="page" value="products">
+
             <div class="filter-group">
                 <input type="text" name="search" placeholder="Search gaming products..." 
                        value="<?php echo htmlspecialchars($filters['search'] ?? ''); ?>">
@@ -46,7 +33,8 @@ $categories = $productController->getCategories();
             </div>
 
             <button type="submit" class="btn">Apply Filters</button>
-            <a href="products.php" class="btn btn-secondary">Clear Filters</a>
+            <a href="/Team-Project-Group-4/public/index.php?page=products" class="btn btn-secondary">Clear Filters</a>
+
         </form>
     </div>
 
@@ -54,7 +42,7 @@ $categories = $productController->getCategories();
         <?php if (empty($products)): ?>
             <div class="no-products">
                 <p>No gaming products found.</p>
-                <a href="products.php" class="btn">View All Products</a>
+                <a href="/Team-Project-Group-4/public/index.php?page=products" class="btn">View All Products</a>
             </div>
         <?php else: ?>
             <?php foreach ($products as $product): ?>
@@ -81,8 +69,9 @@ $categories = $productController->getCategories();
                         </div>
                         
                         <div class="product-actions">
-                            <a href="product_detail.php?id=<?php echo $product['product_id']; ?>" 
-                               class="btn btn-primary">View Details</a>
+                            <a href="/Team-Project-Group-4/public/index.php?page=product&id=<?php echo $product['product_id']; ?>" 
+                            class="btn btn-primary">View Details</a>
+
                             <?php if ($product['stock'] > 0): ?>
                                 <form method="POST" action="add_to_basket.php" class="add-to-basket-form">
                                     <input type="hidden" name="product_id" value="<?php echo $product['product_id']; ?>">
@@ -98,4 +87,4 @@ $categories = $productController->getCategories();
     </div>
 </div>
 
-<?php include 'footer.php'; ?>
+<?php include __DIR__ . '/../footer.php'; ?>

@@ -1,7 +1,4 @@
 <?php
-if (!defined('ACCESS_ALLOWED')) {
-    die('Direct access not permitted');
-}
 
 require_once __DIR__ . '/BaseAdminController.php';
 

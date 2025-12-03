@@ -20,52 +20,15 @@ class ProductController {
             'max_price' => $_GET['max_price'] ?? null
         ];
 
-   // GET SINGLE PRODUCT BY ID
-    
-    public function getProductById() {
+   // Base query
+        $sql = "
+            SELECT p.*, c.name AS category_name
+            FROM products p
+            JOIN categories c ON p.category_id = c.category_id
+            WHERE 1=1
+        ";
+        $params = [];
 
-        if (!isset($_GET['id'])) {
-            header("Location: /Team-Project-Group-4/public/index.php?page=products");
-            exit;
-        }
-
-        $productId = $_GET['id'];
-
-        $stmt = $this->db->prepare("SELECT * FROM products WHERE product_id = ?");
-        $stmt->execute([$productId]);
-        $product = $stmt->fetch();
-
-        if (!$product) {
-            echo "<h2>Product not found</h2>";
-            return;
-        }
-
-        include __DIR__ . '/../../templates/customer/product_detail.php';
-    }
-
-    public function getCategories() {
-        return Product::getCategories();
-    }
-
-    // SEARCH PRODUCTS
-    
-    public function searchProducts() {
-
-        $search = $_GET['search'] ?? '';
-
-        $stmt = $this->db->prepare("
-            SELECT * FROM products 
-            WHERE name LIKE ? 
-               OR description LIKE ?
-        ");
-
-        $query = "%$search%";
-        $stmt->execute([$query, $query]);
-
-        $products = $stmt->fetchAll();
-
-        include __DIR__ . '/../../templates/customer/products.php';
-    }
 
     // GET PRODUCTS BY CATEGORY
     

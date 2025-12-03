@@ -66,8 +66,9 @@
                         </div>
                         
                         <div class="product-actions">
-                            <a href="product_detail.php?id=<?php echo $product['product_id']; ?>" 
-                               class="btn btn-primary">View Details</a>
+                            <a href="/Team-Project-Group-4/public/index.php?page=product&id=<?php echo $product['product_id']; ?>" 
+                            class="btn btn-primary">View Details</a>
+
                             <?php if ($product['stock'] > 0): ?>
                                 <form method="POST" action="add_to_basket.php" class="add-to-basket-form">
                                     <input type="hidden" name="product_id" value="<?php echo $product['product_id']; ?>">

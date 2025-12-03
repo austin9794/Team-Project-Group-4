@@ -60,3 +60,6 @@ class ProductController {
     // Categories for dropdown
         $catStmt = $this->db->query("SELECT name FROM categories");
         $categories = $catStmt->fetchAll();
+
+    // Pass data to template
+        include __DIR__ . '/../../templates/customer/products.php';

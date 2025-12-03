@@ -26,15 +26,14 @@
             </p>
 
             <?php if ($product['stock'] > 0): ?>
-            <form method="POST" action="add_to_basket.php" class="add-to-basket">
-                 <input type="hidden" name="product_id" value="<?php echo $productId; ?>">
-                <div class="quantity-selector"> 
-
-                    <label for="quantity">Quantity:</label>
-                      <input type="number" id="quantity" name="quantity" value="1" min="1" 
-                           max="<?php echo $product['stock']; ?>">
-                </div>
-                <button type="submit" class="btn btn-primary btn-large">Add to Basket</button>
+            <form method="POST" action="/Team-Project-Group-4/public/index.php?page=add-to-basket" class="add-to-basket">
+           <input type="hidden" name="product_id" value="<?php echo $product['product_id']; ?>">
+           <div class="quantity-selector"> 
+           <label for="quantity">Quantity:</label>
+           <input type="number" id="quantity" name="quantity" value="1" min="1" 
+           max="<?php echo $product['stock']; ?>">
+          </div>
+          <button type="submit" class="btn btn-primary btn-large">Add to Basket</button>
       </form>
             <?php else: ?>
             <button class="btn btn-disabled" disabled>Out of Stock</button>

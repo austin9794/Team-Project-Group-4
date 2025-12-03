@@ -4,7 +4,9 @@
     <h1>Gaming Products</h1>
 
     <div class="filters">
-        <form method="GET" action="products.php">
+        <form method="GET" action="/Team-Project-Group-4/public/index.php">
+        <input type="hidden" name="page" value="products">
+
             <div class="filter-group">
                 <input type="text" name="search" placeholder="Search gaming products..." 
                        value="<?php echo htmlspecialchars($filters['search'] ?? ''); ?>">
@@ -31,7 +33,8 @@
             </div>
 
             <button type="submit" class="btn">Apply Filters</button>
-            <a href="products.php" class="btn btn-secondary">Clear Filters</a>
+            <a href="/Team-Project-Group-4/public/index.php?page=products" class="btn btn-secondary">Clear Filters</a>
+
         </form>
     </div>
 
@@ -39,7 +42,7 @@
         <?php if (empty($products)): ?>
             <div class="no-products">
                 <p>No gaming products found.</p>
-                <a href="products.php" class="btn">View All Products</a>
+                <a href="/Team-Project-Group-4/public/index.php?page=products" class="btn">View All Products</a>
             </div>
         <?php else: ?>
             <?php foreach ($products as $product): ?>

@@ -5,4 +5,4 @@ The Folder AuthController.php is changed to test the routing, whenever the work 
 
 # Testing
 
--- localhost/Team-Project-Group-4
+-- localhost/**Team-Project-Group-4**

@@ -9,15 +9,16 @@ class ProductController {
         $this->db = Database::getInstance();
     }
 
-    // GET ALL PRODUCTS
+    // LIST ALL PRODUCTS OR FILTERED PRODUCTS
    
-    public function getAllProducts() {
-        $stmt = $this->db->prepare("SELECT * FROM products ORDER BY created_at DESC");
-        $stmt->execute();
-        $products = $stmt->fetchAll();
+    public function list() {
 
-        include __DIR__ . '/../../templates/customer/products.php';
-    }
+        $filters = [
+            'category' => $_GET['category'] ?? null,
+            'search' => $_GET['search'] ?? null,
+            'min_price' => $_GET['min_price'] ?? null,
+            'max_price' => $_GET['max_price'] ?? null
+        ];
 
    // GET SINGLE PRODUCT BY ID
     

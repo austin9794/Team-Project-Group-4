@@ -35,3 +35,9 @@ class ProductController {
             $sql .= " AND p.name LIKE ? ";
             $params[] = "%" . $filters['search'] . "%";
         }
+
+        // CATEGORY FILTER
+        if (!empty($filters['category'])) {
+            $sql .= " AND c.name = ? ";
+            $params[] = $filters['category'];
+        }

@@ -1,9 +1,5 @@
 <?php
 
-if (!defined('ACCESS_ALLOWED')) {
-    die('Direct access not permitted');
-}
-
 require_once __DIR__ . '/../Models/Admin.php';
 
 class BaseAdminController {

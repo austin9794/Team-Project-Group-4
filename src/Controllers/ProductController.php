@@ -45,5 +45,26 @@ class ProductController {
     public function getCategories() {
         return Product::getCategories();
     }
+
+    // SEARCH PRODUCTS
+    
+    public function searchProducts() {
+
+        $search = $_GET['search'] ?? '';
+
+        $stmt = $this->db->prepare("
+            SELECT * FROM products 
+            WHERE name LIKE ? 
+               OR description LIKE ?
+        ");
+
+        $query = "%$search%";
+        $stmt->execute([$query, $query]);
+
+        $products = $stmt->fetchAll();
+
+        include __DIR__ . '/../../templates/customer/products.php';
+    }
+
 }
 ?>

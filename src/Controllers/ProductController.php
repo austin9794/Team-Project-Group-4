@@ -56,3 +56,7 @@ class ProductController {
         $stmt = $this->db->prepare($sql);
         $stmt->execute($params);
         $products = $stmt->fetchAll();
+
+    // Categories for dropdown
+        $catStmt = $this->db->query("SELECT name FROM categories");
+        $categories = $catStmt->fetchAll();

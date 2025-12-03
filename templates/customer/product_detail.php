@@ -1,21 +1,3 @@
-<?php
-require_once "../src/Controllers/ProductController.php";
-
-$productController = new ProductController();
-
-$productId = $_GET['id'] ?? null;
-if (!$productId) {
-    header("Location: products.php");
-    exit;
-}
-
-$product = $productController->showProduct($productId);
-if (!$product) {
-    header("Location: products.php");
-    exit;
-}
-?>
-
 <?php include 'header.php'; ?>
 
 <div class="container">

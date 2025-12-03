@@ -75,7 +75,15 @@ switch ($page) {
         include __DIR__ . '/../templates/customer/orders.php';
         break;
     case 'products':
-        include __DIR__ . '/../templates/customer/products.php';
+        $controller = new ProductController();
+    
+       if (isset($_GET['search'])) {
+          $controller->searchProducts();
+        } elseif (isset($_GET['category'])) {
+          $controller->getByCategory();
+        } else {
+          $controller->getAllProducts();
+        }
         break;
 
         // ---- Admin Pages ----

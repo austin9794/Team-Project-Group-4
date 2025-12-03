@@ -8,9 +8,16 @@ class ProductController {
     public function __construct() {
         $this->db = Database::getInstance();
     }
+
     
-    public function listProducts($filters = []) {
-        return Product::getAll($filters);
+    // GET ALL PRODUCTS
+   
+    public function getAllProducts() {
+        $stmt = $this->db->prepare("SELECT * FROM products ORDER BY created_at DESC");
+        $stmt->execute();
+        $products = $stmt->fetchAll();
+
+        include __DIR__ . '/../../templates/customer/products.php';
     }
 
     public function showProduct($id) {

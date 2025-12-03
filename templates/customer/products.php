@@ -1,19 +1,4 @@
-<?php
-require_once __DIR__ . "/../../src/Controllers/ProductController.php";
-$productController = new ProductController();
-
-$filters = [
-    'category' => $_GET['category'] ?? null,
-    'search' => $_GET['search'] ?? null,
-    'min_price' => $_GET['min_price'] ?? null,
-    'max_price' => $_GET['max_price'] ?? null
-];
-
-$products = $productController->listProducts($filters);
-$categories = $productController->getCategories();
-?>
-
-<?php include 'header.php'; ?>
+<?php include __DIR__ . '/../header.php'; ?>
 
 <div class="container">
     <h1>Gaming Products</h1>

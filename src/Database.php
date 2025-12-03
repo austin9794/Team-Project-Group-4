@@ -1,7 +1,4 @@
 <?php
-if (!defined('ACCESS_ALLOWED')) {
-    die('Direct access not permitted');
-}
 
 class Database {
     private static $instance = null;

@@ -8,7 +8,7 @@ class Database {
     private $connection;
     
     private $host = 'localhost';
-    private $dbname = 'team1'; // Update with your database name
+    private $dbname = 'ecommerce_db'; 
     private $username = 'root';
     private $password = '';
 

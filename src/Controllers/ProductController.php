@@ -63,3 +63,33 @@ class ProductController {
 
     // Pass data to template
         include __DIR__ . '/../../templates/customer/products.php';
+    }
+
+
+    // SHOW SINGLE PRODUCT
+    
+    public function show() {
+
+        $id = $_GET['id'] ?? null;
+        if (!$id) {
+            header("Location: index.php?page=products");
+            exit;
+        }
+
+        $stmt = $this->db->prepare("
+            SELECT p.*, c.name AS category_name
+            FROM products p
+            JOIN categories c ON p.category_id = c.category_id
+            WHERE p.product_id = ?
+        ");
+        $stmt->execute([$id]);
+        $product = $stmt->fetch();
+
+        if (!$product) {
+            echo "<h2>Product not found.</h2>";
+            return;
+        }
+
+        include __DIR__ . '/../../templates/customer/product_detail.php';
+    }
+}

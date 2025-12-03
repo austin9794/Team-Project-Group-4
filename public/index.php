@@ -74,6 +74,10 @@ switch ($page) {
     case 'orders':
         include __DIR__ . '/../templates/customer/orders.php';
         break;
+        case 'product':
+        $controller = new ProductController();
+        $controller->getProductById();
+        break;
     case 'products':
         $controller = new ProductController();
     

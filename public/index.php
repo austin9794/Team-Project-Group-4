@@ -51,7 +51,12 @@ switch ($page) {
         include __DIR__ . '/../templates/auth/admin_login.php';
         break;
     case 'signup':
-        include __DIR__ . '/../templates/auth/signup.php';
+        $controller = new AuthController();
+        $controller->showSignup();
+        break;
+    case 'signup-submit':
+        $controller = new AuthController();
+        $controller->signup();
         break;
     case 'logout':
         $controller = new AuthController();

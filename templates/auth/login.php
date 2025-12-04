@@ -2,15 +2,18 @@
 
 <style>
 /* Container */
+/* Auth container */
 .auth-box {
-    width: 420px;
-    margin: 70px auto;
+    width: 100%;
+    max-width: 420px;     /* Ensures proper alignment */
+    margin: 60px auto;    /* Center on page */
     padding: 30px;
     border-radius: 14px;
     background: #1a0b2e;
     box-shadow: 0 0 25px rgba(132, 0, 255, 0.3);
     color: #eee;
     font-family: Arial, sans-serif;
+    box-sizing: border-box;
 }
 
 /* Title */
@@ -22,23 +25,32 @@
     font-weight: bold;
 }
 
-/* Inputs */
+/* Ensure consistent label spacing */
+.auth-box label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 15px;
+}
+
+/* Inputs perfectly aligned */
 .auth-box input {
     width: 100%;
     padding: 14px;
-    margin: 10px 0 18px;
+    margin-bottom: 16px;
     border-radius: 8px;
     border: 1px solid #5b2b8f;
     background: #2a0f47;
     color: white;
     font-size: 15px;
+    box-sizing: border-box;
 }
 
+/* Input placeholders */
 .auth-box input::placeholder {
     color: #c09dfc;
 }
 
-/* Button */
+/* Button centered + aligned */
 .auth-box button {
     width: 100%;
     padding: 12px;
@@ -56,22 +68,15 @@
     background: #b46cff;
 }
 
-/* Error + Success */
-.error {
-    background: rgba(255, 0, 0, 0.15);
-    padding: 10px;
-    border-left: 4px solid #ff5555;
-    color: #ff7777;
+/* Fix error/success spacing */
+.error, .success {
+    padding: 12px;
     margin-bottom: 15px;
+    border-left: 4px solid;
 }
 
-.success {
-    background: rgba(50, 255, 120, 0.15);
-    padding: 10px;
-    border-left: 4px solid #24ff75;
-    color: #6bff8f;
-    margin-bottom: 15px;
-}
+.error { border-color: #ff5555; color: #ff7777; background: rgba(255, 0, 0, 0.15); }
+.success { border-color: #24ff75; color: #6bff8f; background: rgba(50, 255, 120, 0.15); }
 
 /* Links */
 .auth-box a {
@@ -79,12 +84,12 @@
     margin-top: 15px;
     color: #c9a7ff;
     text-decoration: none;
-    text-align: left;
 }
 
 .auth-box a:hover {
     color: white;
 }
+
 </style>
 
 <div class="auth-box">

@@ -1,9 +1,15 @@
 <?php
 
+require_once __DIR__ . '/../Database.php';
+
 class BasketController
 {
-    //show basket page nd work out totals
+    private $db;
 
+    public function __construct() {
+        $this->db = Database::getInstance()->getConnection();
+    }
+    
     public function index()
     {
         session_start();

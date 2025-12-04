@@ -53,9 +53,9 @@ class BasketController
         include __DIR__ . '/../../templates/customer/basket.php';
     }
 
-    // ============================
+    
     // ADD TO BASKET
-    // ============================
+    
     public function add()
     {
         $productId = $_POST['product_id'] ?? null;
@@ -77,9 +77,9 @@ class BasketController
         exit;
     }
 
-    // ============================
+    
     // UPDATE QUANTITY
-    // ============================
+    
     public function update()
     {
         $productId = $_POST['product_id'] ?? null;
@@ -100,9 +100,9 @@ class BasketController
         exit;
     }
 
-    // ============================
+    
     // REMOVE ITEM
-    // ============================
+    
     public function remove()
     {
         $productId = $_POST['product_id'] ?? null;

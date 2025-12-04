@@ -41,6 +41,25 @@
     color: white;
 }
 
+/* MAIN CONTENT */
+.account-main {
+    flex-grow: 1;
+}
+
+.section-card {
+    background: #1a0b2e;
+    padding: 20px;
+    margin-bottom: 25px;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(132, 0, 255, 0.25);
+    color: #eee;
+}
+
+.section-card h2 {
+    color: #d9a7ff;
+    margin-bottom: 15px;
+}
+
 
 <h2>My Account</h2>
 

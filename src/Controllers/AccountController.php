@@ -35,7 +35,7 @@ class AccountController {
     $orders->execute([$_SESSION['user_id']]);
     $recentOrders = $orders->fetchAll();
 
-    include __DIR__ . '/../../templates/customer/my_account.php';
+    include __DIR__ . '/../../templates/customer/account.php';
 }
 
     

@@ -86,3 +86,31 @@
     color: white;
 }
 </style>
+
+<div class="auth-box">
+
+    <h2>Sign in to your account</h2>
+
+    <?php if (isset($_GET['error'])): ?>
+        <div class="error"><?= htmlspecialchars($_GET['error']) ?></div>
+    <?php endif; ?>
+
+    <?php if (isset($_GET['success'])): ?>
+        <div class="success"><?= htmlspecialchars($_GET['success']) ?></div>
+    <?php endif; ?>
+
+    <form method="POST" action="/Team-Project-Group-4/public/index.php?page=login-submit">
+        <label>Enter email</label>
+        <input type="email" name="email" required placeholder="Email address">
+
+        <label>Password</label>
+        <input type="password" name="password" required placeholder="Password">
+
+        <button type="submit">Continue</button>
+    </form>
+
+    <a href="/Team-Project-Group-4/public/index.php?page=signup">Create an account</a>
+
+</div>
+
+<?php include __DIR__ . '/../footer.php'; ?>

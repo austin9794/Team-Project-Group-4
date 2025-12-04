@@ -53,4 +53,28 @@ class BasketController
         include __DIR__ . '/../../templates/customer/basket.php';
     }
 
+    // ============================
+    // ADD TO BASKET
+    // ============================
+    public function add()
+    {
+        $productId = $_POST['product_id'] ?? null;
+
+        if (!$productId) {
+            header("Location: /Team-Project-Group-4/public/index.php?page=products");
+            exit;
+        }
+
+        // Initialize basket if not set
+        if (!isset($_SESSION['basket'])) {
+            $_SESSION['basket'] = [];
+        }
+
+        // Increment quantity
+        $_SESSION['basket'][$productId] = ($_SESSION['basket'][$productId] ?? 0) + 1;
+
+        header("Location: /Team-Project-Group-4/public/index.php?page=basket");
+        exit;
+    }
+
     

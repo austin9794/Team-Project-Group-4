@@ -1,9 +1,5 @@
 <?php
 
-if (!defined('ACCESS_ALLOWED')) {
-    die('Direct access not permitted');
-}
-
 require_once __DIR__ . '/../Models/Admin.php';
 
 class BaseAdminController {
@@ -17,7 +13,7 @@ class BaseAdminController {
         
         
         if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
-            header('Location: http://localhost/Team-Project-Group-4-main/templates/auth/admin_login.php');
+            header('Location: /Team-Project-Group-4-main/templates/auth/admin_login.php');
             exit();
         }
         

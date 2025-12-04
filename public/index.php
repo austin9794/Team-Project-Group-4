@@ -7,11 +7,13 @@ require_once __DIR__ . '/../src/Database.php';
 
 // Controllers 
 require_once __DIR__ . '/../src/Controllers/AccountController.php';
+require_once __DIR__ . '/../src/Controllers/AdminDashboardController.php';
+require_once __DIR__ . '/../src/Controllers/AdminLoginController.php';
+require_once __DIR__ . '/../src/Controllers/BaseAdminController.php';
 require_once __DIR__ . '/../src/Controllers/AuthController.php';
 require_once __DIR__ . '/../src/Controllers/ProductController.php';
 require_once __DIR__ . '/../src/Controllers/OrderController.php';
 require_once __DIR__ . '/../src/Controllers/BasketController.php';
-require_once __DIR__ . '/../src/Controllers/AdminController.php';
 require_once __DIR__ . '/../src/Controllers/ReviewController.php';
 
 
@@ -67,14 +69,32 @@ switch ($page) {
         $controller->changePassword();
         break;
     case 'basket':
-        include __DIR__ . '/../templates/customer/basket.php';
-        break;
+       $controller = new BasketController();
+       $controller->index();
+       break;
+    case 'add-to-basket':
+       $controller = new BasketController();
+       $controller->add();
+       break;
+    case 'remove-item':
+       $controller = new BasketController();
+       $controller->remove();
+       break;
+    case 'update-basket':
+       $controller = new BasketController();
+       $controller->update();
+       break;
     case 'orders':
         include __DIR__ . '/../templates/customer/orders.php';
         break;
+    case 'product':
+       $controller = new ProductController();
+       $controller->show();
+       break;
     case 'products':
-        include __DIR__ . '/../templates/customer/products.php';
-        break;
+       $controller = new ProductController();
+       $controller->list();
+       break;
 
         // ---- Admin Pages ----
     case 'dashboard':

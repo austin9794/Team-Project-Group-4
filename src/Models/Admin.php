@@ -1,8 +1,4 @@
-<?php
-if (!defined('ACCESS_ALLOWED')) {
-    die('Direct access not permitted');
-}
-
+<?php 
 require_once __DIR__ . '/../Database.php';
 
 

@@ -55,4 +55,15 @@ class AuthController {
         header("Location: index.php?page=login");
         exit;
     }
+
+    public function signup() {
+
+    $name = trim($_POST['name']);
+    $email = trim($_POST['email']);
+    $password = trim($_POST['password']);
+    $confirm = trim($_POST['confirm']);
+    $phone = trim($_POST['phone']);
+    $address = trim($_POST['address']);
+
+    
 }

@@ -46,7 +46,7 @@
             <div class="product-img">
                 <img src="/Team-Project-Group-4/public/assets/images/<?php echo htmlspecialchars($product['image']); ?>"
                      alt="<?php echo htmlspecialchars($product['name']); ?>"
-                     onerror="this.src='/Team-Project-Group-4/public/assets/images/placeholder.jpg';">
+                     onerror="this.src='/Team-Project-Group-4/public/assets/images/placeholder.png';">
             </div>
 
             <div class="product-info">

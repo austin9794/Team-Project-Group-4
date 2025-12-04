@@ -1,137 +1,101 @@
-<?php include __DIR__ . '/../header.php'; ?>
-
 <?php
-session_start();
-define('ACCESS_ALLOWED', true);
-require "Database.php";
+if (!defined('ACCESS_ALLOWED')) {
+    die("Direct access not permitted");
+}
 
-$db = Database::getInstance()->getConnection();
+class AuthController
+{
+    private $db;
 
-$error = "";
+    public function __construct()
+    {
+        $this->db = Database::getInstance()->getConnection();
+    }
 
-if (isset($_POST["login"])) {
+    /* -----------------------------
+       REGISTER NEW USER (NO HASH)
+    ------------------------------*/
+    public function register($name, $email, $password, $phone, $address)
+    {
+        // Check if email exists
+        $query = $this->db->prepare("SELECT user_id FROM users WHERE email = ?");
+        $query->execute([$email]);
 
-```
-$email = trim($_POST["email"]);
-$password = trim($_POST["password"]);
+        if ($query->rowCount() > 0) {
+            return "Email already registered.";
+        }
 
-$query = $db->prepare("SELECT * FROM users WHERE email = ?");
-$query->execute([$email]);
+        // Insert plain password (MVP)
+        $insert = $this->db->prepare("
+            INSERT INTO users (name, email, password, phone, address, role)
+            VALUES (?, ?, ?, ?, ?, 'customer')
+        ");
 
-if ($query->rowCount() === 1) {
-    $user = $query->fetch();
+        if ($insert->execute([$name, $email, $password, $phone, $address])) {
+            return true;
+        }
 
-    // Plain text password check (MVP only)
-    if ($password === $user['password']) {
+        return "Could not create account. Try again.";
+    }
 
+    /* -----------------------------
+       LOGIN USER
+    ------------------------------*/
+    public function login($email, $password)
+    {
+        $query = $this->db->prepare("SELECT * FROM users WHERE email = ?");
+        $query->execute([$email]);
+
+        if ($query->rowCount() !== 1) {
+            return "Invalid email or password.";
+        }
+
+        $user = $query->fetch();
+
+        // Plain text password match (MVP)
+        if ($password !== $user['password']) {
+            return "Invalid email or password.";
+        }
+
+        // Set session
         $_SESSION['uid']  = $user['user_id'];
         $_SESSION['name'] = $user['name'];
         $_SESSION['role'] = $user['role'];
 
-        // Redirect to homepage instead of dashboard
-        header("Location: index.php");
+        return true;
+    }
+
+    /* -----------------------------
+       CHECK IF USER LOGGED IN
+    ------------------------------*/
+    public function requireLogin()
+    {
+        if (!isset($_SESSION['uid'])) {
+            header("Location: login.php");
+            exit();
+        }
+    }
+
+    /* -----------------------------
+       CHECK IF ADMIN
+    ------------------------------*/
+    public function requireAdmin()
+    {
+        if (!isset($_SESSION['uid']) || $_SESSION['role'] !== 'admin') {
+            header("Location: index.php");
+            exit();
+        }
+    }
+
+    /* -----------------------------
+       LOGOUT USER
+    ------------------------------*/
+    public function logout()
+    {
+        session_unset();
+        session_destroy();
+        header("Location: login.php");
         exit();
     }
 }
-
-$error = "Invalid email or password.";
-
-```
-
-}
 ?>
-
-<!DOCTYPE html>
-<html>
-<head>
-<title>Login - LevelUp</title>
-
-<style>
-body {
-background:#1a0b2e;
-font-family:Arial, sans-serif;
-color:#eee;
-}
-
-.container {
-width: 420px;
-margin: 80px auto;
-background:#2a0f47;
-padding: 25px;
-border-radius: 12px;
-box-shadow: 0 0 20px rgba(132, 0, 255, 0.4);
-}
-
-h2 {
-text-align:center;
-margin-bottom:20px;
-color:#d9a7ff;
-font-weight:bold;
-}
-
-input {
-width:100%;
-padding:12px;
-margin:10px 0;
-border-radius:6px;
-border:1px solid #5d3b8a;
-background:#3a165d;
-color:white;
-}
-
-input::placeholder { color:#c9a8ff; }
-
-button {
-width:100%;
-padding:12px;
-background:#8f3dff;
-border:none;
-border-radius:6px;
-color:white;
-cursor:pointer;
-font-weight:bold;
-transition:0.3s;
-}
-
-button:hover { background:#b46cff; }
-
-.error {
-color:#ff6b6b;
-text-align:center;
-}
-
-a {
-display:block;
-text-align:center;
-color:#d8b6ff;
-margin-top:12px;
-}
-
-a:hover { color:white; }
-</style>
-
-</head>
-
-<body>
-
-<div class="container">
-
-<h2>Login to LevelUp</h2>
-
-<?php if ($error): ?>
-<p class="error"><?= $error ?></p>
-<?php endif; ?>
-
-<form method="POST">
-<input type="email" name="email" placeholder="Email Address" required>
-<input type="password" name="password" placeholder="Password" required>
-<button type="submit" name="login">Login</button>
-</form>
-
-<a href="signup.php">Create a new account</a>
-
-</div>
-</body>
-</html>
-
-<?php include __DIR__ . '/../footer.php'; ?>

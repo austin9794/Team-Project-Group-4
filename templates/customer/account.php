@@ -60,6 +60,27 @@
     margin-bottom: 15px;
 }
 
+/* PROFILE BOX */
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.profile-pic {
+    width: 85px;
+    height: 85px;
+    border-radius: 50%;
+    background: #3a165d;
+    background-size: cover;
+    background-position: center;
+    border: 2px solid #8f3dff;
+}
+
+.profile-details p {
+    margin: 6px 0;
+}
+
 
 <h2>My Account</h2>
 

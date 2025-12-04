@@ -54,7 +54,8 @@ switch ($page) {
         include __DIR__ . '/../templates/auth/signup.php';
         break;
     case 'logout':
-        logoutUser(); // function from AuthController
+        $controller = new AuthController();
+        $controller->logout();
         break;
 
         // ---- Customer Pages ----

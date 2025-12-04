@@ -85,5 +85,8 @@ class AuthController {
         exit;
     }
 
+    // 4. Hash the password properly
+    $hashed = password_hash($password, PASSWORD_BCRYPT);
+
     
 }

@@ -77,4 +77,26 @@ class BasketController
         exit;
     }
 
-    
+    // ============================
+    // UPDATE QUANTITY
+    // ============================
+    public function update()
+    {
+        $productId = $_POST['product_id'] ?? null;
+        $quantity  = (int) ($_POST['quantity'] ?? 0);
+
+        if (!$productId) {
+            header("Location: /Team-Project-Group-4/public/index.php?page=basket");
+            exit;
+        }
+
+        if ($quantity <= 0) {
+            unset($_SESSION['basket'][$productId]);
+        } else {
+            $_SESSION['basket'][$productId] = $quantity;
+        }
+
+        header("Location: /Team-Project-Group-4/public/index.php?page=basket");
+        exit;
+    }
+

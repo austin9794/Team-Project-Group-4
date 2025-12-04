@@ -73,7 +73,7 @@
                             class="btn btn-primary">View Details</a>
 
                             <?php if ($product['stock'] > 0): ?>
-                                <form method="POST" action="add_to_basket.php" class="add-to-basket-form">
+                                <form method="POST" action="/Team-Project-Group-4/public/index.php?page=add-to-basket">
                                     <input type="hidden" name="product_id" value="<?php echo $product['product_id']; ?>">
                                     <input type="hidden" name="quantity" value="1">
                                     <button type="submit" class="btn btn-success">Add to Basket</button>

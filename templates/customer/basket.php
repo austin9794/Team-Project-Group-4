@@ -2,10 +2,10 @@
 
 <?php //basic basket page showing whats in session ?>
 
-<h2>shopping basket</h2>
+<h2>Shopping Basket</h2>
 
 <?php if (empty($items)): ?>
-    <p>your basket is empty</p>
+    <p>Your basket is currently empty.</p>
 <?php else: ?>
    
     <table class="table">

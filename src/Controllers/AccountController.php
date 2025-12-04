@@ -15,19 +15,28 @@ class AccountController {
     // SHOW ACCOUNT PAGE
     
     public function showAccount() {
+    requireLogin();
 
-        requireLogin(); // Ensure user is logged in
+    $db = Database::getInstance()->getConnection();
 
-        $stmt = $this->db->prepare("
-            SELECT name, email, phone, address 
-            FROM users 
-            WHERE user_id = ?
-        ");
-        $stmt->execute([$_SESSION['user_id']]);
-        $user = $stmt->fetch();
+    // Fetch user info
+    $stmt = $db->prepare("SELECT * FROM users WHERE user_id = ?");
+    $stmt->execute([$_SESSION['user_id']]);
+    $user = $stmt->fetch();
 
-        include __DIR__ . '/../../templates/customer/account.php';
-    }
+    // Fetch last 3 orders
+    $orders = $db->prepare("
+        SELECT order_id, total_price, status, created_at AS order_date
+        FROM orders
+        WHERE user_id = ?
+        ORDER BY order_id DESC
+        LIMIT 3
+    ");
+    $orders->execute([$_SESSION['user_id']]);
+    $recentOrders = $orders->fetchAll();
+
+    include __DIR__ . '/../../templates/customer/my_account.php';
+}
 
     
     // UPDATE PROFILE

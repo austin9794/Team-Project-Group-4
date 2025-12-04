@@ -10,6 +10,38 @@
     max-width: 1150px;
     padding: 20px;
 }
+
+/* SIDEBAR */
+.account-sidebar {
+    width: 260px;
+    background: #1a0b2e;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(120, 50, 255, 0.2);
+}
+
+.account-sidebar h3 {
+    color: #d9a7ff;
+    margin-bottom: 15px;
+}
+
+.account-sidebar a {
+    display: block;
+    padding: 12px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    text-decoration: none;
+    background: #2a0f47;
+    color: #c9a7ff;
+    transition: 0.3s;
+}
+
+.account-sidebar a:hover {
+    background: #5b2b8f;
+    color: white;
+}
+
+
 <h2>My Account</h2>
 
 <?php if (isset($_GET['updated']) && $_GET['updated'] == 1): ?>

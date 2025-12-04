@@ -39,4 +39,13 @@ class AuthController {
             exit;
         }
         
-        
+        // Set session
+        $_SESSION['user_id'] = $user['user_id'];
+        $_SESSION['user_role'] = $user['role'];
+        $_SESSION['user_name'] = $user['name'];
+
+        header("Location: index.php?page=home");
+        exit;
+    }
+
+    

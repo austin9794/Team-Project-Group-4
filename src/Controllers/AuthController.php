@@ -65,5 +65,11 @@ class AuthController {
     $phone = trim($_POST['phone']);
     $address = trim($_POST['address']);
 
+    // 1. Validate passwords match
+    if ($password !== $confirm) {
+        header("Location: index.php?page=signup&error=Passwords+do+not+match");
+        exit;
+    }
+
     
 }

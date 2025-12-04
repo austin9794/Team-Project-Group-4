@@ -5,7 +5,7 @@
         <div class="product-image">
             <img src="/public/assets/img/<?php echo htmlspecialchars($product['image']); ?>" 
                  alt="<?php echo htmlspecialchars($product['name']); ?>"
-                 onerror="this.src='/public/assets/img/placeholder.jpg'">
+                 onerror="this.src='/public/assets/img/placeholder.png'">
         </div>
         
         <div class="product-info">

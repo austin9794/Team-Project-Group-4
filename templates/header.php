@@ -12,7 +12,8 @@ require_once __DIR__ . '/../src/Helpers/session.php';
     <meta charset="UTF-8">
     <title><?= $title ?? 'Level Up!' ?></title>
 
-    <link rel="stylesheet" href="/Team-Project-Group-4/public/assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/style.css?v=22">
+
 
     <style>
         /* === COLOR PALETTE === */

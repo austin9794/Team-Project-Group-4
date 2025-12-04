@@ -3,9 +3,10 @@
 <div class="container">
     <div class="product-detail">
         <div class="product-image">
-            <img src="/public/assets/img/<?php echo htmlspecialchars($product['image']); ?>" 
-                 alt="<?php echo htmlspecialchars($product['name']); ?>"
-                 onerror="this.src='/public/assets/img/placeholder.png'">
+            <img src="/Team-Project-Group-4/public/assets/images/<?php echo htmlspecialchars($product['image']); ?>"
+            alt="<?php echo htmlspecialchars($product['name']); ?>">
+
+
         </div>
         
         <div class="product-info">

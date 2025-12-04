@@ -11,7 +11,8 @@ class AccountController {
 
         requireLogin(); // Protect page
 
-        $conn = Database::getInstance();
+        $this->db = Database::getInstance()->getConnection();
+
 
         // Fetch current user data
         $stmt = $conn->prepare("SELECT name, email, phone, address FROM users WHERE user_id = ?");

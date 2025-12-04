@@ -71,5 +71,11 @@ class AuthController {
         exit;
     }
 
+    // 2. Validate password length
+    if (strlen($password) < 6) {
+        header("Location: index.php?page=signup&error=Password+must+be+at+least+6+characters");
+        exit;
+    }
+
     
 }

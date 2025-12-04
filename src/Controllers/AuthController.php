@@ -1,9 +1,15 @@
 <?php
-function logoutUser() {
-    // Temporary placeholder — to be replaced by Ayaan’s logic later
-    session_unset();
-    session_destroy();
-    header("Location: index.php?page=login");
-    exit;
-}
-?>
+require_once __DIR__ . '/../Database.php';
+
+class AuthController {
+
+    private $db;
+
+    public function __construct() {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        $this->db = Database::getInstance()->getConnection();
+    }
+
+    

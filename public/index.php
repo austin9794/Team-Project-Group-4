@@ -68,10 +68,10 @@ switch ($page) {
         $controller = new AccountController();
         $controller->showAccount();
         break;
-    case 'update-account':
-        $controller = new AccountController();
-        $controller->updateAccount();
-        break;
+    case 'account-update':
+    $controller = new AccountController();
+    $controller->updateAccount();
+    break;
     case 'change-password':
         $controller = new AccountController();
         $controller->changePassword();

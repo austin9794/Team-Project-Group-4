@@ -1,5 +1,15 @@
 <?php include __DIR__ . '/../header.php'; ?>
 
+
+<style>
+/* LAYOUT */
+.account-container {
+    display: flex;
+    gap: 30px;
+    margin: 40px auto;
+    max-width: 1150px;
+    padding: 20px;
+}
 <h2>My Account</h2>
 
 <?php if (isset($_GET['updated']) && $_GET['updated'] == 1): ?>

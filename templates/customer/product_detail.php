@@ -1,22 +1,4 @@
-<?php
-require_once "../src/Controllers/ProductController.php";
-
-$productController = new ProductController();
-
-$productId = $_GET['id'] ?? null;
-if (!$productId) {
-    header("Location: products.php");
-    exit;
-}
-
-$product = $productController->showProduct($productId);
-if (!$product) {
-    header("Location: products.php");
-    exit;
-}
-?>
-
-<?php include 'header.php'; ?>
+<?php include __DIR__ . '/../header.php'; ?>
 
 <div class="container">
     <div class="product-detail">
@@ -44,15 +26,14 @@ if (!$product) {
             </p>
 
             <?php if ($product['stock'] > 0): ?>
-            <form method="POST" action="add_to_basket.php" class="add-to-basket">
-                 <input type="hidden" name="product_id" value="<?php echo $productId; ?>">
-                <div class="quantity-selector"> 
-
-                    <label for="quantity">Quantity:</label>
-                      <input type="number" id="quantity" name="quantity" value="1" min="1" 
-                           max="<?php echo $product['stock']; ?>">
-                </div>
-                <button type="submit" class="btn btn-primary btn-large">Add to Basket</button>
+            <form method="POST" action="/Team-Project-Group-4/public/index.php?page=add-to-basket" class="add-to-basket">
+           <input type="hidden" name="product_id" value="<?php echo $product['product_id']; ?>">
+           <div class="quantity-selector"> 
+           <label for="quantity">Quantity:</label>
+           <input type="number" id="quantity" name="quantity" value="1" min="1" 
+           max="<?php echo $product['stock']; ?>">
+          </div>
+          <button type="submit" class="btn btn-primary btn-large">Add to Basket</button>
       </form>
             <?php else: ?>
             <button class="btn btn-disabled" disabled>Out of Stock</button>
@@ -61,4 +42,4 @@ if (!$product) {
     </div>
 </div>
 
-<?php include 'footer.php'; ?>
+<?php include __DIR__ . '/../footer.php'; ?>

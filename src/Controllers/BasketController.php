@@ -1,29 +1,40 @@
 <?php
 
+require_once __DIR__ . '/../Database.php';
+
 class BasketController
 {
-    //show basket page nd work out totals
+    private $db;
 
+    public function __construct() {
+        $this->db = Database::getInstance()->getConnection();
+    }
+
+    // SHOW BASKET PAGE
+    
     public function index()
     {
-        session_start();
-        
-        $items = [] ;
+        $items = [];
         $total = 0;
 
-        //if basket isnt empty, build the items array
         if (!empty($_SESSION['basket'])) {
-            $productModel = new Product();
-            
-            foreach ($_SESSION['basket'] as $id => $qty) {
-                
-                $product = $productModel->find($id);
+
+            foreach ($_SESSION['basket'] as $productId => $qty) {
+
+                // Fetch product from DB
+                $stmt = $this->db->prepare("
+                    SELECT product_id, name, price
+                    FROM products 
+                    WHERE product_id = ?
+                ");
+                $stmt->execute([$productId]);
+                $product = $stmt->fetch();
 
                 if ($product) {
                     $lineTotal = $product['price'] * $qty;
 
                     $items[] = [
-                        'id'       => $id,
+                        'id'       => $product['product_id'],
                         'name'     => $product['name'],
                         'price'    => $product['price'],
                         'quantity' => $qty,
@@ -35,48 +46,47 @@ class BasketController
             }
         }
 
-        //load basket page
-        require __DIR__ . '/../../templates/customer/basket.php';
+        // Pass data to template
+        $basketItems = $items;
+        $basketTotal = $total;
+
+        include __DIR__ . '/../../templates/customer/basket.php';
     }
 
-    // add item to basket from product page
+    
+    // ADD TO BASKET
+    
     public function add()
     {
-        session_start();
-        
         $productId = $_POST['product_id'] ?? null;
 
-
-        //if for some reason no id came through just go back
-        if ($productId === null) {
-            header('Location: /products');
+        if (!$productId) {
+            header("Location: /Team-Project-Group-4/public/index.php?page=products");
             exit;
         }
-        
+
+        // Initialize basket if not set
         if (!isset($_SESSION['basket'])) {
             $_SESSION['basket'] = [];
         }
 
-        if (isset($_SESSION['basket'][$productId])) {
-            $_SESSION['basket'][$productId]++;
-        } else {
-            $_SESSION['basket'][$productId] = 1;
-        }
+        // Increment quantity
+        $_SESSION['basket'][$productId] = ($_SESSION['basket'][$productId] ?? 0) + 1;
 
-        header('Location: /products');
+        header("Location: /Team-Project-Group-4/public/index.php?page=basket");
         exit;
     }
 
-    //update quantity from basket page (or remove if 0 or less)
+    
+    // UPDATE QUANTITY
+    
     public function update()
     {
-        session_start();
-        
         $productId = $_POST['product_id'] ?? null;
-        $quantity  = isset($_POST['quantity']) ? (int)$_POST['quantity'] : 0;
+        $quantity  = (int) ($_POST['quantity'] ?? 0);
 
-        if ($productId === null) {
-            header('Location: /basket');
+        if (!$productId) {
+            header("Location: /Team-Project-Group-4/public/index.php?page=basket");
             exit;
         }
 
@@ -86,24 +96,22 @@ class BasketController
             $_SESSION['basket'][$productId] = $quantity;
         }
 
-        header('Location: /basket');
+        header("Location: /Team-Project-Group-4/public/index.php?page=basket");
         exit;
     }
 
-    //completely remove item from basket
+    
+    // REMOVE ITEM
+    
     public function remove()
     {
-        session_start();
-        
         $productId = $_POST['product_id'] ?? null;
 
-        if ($productId !== null && isset($_SESSION['basket'][$productId])) {
+        if (isset($_SESSION['basket'][$productId])) {
             unset($_SESSION['basket'][$productId]);
         }
-        
-        header('Location: /basket');
+
+        header("Location: /Team-Project-Group-4/public/index.php?page=basket");
         exit;
     }
 }
-
-?>

@@ -1,25 +1,12 @@
-<?php
-require_once __DIR__ . "/../../src/Controllers/ProductController.php";
-$productController = new ProductController();
-
-$filters = [
-    'category' => $_GET['category'] ?? null,
-    'search' => $_GET['search'] ?? null,
-    'min_price' => $_GET['min_price'] ?? null,
-    'max_price' => $_GET['max_price'] ?? null
-];
-
-$products = $productController->listProducts($filters);
-$categories = $productController->getCategories();
-?>
-
-<?php include 'header.php'; ?>
+<?php include __DIR__ . '/../header.php'; ?>
 
 <div class="container">
     <h1>Gaming Products</h1>
 
     <div class="filters">
-        <form method="GET" action="products.php">
+        <form method="GET" action="/Team-Project-Group-4/public/index.php">
+        <input type="hidden" name="page" value="products">
+
             <div class="filter-group">
                 <input type="text" name="search" placeholder="Search gaming products..." 
                        value="<?php echo htmlspecialchars($filters['search'] ?? ''); ?>">
@@ -46,56 +33,58 @@ $categories = $productController->getCategories();
             </div>
 
             <button type="submit" class="btn">Apply Filters</button>
-            <a href="products.php" class="btn btn-secondary">Clear Filters</a>
+            <a href="/Team-Project-Group-4/public/index.php?page=products" class="btn btn-secondary">Clear Filters</a>
+
         </form>
     </div>
 
     <div class="product-grid">
-        <?php if (empty($products)): ?>
-            <div class="no-products">
-                <p>No gaming products found.</p>
-                <a href="products.php" class="btn">View All Products</a>
+
+    <?php foreach ($products as $product): ?>
+        <div class="product-card">
+
+            <div class="product-img">
+                <img src="/Team-Project-Group-4/public/assets/images/<?php echo htmlspecialchars($product['image']); ?>"
+                     alt="<?php echo htmlspecialchars($product['name']); ?>"
+                     onerror="this.src='/Team-Project-Group-4/public/assets/images/placeholder.jpg';">
             </div>
-        <?php else: ?>
-            <?php foreach ($products as $product): ?>
-                <div class="product-card">
-         <div class="product-image">
-                     <img src="/public/assets/img/<?php echo htmlspecialchars($product['image']); ?>" 
-                             alt="<?php echo htmlspecialchars($product['name']); ?>"
-                       onerror="this.src='/public/assets/img/placeholder.jpg'">
-                    </div>
-                    <div class="product-info">
-                        <h3><?php echo htmlspecialchars($product['name']); ?></h3>
-                        <p class="category"><?php echo htmlspecialchars($product['category_name']); ?></p>
-              <p class="description"><?php echo htmlspecialchars(substr($product['description'], 0, 100)); ?>...</p>
-                        <p class="price">£<?php echo number_format($product['price'], 2); ?></p>
-                        
-                        <div class="stock-status">
-                            <?php if ($product['stock'] > 10): ?>
-                                <span class="in-stock">✓ In Stock</span>
-                            <?php elseif ($product['stock'] > 0): ?>
-                                <span class="low-stock"> Low Stock (<?php echo $product['stock']; ?> left)</span>
-                            <?php else: ?>
-                                <span class="out-of-stock"> Out of Stock</span>
-                            <?php endif; ?>
-                        </div>
-                        
-                        <div class="product-actions">
-                            <a href="product_detail.php?id=<?php echo $product['product_id']; ?>" 
-                               class="btn btn-primary">View Details</a>
-                            <?php if ($product['stock'] > 0): ?>
-                                <form method="POST" action="add_to_basket.php" class="add-to-basket-form">
-                                    <input type="hidden" name="product_id" value="<?php echo $product['product_id']; ?>">
-                                    <input type="hidden" name="quantity" value="1">
-                                    <button type="submit" class="btn btn-success">Add to Basket</button>
-                                </form>
-                            <?php endif; ?>
-                        </div>
-                    </div>
+
+            <div class="product-info">
+                <h3 class="product-title"><?php echo htmlspecialchars($product['name']); ?></h3>
+
+                <p class="product-category">
+                    <?php echo htmlspecialchars($product['category_name']); ?>
+                </p>
+
+                <p class="product-desc">
+                    <?php echo htmlspecialchars(substr($product['description'], 0, 70)); ?>...
+                </p>
+
+                <p class="product-price">
+                    £<?php echo number_format($product['price'], 2); ?>
+                </p>
+
+                <div class="product-actions">
+                    <a href="/Team-Project-Group-4/public/index.php?page=product&id=<?php echo $product['product_id']; ?>"
+                       class="btn-view">View Details</a>
+
+                    <?php if ($product['stock'] > 0): ?>
+                        <form method="POST"
+                              action="/Team-Project-Group-4/public/index.php?page=add-to-basket">
+                            <input type="hidden" name="product_id" value="<?php echo $product['product_id']; ?>">
+                            <button type="submit" class="btn-basket">Add to Basket</button>
+                        </form>
+                    <?php else: ?>
+                        <span class="out-of-stock-text">Out of Stock</span>
+                    <?php endif; ?>
                 </div>
-            <?php endforeach; ?>
-        <?php endif; ?>
-    </div>
+            </div>
+
+        </div>
+    <?php endforeach; ?>
+
 </div>
 
-<?php include 'footer.php'; ?>
+</div>
+
+<?php include __DIR__ . '/../footer.php'; ?>

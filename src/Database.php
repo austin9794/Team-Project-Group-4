@@ -1,14 +1,11 @@
 <?php
-if (!defined('ACCESS_ALLOWED')) {
-    die('Direct access not permitted');
-}
 
 class Database {
     private static $instance = null;
     private $connection;
     
     private $host = 'localhost';
-    private $dbname = 'team1'; // Update with your database name
+    private $dbname = 'ecommerce_db'; 
     private $username = 'root';
     private $password = '';
 

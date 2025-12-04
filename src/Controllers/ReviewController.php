@@ -1,5 +1,5 @@
 <?php
-require_once "Models/Review.php";
+require_once __DIR__ . '/../Models/Review.php';
 
 class ReviewController {
     public function showReviews($productId) {

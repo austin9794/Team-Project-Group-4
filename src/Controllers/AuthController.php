@@ -77,5 +77,13 @@ class AuthController {
         exit;
     }
 
+    // 3. Check if email already exists
+    $check = $this->db->prepare("SELECT user_id FROM users WHERE email = ?");
+    $check->execute([$email]);
+    if ($check->rowCount() > 0) {
+        header("Location: index.php?page=signup&error=Email+is+already+registered");
+        exit;
+    }
+
     
 }

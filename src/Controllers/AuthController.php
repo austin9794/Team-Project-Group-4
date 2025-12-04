@@ -12,6 +12,12 @@ class AuthController {
         $this->db = Database::getInstance()->getConnection();
     }
 
+    // Show Sign-Up Page
+    public function showSignup() {
+    include __DIR__ . '/../../templates/auth/signup.php';
+}
+
+
     // Show login page
     public function showLogin() {
         include __DIR__ . '/../../templates/auth/login.php';

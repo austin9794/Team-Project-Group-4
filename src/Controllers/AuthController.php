@@ -33,4 +33,10 @@ class AuthController {
         }
 
 
+        // Compare hashed password
+        if (!password_verify($password, $user['password'])) {
+            header("Location: index.php?page=login&error=Invalid+email+or+password");
+            exit;
+        }
+        
         

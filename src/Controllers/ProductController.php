@@ -6,7 +6,7 @@ class ProductController {
     private $db;
 
     public function __construct() {
-        $this->db = Database::getInstance();
+        $this->db = Database::getInstance()->getConnection();
     }
 
     // LIST ALL PRODUCTS OR FILTERED PRODUCTS

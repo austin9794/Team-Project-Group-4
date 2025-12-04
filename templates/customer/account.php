@@ -81,6 +81,21 @@
     margin: 6px 0;
 }
 
+/* BUTTONS */
+.btn-purple {
+    display: inline-block;
+    padding: 10px 15px;
+    background: #8f3dff;
+    border-radius: 6px;
+    color: white;
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+.btn-purple:hover {
+    background: #b46cff;
+}
+</style>
 
 <h2>My Account</h2>
 

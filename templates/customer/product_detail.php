@@ -4,8 +4,8 @@
     <div class="product-detail">
         <div class="product-image">
             <img src="/Team-Project-Group-4/public/assets/images/<?php echo htmlspecialchars($product['image']); ?>"
-         alt="<?php echo htmlspecialchars($product['name']); ?>"
-         onerror="this.src='/Team-Project-Group-4/public/assets/images/placeholder.png';">
+            alt="<?php echo htmlspecialchars($product['name']); ?>">
+
 
         </div>
         

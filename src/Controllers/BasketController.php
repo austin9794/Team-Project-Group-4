@@ -45,3 +45,12 @@ class BasketController
                 }
             }
         }
+
+        // Pass data to template
+        $basketItems = $items;
+        $basketTotal = $total;
+
+        include __DIR__ . '/../../templates/customer/basket.php';
+    }
+
+    

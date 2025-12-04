@@ -100,3 +100,18 @@ class BasketController
         exit;
     }
 
+    // ============================
+    // REMOVE ITEM
+    // ============================
+    public function remove()
+    {
+        $productId = $_POST['product_id'] ?? null;
+
+        if (isset($_SESSION['basket'][$productId])) {
+            unset($_SESSION['basket'][$productId]);
+        }
+
+        header("Location: /Team-Project-Group-4/public/index.php?page=basket");
+        exit;
+    }
+}

@@ -40,7 +40,12 @@ switch ($page) {
 
         // ---- Authentication ----
     case 'login':
-        include __DIR__ . '/../templates/auth/login.php';
+        $controller = new AuthController();
+        $controller->showLogin();
+        break;
+    case 'login-submit':
+        $controller = new AuthController();
+        $controller->login();
         break;
     case 'admin_login':
         include __DIR__ . '/../templates/auth/admin_login.php';

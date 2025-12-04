@@ -69,8 +69,21 @@ switch ($page) {
         $controller->changePassword();
         break;
     case 'basket':
-        include __DIR__ . '/../templates/customer/basket.php';
-        break;
+       $controller = new BasketController();
+       $controller->index();
+       break;
+    case 'add-to-basket':
+       $controller = new BasketController();
+       $controller->add();
+       break;
+    case 'remove-item':
+       $controller = new BasketController();
+       $controller->remove();
+       break;
+    case 'update-basket':
+       $controller = new BasketController();
+       $controller->update();
+       break;
     case 'orders':
         include __DIR__ . '/../templates/customer/orders.php';
         break;

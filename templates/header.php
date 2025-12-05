@@ -17,7 +17,8 @@ require_once __DIR__ . '/../src/Helpers/session.php';
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Science+Gothic:wght@100..900&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="assets/css/style.css?v=22">
+    <link rel="stylesheet" href="/Team-Project-Group-4/public/assets/css/style.css">
+
 
     <style>
         /* === TOP HEADER BAR === */

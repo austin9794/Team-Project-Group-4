@@ -1,3 +1,7 @@
+        .search-icon-inside {
+            color: #fff !important;
+            stroke: #fff !important;
+        }
 <?php 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -29,7 +33,8 @@ require_once __DIR__ . '/../src/Config.php';
             padding: 15px 20px;
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: center;
+            gap: 40px;
             height: 110px;
             overflow: visible;
         }
@@ -50,17 +55,18 @@ require_once __DIR__ . '/../src/Config.php';
         
         /* === SEARCH BAR === */
         .search-bar {
-            flex-grow: 1;
+            flex: 1 1 500px;
             max-width: 500px;
             margin: 0 40px;
             display: flex;
+            justify-content: center;
         }
 
         .search-bar input {
             flex-grow: 1;
             padding: 10px 14px;
             border: 2px solid var(--lavender);
-            border-radius: 6px 0 0 6px;
+            border-radius: 6px;
             background-color: #0a0a0a;
             color: #FFFFFF;
             outline: none;
@@ -71,17 +77,7 @@ require_once __DIR__ . '/../src/Config.php';
             color: #bca8e6;
         }
 
-        .search-bar button {
-            padding: 10px 14px;
-            background-color: var(--highlight-color);
-            border: 2px solid var(--lavender);
-            border-left: none;
-            border-radius: 0 6px 6px 0;
-            color: #FFFFFF;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.2s, color 0.2s;
-        }
+        /* .search-bar button styles removed since button is gone */
 
         .search-bar button:hover {
             background-color: var(--lavender);
@@ -189,22 +185,21 @@ require_once __DIR__ . '/../src/Config.php';
 <div class="top-header">
 
     <!-- LOGO -->
-    <div class="logo-container">
+    <div class="logo-container" style="flex: 0 0 auto;">
         <a href="index.php?page=home">
             <img src="<?= BASE_URL ?>assets/images/logo text.png" alt="Level Up Logo">
         </a>
     </div>
 
     <!-- SEARCH BAR -->
-    <form class="search-bar" action="index.php" method="GET">
+    <form class="search-bar" action="index.php" method="GET" style="flex: 1 1 500px; align-items: center; position: relative;">
         <input type="hidden" name="page" value="products">
-        <input type="text" name="search" placeholder="Search keyboards, mice, monitors..." required>
-        <button type="submit">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="11" cy="11" r="8"></circle>
-                <path d="m21 21-4.35-4.35"></path>
-            </svg>
-        </button>
+        <svg class="search-icon-inside" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); pointer-events: none;">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+        </svg>
+        <input type="text" name="search" placeholder="Search keyboards, mice, monitors..." required style="padding-left: 36px;">
+
     </form>
 
     <!-- NAVIGATION -->
@@ -229,12 +224,14 @@ require_once __DIR__ . '/../src/Config.php';
 
         <?php else: ?>
 
-            <a href="index.php?page=login">Login</a>
-            <a href="index.php?page=signup">Signup</a>
+            <span>
+                <a href="index.php?page=login">Login</a> / <a href="index.php?page=signup">Signup</a>
+            </span>
 
         <?php endif; ?>
 
         <!-- Theme Toggle -->
+        <!-- Template icons for sun & moon -->
         <a id="theme-toggle" class="theme-toggle" href="#" title="Toggle theme" style="display:flex;align-items:center;margin-right:10px;text-decoration:none;">
             <svg class="theme-toggle-icon sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:inline-block;margin-right:6px;opacity:1;transition:opacity 0.2s;">
                 <circle cx="12" cy="12" r="5"></circle>
@@ -270,7 +267,7 @@ require_once __DIR__ . '/../src/Config.php';
     <div>
         <a href="index.php?page=home">Home</a>
         <a href="index.php?page=products">Products</a>
-        <a href="index.php?page=contact">Contact</a>
+        <a href="index.php?page=contact">Contact Us</a>
         <a href="index.php?page=about">About Us</a>
     </div>
     <div>

@@ -222,7 +222,7 @@ $filters = [
         <input type="hidden" name="page" value="products">
 
         <!-- Logo positioned absolutely behind filters -->
-        <img src="assets/images/logo_no_text.png" alt="Level Up Gaming" style="position: absolute; right: -50px; top: 45%; transform: translateY(-50%); height: 400px; width: auto; opacity: 0.85; z-index: -1;">
+        <img src="<?= BASE_URL ?>assets/images/logo_no_text.png" alt="Level Up Gaming" style="position: absolute; right: -50px; top: 45%; transform: translateY(-50%); height: 400px; width: auto; opacity: 0.85; z-index: -1;">
 
         <!-- Search Bar Section -->
         <div class="filters" style="margin-bottom: 1.5rem;">
@@ -277,7 +277,7 @@ $filters = [
         <div class="product-card">
 
             <div class="product-img">
-                <img src="assets/images/<?php echo htmlspecialchars($product['image'] ?? 'placeholder.png'); ?>"
+                <img src="<?= BASE_URL ?>assets/images/<?php echo htmlspecialchars($product['image'] ?? 'placeholder.png'); ?>"
              alt="<?php echo htmlspecialchars($product['name']); ?>">
 
 

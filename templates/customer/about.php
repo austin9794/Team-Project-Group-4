@@ -181,7 +181,7 @@ require_once __DIR__ . '/../header.php';
 <!-- About Hero -->
 <section class="about-hero">
   <video autoplay loop muted playsinline>
-    <source src="assets/images/bg_video.mp4" type="video/mp4">
+    <source src="<?= BASE_URL ?>assets/images/bg_video.mp4" type="video/mp4">
   </video>
   <h1>About Us</h1>
 </section>

@@ -206,7 +206,7 @@ require_once __DIR__ . '/../header.php';
 <!-- Contact Hero -->
 <section class="contact-hero">
   <video autoplay loop muted playsinline>
-    <source src="assets/images/bg_video.mp4" type="video/mp4">
+    <source src="<?= BASE_URL ?>assets/images/bg_video.mp4" type="video/mp4">
   </video>
   <div>
     <h1>Contact Us</h1>

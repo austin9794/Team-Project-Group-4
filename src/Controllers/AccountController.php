@@ -236,5 +236,14 @@ class AccountController {
      header("Location: /Team-Project-Group-4/public/index.php?page=account#addresses");
      exit;
     }
+
+      // Payment Form
+      public function showAddPaymentForm() {
+      requireLogin();
+      include __DIR__ . '/../../templates/customer/add-payment.php';
+      }
+
+      // 
+
 }
 

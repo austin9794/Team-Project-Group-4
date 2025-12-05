@@ -208,6 +208,33 @@
     </a>
 </div>
 
+<!-- PAYMENT METHODS -->
+<div id="payment-methods" class="section-card">
+    <h2>Saved Payment Methods</h2>
+
+    <?php if (empty($payments)): ?>
+        <p>No saved payment methods.</p>
+    <?php else: ?>
+        <?php foreach ($payments as $p): ?>
+            <div class="payment-box" style="margin-bottom:15px;">
+                <p><strong><?= htmlspecialchars($p['card_brand']) ?></strong>
+                ending in <strong><?= htmlspecialchars($p['card_last4']) ?></strong></p>
+
+                <p>Expires <?= $p['expiry_month'] ?>/<?= $p['expiry_year'] ?></p>
+
+                <a class="btn-purple" style="background:#ff4f4f;"
+                    href="/Team-Project-Group-4/public/index.php?page=delete-payment&id=<?= $p['payment_id'] ?>">
+                    Remove
+                </a>
+            </div>
+        <?php endforeach; ?>
+    <?php endif; ?>
+
+    <a class="btn-purple" href="/Team-Project-Group-4/public/index.php?page=add-payment">
+        Add Payment Method
+    </a>
+</div>
+
 
 
         <!-- DELETE ACCOUNT -->

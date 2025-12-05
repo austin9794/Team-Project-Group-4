@@ -13,45 +13,47 @@ class BasketController
     // SHOW BASKET PAGE
     
     public function index()
-    {
-        $items = [];
-        $total = 0;
+{
+    $items = [];
+    $total = 0;
 
-        if (!empty($_SESSION['basket'])) {
+    if (!empty($_SESSION['basket'])) {
 
-            foreach ($_SESSION['basket'] as $productId => $qty) {
+        foreach ($_SESSION['basket'] as $productId => $qty) {
 
-                // Fetch product from DB
-                $stmt = $this->db->prepare("
-                    SELECT product_id, name, price
-                    FROM products 
-                    WHERE product_id = ?
-                ");
-                $stmt->execute([$productId]);
-                $product = $stmt->fetch();
+            // Fetch product info including image
+            $stmt = $this->db->prepare("
+                SELECT product_id, name, price, image
+                FROM products
+                WHERE product_id = ?
+            ");
+            $stmt->execute([$productId]);
+            $product = $stmt->fetch();
 
-                if ($product) {
-                    $lineTotal = $product['price'] * $qty;
+            if ($product) {
+                $lineTotal = $product['price'] * $qty;
 
-                    $items[] = [
-                        'id'       => $product['product_id'],
-                        'name'     => $product['name'],
-                        'price'    => $product['price'],
-                        'quantity' => $qty,
-                        'total'    => $lineTotal
-                    ];
+                $items[] = [
+                    'id'       => $product['product_id'],
+                    'name'     => $product['name'],
+                    'price'    => $product['price'],
+                    'image'    => $product['image'], // <-- ADDED
+                    'quantity' => $qty,
+                    'total'    => $lineTotal
+                ];
 
-                    $total += $lineTotal;
-                }
+                $total += $lineTotal;
             }
         }
-
-        // Pass data to template
-        $basketItems = $items;
-        $basketTotal = $total;
-
-        include __DIR__ . '/../../templates/customer/basket.php';
     }
+
+    // Pass to template
+    $basketItems = $items;
+    $basketTotal = $total;
+
+    include __DIR__ . '/../../templates/customer/basket.php';
+}
+
 
     
     // ADD TO BASKET
@@ -114,4 +116,44 @@ class BasketController
         header("Location: /Team-Project-Group-4/public/index.php?page=basket");
         exit;
     }
+
+    public function showCheckout() {
+    if (empty($_SESSION['basket'])) {
+        header("Location: /Team-Project-Group-4/public/index.php?page=basket");
+        exit;
+    }
+
+    $items = [];
+    $total = 0;
+
+    foreach ($_SESSION['basket'] as $productId => $qty) {
+
+        $stmt = $this->db->prepare("
+            SELECT product_id, name, price, image
+            FROM products WHERE product_id = ?
+        ");
+        $stmt->execute([$productId]);
+        $product = $stmt->fetch();
+
+        if ($product) {
+            $line = $product['price'] * $qty;
+
+            $items[] = [
+                'id' => $productId,
+                'name' => $product['name'],
+                'quantity' => $qty,
+                'total' => $line,
+                'image' => $product['image']
+            ];
+
+            $total += $line;
+        }
+    }
+
+    $basketItems = $items;
+    $basketTotal = $total;
+
+    include __DIR__ . '/../../templates/customer/checkout.php';
+}
+
 }

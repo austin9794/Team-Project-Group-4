@@ -24,6 +24,16 @@ class AccountController {
     $stmt->execute([$_SESSION['user_id']]);
     $user = $stmt->fetch();
 
+    // Fetch saved addresses
+    $addrStmt = $this->db->prepare("SELECT * FROM addresses WHERE user_id = ?");
+    $addrStmt->execute([$_SESSION['user_id']]);
+    $addresses = $addrStmt->fetchAll();
+
+    // Fetch saved payment methods
+    $payStmt = $this->db->prepare("SELECT * FROM payment_methods WHERE user_id = ?");
+    $payStmt->execute([$_SESSION['user_id']]);
+    $payments = $payStmt->fetchAll();
+
     // Fetch last 3 orders
     $orders = $db->prepare("
         SELECT order_id, total_price, status, created_at AS order_date
@@ -128,17 +138,153 @@ class AccountController {
         exit;
     }
 
-    // Edit Account 
-    public function editAccountForm() {
+       // Edit Account 
+        public function editAccountForm() {
+        requireLogin();
+
+        $db = Database::getInstance()->getConnection();
+
+        $stmt = $db->prepare("SELECT name, email, phone, address FROM users WHERE user_id = ?");
+        $stmt->execute([$_SESSION['user_id']]);
+        $user = $stmt->fetch();
+
+        include __DIR__ . '/../../templates/customer/account_edit.php';
+        }
+
+        // Show Form
+        public function showAddAddressForm() {
+        requireLogin();
+        include __DIR__ . '/../../templates/customer/add-address.php';
+        }
+
+
+        // Save Address
+        public function saveAddress() {
     requireLogin();
+
+    $label = trim($_POST['label']);
+    $full_address = trim($_POST['full_address']);
+
+    if ($label === "" || $full_address === "") {
+        header("Location: /Team-Project-Group-4/public/index.php?page=add-address&error=1");
+        exit;
+    }
 
     $db = Database::getInstance()->getConnection();
 
-    $stmt = $db->prepare("SELECT name, email, phone, address FROM users WHERE user_id = ?");
-    $stmt->execute([$_SESSION['user_id']]);
-    $user = $stmt->fetch();
+    $stmt = $db->prepare("INSERT INTO addresses (user_id, label, full_address) VALUES (?, ?, ?)");
+    $stmt->execute([$_SESSION['user_id'], $label, $full_address]);
 
-    include __DIR__ . '/../../templates/customer/account_edit.php';
+    header("Location: /Team-Project-Group-4/public/index.php?page=account#addresses");
+    exit;
 }
 
-}
+      // Edit Address
+     public function showEditAddressForm() {
+     requireLogin();
+
+     $id = $_GET['id'] ?? null;
+     if (!$id) exit("Address not found");
+
+     $db = Database::getInstance()->getConnection();
+
+     $stmt = $db->prepare("SELECT * FROM addresses WHERE address_id = ? AND user_id = ?");
+     $stmt->execute([$id, $_SESSION['user_id']]);
+     $address = $stmt->fetch();
+
+     if (!$address) exit("Unauthorized");
+
+     include __DIR__ . '/../../templates/customer/edit-address.php';
+    }
+
+
+     // Update Address
+      public function updateAddress() {
+      requireLogin();
+
+      $id = $_POST['address_id'];
+      $label = trim($_POST['label']);
+      $full_address = trim($_POST['full_address']);
+
+      $db = Database::getInstance()->getConnection();
+
+       $stmt = $db->prepare("
+        UPDATE addresses
+        SET label = ?, full_address = ?
+        WHERE address_id = ? AND user_id = ?
+    ");
+
+       $stmt->execute([$label, $full_address, $id, $_SESSION['user_id']]);
+
+      header("Location: /Team-Project-Group-4/public/index.php?page=account#addresses");
+      exit;
+    }
+
+     // Delete Address
+     public function deleteAddress() {
+     requireLogin();
+
+     $id = $_GET['id'] ?? null;
+
+     if (!$id) exit("Invalid address");
+
+     $db = Database::getInstance()->getConnection();
+
+     $stmt = $db->prepare("DELETE FROM addresses WHERE address_id = ? AND user_id = ?");
+     $stmt->execute([$id, $_SESSION['user_id']]);
+
+     header("Location: /Team-Project-Group-4/public/index.php?page=account#addresses");
+     exit;
+    }
+
+      // Payment Form
+      public function showAddPaymentForm() {
+      requireLogin();
+      include __DIR__ . '/../../templates/customer/add-payment.php';
+      }
+
+      // Save Payment
+      public function savePayment() {
+      requireLogin();
+
+     $brand = trim($_POST['brand']);
+     $card_number = trim($_POST['card_number']);
+     $expiry_month = $_POST['expiry_month'];
+     $expiry_year = $_POST['expiry_year'];
+
+     if (strlen($card_number) < 4) {
+        header("Location: /Team-Project-Group-4/public/index.php?page=add-payment&error=1");
+        exit;
+    }
+
+      $last4 = substr($card_number, -4);
+
+     $db = Database::getInstance()->getConnection();
+ 
+     $stmt = $db->prepare("
+        INSERT INTO payment_methods (user_id, card_brand, card_last4, expiry_month, expiry_year)
+        VALUES (?, ?, ?, ?, ?)
+    ");
+      $stmt->execute([$_SESSION['user_id'], $brand, $last4, $expiry_month, $expiry_year]);
+
+      header("Location: /Team-Project-Group-4/public/index.php?page=account#payment-methods");
+      exit;
+    }
+
+    // Delete Payment
+      public function deletePayment() {
+      requireLogin();
+
+      $id = $_GET['id'] ?? null;
+
+     if (!$id) exit("Invalid payment");
+
+     $db = Database::getInstance()->getConnection();
+
+      $stmt = $db->prepare("DELETE FROM payment_methods WHERE payment_id = ? AND user_id = ?");
+     $stmt->execute([$id, $_SESSION['user_id']]);
+
+     header("Location: /Team-Project-Group-4/public/index.php?page=account#payment-methods");
+     exit;
+      }
+    }

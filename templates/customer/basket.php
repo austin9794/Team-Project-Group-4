@@ -1,49 +1,194 @@
 <?php include __DIR__ . '/../header.php'; ?>
 
-<?php //basic basket page showing whats in session ?>
+<style>
+.basket-container {
+    max-width: 900px;
+    margin: 40px auto;
+    background: #140a26;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(132, 0, 255, 0.25);
+    color: white;
+}
 
-<h2>Shopping Basket</h2>
+.cart-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px;
+    background: #1d1133;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
 
-<?php if (empty($items)): ?>
-    <p>Your basket is currently empty.</p>
-<?php else: ?>
-   
-    <table class="table">
-        <tr>
-            <th>product</th>
-            <th>price</th>
-            <th>quantity</th>
-             <th>total</th>
-            <th>remove</th>
-        </tr>
+.item-left {
+    display: flex;
+    gap: 18px;
+    align-items: center;
+}
 
-        <?php //loop thru basket items ?>
-        <?php foreach ($items as $item): ?>
-        <tr>
-            <td><?= htmlspecialchars($item['name']) ?></td>
-             <td>£<?= htmlspecialchars($item['price']) ?></td>
-          <td>
-                <form method="post" action="/basket/update">
-                    <input type="hidden" name="product_id" value="<?= $item['id'] ?>">
-                    <input type="number" name="quantity" value="<?= $item['quantity'] ?>" min="0">
-                      <button type="submit">update</button>
-                </form>
-            </td>
-            <td>£<?= $item['total'] ?></td>
-            <td>
-                <form method="post" action="/basket/remove">
-                    <input  type="hidden" name="product_id" value="<?= $item['id'] ?>">
-                    <button type="submit">remove</button>
-                </form>
-             </td>
-        </tr>
+.item-left img {
+    width: 110px;
+    height: 110px;
+    object-fit: contain;
+    background: #0f081c;
+    border-radius: 8px;
+}
 
-        <?php endforeach; ?>
-    </table>
+.item-info h3 {
+    margin: 0;
+    color: #d9a7ff;
+}
 
-     <p><strong>total: £<?= $total ?></strong></p>
+.item-info p {
+    margin: 4px 0;
+}
 
-    <a  href="/checkout">checkout</a>
+.quantity-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.qty-btn {
+    background: #5A3FA3;
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.qty-btn:hover {
+    background: #7E5AF5;
+}
+
+.quantity-display {
+    padding: 6px 12px;
+    background: #2a0f47;
+    border-radius: 6px;
+    color: #d9a7ff;
+    font-weight: bold;
+}
+
+.remove-btn {
+    background: #b30000;
+    padding: 10px 18px;
+    border-radius: 6px;
+    color: white;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.remove-btn:hover {
+    background: #ff4444;
+}
+
+.total-price {
+    font-size: 20px;
+    font-weight: bold;
+    color: #c097ff;
+}
+.checkout-btn {
+    background: #8f3dff;
+    padding: 14px 22px;
+    border-radius: 8px;
+    font-weight: bold;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    transition: 0.2s;
+}
+
+.checkout-btn:hover {
+    background: #b46cff;
+}
+</style>
+
+
+<div class="basket-container">
+
+    <h1>Shopping Basket</h1>
+
+    <?php if (empty($basketItems)): ?>
+
+    <div class="basket-container">
+        <h1>Your Basket is Empty</h1>
+        <p>Looks like you haven’t added anything yet.</p>
+
+        <a href="/Team-Project-Group-4/public/index.php?page=products" 
+           class="checkout-btn">
+           Browse Products
+        </a>
+    </div>
+
+    <?php include __DIR__ . '/../footer.php'; ?>
+    <?php return; ?>
+
 <?php endif; ?>
+
+
+    <?php foreach ($basketItems as $item): ?>
+        <div class="cart-item">
+
+            <div class="item-left">
+                <img src="/Team-Project-Group-4/public/assets/images/<?= $item['image'] ?>" alt="Product">
+
+                <div class="item-info">
+                    <h3><?= htmlspecialchars($item['name']) ?></h3>
+                    <p>£<?= number_format($item['price'], 2) ?></p>
+
+                    <!-- Quantity Controls -->
+                    <div class="quantity-box">
+
+                        <!-- Minus -->
+                        <form method="POST" action="/Team-Project-Group-4/public/index.php?page=basket-update">
+                            <input type="hidden" name="product_id" value="<?= $item['id'] ?>">
+                            <input type="hidden" name="quantity" value="<?= $item['quantity'] - 1 ?>">
+                            <button class="qty-btn">−</button>
+                        </form>
+
+                        <!-- Quantity Display -->
+                        <div class="quantity-display"><?= $item['quantity'] ?></div>
+
+                        <!-- Plus -->
+                        <form method="POST" action="/Team-Project-Group-4/public/index.php?page=basket-update">
+                            <input type="hidden" name="product_id" value="<?= $item['id'] ?>">
+                            <input type="hidden" name="quantity" value="<?= $item['quantity'] + 1 ?>">
+                            <button class="qty-btn">+</button>
+                        </form>
+
+                    </div>
+
+                    <!-- Remove -->
+                    <form method="POST" action="/Team-Project-Group-4/public/index.php?page=basket-remove">
+                        <input type="hidden" name="product_id" value="<?= $item['id'] ?>">
+                        <button class="remove-btn">Remove Item</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="total-price">
+                £<?= number_format($item['total'], 2) ?>
+            </div>
+
+        </div>
+    <?php endforeach; ?>
+
+
+    <h2>Total: £<?= number_format($basketTotal, 2) ?></h2>
+
+    <a href="/Team-Project-Group-4/public/index.php?page=checkout" class="checkout-btn">
+    Proceed to Checkout
+    </a>
+
+
+</div>
 
 <?php include __DIR__ . '/../footer.php'; ?>

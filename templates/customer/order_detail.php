@@ -56,3 +56,42 @@
 }
 </style>
 
+<div class="order-container">
+
+    <div class="order-header">
+        <h1>Order #<?= $order['order_id'] ?></h1>
+        <span class="order-status <?= strtolower($order['status']) ?>">
+            <?= htmlspecialchars($order['status']) ?>
+        </span>
+    </div>
+
+    <p><strong>Date:</strong> <?= $order['created_at'] ?></p>
+
+    <h2>Items</h2>
+
+    <?php foreach ($items as $item): ?>
+        <div class="item-card">
+            <img src="assets/images/<?= htmlspecialchars($item['image']) ?>" alt="">
+            <div>
+                <h3><?= htmlspecialchars($item['name']) ?></h3>
+                <p>Quantity: <?= $item['quantity'] ?></p>
+                <p>Price: £<?= number_format($item['price_at_purchase'], 2) ?></p>
+                <p><strong>Line Total:</strong> £<?= number_format($item['price_at_purchase'] * $item['quantity'], 2) ?></p>
+            </div>
+        </div>
+    <?php endforeach; ?>
+
+    <div class="summary-box">
+        <h2>Order Summary</h2>
+        <p><strong>Total:</strong> £<?= number_format($order['total_price'], 2) ?></p>
+        <p><strong>Delivery Address:</strong> <?= htmlspecialchars($order['full_address'] ?? 'Not recorded') ?></p>
+        <p><strong>Payment:</strong> 
+            <?= $order['card_brand'] 
+                ? $order['card_brand'] . " ending " . $order['card_last4']
+                : "Not saved"
+            ?>
+        </p>
+    </div>
+
+</div>
+

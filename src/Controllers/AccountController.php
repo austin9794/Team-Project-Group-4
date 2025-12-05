@@ -138,17 +138,40 @@ class AccountController {
         exit;
     }
 
-    // Edit Account 
-    public function editAccountForm() {
+       // Edit Account 
+        public function editAccountForm() {
+        requireLogin();
+
+        $db = Database::getInstance()->getConnection();
+
+        $stmt = $db->prepare("SELECT name, email, phone, address FROM users WHERE user_id = ?");
+        $stmt->execute([$_SESSION['user_id']]);
+        $user = $stmt->fetch();
+
+        include __DIR__ . '/../../templates/customer/account_edit.php';
+        }
+
+        // Save Address
+        public function saveAddress() {
     requireLogin();
+
+    $label = trim($_POST['label']);
+    $full_address = trim($_POST['full_address']);
+
+    if ($label === "" || $full_address === "") {
+        header("Location: /Team-Project-Group-4/public/index.php?page=add-address&error=1");
+        exit;
+    }
 
     $db = Database::getInstance()->getConnection();
 
-    $stmt = $db->prepare("SELECT name, email, phone, address FROM users WHERE user_id = ?");
-    $stmt->execute([$_SESSION['user_id']]);
-    $user = $stmt->fetch();
+    $stmt = $db->prepare("INSERT INTO addresses (user_id, label, full_address) VALUES (?, ?, ?)");
+    $stmt->execute([$_SESSION['user_id'], $label, $full_address]);
 
-    include __DIR__ . '/../../templates/customer/account_edit.php';
+    header("Location: /Team-Project-Group-4/public/index.php?page=account#addresses");
+    exit;
 }
 
-}
+
+    }
+

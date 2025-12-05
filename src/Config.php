@@ -1,5 +1,9 @@
 <?php
 
+// Detect base URL dynamically
+$folder = basename(dirname(__DIR__)); // Team-Project-Group-4
+define('BASE_URL', '/' . $folder . '/public/'); 
+
 // Database configuration
 define('DB_HOST', 'localhost');
 define('DB_NAME', 'ecommerce_db');

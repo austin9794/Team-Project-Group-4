@@ -150,10 +150,61 @@ class BasketController
         }
     }
 
-    $basketItems = $items;
-    $basketTotal = $total;
+        $basketItems = $items;
+        $basketTotal = $total;
 
-    include __DIR__ . '/../../templates/customer/checkout.php';
+        include __DIR__ . '/../../templates/customer/checkout.php';
+}
+
+public function updateAjax()
+{
+    header('Content-Type: application/json');
+
+    $productId = $_POST['product_id'] ?? null;
+    $quantity  = (int)($_POST['quantity'] ?? 0);
+
+    if (!$productId) {
+        echo json_encode(['error' => 'No product ID']);
+        return;
+    }
+
+    // Update basket
+    if ($quantity <= 0) {
+        unset($_SESSION['basket'][$productId]);
+    } else {
+        $_SESSION['basket'][$productId] = $quantity;
+    }
+
+    // Recalculate
+    $db = Database::getInstance()->getConnection();
+    $total = 0;
+    $lineTotal = 0;
+
+    // If item still exists, recalc its line total
+    if ($quantity > 0) {
+        $stmt = $db->prepare("SELECT price FROM products WHERE product_id = ?");
+        $stmt->execute([$productId]);
+        $price = $stmt->fetchColumn();
+
+        $lineTotal = $price * $quantity;
+    }
+
+    // Recalc basket total
+    foreach ($_SESSION['basket'] as $id => $qty) {
+        $stmt = $db->prepare("SELECT price FROM products WHERE product_id = ?");
+        $stmt->execute([$id]);
+        $price = $stmt->fetchColumn();
+        $total += $price * $qty;
+    }
+
+    echo json_encode([
+        'success'   => true,
+        'productId' => $productId,
+        'quantity'  => $quantity,
+        'lineTotal' => number_format($lineTotal, 2),
+        'total'     => number_format($total, 2),
+        'remove'    => ($quantity <= 0)
+    ]);
 }
 
 }

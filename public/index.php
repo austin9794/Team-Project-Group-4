@@ -96,6 +96,10 @@ switch ($page) {
        $controller = new BasketController();
        $controller->update();
        break;
+    case 'basket-update-ajax':
+       $controller = new BasketController();
+       $controller->updateAjax();
+       break;
     case 'orders':
         include __DIR__ . '/../templates/customer/orders.php';
         break;

@@ -151,17 +151,17 @@
                         <form method="POST" action="/Team-Project-Group-4/public/index.php?page=basket-update">
                             <input type="hidden" name="product_id" value="<?= $item['id'] ?>">
                             <input type="hidden" name="quantity" value="<?= $item['quantity'] - 1 ?>">
-                            <button class="qty-btn">−</button>
+                            <button class="qty-btn minus" data-id="<?= $item['id'] ?>">−</button>
                         </form>
 
                         <!-- Quantity Display -->
-                        <div class="quantity-display"><?= $item['quantity'] ?></div>
+                        <div class="quantity-display" id="qty-<?= $item['id'] ?>"><?= $item['quantity'] ?></div>
 
                         <!-- Plus -->
                         <form method="POST" action="/Team-Project-Group-4/public/index.php?page=basket-update">
                             <input type="hidden" name="product_id" value="<?= $item['id'] ?>">
                             <input type="hidden" name="quantity" value="<?= $item['quantity'] + 1 ?>">
-                            <button class="qty-btn">+</button>
+                            <button class="qty-btn plus" data-id="<?= $item['id'] ?>">+</button>
                         </form>
 
                     </div>
@@ -169,7 +169,8 @@
                     <!-- Remove -->
                     <form method="POST" action="/Team-Project-Group-4/public/index.php?page=basket-remove">
                         <input type="hidden" name="product_id" value="<?= $item['id'] ?>">
-                        <button class="remove-btn">Remove Item</button>
+                        <button class="remove-btn" data-id="<?= $item['id'] ?>">Remove Item</button>
+
                     </form>
                 </div>
             </div>
@@ -190,5 +191,65 @@
 
 
 </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+    function updateQuantity(productId, newQty) {
+        fetch("/Team-Project-Group-4/public/index.php?page=basket-update-ajax", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: `product_id=${productId}&quantity=${newQty}`
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+
+                // If removed from basket
+                if (data.remove) {
+                    document.getElementById(`item-${productId}`).remove();
+                } else {
+                    // Update quantity display
+                    document.getElementById(`qty-${productId}`).innerText = newQty;
+
+                    // Update line total
+                    document.getElementById(`line-${productId}`).innerText = "£" + data.lineTotal;
+                }
+
+                // Update basket total
+                document.getElementById("basket-total").innerText = "£" + data.total;
+            }
+        });
+    }
+
+    // Handle plus buttons
+    document.querySelectorAll(".qty-btn.plus").forEach(btn => {
+        btn.onclick = () => {
+            const id = btn.dataset.id;
+            const qtyBox = document.getElementById(`qty-${id}`);
+            const newQty = parseInt(qtyBox.innerText) + 1;
+            updateQuantity(id, newQty);
+        };
+    });
+
+    // Handle minus buttons
+    document.querySelectorAll(".qty-btn.minus").forEach(btn => {
+        btn.onclick = () => {
+            const id = btn.dataset.id;
+            const qtyBox = document.getElementById(`qty-${id}`);
+            const newQty = parseInt(qtyBox.innerText) - 1;
+            updateQuantity(id, newQty);
+        };
+    });
+
+    // Handle remove button
+    document.querySelectorAll(".remove-btn").forEach(btn => {
+        btn.onclick = () => {
+            const id = btn.dataset.id;
+            updateQuantity(id, 0);
+        };
+    });
+});
+</script>
 
 <?php include __DIR__ . '/../footer.php'; ?>

@@ -29,6 +29,11 @@ class AccountController {
     $addrStmt->execute([$_SESSION['user_id']]);
     $addresses = $addrStmt->fetchAll();
 
+    // Fetch saved payment methods
+    $payStmt = $conn->prepare("SELECT * FROM payment_methods WHERE user_id = ?");
+    $payStmt->execute([$_SESSION['user_id']]);
+    $payments = $payStmt->fetchAll();
+
     // Fetch last 3 orders
     $orders = $db->prepare("
         SELECT order_id, total_price, status, created_at AS order_date

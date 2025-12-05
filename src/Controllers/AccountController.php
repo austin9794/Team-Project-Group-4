@@ -24,6 +24,11 @@ class AccountController {
     $stmt->execute([$_SESSION['user_id']]);
     $user = $stmt->fetch();
 
+    // Fetch saved addresses
+    $addrStmt = $conn->prepare("SELECT * FROM addresses WHERE user_id = ?");
+    $addrStmt->execute([$_SESSION['user_id']]);
+    $addresses = $addrStmt->fetchAll();
+
     // Fetch last 3 orders
     $orders = $db->prepare("
         SELECT order_id, total_price, status, created_at AS order_date

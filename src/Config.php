@@ -1,7 +1,7 @@
 <?php
 
 // Detect base URL dynamically
-$folder = basename(dirname(__DIR__)); // Team-Project-Group-4
+$folder = basename(dirname(__DIR__)); 
 define('BASE_URL', '/Team-Project-Group-4/public/'); 
 
 // Database configuration
@@ -10,6 +10,6 @@ define('DB_NAME', 'ecommerce_db');
 define('DB_USER', 'root');
 define('DB_PASS', '');
 
-// Other global settings can go here later
+// Other global settings
 
 ?>

@@ -126,6 +126,10 @@ switch ($page) {
     $controller = new AccountController();
     $controller->updateAddress();
     break;
+    case 'delete-address':
+    $controller = new AccountController();
+    $controller->deleteAddress();
+    break;
     case 'product':
        $controller = new ProductController();
        $controller->show();

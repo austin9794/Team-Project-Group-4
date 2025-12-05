@@ -110,6 +110,10 @@ switch ($page) {
     case 'order-success':
         include __DIR__ . '/../templates/customer/order_success.php';
         break;
+        case 'add-address':
+    $controller = new AccountController();
+    $controller->showAddAddressForm();
+    break;
 
     case 'product':
        $controller = new ProductController();

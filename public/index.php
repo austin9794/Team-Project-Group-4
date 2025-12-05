@@ -99,6 +99,10 @@ switch ($page) {
     case 'orders':
         include __DIR__ . '/../templates/customer/orders.php';
         break;
+        case 'place-order':
+    $controller = new OrderController();
+    $controller->placeOrder();
+    break;
     case 'product':
        $controller = new ProductController();
        $controller->show();

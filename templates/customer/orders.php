@@ -1,3 +1,5 @@
+<?php include __DIR__ . '/../header.php'; ?>
+
 <h1>Your Orders</h1>
 
 <?php if (empty($orders)): ?>
@@ -13,3 +15,5 @@
     <?php endforeach; ?>
 <?php endif; ?>
 
+
+<?php include __DIR__ . '/../footer.php'; ?>

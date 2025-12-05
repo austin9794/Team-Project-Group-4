@@ -62,3 +62,38 @@
 }
 </style>
 
+<div class="edit-container">
+    <h2>Edit Personal Details</h2>
+
+    <form method="POST" action="/Team-Project-Group-4/public/index.php?page=account-update">
+        
+        <div class="form-group">
+            <label>Name</label>
+            <input type="text" name="name" value="<?= htmlspecialchars($user['name']) ?>" required>
+        </div>
+
+        <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" name="email" value="<?= htmlspecialchars($user['email']) ?>" required>
+        </div>
+
+        <div class="form-group">
+            <label>Phone Number</label>
+            <input type="text" name="phone" value="<?= htmlspecialchars($user['phone']) ?>">
+        </div>
+
+        <div class="form-group">
+            <label>Home Address</label>
+            <textarea name="address" rows="3"><?= htmlspecialchars($user['address']) ?></textarea>
+        </div>
+
+        <button type="submit" class="btn-purple">Save Changes</button>
+
+        <a href="/Team-Project-Group-4/public/index.php?page=account" class="cancel-link">
+            Cancel
+        </a>
+
+    </form>
+</div>
+
+<?php include __DIR__ . '/../footer.php'; ?>

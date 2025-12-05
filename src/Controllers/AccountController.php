@@ -172,6 +172,24 @@ class AccountController {
     exit;
 }
 
+// Edit Address
+public function showEditAddressForm() {
+    requireLogin();
+
+    $id = $_GET['id'] ?? null;
+    if (!$id) exit("Address not found");
+
+    $db = Database::getInstance()->getConnection();
+
+    $stmt = $db->prepare("SELECT * FROM addresses WHERE address_id = ? AND user_id = ?");
+    $stmt->execute([$id, $_SESSION['user_id']]);
+    $address = $stmt->fetch();
+
+    if (!$address) exit("Unauthorized");
+
+    include __DIR__ . '/../../templates/customer/edit-address.php';
+}
+
 
     }
 

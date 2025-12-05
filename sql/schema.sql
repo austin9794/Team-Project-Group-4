@@ -19,13 +19,12 @@ CREATE TABLE users (
 CREATE TABLE addresses (
     address_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
-    label VARCHAR(50),          -- e.g. "Home", "Uni", "Work"
+    label VARCHAR(50),   -- e.g. "Home", "Work", "Uni"
     full_address TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-
-    FOREIGN KEY (user_id) REFERENCES users(user_id)
-        ON DELETE CASCADE
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
+
 
 -- Payment Table --
 

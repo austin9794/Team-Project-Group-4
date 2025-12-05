@@ -225,13 +225,6 @@ $filters = [
         <!-- Logo positioned absolutely behind filters -->
         <img src="<?= BASE_URL ?>assets/images/logo_no_text.png" alt="Level Up Gaming" style="position: absolute; right: -50px; top: 45%; transform: translateY(-50%); height: 400px; width: auto; opacity: 0.85; z-index: -1;">
 
-        <!-- Search Bar Section -->
-        <div class="filters" style="margin-bottom: 1.5rem;">
-            <div class="filter-group">
-                <input type="text" name="search" placeholder="Search gaming products..." 
-                       value="<?php echo htmlspecialchars($filters['search'] ?? ''); ?>">
-            </div>
-        </div>
 
         <!-- Other Filters Section -->
         <div class="filters">

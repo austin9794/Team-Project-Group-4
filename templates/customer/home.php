@@ -184,7 +184,7 @@ require_once __DIR__ . '/../header.php';
     <!-- Keyboard - TECKNET RGB Gaming Keyboard -->
     <div class="product-card" style="background: white; border-radius: 12px; overflow: hidden; box-shadow: var(--shadow);">
       <div class="product-image" style="width: 100%; height: 200px; background: white; display: flex; align-items: center; justify-content: center; overflow: hidden;">
-        <img src="assets/images/keyboard1.png" alt="TECKNET RGB Gaming Keyboard" style="width: 100%; height: 100%; object-fit: contain; padding: 10px;">
+        <img src="<?= BASE_URL ?>assets/images/keyboard1.png" alt="TECKNET RGB Gaming Keyboard" style="width: 100%; height: 100%; object-fit: contain; padding: 10px;">
       </div>
       <div class="product-info" style="padding: 1.25rem;">
         <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem; color: #1a1a2e;">TECKNET RGB Gaming Keyboard</h3>
@@ -199,7 +199,7 @@ require_once __DIR__ . '/../header.php';
     <!-- Mouse - Logitech G305 LIGHTSPEED -->
     <div class="product-card" style="background: white; border-radius: 12px; overflow: hidden; box-shadow: var(--shadow);">
       <div class="product-image" style="width: 100%; height: 200px; background: white; display: flex; align-items: center; justify-content: center; overflow: hidden;">
-        <img src="assets/images/mouse1.png" alt="Logitech G305 LIGHTSPEED" style="width: 100%; height: 100%; object-fit: contain; padding: 10px;">
+        <img src="<?= BASE_URL ?>assets/images/mouse1.png" alt="Logitech G305 LIGHTSPEED" style="width: 100%; height: 100%; object-fit: contain; padding: 10px;">
       </div>
       <div class="product-info" style="padding: 1.25rem;">
         <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem; color: #1a1a2e;">Logitech G305 LIGHTSPEED</h3>
@@ -214,7 +214,7 @@ require_once __DIR__ . '/../header.php';
     <!-- Headset - HyperX Cloud Alpha -->
     <div class="product-card" style="background: white; border-radius: 12px; overflow: hidden; box-shadow: var(--shadow);">
       <div class="product-image" style="width: 100%; height: 200px; background: white; display: flex; align-items: center; justify-content: center; overflow: hidden;">
-        <img src="assets/images/head1.png" alt="HyperX Cloud Alpha" style="width: 100%; height: 100%; object-fit: contain; padding: 10px;">
+        <img src="<?= BASE_URL ?>assets/images/head1.png" alt="HyperX Cloud Alpha" style="width: 100%; height: 100%; object-fit: contain; padding: 10px;">
       </div>
       <div class="product-info" style="padding: 1.25rem;">
         <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem; color: #1a1a2e;">HyperX Cloud Alpha</h3>
@@ -229,7 +229,7 @@ require_once __DIR__ . '/../header.php';
     <!-- Monitor - Philips 27E1N1100A 27" -->
     <div class="product-card" style="background: white; border-radius: 12px; overflow: hidden; box-shadow: var(--shadow);">
       <div class="product-image" style="width: 100%; height: 200px; background: white; display: flex; align-items: center; justify-content: center; overflow: hidden;">
-        <img src="assets/images/mon1.png" alt="Philips 27E1N1100A 27&quot;" style="width: 100%; height: 100%; object-fit: contain; padding: 10px;">
+        <img src="<?= BASE_URL ?>assets/images/mon1.png" alt="Philips 27E1N1100A 27&quot;" style="width: 100%; height: 100%; object-fit: contain; padding: 10px;">
       </div>
       <div class="product-info" style="padding: 1.25rem;">
         <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem; color: #1a1a2e;">Philips 27E1N1100A 27"</h3>
@@ -244,7 +244,7 @@ require_once __DIR__ . '/../header.php';
     <!-- Microphone - TONOR RGB USB Microphone -->
     <div class="product-card" style="background: white; border-radius: 12px; overflow: hidden; box-shadow: var(--shadow);">
       <div class="product-image" style="width: 100%; height: 200px; background: white; display: flex; align-items: center; justify-content: center; overflow: hidden;">
-        <img src="assets/images/mic1.png" alt="TONOR RGB USB Microphone" style="width: 100%; height: 100%; object-fit: contain; padding: 10px;">
+        <img src="<?= BASE_URL ?>assets/images/mic1.png" alt="TONOR RGB USB Microphone" style="width: 100%; height: 100%; object-fit: contain; padding: 10px;">
       </div>
       <div class="product-info" style="padding: 1.25rem;">
         <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem; color: #1a1a2e;">TONOR RGB USB Microphone</h3>
@@ -262,7 +262,7 @@ require_once __DIR__ . '/../header.php';
 <!-- CTA Section -->
 <section style="position: relative; overflow: hidden; color: white; padding: 4rem 2rem; text-align: center;">
   <video autoplay loop muted playsinline style="position: absolute; top: 50%; left: 50%; min-width: 100%; min-height: 100%; width: auto; height: auto; transform: translate(-50%, -50%); z-index: 0; object-fit: cover;">
-    <source src="assets/images/bg_video.mp4" type="video/mp4">
+    <source src="<?= BASE_URL ?>assets/images/bg_video.mp4" type="video/mp4">
   </video>
   <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(94, 53, 242, 0.6); z-index: 1;"></div>
   <div class="container" style="position: relative; z-index: 2;">

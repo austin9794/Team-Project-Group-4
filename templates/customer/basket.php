@@ -134,13 +134,11 @@
                     <p class="item-price">£<?= number_format($item['price'], 2) ?></p>
 
                     <!-- Quantity Controls -->
-                    <form method="POST" action="/Team-Project-Group-4/public/index.php?page=basket-update" class="qty-controls">
-                        <input type="hidden" name="product_id" value="<?= $item['id'] ?>">
-
-                        <button name="quantity" value="<?= $item['quantity'] - 1 ?>">−</button>
-                        <span><?= $item['quantity'] ?></span>
-                        <button name="quantity" value="<?= $item['quantity'] + 1 ?>">+</button>
-                    </form>
+                    <form method="POST" action="/Team-Project-Group-4/public/index.php?page=basket-update">
+                    <input type="hidden" name="product_id" value="<?= $item['id'] ?>">
+                    <input type="hidden" name="quantity" value="<?= $item['quantity'] - 1 ?>"> <!-- for minus -->
+                    <button type="submit">-</button>
+                 </form>
 
                     <!-- Remove item -->
                     <form method="POST" action="/Team-Project-Group-4/public/index.php?page=basket-remove">

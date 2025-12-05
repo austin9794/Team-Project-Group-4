@@ -110,38 +110,38 @@ switch ($page) {
     case 'order-success':
         include __DIR__ . '/../templates/customer/order_success.php';
         break;
-        case 'add-address':
-    $controller = new AccountController();
-    $controller->showAddAddressForm();
-    break;
+    case 'add-address':
+        $controller = new AccountController();
+        $controller->showAddAddressForm();
+        break;
     case 'save-address':
-    $controller = new AccountController();
-    $controller->saveAddress();
-    break;
+        $controller = new AccountController();
+        $controller->saveAddress();
+        break;
     case 'edit-address':
-    $controller = new AccountController();
-    $controller->showEditAddressForm();
-    break;
+        $controller = new AccountController();
+        $controller->showEditAddressForm();
+        break;
     case 'update-address':
-    $controller = new AccountController();
-    $controller->updateAddress();
-    break;
+        $controller = new AccountController();
+        $controller->updateAddress();
+        break;
     case 'delete-address':
-    $controller = new AccountController();
-    $controller->deleteAddress();
-    break;
+        $controller = new AccountController();
+        $controller->deleteAddress();
+        break;
     case 'add-payment':
-    $controller = new AccountController();
-    $controller->showAddPaymentForm();
-    break;
+        $controller = new AccountController();
+        $controller->showAddPaymentForm();
+        break;
     case 'save-payment':
-    $controller = new AccountController();
-    $controller->savePayment();
-    break;
-case 'delete-payment':
-    $controller = new AccountController();
-    $controller->deletePayment();
-    break;
+        $controller = new AccountController();
+        $controller->savePayment();
+        break;
+    case 'delete-payment':
+        $controller = new AccountController();
+        $controller->deletePayment();
+        break;
     case 'product':
        $controller = new ProductController();
        $controller->show();

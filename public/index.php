@@ -114,7 +114,10 @@ switch ($page) {
     $controller = new AccountController();
     $controller->showAddAddressForm();
     break;
-
+    case 'save-address':
+    $controller = new AccountController();
+    $controller->saveAddress();
+    break;
     case 'product':
        $controller = new ProductController();
        $controller->show();

@@ -116,4 +116,44 @@ class BasketController
         header("Location: /Team-Project-Group-4/public/index.php?page=basket");
         exit;
     }
+
+    public function showCheckout() {
+    if (empty($_SESSION['basket'])) {
+        header("Location: /Team-Project-Group-4/public/index.php?page=basket");
+        exit;
+    }
+
+    $items = [];
+    $total = 0;
+
+    foreach ($_SESSION['basket'] as $productId => $qty) {
+
+        $stmt = $this->db->prepare("
+            SELECT product_id, name, price, image
+            FROM products WHERE product_id = ?
+        ");
+        $stmt->execute([$productId]);
+        $product = $stmt->fetch();
+
+        if ($product) {
+            $line = $product['price'] * $qty;
+
+            $items[] = [
+                'id' => $productId,
+                'name' => $product['name'],
+                'quantity' => $qty,
+                'total' => $line,
+                'image' => $product['image']
+            ];
+
+            $total += $line;
+        }
+    }
+
+    $basketItems = $items;
+    $basketTotal = $total;
+
+    include __DIR__ . '/../../templates/customer/checkout.php';
+}
+
 }

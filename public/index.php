@@ -130,6 +130,11 @@ switch ($page) {
     $controller = new AccountController();
     $controller->deleteAddress();
     break;
+    case 'add-payment':
+    $controller = new AccountController();
+    $controller->showAddPaymentForm();
+    break;
+    
     case 'product':
        $controller = new ProductController();
        $controller->show();

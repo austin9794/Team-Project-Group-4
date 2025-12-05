@@ -138,7 +138,10 @@ switch ($page) {
     $controller = new AccountController();
     $controller->savePayment();
     break;
-
+case 'delete-payment':
+    $controller = new AccountController();
+    $controller->deletePayment();
+    break;
     case 'product':
        $controller = new ProductController();
        $controller->show();

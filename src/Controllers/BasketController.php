@@ -168,4 +168,11 @@ public function updateAjax()
         return;
     }
 
+    // Update basket
+    if ($quantity <= 0) {
+        unset($_SESSION['basket'][$productId]);
+    } else {
+        $_SESSION['basket'][$productId] = $quantity;
+    }
+
 }

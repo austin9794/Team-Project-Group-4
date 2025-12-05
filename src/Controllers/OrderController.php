@@ -32,11 +32,13 @@ class OrderController {
         }
 
         // Insert into orders table
+        $addressId = $_POST['address_id'] ?? null;
+
         $orderStmt = $db->prepare("
-            INSERT INTO orders (user_id, total_price, status)
-            VALUES (?, ?, 'pending')
-        ");
-        $orderStmt->execute([$_SESSION['user_id'], $total]);
+         INSERT INTO orders (user_id, total_price, status, address_id)
+         VALUES (?, ?, 'pending', ?)
+       ");
+        $orderStmt->execute([$_SESSION['user_id'], $total, $addressId]);
 
         $orderId = $db->lastInsertId();
 

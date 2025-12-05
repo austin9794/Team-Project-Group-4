@@ -190,6 +190,28 @@ public function showEditAddressForm() {
     include __DIR__ . '/../../templates/customer/edit-address.php';
 }
 
+// Update Address
+public function updateAddress() {
+    requireLogin();
+
+    $id = $_POST['address_id'];
+    $label = trim($_POST['label']);
+    $full_address = trim($_POST['full_address']);
+
+    $db = Database::getInstance()->getConnection();
+
+    $stmt = $db->prepare("
+        UPDATE addresses
+        SET label = ?, full_address = ?
+        WHERE address_id = ? AND user_id = ?
+    ");
+
+    $stmt->execute([$label, $full_address, $id, $_SESSION['user_id']]);
+
+    header("Location: /Team-Project-Group-4/public/index.php?page=account#addresses");
+    exit;
+}
+
 
     }
 

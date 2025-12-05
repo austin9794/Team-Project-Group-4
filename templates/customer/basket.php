@@ -184,7 +184,10 @@
 
     <h2>Total: £<?= number_format($basketTotal, 2) ?></h2>
 
-    <button class="checkout-btn">Proceed to Checkout</button>
+    <a href="/Team-Project-Group-4/public/index.php?page=checkout" class="checkout-btn">
+    Proceed to Checkout
+    </a>
+
 
 </div>
 

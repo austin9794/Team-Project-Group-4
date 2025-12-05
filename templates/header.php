@@ -12,7 +12,8 @@ require_once __DIR__ . '/../src/Config.php';
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <base href="<?= BASE_URL ?>">
+    <base href="/Team-Project-Group-4/public/">
+
 
     <title><?= $title ?? 'Level Up!' ?></title>
 

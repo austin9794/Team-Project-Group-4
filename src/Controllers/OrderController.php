@@ -147,7 +147,7 @@ public function showOrder()
         SELECT o.*, a.full_address, p.card_brand, p.card_last4
         FROM orders o
         LEFT JOIN addresses a ON o.address_id = a.address_id
-        LEFT JOIN payments p ON o.payment_id = p.payment_id
+        LEFT JOIN payment_methods p ON o.payment_id = p.payment_id
         WHERE o.order_id = ? AND o.user_id = ?
     ");
     $orderStmt->execute([$orderId, $userId]);

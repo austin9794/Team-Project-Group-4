@@ -101,8 +101,10 @@ switch ($page) {
        $controller->updateAjax();
        break;
     case 'orders':
-        include __DIR__ . '/../templates/customer/orders.php';
+        $controller = new OrderController();
+        $controller->listUserOrders();
         break;
+
     case 'place-order':
         $controller = new OrderController();
         $controller->placeOrder();

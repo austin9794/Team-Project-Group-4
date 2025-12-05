@@ -205,5 +205,21 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(data => {
             if (data.success) {
 
-                
+                // If removed from basket
+                if (data.remove) {
+                    document.getElementById(`item-${productId}`).remove();
+                } else {
+                    // Update quantity display
+                    document.getElementById(`qty-${productId}`).innerText = newQty;
+
+                    // Update line total
+                    document.getElementById(`line-${productId}`).innerText = "£" + data.lineTotal;
+                }
+
+                // Update basket total
+                document.getElementById("basket-total").innerText = "£" + data.total;
+            }
+        });
+    }
+
 <?php include __DIR__ . '/../footer.php'; ?>

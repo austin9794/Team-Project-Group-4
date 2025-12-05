@@ -141,10 +141,11 @@
                  </form>
 
                     <!-- Remove item -->
-                    <form method="POST" action="/Team-Project-Group-4/public/index.php?page=basket-remove">
-                        <input type="hidden" name="product_id" value="<?= $item['id'] ?>">
-                        <button class="remove-btn">Remove Item</button>
-                    </form>
+                    <form method="POST" action="/Team-Project-Group-4/public/index.php?page=basket-update">
+                    <input type="hidden" name="product_id" value="<?= $item['id'] ?>">
+                    <input type="hidden" name="quantity" value="<?= $item['quantity'] + 1 ?>"> <!-- for plus -->
+                    <button type="submit">+</button>
+                   </form>
                 </div>
 
                 <!-- Line Total -->

@@ -95,6 +95,9 @@ switch ($page) {
     case 'orders':
         include __DIR__ . '/../templates/customer/orders.php';
         break;
+    case 'checkout':
+        include __DIR__ . '/../templates/customer/checkout.php';
+        break;
     case 'product':
        $controller = new ProductController();
        $controller->show();

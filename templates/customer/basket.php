@@ -241,8 +241,8 @@ include __DIR__ . '/../header.php';
     </div>
 
     <div class="basket-actions">
-      <a href="/Team-Project-Group-4/public/index.php?page=products" class="cta-btn secondary">Continue Shopping</a>
-      <a href="/Team-Project-Group-4/public/index.php?page=checkout" class="cta-btn primary">Proceed to Checkout</a>
+      <a href="index.php?page=products" class="cta-btn secondary">Continue Shopping</a>
+      <a href="index.php?page=checkout" class="cta-btn primary">Proceed to Checkout</a>
     </div>
   <?php endif; ?>
 </div>

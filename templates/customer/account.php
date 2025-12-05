@@ -1,11 +1,11 @@
 <?php 
-$title = 'My Account - Level Up Gaming';
+$title = 'My Account';
 require_once __DIR__ . '/../header.php'; 
 ?>
 
 <style>
   .account-container {
-    max-width: 1200px;
+    max-width: 900px;
     margin: 0 auto;
     padding: 3rem 2rem;
   }
@@ -13,50 +13,17 @@ require_once __DIR__ . '/../header.php';
   .page-title {
     font-size: 2.5rem;
     color: var(--text-primary);
-    margin-bottom: 0.5rem;
-    border-bottom: 3px solid var(--highlight-color);
-    padding-bottom: 1rem;
+    margin-bottom: 3rem;
+    text-align: center;
+    font-weight: 700;
   }
 
-  .account-grid {
-    display: grid;
-    grid-template-columns: 250px 1fr;
-    gap: 2rem;
-    margin-top: 2rem;
-  }
-
-  .account-sidebar {
+  .account-section {
     background: var(--bg-secondary);
-    padding: 2rem;
-    border-radius: 12px;
-    height: fit-content;
-  }
-
-  .account-sidebar nav {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-  }
-
-  .account-sidebar a {
-    padding: 0.75rem 1rem;
-    color: var(--text-primary);
-    text-decoration: none;
-    border-radius: 6px;
-    transition: all 0.3s;
-  }
-
-  .account-sidebar a:hover,
-  .account-sidebar a.active {
-    background: var(--highlight-color);
-    color: white;
-  }
-
-  .account-content {
-    background: var(--bg-primary);
-    padding: 2rem;
+    padding: 2.5rem;
     border-radius: 12px;
     box-shadow: var(--shadow);
+    margin-bottom: 2rem;
   }
 
   .section-title {
@@ -64,34 +31,44 @@ require_once __DIR__ . '/../header.php';
     color: var(--text-primary);
     margin-bottom: 1.5rem;
     border-bottom: 2px solid var(--highlight-color);
-    padding-bottom: 0.5rem;
+    padding-bottom: 0.75rem;
   }
 
   .info-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    margin-bottom: 2rem;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
   }
 
   .info-card {
-    background: var(--bg-secondary);
-    padding: 1.5rem;
-    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
   }
 
   .info-card label {
-    display: block;
-    color: var(--text-secondary);
-    font-size: 0.9rem;
-    margin-bottom: 0.5rem;
     font-weight: 600;
+    color: var(--text-primary);
+    font-size: 0.95rem;
   }
 
-  .info-card p {
+  .info-card input,
+  .info-card textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border-radius: 6px;
+    border: 1px solid var(--highlight-color);
+    background: var(--bg-primary);
     color: var(--text-primary);
     font-size: 1rem;
-    margin: 0;
+  }
+
+  .info-card input:focus,
+  .info-card textarea:focus {
+    outline: none;
+    border-color: var(--highlight-color);
+    box-shadow: 0 0 0 3px rgba(138, 43, 226, 0.1);
   }
 
   .edit-btn {
@@ -126,17 +103,16 @@ require_once __DIR__ . '/../header.php';
   }
 
   @media (max-width: 768px) {
-    .account-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .account-sidebar nav {
-      flex-direction: row;
-      flex-wrap: wrap;
+    .account-container {
+      padding: 2rem 1rem;
     }
 
     .page-title {
-      font-size: 1.8rem;
+      font-size: 2rem;
+    }
+
+    .account-section {
+      padding: 1.5rem;
     }
   }
 </style>
@@ -158,73 +134,83 @@ require_once __DIR__ . '/../header.php';
     </div>
   <?php endif; ?>
 
-  <div class="account-grid">
-    <!-- Sidebar Navigation -->
-    <div class="account-sidebar">
-      <nav>
-        <a href="#profile" class="nav-link active">Profile</a>
-        <a href="#addresses" class="nav-link">Addresses</a>
-        <a href="#security" class="nav-link">Security</a>
-      </nav>
-    </div>
+  <!-- Profile Information Section -->
+  <div class="account-section">
+    <h2 class="section-title">Profile Information</h2>
+    
+    <?php if (!empty($user)): ?>
+      <form action="index.php?page=update-account" method="POST">
+        <div class="info-grid">
+          <div class="info-card">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" name="name" value="<?= htmlspecialchars($user['name']) ?>" required>
+          </div>
+          <div class="info-card">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" value="<?= htmlspecialchars($user['email']) ?>" required>
+          </div>
+          <div class="info-card">
+            <label for="phone">Phone Number</label>
+            <input type="text" id="phone" name="phone" value="<?= htmlspecialchars($user['phone'] ?? '') ?>">
+          </div>
+        </div>
+        <button type="submit" class="edit-btn">Update Profile</button>
+      </form>
+    <?php else: ?>
+      <div class="error-message">Error loading account information.</div>
+    <?php endif; ?>
+  </div>
 
-    <!-- Main Content -->
-    <div class="account-content">
-      <h2 class="section-title">Profile Information</h2>
+  <!-- Address Information Section -->
+  <div class="account-section">
+    <h2 class="section-title">Address Information</h2>
+    
+    <?php if (!empty($user)): ?>
+      <form action="index.php?page=update-account" method="POST">
+        <div class="info-card" style="margin-bottom: 1.5rem;">
+          <label for="address">Address</label>
+          <textarea id="address" name="address" rows="4"><?= htmlspecialchars($user['address'] ?? '') ?></textarea>
+        </div>
+        <button type="submit" class="edit-btn">Update Address</button>
+      </form>
+    <?php else: ?>
+      <div class="error-message">Error loading address information.</div>
+    <?php endif; ?>
+  </div>
+
+  <!-- Password & Security Section -->
+  <div class="account-section">
+    <h2 class="section-title">Password & Security</h2>
+    
+    <form action="index.php?page=update-password" method="POST">
+      <div class="info-grid">
+        <div class="info-card">
+          <label for="current_password">Current Password</label>
+          <input type="password" id="current_password" name="current_password" minlength="6" required>
+        </div>
+        <div class="info-card">
+          <label for="new_password">New Password</label>
+          <input type="password" id="new_password" name="new_password" minlength="6" required>
+        </div>
+        <div class="info-card">
+          <label for="confirm_password">Confirm New Password</label>
+          <input type="password" id="confirm_password" name="confirm_password" minlength="6" required>
+        </div>
+      </div>
       
-      <?php if (!empty($user)): ?>
-        <form action="/Team-Project-Group-4/public/index.php?page=update-account" method="POST">
-          <div class="info-grid">
-            <div class="info-card">
-              <label for="name">Full Name</label>
-              <input type="text" id="name" name="name" value="<?= htmlspecialchars($user['name']) ?>" required style="width: 100%; padding: 0.5rem; border-radius: 4px; border: 1px solid var(--highlight-color);">
-            </div>
-            <div class="info-card">
-              <label for="email">Email Address</label>
-              <input type="email" id="email" name="email" value="<?= htmlspecialchars($user['email']) ?>" required style="width: 100%; padding: 0.5rem; border-radius: 4px; border: 1px solid var(--highlight-color);">
-            </div>
-            <div class="info-card">
-              <label for="phone">Phone Number</label>
-              <input type="text" id="phone" name="phone" value="<?= htmlspecialchars($user['phone'] ?? '') ?>" style="width: 100%; padding: 0.5rem; border-radius: 4px; border: 1px solid var(--highlight-color);">
-            </div>
-          </div>
-          
-          <div class="info-card" style="margin-bottom: 2rem;">
-            <label for="address">Address</label>
-            <textarea id="address" name="address" rows="3" style="width: 100%; padding: 0.5rem; border-radius: 4px; border: 1px solid var(--highlight-color);"><?= htmlspecialchars($user['address'] ?? '') ?></textarea>
-          </div>
-
-          <button type="submit" class="edit-btn">Update Profile</button>
-        </form>
-      <?php else: ?>
-        <div class="error-message">Error loading account information.</div>
+      <?php if (isset($_GET['pw'])): ?>
+        <?php if ($_GET['pw'] == 'success'): ?>
+          <div class="success-message">Password changed successfully!</div>
+        <?php elseif ($_GET['pw'] == 'incorrect'): ?>
+          <div class="error-message">Current password is incorrect.</div>
+        <?php elseif ($_GET['pw'] == 'mismatch'): ?>
+          <div class="error-message">New passwords do not match.</div>
+        <?php endif; ?>
       <?php endif; ?>
-    </div>
+      
+      <button type="submit" class="edit-btn">Update Password</button>
+    </form>
   </div>
 </div>
-
-<hr>
-<footer>
-    <p>© 2025 E-Commerce Platform</p>
-</footer>
-
-<script src="assets/js/theme-toggle.js"></script>
-
-    <label>Confirm New Password:</label><br>
-    <input type="password" name="confirm_password" minlength="6" required><br><br>
-
-    <button type="submit">Update Password</button>
-</form>
-
-<?php if (isset($_GET['pw'])): ?>
-    <?php if ($_GET['pw'] == 'success'): ?>
-        <p style="color: green; font-weight: bold;">Password changed successfully!</p>
-    <?php elseif ($_GET['pw'] == 'incorrect'): ?>
-        <p style="color: red; font-weight: bold;">Current password is incorrect.</p>
-    <?php elseif ($_GET['pw'] == 'mismatch'): ?>
-        <p style="color: red; font-weight: bold;">New passwords do not match.</p>
-    <?php endif; ?>
-<?php endif; ?>
-
 
 <?php include __DIR__ . '/../footer.php'; ?>

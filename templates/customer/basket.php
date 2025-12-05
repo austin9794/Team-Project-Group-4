@@ -116,6 +116,24 @@
 
     <h1>Shopping Basket</h1>
 
+    <?php if (empty($basketItems)): ?>
+
+    <div class="basket-container">
+        <h1>Your Basket is Empty</h1>
+        <p>Looks like you haven’t added anything yet.</p>
+
+        <a href="/Team-Project-Group-4/public/index.php?page=products" 
+           class="checkout-btn">
+           Browse Products
+        </a>
+    </div>
+
+    <?php include __DIR__ . '/../footer.php'; ?>
+    <?php return; ?>
+
+<?php endif; ?>
+
+
     <?php foreach ($basketItems as $item): ?>
         <div class="cart-item">
 

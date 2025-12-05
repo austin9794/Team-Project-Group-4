@@ -50,3 +50,11 @@ class OrderController
         ");
         $itemInsert->execute([$orderId, $productId, $qty, $price]);
     }
+
+    // Clear basket after placing the order
+    unset($_SESSION['basket']);
+
+    // Redirect to order confirmation page
+    header("Location: /Team-Project-4/public/index.php?page=order-success&id=" . $orderId);
+    exit;
+}

@@ -280,7 +280,7 @@ include __DIR__ . '/../header.php';
     <!-- Product Image -->
     <div class="product-image-section">
       <img src="<?= BASE_URL ?>assets/images/<?= htmlspecialchars($product['image'] ?? 'placeholder.png') ?>">
-           alt="<?= htmlspecialchars($product['name']) ?>">
+             alt="<?= htmlspecialchars($product['name']) ?>">
     </div>
   </div>
 

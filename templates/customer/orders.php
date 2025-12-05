@@ -68,16 +68,31 @@
 
 <?php if (empty($orders)): ?>
     <p>You have no orders yet.</p>
+
 <?php else: ?>
     <?php foreach ($orders as $order): ?>
+        
         <div class="order-card">
-            Order #<?= $order['order_id'] ?><br>
-            Total: £<?= number_format($order['total_price'], 2) ?><br>
-            Status: <?= htmlspecialchars($order['status']) ?><br>
-            Date: <?= $order['created_at'] ?>
+
+            <div class="order-header">
+                <h3>Order #<?= $order['order_id'] ?></h3>
+                <span class="order-status <?= strtolower($order['status']) ?>">
+                    <?= htmlspecialchars($order['status']) ?>
+                </span>
+            </div>
+
+            <div class="order-detail"><strong>Total:</strong> £<?= number_format($order['total_price'], 2) ?></div>
+            <div class="order-detail"><strong>Date:</strong> <?= $order['created_at'] ?></div>
+
+            <a class="btn-view" href="/Team-Project-Group-4/public/index.php?page=order&id=<?= $order['order_id'] ?>">
+                View Order Details
+            </a>
+
         </div>
+
     <?php endforeach; ?>
 <?php endif; ?>
+
 
 
 <?php include __DIR__ . '/../footer.php'; ?>

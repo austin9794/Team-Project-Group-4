@@ -25,14 +25,14 @@ class AccountController {
     $user = $stmt->fetch();
 
     // Fetch saved addresses
-    $addrStmt = $conn->prepare("SELECT * FROM addresses WHERE user_id = ?");
+    $addrStmt = $this->db->prepare("SELECT * FROM addresses WHERE user_id = ?");
     $addrStmt->execute([$_SESSION['user_id']]);
     $addresses = $addrStmt->fetchAll();
 
     // Fetch saved payment methods
     $payStmt = $conn->prepare("SELECT * FROM payment_methods WHERE user_id = ?");
     $payStmt->execute([$_SESSION['user_id']]);
-    $payments = $payStmt->fetchAll();
+$payments = $payStmt->fetchAll();
 
     // Fetch last 3 orders
     $orders = $db->prepare("

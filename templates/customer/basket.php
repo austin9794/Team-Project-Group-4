@@ -107,51 +107,64 @@
 }
 </style>
 
+<div class="basket-container">
+    <h2 class="basket-title">Shopping Basket</h2>
 
-<?php //basic basket page showing whats in session ?>
+    <?php if (empty($items)) : ?>
+        <div class="empty-basket">
+            Your basket is empty.<br>
+            <a href="/Team-Project-Group-4/public/index.php?page=products" style="color:#c9a7ff;">
+                Browse products →
+            </a>
+        </div>
+    <?php else: ?>
 
-<h2>Shopping Basket</h2>
-
-<?php if (empty($items)): ?>
-    <p>Your basket is currently empty.</p>
-<?php else: ?>
-   
-    <table class="table">
-        <tr>
-            <th>product</th>
-            <th>price</th>
-            <th>quantity</th>
-             <th>total</th>
-            <th>remove</th>
-        </tr>
-
-        <?php //loop thru basket items ?>
         <?php foreach ($items as $item): ?>
-        <tr>
-            <td><?= htmlspecialchars($item['name']) ?></td>
-             <td>£<?= htmlspecialchars($item['price']) ?></td>
-          <td>
-                <form method="post" action="/basket/update">
-                    <input type="hidden" name="product_id" value="<?= $item['id'] ?>">
-                    <input type="number" name="quantity" value="<?= $item['quantity'] ?>" min="0">
-                      <button type="submit">update</button>
-                </form>
-            </td>
-            <td>£<?= $item['total'] ?></td>
-            <td>
-                <form method="post" action="/basket/remove">
-                    <input  type="hidden" name="product_id" value="<?= $item['id'] ?>">
-                    <button type="submit">remove</button>
-                </form>
-             </td>
-        </tr>
+            <div class="item-card">
 
+                <!-- Product Image -->
+                <div class="item-img">
+                    <img src="/Team-Project-Group-4/public/assets/images/<?= $item['image'] ?>"
+                         alt="<?= htmlspecialchars($item['name']) ?>">
+                </div>
+
+                <!-- Info -->
+                <div class="item-info">
+                    <p class="item-name"><?= htmlspecialchars($item['name']) ?></p>
+                    <p class="item-price">£<?= number_format($item['price'], 2) ?></p>
+
+                    <!-- Quantity Controls -->
+                    <form method="POST" action="/Team-Project-Group-4/public/index.php?page=basket-update" class="qty-controls">
+                        <input type="hidden" name="product_id" value="<?= $item['id'] ?>">
+
+                        <button name="quantity" value="<?= $item['quantity'] - 1 ?>">−</button>
+                        <span><?= $item['quantity'] ?></span>
+                        <button name="quantity" value="<?= $item['quantity'] + 1 ?>">+</button>
+                    </form>
+
+                    <!-- Remove item -->
+                    <form method="POST" action="/Team-Project-Group-4/public/index.php?page=basket-remove">
+                        <input type="hidden" name="product_id" value="<?= $item['id'] ?>">
+                        <button class="remove-btn">Remove Item</button>
+                    </form>
+                </div>
+
+                <!-- Line Total -->
+                <div class="item-total">
+                    £<?= number_format($item['total'], 2) ?>
+                </div>
+            </div>
         <?php endforeach; ?>
-    </table>
 
-     <p><strong>total: £<?= $total ?></strong></p>
+        <div class="summary-box">
+            <h3>Total: £<?= number_format($total, 2) ?></h3>
 
-    <a  href="/checkout">checkout</a>
-<?php endif; ?>
+            <a href="/Team-Project-Group-4/public/index.php?page=checkout" class="checkout-btn">
+                Proceed to Checkout →
+            </a>
+        </div>
+
+    <?php endif; ?>
+</div>
 
 <?php include __DIR__ . '/../footer.php'; ?>

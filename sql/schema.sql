@@ -31,15 +31,14 @@ CREATE TABLE addresses (
 CREATE TABLE payment_methods (
     payment_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
-    card_last4 VARCHAR(4),
     card_brand VARCHAR(20),
+    card_last4 VARCHAR(4),
     expiry_month INT,
     expiry_year INT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-
-    FOREIGN KEY (user_id) REFERENCES users(user_id)
-        ON DELETE CASCADE
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
+
 
 -- CREATED AT --
 

@@ -14,6 +14,19 @@ CREATE TABLE users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+-- Adresses Table --
+
+CREATE TABLE addresses (
+    address_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    label VARCHAR(50),          -- e.g. "Home", "Uni", "Work"
+    full_address TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+        ON DELETE CASCADE
+);
+
 -- CREATED AT --
 
 ALTER TABLE users ADD COLUMN created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP;

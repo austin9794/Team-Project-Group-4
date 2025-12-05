@@ -1,4 +1,7 @@
-<?php include __DIR__ . '/../header.php'; ?>
+<?php 
+$title = 'Sign Up - Level Up Gaming';
+include __DIR__ . '/../header.php'; 
+?>
 
 <style>
 
@@ -9,11 +12,12 @@
     margin: 60px auto;    /* Center on page */
     padding: 30px;
     border-radius: 14px;
-    background: #1a0b2e;
-    box-shadow: 0 0 25px rgba(132, 0, 255, 0.3);
-    color: #eee;
+    background: var(--bg-secondary);
+    box-shadow: var(--shadow-lg);
+    color: var(--text-primary);
     font-family: Arial, sans-serif;
     box-sizing: border-box;
+    border: 1px solid var(--border-color);
 }
 
 /* Title */
@@ -21,7 +25,7 @@
     text-align: left;
     margin-bottom: 25px;
     font-size: 22px;
-    color: #d9a7ff;
+    color: var(--highlight-color);
     font-weight: bold;
 }
 
@@ -30,6 +34,7 @@
     display: block;
     margin-bottom: 6px;
     font-size: 15px;
+    color: var(--text-primary);
 }
 
 /* Inputs perfectly aligned */
@@ -38,23 +43,23 @@
     padding: 14px;
     margin-bottom: 16px;
     border-radius: 8px;
-    border: 1px solid #5b2b8f;
-    background: #2a0f47;
-    color: white;
+    border: 1px solid var(--border-color);
+    background: var(--bg-primary);
+    color: var(--text-primary);
     font-size: 15px;
     box-sizing: border-box;
 }
 
 /* Input placeholders */
 .auth-box input::placeholder {
-    color: #c09dfc;
+    color: var(--text-secondary);
 }
 
 /* Button centered + aligned */
 .auth-box button {
     width: 100%;
     padding: 12px;
-    background: #8f3dff;
+    background: var(--highlight-color);
     border: none;
     border-radius: 20px;
     color: white;
@@ -65,7 +70,7 @@
 }
 
 .auth-box button:hover {
-    background: #b46cff;
+    background: var(--highlight-dark);
 }
 
 /* Fix error/success spacing */
@@ -75,14 +80,14 @@
     border-left: 4px solid;
 }
 
-.error { border-color: #ff5555; color: #ff7777; background: rgba(255, 0, 0, 0.15); }
+.error { border-color: var(--danger); color: var(--danger); background: rgba(255, 79, 79, 0.15); }
 .success { border-color: #24ff75; color: #6bff8f; background: rgba(50, 255, 120, 0.15); }
 
 /* Links */
 .auth-box a {
     display: block;
     margin-top: 15px;
-    color: #c9a7ff;
+    color: var(--highlight-color);
     text-decoration: none;
 }
 

@@ -1,250 +1,194 @@
-<?php 
-$title = 'Shopping Basket - Level Up Gaming';
-include __DIR__ . '/../header.php'; 
-?>
+<?php include __DIR__ . '/../header.php'; ?>
 
 <style>
-  .basket-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 3rem 2rem;
-  }
-
-  .page-title {
-    font-size: 2.5rem;
-    color: var(--text-primary);
-    margin-bottom: 0.5rem;
-    border-bottom: 3px solid var(--highlight-color);
-    padding-bottom: 1rem;
-  }
-
-  .basket-empty {
-    text-align: center;
-    padding: 4rem 2rem;
-    background: var(--bg-secondary);
+.basket-container {
+    max-width: 900px;
+    margin: 40px auto;
+    background: #140a26;
+    padding: 25px;
     border-radius: 12px;
-    color: var(--text-secondary);
-  }
+    box-shadow: 0 0 20px rgba(132, 0, 255, 0.25);
+    color: white;
+}
 
-  .basket-empty p {
-    font-size: 1.2rem;
-    margin-bottom: 2rem;
-  }
-
-  .basket-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 2rem;
-  }
-
-  .basket-table th {
-    background: var(--bg-secondary);
-    color: var(--text-primary);
-    padding: 1rem;
-    text-align: left;
-    font-weight: 600;
-    border-bottom: 2px solid var(--highlight-color);
-  }
-
-  .basket-table td {
-    padding: 1rem;
-    border-bottom: 1px solid var(--bg-secondary);
-    color: var(--text-primary);
-  }
-
-  .basket-table tr:hover {
-    background: var(--bg-secondary);
-  }
-
-  .product-cell {
+.cart-item {
     display: flex;
     align-items: center;
-    gap: 1rem;
-  }
+    justify-content: space-between;
+    padding: 18px;
+    background: #1d1133;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
 
-  .quantity-control {
+.item-left {
+    display: flex;
+    gap: 18px;
+    align-items: center;
+}
+
+.item-left img {
+    width: 110px;
+    height: 110px;
+    object-fit: contain;
+    background: #0f081c;
+    border-radius: 8px;
+}
+
+.item-info h3 {
+    margin: 0;
+    color: #d9a7ff;
+}
+
+.item-info p {
+    margin: 4px 0;
+}
+
+.quantity-box {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-  }
+    gap: 10px;
+}
 
-  .quantity-control input {
-    width: 60px;
-    padding: 0.5rem;
-    border: 1px solid var(--highlight-color);
-    border-radius: 4px;
-    text-align: center;
-  }
-
-  .btn-update,
-  .btn-remove {
-    padding: 0.5rem 1rem;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: all 0.3s;
-    font-size: 0.9rem;
-  }
-
-  .btn-update {
-    background: var(--highlight-color);
+.qty-btn {
+    background: #5A3FA3;
     color: white;
-  }
-
-  .btn-update:hover {
-    background: var(--highlight-dark);
-  }
-
-  .btn-remove {
-    background: #dc3545;
-    color: white;
-  }
-
-  .btn-remove:hover {
-    background: #c82333;
-  }
-
-  .basket-summary {
-    background: var(--bg-secondary);
-    padding: 2rem;
-    border-radius: 12px;
-    margin-bottom: 2rem;
-    text-align: right;
-  }
-
-  .summary-line {
-    display: flex;
-    justify-content: flex-end;
-    gap: 2rem;
-    margin-bottom: 0.5rem;
-    color: var(--text-primary);
-  }
-
-  .summary-total {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--highlight-color);
-    border-top: 2px solid var(--highlight-color);
-    padding-top: 1rem;
-    margin-top: 1rem;
-  }
-
-  .basket-actions {
-    display: flex;
-    gap: 1rem;
-    justify-content: flex-end;
-    flex-wrap: wrap;
-  }
-
-  .cta-btn {
-    padding: 0.75rem 2rem;
-    border: none;
+    width: 32px;
+    height: 32px;
     border-radius: 6px;
+    border: none;
+    font-size: 20px;
     cursor: pointer;
-    font-weight: 600;
-    font-size: 1rem;
-    transition: all 0.3s;
-    text-decoration: none;
-    display: inline-block;
-  }
+    transition: 0.2s;
+}
 
-  .cta-btn.primary {
-    background: var(--highlight-color);
+.qty-btn:hover {
+    background: #7E5AF5;
+}
+
+.quantity-display {
+    padding: 6px 12px;
+    background: #2a0f47;
+    border-radius: 6px;
+    color: #d9a7ff;
+    font-weight: bold;
+}
+
+.remove-btn {
+    background: #b30000;
+    padding: 10px 18px;
+    border-radius: 6px;
     color: white;
-  }
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: 0.2s;
+}
 
-  .cta-btn.primary:hover {
-    background: var(--highlight-dark);
-  }
+.remove-btn:hover {
+    background: #ff4444;
+}
 
-  .cta-btn.secondary {
-    background: transparent;
-    border: 2px solid var(--highlight-color);
-    color: var(--highlight-color);
-  }
-
-  .cta-btn.secondary:hover {
-    background: var(--highlight-color);
+.total-price {
+    font-size: 20px;
+    font-weight: bold;
+    color: #c097ff;
+}
+.checkout-btn {
+    background: #8f3dff;
+    padding: 14px 22px;
+    border-radius: 8px;
+    font-weight: bold;
     color: white;
-  }
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    transition: 0.2s;
+}
 
-  @media (max-width: 768px) {
-    .basket-table {
-      font-size: 0.9rem;
-    }
-
-    .basket-table th,
-    .basket-table td {
-      padding: 0.75rem;
-    }
-
-    .basket-actions {
-      justify-content: stretch;
-    }
-
-    .cta-btn {
-      flex: 1;
-    }
-  }
+.checkout-btn:hover {
+    background: #b46cff;
+}
 </style>
 
+
 <div class="basket-container">
-  <h1 class="page-title">Shopping Basket</h1>
 
-  <?php if (empty($items)): ?>
-    <div class="basket-empty">
-      <p>Your basket is currently empty</p>
-      <a href="/Team-Project-Group-4/public/index.php?page=products" class="cta-btn primary">Continue Shopping</a>
-    </div>
-  <?php else: ?>
-    <table class="basket-table">
-      <thead>
-        <tr>
-          <th>Product</th>
-          <th>Price</th>
-          <th>Quantity</th>
-          <th>Total</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <?php foreach ($items as $item): ?>
-        <tr>
-          <td class="product-cell">
-            <span><?= htmlspecialchars($item['name']) ?></span>
-          </td>
-          <td>£<?= number_format($item['price'], 2) ?></td>
-          <td>
-            <form method="post" action="/Team-Project-Group-4/public/index.php?page=basket-update" class="quantity-control">
-              <input type="hidden" name="product_id" value="<?= $item['id'] ?>">
-              <input type="number" name="quantity" value="<?= $item['quantity'] ?>" min="1">
-              <button type="submit" class="btn-update">Update</button>
-            </form>
-          </td>
-          <td>$<?= number_format($item['total'], 2) ?></td>
-          <td>
-            <form method="post" action="/Team-Project-Group-4/public/index.php?page=basket-remove" style="display: inline;">
-              <input type="hidden" name="product_id" value="<?= $item['id'] ?>">
-              <button type="submit" class="btn-remove">Remove</button>
-            </form>
-          </td>
-        </tr>
-        <?php endforeach; ?>
-      </tbody>
-    </table>
+    <h1>Shopping Basket</h1>
 
-    <div class="basket-summary">
-      <div class="summary-total">
-        Total: $<?= number_format($total, 2) ?>
-      </div>
+    <?php if (empty($basketItems)): ?>
+
+    <div class="basket-container">
+        <h1>Your Basket is Empty</h1>
+        <p>Looks like you haven’t added anything yet.</p>
+
+        <a href="/Team-Project-Group-4/public/index.php?page=products" 
+           class="checkout-btn">
+           Browse Products
+        </a>
     </div>
 
-    <div class="basket-actions">
-      <a href="index.php?page=products" class="cta-btn secondary">Continue Shopping</a>
-      <a href="index.php?page=checkout" class="cta-btn primary">Proceed to Checkout</a>
-    </div>
-  <?php endif; ?>
+    <?php include __DIR__ . '/../footer.php'; ?>
+    <?php return; ?>
+
+<?php endif; ?>
+
+
+    <?php foreach ($basketItems as $item): ?>
+        <div class="cart-item">
+
+            <div class="item-left">
+                <img src="/Team-Project-Group-4/public/assets/images/<?= $item['image'] ?>" alt="Product">
+
+                <div class="item-info">
+                    <h3><?= htmlspecialchars($item['name']) ?></h3>
+                    <p>£<?= number_format($item['price'], 2) ?></p>
+
+                    <!-- Quantity Controls -->
+                    <div class="quantity-box">
+
+                        <!-- Minus -->
+                        <form method="POST" action="/Team-Project-Group-4/public/index.php?page=basket-update">
+                            <input type="hidden" name="product_id" value="<?= $item['id'] ?>">
+                            <input type="hidden" name="quantity" value="<?= $item['quantity'] - 1 ?>">
+                            <button class="qty-btn">−</button>
+                        </form>
+
+                        <!-- Quantity Display -->
+                        <div class="quantity-display"><?= $item['quantity'] ?></div>
+
+                        <!-- Plus -->
+                        <form method="POST" action="/Team-Project-Group-4/public/index.php?page=basket-update">
+                            <input type="hidden" name="product_id" value="<?= $item['id'] ?>">
+                            <input type="hidden" name="quantity" value="<?= $item['quantity'] + 1 ?>">
+                            <button class="qty-btn">+</button>
+                        </form>
+
+                    </div>
+
+                    <!-- Remove -->
+                    <form method="POST" action="/Team-Project-Group-4/public/index.php?page=basket-remove">
+                        <input type="hidden" name="product_id" value="<?= $item['id'] ?>">
+                        <button class="remove-btn">Remove Item</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="total-price">
+                £<?= number_format($item['total'], 2) ?>
+            </div>
+
+        </div>
+    <?php endforeach; ?>
+
+
+    <h2>Total: £<?= number_format($basketTotal, 2) ?></h2>
+
+    <a href="/Team-Project-Group-4/public/index.php?page=checkout" class="checkout-btn">
+    Proceed to Checkout
+    </a>
+
+
 </div>
 
-<?php include __DIR__ . '/../footer.php'; ?></script>
+<?php include __DIR__ . '/../footer.php'; ?>

@@ -64,29 +64,14 @@ require_once __DIR__ . '/../header.php';
     border-radius: 8px;
     cursor: pointer;
     font-weight: 600;
-    transition: transform 0.3s, box-shadow 0.3s;
+    transition: background 0.3s;
     text-decoration: none;
     display: inline-block;
     background: transparent;
     color: white;
   }
   
-  .cta-button.primary {
-    background: transparent;
-    color: white;
-  }
-  
-  .cta-button.primary:hover {
-    background: rgba(255,255,255,0.2);
-  }
-  
-  .cta-button.secondary {
-    background: transparent;
-    color: white;
-    border: 2px solid white;
-  }
-  
-  .cta-button.secondary:hover {
+  .cta-button:hover {
     background: rgba(255,255,255,0.2);
   }
   

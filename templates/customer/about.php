@@ -45,6 +45,17 @@ require_once __DIR__ . '/../header.php';
     position: relative;
     z-index: 2;
   }
+
+  .about-section h2 {
+    display: inline-block;
+    padding: 0.35em 1.2em;
+    border: 2.5px solid var(--highlight-color);
+    border-radius: 1.5em;
+    background: transparent;
+    color: inherit;
+    margin-bottom: 1.2rem;
+    box-sizing: border-box;
+  }
   
   .about-hero p {
     font-size: 1.2rem;
@@ -102,17 +113,8 @@ require_once __DIR__ . '/../header.php';
     font-size: 2rem;
     color: var(--text-primary);
     margin-bottom: 1rem;
-    /* Remove border-bottom */
-    padding-bottom: 0;
-  }
-
-  .about-section-box {
-    background: linear-gradient(135deg, var(--highlight-color) 60%, var(--lavender) 100%);
-    border-radius: 18px;
-    padding: 1.5rem 2rem;
-    margin-bottom: 2rem;
-    color: #fff;
-    box-shadow: 0 4px 24px rgba(94,53,242,0.10);
+    border-bottom: 3px solid var(--highlight-color);
+    padding-bottom: 0.5rem;
   }
   
   .about-section p {
@@ -199,34 +201,29 @@ require_once __DIR__ . '/../header.php';
 <div class="about-content">
   <div class="about-text-section">
     <!-- Company Story Section -->
-
     <section class="about-section">
-      <div class="about-section-box">
-        <h2>Level Up's Story</h2>
-        <p>
-          As an up-and-coming company in the heart of Birmingham, we strive to provide the 
-          best service to our local community and home country. We pride ourselves in partnering with industry-leading 
-          manufacturers to provide you with the most affordable and the highest performing hardware 
-          to Level Up your gaming experience!
-        </p>
-        <p>
-          We currently only ship to the United Kingdom, but are looking to expand our services to Europe 
-          and other countries soon!
-        </p>
-      </div>
+      <h2>Level Up's Story</h2>
+      <p>
+        As an up-and-coming company in the heart of Birmingham, we strive to provide the 
+        best service to our local community and home country. We pride ourselves in partnering with industry-leading 
+        manufacturers to provide you with the most affordable and the highest performing hardware 
+        to Level Up your gaming experience!
+      </p>
+      <p>
+        We currently only ship to the United Kingdom, but are looking to expand our services to Europe 
+        and other countries soon!
+      </p>
     </section>
 
     <!-- Contact Section -->
     <section class="about-section">
-      <div class="about-section-box">
-        <h2>Want to Get In Touch?</h2>
-        <p>
-          Contact us for any queries or feedback <a href="index.php?page=contact" style="color: #fff; font-weight: bold; text-decoration: underline;">here</a>!
-        </p>
-        <p style="margin-top: 1rem;">
-          For Business inquiries, email us at <strong>Business@LevelUpGaming.com</strong>, or Call us at <strong>+44 12 3456 7890</strong>
-        </p>
-      </div>
+      <h2>Want to Get In Touch?</h2>
+      <p>
+        Contact us for any queries or feedback <a href="index.php?page=contact" style="color: var(--highlight-color); font-weight: bold; text-decoration: underline;">here</a>!
+      </p>
+      <p style="margin-top: 1rem;">
+        For Business inquiries, email us at <strong>Business@LevelUpGaming.com</strong>, or Call us at <strong>+44 12 3456 7890</strong>
+      </p>
     </section>
   </div>
   

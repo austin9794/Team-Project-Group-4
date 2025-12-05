@@ -4,21 +4,23 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 require_once __DIR__ . '/../src/Helpers/session.php';
+require_once __DIR__ . '/../src/Config.php';
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <base href="/">
+    <base href="<?= BASE_URL ?>">
+
     <title><?= $title ?? 'Level Up!' ?></title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Science+Gothic:wght@100..900&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="/Team-Project-Group-4/public/assets/css/style.css">
-
+    <!-- Dynamic asset loading -->
+    <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/style.css">
 
     <style>
         /* === TOP HEADER BAR === */
@@ -182,13 +184,14 @@ require_once __DIR__ . '/../src/Helpers/session.php';
     </style>
 </head>
 <body>
+
 <!-- TOP HEADER -->
 <div class="top-header">
 
     <!-- LOGO -->
     <div class="logo-container">
         <a href="index.php?page=home">
-            <img src="assets/images/logo%20text.png" alt="Level Up Logo">
+            <img src="<?= BASE_URL ?>assets/images/logo text.png" alt="Level Up Logo">
         </a>
     </div>
 

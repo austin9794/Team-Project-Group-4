@@ -169,7 +169,8 @@
                     <!-- Remove -->
                     <form method="POST" action="/Team-Project-Group-4/public/index.php?page=basket-remove">
                         <input type="hidden" name="product_id" value="<?= $item['id'] ?>">
-                        <button class="remove-btn">Remove Item</button>
+                        <button class="remove-btn" data-id="<?= $item['id'] ?>">Remove Item</button>
+
                     </form>
                 </div>
             </div>

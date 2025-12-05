@@ -126,8 +126,9 @@ require_once __DIR__ . '/../header.php';
 
   .form-group textarea {
     min-height: 150px;
-    resize: vertical;
-  }
+    resize: none; 
+}
+
 
   .submit-btn {
     width: 100%;

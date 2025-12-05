@@ -2,14 +2,19 @@
 
 class OrderController
 {
-    //place order nd clear basket
-    public function place()
-    {
-        session_start() ;
+    public function placeOrder() {
 
-        //clear basket after order
-         unset($_SESSION['basket']);
+    if (empty($_SESSION['basket'])) {
+        header("Location: /Team-Project-Group-4/public/index.php?page=basket");
+        exit;
+    }
 
-        echo 'order placed successfully';
-     }
+    if (!isset($_SESSION['user_id'])) {
+        header("Location: /Team-Project-Group-4/public/index.php?page=login");
+        exit;
+    }
+
+    $db = Database::getInstance()->getConnection();
 }
+
+

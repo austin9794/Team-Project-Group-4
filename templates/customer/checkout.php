@@ -1,290 +1,114 @@
-<?php 
-$title = 'Checkout Page';
-include __DIR__ . '/../header.php'; 
-?>
+<?php include __DIR__ . '/../header.php'; ?>
 
 <style>
-  .checkout-container {
+.checkout-container {
     max-width: 900px;
-    margin: 0 auto;
-    padding: 3rem 2rem;
-  }
-
-  .page-title {
-    font-size: 2.5rem;
-    color: var(--text-primary);
-    margin-bottom: 0.5rem;
-    border-bottom: 3px solid var(--highlight-color);
-    padding-bottom: 1rem;
-  }
-
-  .checkout-progress {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 3rem;
-    position: relative;
-  }
-
-  .progress-step {
-    flex: 1;
-    text-align: center;
-    color: var(--text-secondary);
-    font-weight: 600;
-  }
-
-  .progress-step.active {
-    color: var(--highlight-color);
-  }
-
-  .checkout-section {
-    background: var(--bg-secondary);
-    padding: 2rem;
+    margin: 40px auto;
+    background: #140a26;
+    padding: 30px;
     border-radius: 12px;
-    margin-bottom: 2rem;
-  }
+    color: white;
+    box-shadow: 0 0 20px rgba(132,0,255,0.25);
+}
 
-  .section-title {
-    font-size: 1.3rem;
-    color: var(--text-primary);
-    margin-bottom: 1.5rem;
-    border-bottom: 2px solid var(--highlight-color);
-    padding-bottom: 0.5rem;
-  }
+.section-title {
+    color: #c9a7ff;
+    font-size: 22px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #5d3b8a;
+    padding-bottom: 6px;
+}
 
-  .form-group {
-    margin-bottom: 1.5rem;
-  }
-
-  .form-row {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-  }
-
-  label {
-    display: block;
-    color: var(--text-primary);
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-  }
-
-  input,
-  select,
-  textarea {
+input, select, textarea {
     width: 100%;
-    padding: 0.75rem;
-    border: 1px solid var(--highlight-color);
+    padding: 12px;
+    background: #2a0f47;
+    border: 1px solid #5d3b8a;
     border-radius: 6px;
-    background: var(--bg-primary);
-    color: var(--text-primary);
-    font-size: 1rem;
-  }
+    color: white;
+    margin-bottom: 15px;
+}
 
-  input:focus,
-  select:focus,
-  textarea:focus {
-    outline: none;
-    border-color: var(--highlight-dark);
-    box-shadow: 0 0 0 3px rgba(94, 53, 242, 0.1);
-  }
-
-  .order-summary {
-    background: var(--bg-primary);
-    padding: 1.5rem;
+.place-order-btn {
+    background: #8f3dff;
+    padding: 15px 20px;
     border-radius: 8px;
-    border: 2px solid var(--highlight-color);
-  }
-
-  .summary-item {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 0.75rem;
-    color: var(--text-primary);
-  }
-
-  .summary-total {
-    display: flex;
-    justify-content: space-between;
-    font-size: 1.3rem;
-    font-weight: 700;
-    color: var(--highlight-color);
-    border-top: 2px solid var(--highlight-color);
-    padding-top: 1rem;
-    margin-top: 1rem;
-  }
-
-  .checkout-actions {
-    display: flex;
-    gap: 1rem;
-    justify-content: flex-end;
-  }
-
-  .btn-checkout,
-  .btn-cancel {
-    padding: 0.75rem 2rem;
+    color: white;
     border: none;
-    border-radius: 6px;
     cursor: pointer;
-    font-weight: 600;
-    font-size: 1rem;
-    transition: all 0.3s;
-  }
+    font-size: 18px;
+    font-weight: bold;
+    transition: 0.2s;
+}
 
-  .btn-checkout {
-    background: var(--highlight-color);
-    color: white;
-  }
+textarea {
+    resize: none;
+}
 
-  .btn-checkout:hover {
-    background: var(--highlight-dark);
-  }
-
-  .btn-cancel {
-    background: transparent;
-    border: 2px solid var(--highlight-color);
-    color: var(--highlight-color);
-  }
-
-  .btn-cancel:hover {
-    background: var(--highlight-color);
-    color: white;
-  }
-
-  @media (max-width: 768px) {
-    .checkout-actions {
-      flex-direction: column;
-    }
-
-    .btn-checkout,
-    .btn-cancel {
-      width: 100%;
-    }
-
-    .page-title {
-      font-size: 1.8rem;
-    }
-  }
+.place-order-btn:hover {
+    background: #b46cff;
+}
 </style>
 
 <div class="checkout-container">
-  <h1 class="page-title">Checkout</h1>
 
-  <div class="checkout-progress">
-    <div class="progress-step">Cart</div>
-    <div class="progress-step active">Checkout</div>
-    <div class="progress-step">Confirmation</div>
-  </div>
+    <h1>Checkout</h1>
 
-  <form method="post" action="/Team-Project-Group-4/public/index.php?page=place-order">
-    <!-- Shipping Information -->
-    <section class="checkout-section">
-      <h2 class="section-title">Shipping Address</h2>
-      <div class="form-row">
-        <div class="form-group">
-          <label for="first_name">First Name *</label>
-          <input type="text" id="first_name" name="first_name" required>
-        </div>
-        <div class="form-group">
-          <label for="last_name">Last Name *</label>
-          <input type="text" id="last_name" name="last_name" required>
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="address">Street Address *</label>
-        <input type="text" id="address" name="address" required>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label for="city">City *</label>
-          <input type="text" id="city" name="city" required>
-        </div>
-        <div class="form-group">
-          <label for="state">State/Province *</label>
-          <input type="text" id="state" name="state" required>
-        </div>
-        <div class="form-group">
-          <label for="zip">ZIP/Postal Code *</label>
-          <input type="text" id="zip" name="zip" required>
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="country">Country *</label>
-        <select id="country" name="country" required>
-          <option value="">Select Country</option>
-          <option value="US">United States</option>
-          <option value="CA">Canada</option>
-          <option value="GB">United Kingdom</option>
-          <option value="AU">Australia</option>
-        </select>
-      </div>
-    </section>
+    <form method="POST" action="/Team-Project-Group-4/public/index.php?page=place-order">
 
-    <!-- Billing Information -->
-    <section class="checkout-section">
-      <h2 class="section-title">Billing Address</h2>
-      <label style="display: flex; align-items: center; margin-bottom: 1.5rem; font-weight: normal;">
-        <input type="checkbox" name="same_address" checked style="width: auto; margin-right: 0.5rem;">
-        Same as shipping address
-      </label>
-    </section>
+        <!-- DELIVERY ADDRESS -->
 
-    <!-- Payment Information -->
-    <section class="checkout-section">
-      <h2 class="section-title">Payment Details</h2>
-      <div class="form-group">
-        <label for="card_name">Cardholder Name *</label>
-        <input type="text" id="card_name" name="card_name" required>
-      </div>
-      <div class="form-group">
-        <label for="card_number">Card Number *</label>
-        <input type="text" id="card_number" name="card_number" placeholder="1234 5678 9012 3456" required>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label for="expiry">Expiry Date *</label>
-          <input type="text" id="expiry" name="expiry" placeholder="MM/YY" required>
-        </div>
-        <div class="form-group">
-          <label for="cvv">CVV *</label>
-          <input type="text" id="cvv" name="cvv" placeholder="123" required>
-        </div>
-      </div>
-    </section>
+        <h2 class="section-title">Delivery Address</h2>
 
-    <!-- Order Summary -->
-    <section class="checkout-section">
-      <h2 class="section-title">Order Summary</h2>
-      <div class="order-summary">
-        <div class="summary-item">
-          <span>Subtotal</span>
-          <span>£99.99</span>
-        </div>
-        <div class="summary-item">
-          <span>Shipping</span>
-          <span>£9.99</span>
-        </div>
-        <div class="summary-item">
-          <span>Tax</span>
-          <span>£8.80</span>
-        </div>
-        <div class="summary-total">
-          <span>Total</span>
-          <span>£118.78</span>
-        </div>
-      </div>
-    </section>
+<?php if (!empty($addresses)): ?>
+    <?php foreach ($addresses as $a): ?>
+        <label style="display:block;margin-bottom:8px;">
+            <input type="radio" name="address_id" value="<?= $a['address_id'] ?>" required>
+            <?= htmlspecialchars($a['label']) ?> — <?= htmlspecialchars($a['full_address']) ?>
+        </label>
+    <?php endforeach; ?>
+<?php else: ?>
+    <p>No saved addresses. Enter manually:</p>
+    <textarea name="manual_address" required rows="3" style="resize:none;"></textarea>
+<?php endif; ?>
 
-    <!-- Checkout Actions -->
-    <div class="checkout-actions">
-      <a href="/Team-Project-Group-4/public/index.php?page=basket" class="btn-cancel">Back to Cart</a>
-      <button type="submit" class="btn-checkout">Place Order</button>
-    </div>
 
-    <p style="text-align: center; color: var(--text-secondary); margin-top: 2rem; font-size: 0.9rem;">
-      This will place your order and charge your payment method.
-    </p>
-  </form>
+        <!-- PAYMENT METHOD -->
+        <h2 class="section-title">Payment Method</h2>
+
+<?php if (!empty($payments)): ?>
+    <?php foreach ($payments as $p): ?>
+        <label style="display:block;margin-bottom:8px;">
+            <input type="radio" name="payment_id" value="<?= $p['payment_id'] ?>" required>
+            <?= htmlspecialchars($p['card_brand']) ?> ending in <?= htmlspecialchars($p['card_last4']) ?>
+        </label>
+    <?php endforeach; ?>
+<?php else: ?>
+    <p>No saved cards.</p>
+<?php endif; ?>
+
+<label style="display:block;margin-top:14px;">
+    <input type="radio" name="payment_id" value="manual"> Use a new card (next page)
+</label>
+
+
+        <!-- ORDER SUMMARY -->
+        <h2 class="section-title">Order Summary</h2>
+
+        <?php foreach ($basketItems as $item): ?>
+            <p>
+                <?= htmlspecialchars($item['name']) ?>
+                (x<?= $item['quantity'] ?>)
+                — £<?= number_format($item['total'], 2) ?>
+            </p>
+        <?php endforeach; ?>
+
+        <h3>Total: £<?= number_format($basketTotal, 2) ?></h3>
+
+        <button type="submit" class="place-order-btn">Place Order</button>
+
+    </form>
+
 </div>
 
-<?php include __DIR__ . '/../footer.php'; ?></script>
+<?php include __DIR__ . '/../footer.php'; ?>

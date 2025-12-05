@@ -68,9 +68,13 @@ switch ($page) {
         $controller = new AccountController();
         $controller->showAccount();
         break;
-    case 'update-account':
+    case 'account-update':
         $controller = new AccountController();
         $controller->updateAccount();
+        break;
+    case 'account-edit':
+        $controller = new AccountController();
+        $controller->editAccountForm();
         break;
     case 'change-password':
         $controller = new AccountController();
@@ -84,16 +88,59 @@ switch ($page) {
        $controller = new BasketController();
        $controller->add();
        break;
-    case 'remove-item':
+    case 'basket-remove':
        $controller = new BasketController();
        $controller->remove();
        break;
-    case 'update-basket':
+    case 'basket-update':
        $controller = new BasketController();
        $controller->update();
        break;
     case 'orders':
         include __DIR__ . '/../templates/customer/orders.php';
+        break;
+    case 'place-order':
+        $controller = new OrderController();
+        $controller->placeOrder();
+        break;
+    case 'checkout':
+        $controller = new BasketController();
+        $controller->showCheckout();
+        break;
+    case 'order-success':
+        include __DIR__ . '/../templates/customer/order_success.php';
+        break;
+    case 'add-address':
+        $controller = new AccountController();
+        $controller->showAddAddressForm();
+        break;
+    case 'save-address':
+        $controller = new AccountController();
+        $controller->saveAddress();
+        break;
+    case 'edit-address':
+        $controller = new AccountController();
+        $controller->showEditAddressForm();
+        break;
+    case 'update-address':
+        $controller = new AccountController();
+        $controller->updateAddress();
+        break;
+    case 'delete-address':
+        $controller = new AccountController();
+        $controller->deleteAddress();
+        break;
+    case 'add-payment':
+        $controller = new AccountController();
+        $controller->showAddPaymentForm();
+        break;
+    case 'save-payment':
+        $controller = new AccountController();
+        $controller->savePayment();
+        break;
+    case 'delete-payment':
+        $controller = new AccountController();
+        $controller->deletePayment();
         break;
     case 'product':
        $controller = new ProductController();

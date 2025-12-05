@@ -1,230 +1,255 @@
-<?php 
-$title = 'My Account - Level Up Gaming';
-require_once __DIR__ . '/../header.php'; 
-?>
+<?php include __DIR__ . '/../header.php'; ?>
+
 
 <style>
-  .account-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 3rem 2rem;
-  }
-
-  .page-title {
-    font-size: 2.5rem;
-    color: var(--text-primary);
-    margin-bottom: 0.5rem;
-    border-bottom: 3px solid var(--highlight-color);
-    padding-bottom: 1rem;
-  }
-
-  .account-grid {
-    display: grid;
-    grid-template-columns: 250px 1fr;
-    gap: 2rem;
-    margin-top: 2rem;
-  }
-
-  .account-sidebar {
-    background: var(--bg-secondary);
-    padding: 2rem;
-    border-radius: 12px;
-    height: fit-content;
-  }
-
-  .account-sidebar nav {
+/* LAYOUT */
+.account-container {
     display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-  }
+    gap: 30px;
+    margin: 40px auto;
+    max-width: 1150px;
+    padding: 20px;
+}
 
-  .account-sidebar a {
-    padding: 0.75rem 1rem;
-    color: var(--text-primary);
-    text-decoration: none;
-    border-radius: 6px;
-    transition: all 0.3s;
-  }
-
-  .account-sidebar a:hover,
-  .account-sidebar a.active {
-    background: var(--highlight-color);
-    color: white;
-  }
-
-  .account-content {
-    background: var(--bg-primary);
-    padding: 2rem;
+/* SIDEBAR */
+.account-sidebar {
+    width: 260px;
+    background: #1a0b2e;
+    padding: 20px;
     border-radius: 12px;
-    box-shadow: var(--shadow);
-  }
+    box-shadow: 0 0 20px rgba(120, 50, 255, 0.2);
+}
 
-  .section-title {
-    font-size: 1.8rem;
-    color: var(--text-primary);
-    margin-bottom: 1.5rem;
-    border-bottom: 2px solid var(--highlight-color);
-    padding-bottom: 0.5rem;
-  }
+.account-sidebar h3 {
+    color: #d9a7ff;
+    margin-bottom: 15px;
+}
 
-  .info-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    margin-bottom: 2rem;
-  }
-
-  .info-card {
-    background: var(--bg-secondary);
-    padding: 1.5rem;
-    border-radius: 8px;
-  }
-
-  .info-card label {
+.account-sidebar a {
     display: block;
-    color: var(--text-secondary);
-    font-size: 0.9rem;
-    margin-bottom: 0.5rem;
-    font-weight: 600;
-  }
+    padding: 12px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    text-decoration: none;
+    background: #2a0f47;
+    color: #c9a7ff;
+    transition: 0.3s;
+}
 
-  .info-card p {
-    color: var(--text-primary);
-    font-size: 1rem;
-    margin: 0;
-  }
-
-  .edit-btn {
-    background: var(--highlight-color);
+.account-sidebar a:hover {
+    background: #5b2b8f;
     color: white;
-    border: none;
-    padding: 0.75rem 1.5rem;
+}
+
+/* MAIN CONTENT */
+.account-main {
+    flex-grow: 1;
+}
+
+.section-card {
+    background: #1a0b2e;
+    padding: 20px;
+    margin-bottom: 25px;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(132, 0, 255, 0.25);
+    color: #eee;
+}
+
+.section-card h2 {
+    color: #d9a7ff;
+    margin-bottom: 15px;
+}
+
+/* PROFILE BOX */
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.profile-pic {
+    width: 85px;
+    height: 85px;
+    border-radius: 50%;
+    background: #3a165d;
+    background-size: cover;
+    background-position: center;
+    border: 2px solid #8f3dff;
+}
+
+.profile-details p {
+    margin: 6px 0;
+}
+
+/* BUTTONS */
+.btn-purple {
+    display: inline-block;
+    padding: 10px 15px;
+    background: #8f3dff;
     border-radius: 6px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: all 0.3s;
-  }
+    color: white;
+    text-decoration: none;
+    transition: 0.2s;
+}
 
-  .edit-btn:hover {
-    background: var(--highlight-dark);
-  }
-
-  .success-message {
-    background: #d4edda;
-    color: #155724;
-    padding: 1rem;
-    border-radius: 6px;
-    margin-bottom: 1.5rem;
-  }
-
-  .error-message {
-    background: #f8d7da;
-    color: #721c24;
-    padding: 1rem;
-    border-radius: 6px;
-    margin-bottom: 1.5rem;
-  }
-
-  @media (max-width: 768px) {
-    .account-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .account-sidebar nav {
-      flex-direction: row;
-      flex-wrap: wrap;
-    }
-
-    .page-title {
-      font-size: 1.8rem;
-    }
-  }
+.btn-purple:hover {
+    background: #b46cff;
+}
 </style>
 
 <div class="account-container">
-  <h1 class="page-title">My Account</h1>
 
-  <?php if (isset($_GET['updated']) && $_GET['updated'] == 1): ?>
-    <div class="success-message">Profile updated successfully!</div>
-  <?php endif; ?>
-
-  <?php if (isset($_GET['error'])): ?>
-    <div class="error-message">
-      <?php if ($_GET['error'] == 'invalid_email'): ?>
-        Invalid email format.
-      <?php elseif ($_GET['error'] == 'email_taken'): ?>
-        Email is already in use by another account.
-      <?php endif; ?>
-    </div>
-  <?php endif; ?>
-
-  <div class="account-grid">
-    <!-- Sidebar Navigation -->
+    <!-- SIDEBAR -->
     <div class="account-sidebar">
-      <nav>
-        <a href="#profile" class="nav-link active">Profile</a>
-        <a href="#addresses" class="nav-link">Addresses</a>
-        <a href="#security" class="nav-link">Security</a>
-      </nav>
+        <h3>My Account</h3>
+        <a href="#personal">Personal Details</a>
+        <a href="#orders">Recent Orders</a>
+        <a href="#security">Security</a>
+        <a href="#preferences">Preferences</a>
+        <a href="#addresses">Saved Addresses</a>
+        <a href="#delete">Delete Account</a>
+        <a href="/Team-Project-Group-4/public/index.php?page=logout">Logout</a>
     </div>
 
-    <!-- Main Content -->
-    <div class="account-content">
-      <h2 class="section-title">Profile Information</h2>
-      
-      <?php if (!empty($user)): ?>
-        <form action="/Team-Project-Group-4/public/index.php?page=update-account" method="POST">
-          <div class="info-grid">
-            <div class="info-card">
-              <label for="name">Full Name</label>
-              <input type="text" id="name" name="name" value="<?= htmlspecialchars($user['name']) ?>" required style="width: 100%; padding: 0.5rem; border-radius: 4px; border: 1px solid var(--highlight-color);">
-            </div>
-            <div class="info-card">
-              <label for="email">Email Address</label>
-              <input type="email" id="email" name="email" value="<?= htmlspecialchars($user['email']) ?>" required style="width: 100%; padding: 0.5rem; border-radius: 4px; border: 1px solid var(--highlight-color);">
-            </div>
-            <div class="info-card">
-              <label for="phone">Phone Number</label>
-              <input type="text" id="phone" name="phone" value="<?= htmlspecialchars($user['phone'] ?? '') ?>" style="width: 100%; padding: 0.5rem; border-radius: 4px; border: 1px solid var(--highlight-color);">
-            </div>
-          </div>
-          
-          <div class="info-card" style="margin-bottom: 2rem;">
-            <label for="address">Address</label>
-            <textarea id="address" name="address" rows="3" style="width: 100%; padding: 0.5rem; border-radius: 4px; border: 1px solid var(--highlight-color);"><?= htmlspecialchars($user['address'] ?? '') ?></textarea>
-          </div>
 
-          <button type="submit" class="edit-btn">Update Profile</button>
-        </form>
-      <?php else: ?>
-        <div class="error-message">Error loading account information.</div>
-      <?php endif; ?>
-    </div>
-  </div>
+    <!-- MAIN CONTENT -->
+    <div class="account-main">
+
+        <!-- PERSONAL DETAILS -->
+        <div id="personal" class="section-card">
+            <h2>Personal Details</h2>
+
+            <div class="profile-header">
+                <div class="profile-pic" style="background-image: url('/Team-Project-Group-4/public/assets/images/avatar.png');"></div>
+                <div class="profile-details">
+                    <p><strong>Name:</strong> <?= htmlspecialchars($user['name']) ?></p>
+                    <p><strong>Email:</strong> <?= htmlspecialchars($user['email']) ?></p>
+                    <p><strong>Phone:</strong> <?= htmlspecialchars($user['phone']) ?></p>
+                    <p><strong>Address:</strong> <?= htmlspecialchars($user['address']) ?></p>
+                    <p><strong>Member Since:</strong> <?= htmlspecialchars(date("F Y", strtotime($user['created_at']))) ?></p>
+                </div>
+            </div>
+
+            <br>
+            <a class="btn-purple" href="/Team-Project-Group-4/public/index.php?page=account-edit">Edit Details</a>
+        </div>
+
+
+        <!-- RECENT ORDERS -->
+        <div id="orders" class="section-card">
+            <h2>Recent Orders</h2>
+
+            <?php if (empty($recentOrders)): ?>
+                <p>You haven't placed any orders yet.</p>
+            <?php else: ?>
+                <?php foreach ($recentOrders as $o): ?>
+                    <div class="order-item">
+                        <p><strong>Order #<?= $o['order_id'] ?></strong></p>
+                        <p>Date: <?= $o['order_date'] ?></p>
+                        <p>Total: £<?= number_format($o['total_price'], 2) ?></p>
+                        <p>Status: <?= $o['status'] ?></p>
+                        <a class="btn-purple" href="/Team-Project-Group-4/public/index.php?page=order&id=<?= $o['order_id'] ?>">View Order</a>
+                        <hr>
+                    </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
+
+            <a class="btn-purple" href="/Team-Project-Group-4/public/index.php?page=orders">View All Orders</a>
+        </div>
+
+
+        <!-- SECURITY -->
+        <div id="security" class="section-card">
+            <h2>Security Settings</h2>
+
+            <a class="btn-purple" href="/Team-Project-Group-4/public/index.php?page=change-password">Change Password</a>
+
+            <p style="margin-top:12px;">
+                <strong>Two-Factor Authentication:</strong> Not Enabled  
+                <em style="opacity:0.6">(coming soon)</em>
+            </p>
+        </div>
+
+
+        <!-- PREFERENCES -->
+        <div id="preferences" class="section-card">
+            <h2>Account Preferences</h2>
+
+            <p><strong>Dark Mode:</strong> Enabled</p>
+            <p><strong>Email Notifications:</strong> You are subscribed</p>
+        </div>
+
+
+        <!-- SAVED ADDRESSES -->
+        <div id="addresses" class="section-card">
+        <h2>Saved Addresses</h2>
+
+    <?php if (empty($addresses)): ?>
+        <p>No saved addresses yet.</p>
+    <?php else: ?>
+        <?php foreach ($addresses as $addr): ?>
+            <div class="address-box" style="margin-bottom:15px;">
+                <p><strong><?= htmlspecialchars($addr['label']) ?>:</strong></p>
+                <p><?= nl2br(htmlspecialchars($addr['full_address'])) ?></p>
+
+                <a class="btn-purple" href="/Team-Project-Group-4/public/index.php?page=edit-address&id=<?= $addr['address_id'] ?>">
+                    Edit
+                </a>
+                <a class="btn-purple" style="background:#ff4f4f;"
+                    href="/Team-Project-Group-4/public/index.php?page=delete-address&id=<?= $addr['address_id'] ?>">
+                    Delete
+                </a>
+            </div>
+        <?php endforeach; ?>
+    <?php endif; ?>
+
+    <a class="btn-purple" href="/Team-Project-Group-4/public/index.php?page=add-address">
+        Add New Address
+    </a>
 </div>
 
-<hr>
-<footer>
-    <p>© 2025 E-Commerce Platform</p>
-</footer>
+<!-- PAYMENT METHODS -->
+<div id="payment-methods" class="section-card">
+    <h2>Saved Payment Methods</h2>
 
-<script src="assets/js/theme-toggle.js"></script>
+    <?php if (empty($payments)): ?>
+        <p>No saved payment methods.</p>
+    <?php else: ?>
+        <?php foreach ($payments as $p): ?>
+            <div class="payment-box" style="margin-bottom:15px;">
+                <p><strong><?= htmlspecialchars($p['card_brand']) ?></strong>
+                ending in <strong><?= htmlspecialchars($p['card_last4']) ?></strong></p>
 
-    <label>Confirm New Password:</label><br>
-    <input type="password" name="confirm_password" minlength="6" required><br><br>
+                <p>Expires <?= $p['expiry_month'] ?>/<?= $p['expiry_year'] ?></p>
 
-    <button type="submit">Update Password</button>
-</form>
-
-<?php if (isset($_GET['pw'])): ?>
-    <?php if ($_GET['pw'] == 'success'): ?>
-        <p style="color: green; font-weight: bold;">Password changed successfully!</p>
-    <?php elseif ($_GET['pw'] == 'incorrect'): ?>
-        <p style="color: red; font-weight: bold;">Current password is incorrect.</p>
-    <?php elseif ($_GET['pw'] == 'mismatch'): ?>
-        <p style="color: red; font-weight: bold;">New passwords do not match.</p>
+                <a class="btn-purple" style="background:#ff4f4f;"
+                    href="/Team-Project-Group-4/public/index.php?page=delete-payment&id=<?= $p['payment_id'] ?>">
+                    Remove
+                </a>
+            </div>
+        <?php endforeach; ?>
     <?php endif; ?>
-<?php endif; ?>
+
+    <a class="btn-purple" href="/Team-Project-Group-4/public/index.php?page=add-payment">
+        Add Payment Method
+    </a>
+</div>
+
+
+
+        <!-- DELETE ACCOUNT -->
+        <div id="delete" class="section-card">
+            <h2>Delete Account</h2>
+
+            <p style="color:#ff7777;">This action cannot be undone.</p>
+
+            <a class="btn-purple" style="background:#ff4f4f;" href="#">
+                Request Deletion (Coming Soon)
+            </a>
+        </div>
+
+    </div>
+</div>
 
 
 <?php include __DIR__ . '/../footer.php'; ?>

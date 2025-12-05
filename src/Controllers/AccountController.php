@@ -302,5 +302,10 @@ class AccountController {
       return $stmt->fetchAll();
     }
 
-    
+      //User Payments
+      public function getPaymentMethods() {
+      $stmt = $this->db->prepare("SELECT * FROM payment_methods WHERE user_id = ?");
+      $stmt->execute([$_SESSION['user_id']]);
+      return $stmt->fetchAll();
+}
     }

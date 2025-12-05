@@ -76,12 +76,21 @@ textarea {
         <!-- PAYMENT METHOD -->
         <h2 class="section-title">Payment Method</h2>
 
-        <select name="payment" required>
-            <option value="">-- Select a Payment Method --</option>
-            <option value="card">Credit / Debit Card</option>
-            <option value="paypal">PayPal</option>
-            <option value="cod">Cash on Delivery</option>
-        </select>
+<?php if (!empty($payments)): ?>
+    <?php foreach ($payments as $p): ?>
+        <label style="display:block;margin-bottom:8px;">
+            <input type="radio" name="payment_id" value="<?= $p['payment_id'] ?>" required>
+            <?= htmlspecialchars($p['card_brand']) ?> ending in <?= htmlspecialchars($p['card_last4']) ?>
+        </label>
+    <?php endforeach; ?>
+<?php else: ?>
+    <p>No saved cards.</p>
+<?php endif; ?>
+
+<label style="display:block;margin-top:14px;">
+    <input type="radio" name="payment_id" value="manual"> Use a new card (next page)
+</label>
+
 
         <!-- ORDER SUMMARY -->
         <h2 class="section-title">Order Summary</h2>

@@ -172,62 +172,62 @@ class AccountController {
     exit;
 }
 
-// Edit Address
-public function showEditAddressForm() {
-    requireLogin();
+      // Edit Address
+     public function showEditAddressForm() {
+     requireLogin();
 
-    $id = $_GET['id'] ?? null;
-    if (!$id) exit("Address not found");
+     $id = $_GET['id'] ?? null;
+     if (!$id) exit("Address not found");
 
-    $db = Database::getInstance()->getConnection();
+     $db = Database::getInstance()->getConnection();
 
-    $stmt = $db->prepare("SELECT * FROM addresses WHERE address_id = ? AND user_id = ?");
-    $stmt->execute([$id, $_SESSION['user_id']]);
-    $address = $stmt->fetch();
+     $stmt = $db->prepare("SELECT * FROM addresses WHERE address_id = ? AND user_id = ?");
+     $stmt->execute([$id, $_SESSION['user_id']]);
+     $address = $stmt->fetch();
 
-    if (!$address) exit("Unauthorized");
+     if (!$address) exit("Unauthorized");
 
-    include __DIR__ . '/../../templates/customer/edit-address.php';
-}
+     include __DIR__ . '/../../templates/customer/edit-address.php';
+    }
 
-// Update Address
-public function updateAddress() {
-    requireLogin();
 
-    $id = $_POST['address_id'];
-    $label = trim($_POST['label']);
-    $full_address = trim($_POST['full_address']);
+     // Update Address
+      public function updateAddress() {
+      requireLogin();
 
-    $db = Database::getInstance()->getConnection();
+      $id = $_POST['address_id'];
+      $label = trim($_POST['label']);
+      $full_address = trim($_POST['full_address']);
 
-    $stmt = $db->prepare("
+      $db = Database::getInstance()->getConnection();
+
+       $stmt = $db->prepare("
         UPDATE addresses
         SET label = ?, full_address = ?
         WHERE address_id = ? AND user_id = ?
     ");
 
-    $stmt->execute([$label, $full_address, $id, $_SESSION['user_id']]);
+       $stmt->execute([$label, $full_address, $id, $_SESSION['user_id']]);
 
-    header("Location: /Team-Project-Group-4/public/index.php?page=account#addresses");
-    exit;
-}
-
-// Delete Address
-public function deleteAddress() {
-    requireLogin();
-
-    $id = $_GET['id'] ?? null;
-
-    if (!$id) exit("Invalid address");
-
-    $db = Database::getInstance()->getConnection();
-
-    $stmt = $db->prepare("DELETE FROM addresses WHERE address_id = ? AND user_id = ?");
-    $stmt->execute([$id, $_SESSION['user_id']]);
-
-    header("Location: /Team-Project-Group-4/public/index.php?page=account#addresses");
-    exit;
-}
-
+      header("Location: /Team-Project-Group-4/public/index.php?page=account#addresses");
+      exit;
     }
+
+     // Delete Address
+     public function deleteAddress() {
+     requireLogin();
+
+     $id = $_GET['id'] ?? null;
+
+     if (!$id) exit("Invalid address");
+
+     $db = Database::getInstance()->getConnection();
+
+     $stmt = $db->prepare("DELETE FROM addresses WHERE address_id = ? AND user_id = ?");
+     $stmt->execute([$id, $_SESSION['user_id']]);
+
+     header("Location: /Team-Project-Group-4/public/index.php?page=account#addresses");
+     exit;
+    }
+}
 

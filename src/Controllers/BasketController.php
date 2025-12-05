@@ -189,8 +189,22 @@ public function updateAjax()
         $lineTotal = $price * $quantity;
     }
 
-    
+    // Recalc basket total
+    foreach ($_SESSION['basket'] as $id => $qty) {
+        $stmt = $db->prepare("SELECT price FROM products WHERE product_id = ?");
+        $stmt->execute([$id]);
+        $price = $stmt->fetchColumn();
+        $total += $price * $qty;
+    }
 
-
+    echo json_encode([
+        'success'   => true,
+        'productId' => $productId,
+        'quantity'  => $quantity,
+        'lineTotal' => number_format($lineTotal, 2),
+        'total'     => number_format($total, 2),
+        'remove'    => ($quantity <= 0)
+    ]);
+}
 
 }

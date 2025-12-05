@@ -243,7 +243,48 @@ class AccountController {
       include __DIR__ . '/../../templates/customer/add-payment.php';
       }
 
-      // 
+      // Save Payment
+      public function savePayment() {
+      requireLogin();
 
-}
+     $brand = trim($_POST['brand']);
+     $card_number = trim($_POST['card_number']);
+     $expiry_month = $_POST['expiry_month'];
+     $expiry_year = $_POST['expiry_year'];
 
+     if (strlen($card_number) < 4) {
+        header("Location: /Team-Project-Group-4/public/index.php?page=add-payment&error=1");
+        exit;
+    }
+
+      $last4 = substr($card_number, -4);
+
+     $db = Database::getInstance()->getConnection();
+ 
+     $stmt = $db->prepare("
+        INSERT INTO payment_methods (user_id, card_brand, card_last4, expiry_month, expiry_year)
+        VALUES (?, ?, ?, ?, ?)
+    ");
+      $stmt->execute([$_SESSION['user_id'], $brand, $last4, $expiry_month, $expiry_year]);
+
+      header("Location: /Team-Project-Group-4/public/index.php?page=account#payment-methods");
+      exit;
+    }
+
+    // Delete Payment
+      public function deletePayment() {
+      requireLogin();
+
+      $id = $_GET['id'] ?? null;
+
+     if (!$id) exit("Invalid payment");
+
+     $db = Database::getInstance()->getConnection();
+
+      $stmt = $db->prepare("DELETE FROM payment_methods WHERE payment_id = ? AND user_id = ?");
+     $stmt->execute([$id, $_SESSION['user_id']]);
+
+     header("Location: /Team-Project-Group-4/public/index.php?page=account#payment-methods");
+     exit;
+      }
+    }

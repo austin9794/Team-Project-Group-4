@@ -189,9 +189,10 @@ require_once __DIR__ . '/../src/Config.php';
     </div>
 
     <!-- SEARCH BAR -->
+     <!-- template icon magnifying glass used -->
     <form class="search-bar" action="index.php" method="GET" style="flex: 1 1 500px; align-items: center; position: relative;">
         <input type="hidden" name="page" value="products">
-        <svg class="search-icon-inside" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); pointer-events: none;">
+        <svg class="search-icon-inside" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" color="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); pointer-events: none;">
             <circle cx="11" cy="11" r="8"></circle>
             <path d="m21 21-4.35-4.35"></path>
         </svg>
@@ -222,7 +223,9 @@ require_once __DIR__ . '/../src/Config.php';
         <?php else: ?>
 
             <span>
-                <a href="index.php?page=login">Login</a> / <a href="index.php?page=signup">Signup</a>
+                <a href="index.php?page=login">Login</a>
+                <span style="color:#fff;"> / </span>
+                <a href="index.php?page=signup">Signup</a>
             </span>
 
         <?php endif; ?>

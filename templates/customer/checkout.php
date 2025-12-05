@@ -41,6 +41,10 @@ input, select, textarea {
     transition: 0.2s;
 }
 
+textarea {
+    resize: none;
+}
+
 .place-order-btn:hover {
     background: #b46cff;
 }

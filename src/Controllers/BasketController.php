@@ -150,10 +150,22 @@ class BasketController
         }
     }
 
-    $basketItems = $items;
-    $basketTotal = $total;
+        $basketItems = $items;
+        $basketTotal = $total;
 
-    include __DIR__ . '/../../templates/customer/checkout.php';
+        include __DIR__ . '/../../templates/customer/checkout.php';
 }
+
+public function updateAjax()
+{
+    header('Content-Type: application/json');
+
+    $productId = $_POST['product_id'] ?? null;
+    $quantity  = (int)($_POST['quantity'] ?? 0);
+
+    if (!$productId) {
+        echo json_encode(['error' => 'No product ID']);
+        return;
+    }
 
 }

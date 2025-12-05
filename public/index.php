@@ -134,7 +134,11 @@ switch ($page) {
     $controller = new AccountController();
     $controller->showAddPaymentForm();
     break;
-    
+    case 'save-payment':
+    $controller = new AccountController();
+    $controller->savePayment();
+    break;
+
     case 'product':
        $controller = new ProductController();
        $controller->show();

@@ -100,6 +100,10 @@ switch ($page) {
        $controller = new BasketController();
        $controller->updateAjax();
        break;
+    case 'order':
+        $controller = new OrderController();
+        $controller->showOrder();
+        break;
     case 'orders':
         $controller = new OrderController();
         $controller->listUserOrders();

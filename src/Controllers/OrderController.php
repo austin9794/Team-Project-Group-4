@@ -125,6 +125,52 @@ public function listUserOrders()
     include __DIR__ . '/../../templates/customer/orders.php';
 }
 
+public function showOrder()
+{
+    if (!isset($_GET['id'])) {
+        echo "Invalid order.";
+        return;
+    }
+
+    if (!isset($_SESSION['user_id'])) {
+        header("Location: /Team-Project-Group-4/public/index.php?page=login");
+        exit;
+    }
+
+    $orderId = $_GET['id'];
+    $userId = $_SESSION['user_id'];
+
+    $db = Database::getInstance()->getConnection();
+
+    // Fetch order
+    $orderStmt = $db->prepare("
+        SELECT o.*, a.full_address, p.card_brand, p.card_last4
+        FROM orders o
+        LEFT JOIN addresses a ON o.address_id = a.address_id
+        LEFT JOIN payments p ON o.payment_id = p.payment_id
+        WHERE o.order_id = ? AND o.user_id = ?
+    ");
+    $orderStmt->execute([$orderId, $userId]);
+    $order = $orderStmt->fetch();
+
+    if (!$order) {
+        echo "<h2>Order not found.</h2>";
+        return;
+    }
+
+    // Fetch items
+    $itemsStmt = $db->prepare("
+        SELECT oi.*, pr.name, pr.image
+        FROM order_items oi
+        JOIN products pr ON oi.product_id = pr.product_id
+        WHERE oi.order_id = ?
+    ");
+    $itemsStmt->execute([$orderId]);
+    $items = $itemsStmt->fetchAll();
+
+    include __DIR__ . '/../../templates/customer/order_detail.php';
+}
+
 
 }
 

@@ -180,6 +180,17 @@ public function updateAjax()
     $total = 0;
     $lineTotal = 0;
 
+    // If item still exists, recalc its line total
+    if ($quantity > 0) {
+        $stmt = $db->prepare("SELECT price FROM products WHERE product_id = ?");
+        $stmt->execute([$productId]);
+        $price = $stmt->fetchColumn();
+
+        $lineTotal = $price * $quantity;
+    }
+
+    
+
 
 
 }

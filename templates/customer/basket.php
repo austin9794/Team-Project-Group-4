@@ -222,4 +222,34 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    // Handle plus buttons
+    document.querySelectorAll(".qty-btn.plus").forEach(btn => {
+        btn.onclick = () => {
+            const id = btn.dataset.id;
+            const qtyBox = document.getElementById(`qty-${id}`);
+            const newQty = parseInt(qtyBox.innerText) + 1;
+            updateQuantity(id, newQty);
+        };
+    });
+
+    // Handle minus buttons
+    document.querySelectorAll(".qty-btn.minus").forEach(btn => {
+        btn.onclick = () => {
+            const id = btn.dataset.id;
+            const qtyBox = document.getElementById(`qty-${id}`);
+            const newQty = parseInt(qtyBox.innerText) - 1;
+            updateQuantity(id, newQty);
+        };
+    });
+
+    // Handle remove button
+    document.querySelectorAll(".remove-btn").forEach(btn => {
+        btn.onclick = () => {
+            const id = btn.dataset.id;
+            updateQuantity(id, 0);
+        };
+    });
+});
+</script>
+
 <?php include __DIR__ . '/../footer.php'; ?>

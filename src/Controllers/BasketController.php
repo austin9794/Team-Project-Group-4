@@ -175,4 +175,11 @@ public function updateAjax()
         $_SESSION['basket'][$productId] = $quantity;
     }
 
+    // Recalculate
+    $db = Database::getInstance()->getConnection();
+    $total = 0;
+    $lineTotal = 0;
+
+
+
 }

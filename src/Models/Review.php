@@ -3,7 +3,7 @@ require_once __DIR__ . '/../Database.php';
 
 class Review {
     public static function getByProduct($productId) {
-        $db = Database::getConnection();
+        $db = Database::getInstance()->getConnection();
         $stmt = $db->prepare("SELECT r.*, u.name, u.email 
                               FROM reviews r 
                               JOIN users u ON r.user_id = u.user_id 
@@ -14,14 +14,14 @@ class Review {
     }
 
     public static function add($userId, $productId, $rating, $comment) {
-        $db = Database::getConnection();
+       $db = Database::getInstance()->getConnection();
         $stmt = $db->prepare("INSERT INTO reviews (user_id, product_id, rating, comment, created_at) 
                               VALUES (?, ?, ?, ?, NOW())");
         return $stmt->execute([$userId, $productId, $rating, $comment]);
     }
 
     public static function averageRating($productId) {
-        $db = Database::getConnection();
+        $db = Database::getInstance()->getConnection();
         $stmt = $db->prepare("SELECT AVG(rating) as avg_rating, COUNT(*) as count 
                               FROM reviews WHERE product_id = ?");
         $stmt->execute([$productId]);
@@ -35,7 +35,7 @@ class Review {
     }
 
     public static function userHasPurchased($userId, $productId) {
-        $db = Database::getConnection();
+        $db = Database::getInstance()->getConnection();
         $stmt = $db->prepare("SELECT COUNT(*) as count 
                               FROM order_items oi 
                           JOIN orders o ON oi.order_id = o.order_id 
@@ -46,7 +46,7 @@ class Review {
     }
 
     public static function userHasReviewed($userId, $productId) {
-        $db = Database::getConnection();
+        $db = Database::getInstance()->getConnection();
         $stmt = $db->prepare("SELECT COUNT(*) as count 
                               FROM reviews 
                               WHERE user_id = ? AND product_id = ?");
@@ -56,7 +56,7 @@ class Review {
     }
 
     public static function getUserReview($userId, $productId) {
-        $db = Database::getConnection();
+      $db = Database::getInstance()->getConnection();
         $stmt = $db->prepare("SELECT * FROM reviews WHERE user_id = ? AND product_id = ?");
         $stmt->execute([$userId, $productId]);
         return $stmt->fetch(PDO::FETCH_ASSOC);

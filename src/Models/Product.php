@@ -3,7 +3,7 @@ require_once __DIR__ . '/../Database.php';
 
 class Product {
     public static function getAll($filters = []) {
-        $db = Database::getConnection();
+        $db = Database::getInstance()->getConnection();
         $sql = "SELECT p.*, c.name AS category_name 
                 FROM products p 
                 JOIN categories c ON p.category_id = c.category_id 
@@ -37,7 +37,7 @@ class Product {
     }
 
     public static function findById($id) {
-        $db = Database::getConnection();
+       $db = Database::getInstance()->getConnection();
         $stmt = $db->prepare("SELECT p.*, c.name AS category_name 
                              FROM products p 
                              JOIN categories c ON p.category_id = c.category_id 
@@ -47,7 +47,7 @@ class Product {
     }
 
     public static function getCategories() {
-        $db = Database::getConnection();
+        $db = Database::getInstance()->getConnection();
         $stmt = $db->prepare("SELECT * FROM categories ORDER BY name ASC");
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);

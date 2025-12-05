@@ -151,6 +151,13 @@ class AccountController {
         include __DIR__ . '/../../templates/customer/account_edit.php';
         }
 
+        // Show Form
+        public function showAddAddressForm() {
+        requireLogin();
+        include __DIR__ . '/../../templates/customer/add-address.php';
+        }
+
+
         // Save Address
         public function saveAddress() {
     requireLogin();

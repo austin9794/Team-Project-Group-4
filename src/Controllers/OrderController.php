@@ -108,6 +108,24 @@ class OrderController {
     include __DIR__ . '/../../templates/customer/checkout.php';
 }
 
+public function listUserOrders()
+{
+    requireLogin();
+    $db = Database::getInstance()->getConnection();
+
+    $stmt = $db->prepare("
+        SELECT * FROM orders 
+        WHERE user_id = ?
+        ORDER BY created_at DESC
+    ");
+    $stmt->execute([$_SESSION['user_id']]);
+
+    $orders = $stmt->fetchAll();
+
+    include __DIR__ . '/../../templates/customer/orders.php';
+}
+
+
 }
 
 

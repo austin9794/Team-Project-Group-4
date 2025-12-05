@@ -107,6 +107,10 @@ switch ($page) {
         $controller = new BasketController();
         $controller->showCheckout();
         break;
+    case 'order-success':
+        include __DIR__ . '/../templates/customer/order_success.php';
+        break;
+
     case 'product':
        $controller = new ProductController();
        $controller->show();

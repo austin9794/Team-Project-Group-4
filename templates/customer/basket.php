@@ -192,4 +192,18 @@
 
 </div>
 
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+    function updateQuantity(productId, newQty) {
+        fetch("/Team-Project-Group-4/public/index.php?page=basket-update-ajax", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: `product_id=${productId}&quantity=${newQty}`
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+
+                
 <?php include __DIR__ . '/../footer.php'; ?>

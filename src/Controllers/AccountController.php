@@ -286,12 +286,21 @@ class AccountController {
 
      header("Location: /Team-Project-Group-4/public/index.php?page=account#payment-methods");
      exit;
-      }
+    }
 
       //User Data
       public function getUserData() {
-    $stmt = $this->db->prepare("SELECT * FROM users WHERE user_id = ?");
-    $stmt->execute([$_SESSION['user_id']]);
-    return $stmt->fetch();
-}
+       $stmt = $this->db->prepare("SELECT * FROM users WHERE user_id = ?");
+       $stmt->execute([$_SESSION['user_id']]);
+       return $stmt->fetch();
+    }
+
+     //User Address
+     public function getAddresses() {
+      $stmt = $this->db->prepare("SELECT * FROM addresses WHERE user_id = ?");
+      $stmt->execute([$_SESSION['user_id']]);
+      return $stmt->fetchAll();
+    }
+
+    
     }

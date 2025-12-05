@@ -57,7 +57,6 @@ textarea {
     <form method="POST" action="/Team-Project-Group-4/public/index.php?page=place-order">
 
         <!-- DELIVERY ADDRESS -->
-        <h2 class="section-title">Delivery Address</h2>
 
         <h2 class="section-title">Delivery Address</h2>
 

@@ -59,9 +59,20 @@ textarea {
         <!-- DELIVERY ADDRESS -->
         <h2 class="section-title">Delivery Address</h2>
 
-        <textarea name="address" required rows="3">
-<?= htmlspecialchars($_SESSION['address'] ?? "Enter your delivery address...") ?>
-        </textarea>
+        <h2 class="section-title">Delivery Address</h2>
+
+<?php if (!empty($addresses)): ?>
+    <?php foreach ($addresses as $a): ?>
+        <label style="display:block;margin-bottom:8px;">
+            <input type="radio" name="address_id" value="<?= $a['address_id'] ?>" required>
+            <?= htmlspecialchars($a['label']) ?> — <?= htmlspecialchars($a['full_address']) ?>
+        </label>
+    <?php endforeach; ?>
+<?php else: ?>
+    <p>No saved addresses. Enter manually:</p>
+    <textarea name="manual_address" required rows="3" style="resize:none;"></textarea>
+<?php endif; ?>
+
 
         <!-- PAYMENT METHOD -->
         <h2 class="section-title">Payment Method</h2>

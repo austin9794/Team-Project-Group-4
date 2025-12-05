@@ -53,9 +53,7 @@ class BasketController
 
     include __DIR__ . '/../../templates/customer/basket.php';
 }
-
-
-    
+ 
     // ADD TO BASKET
     
     public function add()

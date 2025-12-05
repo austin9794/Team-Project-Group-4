@@ -85,10 +85,11 @@ try {
   
   $filtered_products = array_map(function($product) use ($category_icons) {
     return array_merge($product, [
-      'icon' => $category_icons[$product['category']] ?? '',
-      'original_price' => null
+        'icon' => $category_icons[$product['category_name']] ?? '',
+        'original_price' => null
     ]);
-  });
+}, $products);
+
   
   // Apply filters to fallback data
   $selected_category = isset($_GET['category']) ? $_GET['category'] : null;
@@ -224,13 +225,6 @@ $filters = [
         <!-- Logo positioned absolutely behind filters -->
         <img src="<?= BASE_URL ?>assets/images/logo_no_text.png" alt="Level Up Gaming" style="position: absolute; right: -50px; top: 45%; transform: translateY(-50%); height: 400px; width: auto; opacity: 0.85; z-index: -1;">
 
-        <!-- Search Bar Section -->
-        <div class="filters" style="margin-bottom: 1.5rem;">
-            <div class="filter-group">
-                <input type="text" name="search" placeholder="Search gaming products..." 
-                       value="<?php echo htmlspecialchars($filters['search'] ?? ''); ?>">
-            </div>
-        </div>
 
         <!-- Other Filters Section -->
         <div class="filters">

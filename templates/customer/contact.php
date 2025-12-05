@@ -126,8 +126,9 @@ require_once __DIR__ . '/../header.php';
 
   .form-group textarea {
     min-height: 150px;
-    resize: vertical;
-  }
+    resize: none; 
+}
+
 
   .submit-btn {
     width: 100%;
@@ -202,6 +203,18 @@ require_once __DIR__ . '/../header.php';
     }
   }
 </style>
+
+<?php if (!empty($_SESSION['contact_success'])): ?>
+    <p style="background:#2e8b57;padding:10px;border-radius:6px;color:white;">
+        <?= $_SESSION['contact_success']; unset($_SESSION['contact_success']); ?>
+    </p>
+<?php endif; ?>
+
+<?php if (!empty($_SESSION['contact_error'])): ?>
+    <p style="background:#8b2e2e;padding:10px;border-radius:6px;color:white;">
+        <?= $_SESSION['contact_error']; unset($_SESSION['contact_error']); ?>
+    </p>
+<?php endif; ?>
 
 <!-- Contact Hero -->
 <section class="contact-hero">

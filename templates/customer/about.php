@@ -45,6 +45,17 @@ require_once __DIR__ . '/../header.php';
     position: relative;
     z-index: 2;
   }
+
+  .about-section h2 {
+    display: inline-block;
+    padding: 0.35em 1.2em;
+    border: 2.5px solid var(--highlight-color);
+    border-radius: 1.5em;
+    background: transparent;
+    color: inherit;
+    margin-bottom: 1.2rem;
+    box-sizing: border-box;
+  }
   
   .about-hero p {
     font-size: 1.2rem;
@@ -189,7 +200,7 @@ require_once __DIR__ . '/../header.php';
 <!-- About Content -->
 <div class="about-content">
   <div class="about-text-section">
-    <!-- Mission Section -->
+    <!-- Company Story Section -->
     <section class="about-section">
       <h2>Level Up's Story</h2>
       <p>

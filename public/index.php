@@ -108,7 +108,11 @@ switch ($page) {
         $controller = new OrderController();
         $controller->listUserOrders();
         break;
-
+    case 'contact-submit':
+        require_once __DIR__ . '/../src/Controllers/ContactController.php';
+        $controller = new ContactController();
+        $controller->submit();
+       break;
     case 'place-order':
         $controller = new OrderController();
         $controller->placeOrder();

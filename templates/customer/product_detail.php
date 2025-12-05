@@ -280,7 +280,7 @@ include __DIR__ . '/../header.php';
     <!-- Product Image -->
     <div class="product-image-section">
       <img src="<?= BASE_URL ?>assets/images/<?= htmlspecialchars($product['image'] ?? 'placeholder.png') ?>">
-           alt="<?= htmlspecialchars($product['name']) ?>">
+             alt="<?= htmlspecialchars($product['name']) ?>">
     </div>
   </div>
 
@@ -356,7 +356,7 @@ include __DIR__ . '/../header.php';
             <div class="review-header">
               <div>
                 <div class="review-author"><?= htmlspecialchars($review['author']) ?></div>
-                <div class="review-rating">⭐⭐⭐⭐⭐</div>
+                <div class="review-rating"></div>
               </div>
               <div class="review-date"><?= date('M d, Y', strtotime($review['date'])) ?></div>
             </div>
@@ -366,7 +366,7 @@ include __DIR__ . '/../header.php';
         </div>
       <?php else: ?>
         <div class="no-reviews">
-          <p>No reviews yet. Be the first to review this product!</p>
+          <p>No reviews yet, could you be the first?</p>
         </div>
       <?php endif; ?>
     </section>

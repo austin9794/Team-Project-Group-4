@@ -12,7 +12,8 @@ require_once __DIR__ . '/../src/Config.php';
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <base href="<?= BASE_URL ?>">
+    <base href="/Team-Project-Group-4/public/">
+
 
     <title><?= $title ?? 'Level Up!' ?></title>
 
@@ -105,11 +106,13 @@ require_once __DIR__ . '/../src/Config.php';
         /* === DROPDOWN MENU === */
         .dropdown {
             position: relative;
+            z-index: 9999;
         }
 
         .dropdown-content {
             display: none;
             position: absolute;
+            z-index: 99999;
             right: 0;
             background-color: var(--highlight-color);
             border-radius: 8px;

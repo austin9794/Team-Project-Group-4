@@ -29,7 +29,7 @@ docs/ → Documentation
 
 ---
 
-## 👥 Team Roles & Responsibilities
+## Team Roles & Responsibilities
 
 | Member | Role | Main Responsibilities |
 |----------------|-------------------------------------------|--------|
@@ -42,7 +42,7 @@ docs/ → Documentation
 
 ---
 
-## 📅 Timeline
+## Timeline
 
 | Phase  | Period  | Goal |
 |--------|---------|------|
@@ -52,7 +52,7 @@ docs/ → Documentation
 
 ---
 
-## ⚙️ Tech Stack
+## Tech Stack
 
 - **Frontend:** HTML, CSS, JavaScript, Figma (for designing)
 - **Backend:** PHP (PDO), MVC-style architecture  
@@ -62,7 +62,7 @@ docs/ → Documentation
 
 ---
 
-## 🧠 How to Run Locally
+## How to Run Locally
 
 1. Install "Github Pull Request" extension is Visual Studio Code.
 
@@ -78,7 +78,7 @@ docs/ → Documentation
 
 ---
 
-## 🧾 Contribution Guidelines
+## Contribution Guidelines
 
 Each member works in a separate branch for their feature.
 
@@ -90,7 +90,7 @@ Test before merging to keep the main branch stable.
 
 ---
 
-## 📋 To-Do
+## To-Do
 
 Database schema finalization (Umair)
 
@@ -107,7 +107,7 @@ Product display (Kayroba)
 
 ---
 
-## 💾  Save and Commit
+##  Save and Commit
 
 In VS Code terminal:
 ```bash
@@ -116,7 +116,7 @@ git commit -m "Updated README with roles, structure, and timeline"
 
 --- 
 
-## 🌐 Push to GitHub
+## Push to GitHub
 
 git push origin 
 
@@ -125,3 +125,5 @@ git push origin
 stage and then commit your changes on vscode
 
 create a pull request amd wait it for to be aprroved by a contributer
+
+then finally merge with the main branch

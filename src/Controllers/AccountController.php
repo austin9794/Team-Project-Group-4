@@ -94,8 +94,6 @@ class AccountController {
     exit;
 }
 
-
-    
     // CHANGE PASSWORD
     
     public function changePassword() {

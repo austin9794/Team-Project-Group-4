@@ -5,7 +5,7 @@ require_once __DIR__ . '/BaseAdminController.php';
 class AdminDashboardController extends BaseAdminController {
 
     public function __construct() {
-        // Call parent constructor to enforce authentication
+        // Call parent constructor 
         parent::__construct();
     }
 
@@ -14,7 +14,7 @@ class AdminDashboardController extends BaseAdminController {
         // This method will be called from the view
     }
 
-    // TODO: Add functions related to the dashboard admin
-    // Examples: fetchNotifications(), getLogs(), getSystemStats(), etc.
+    // functions related to the dashboard admin
+    // fetchNotifications(), getLogs(), getSystemStats(), etc.
 }
 ?>

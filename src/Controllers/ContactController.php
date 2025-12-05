@@ -22,7 +22,7 @@ class ContactController
             exit;
         }
 
-        // OPTIONAL: Save messages to database (recommended)
+        // Save messages to database 
         $db = Database::getInstance()->getConnection();
         $stmt = $db->prepare("
             INSERT INTO contact_messages (name, email, subject, message) 

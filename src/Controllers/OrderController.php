@@ -4,7 +4,7 @@ require_once __DIR__ . '/../Database.php';
 
 class OrderController {
 
-    public function placeOrder() {   // <-- THIS MUST EXIST, and must open correctly
+    public function placeOrder() {   
 
         if (empty($_SESSION['basket'])) {
             header("Location: /Team-Project-Group-4/public/index.php?page=basket");
@@ -19,7 +19,7 @@ class OrderController {
         $db = Database::getInstance()->getConnection();
 
         // Calculate totals again for safety
-        $total = 0;   // <-- THIS WILL WORK ONLY IF INSIDE A METHOD
+        $total = 0;  
 
         foreach ($_SESSION['basket'] as $productId => $qty) {
             $stmt = $db->prepare("SELECT price FROM products WHERE product_id = ?");

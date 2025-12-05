@@ -1,68 +1,209 @@
 <?php include __DIR__ . '/../header.php'; ?>
 
-<h2>My Account</h2>
 
-<?php if (isset($_GET['updated']) && $_GET['updated'] == 1): ?>
-    <p style="color: green; font-weight: bold;">Profile updated successfully!</p>
-<?php endif; ?>
+<style>
+/* LAYOUT */
+.account-container {
+    display: flex;
+    gap: 30px;
+    margin: 40px auto;
+    max-width: 1150px;
+    padding: 20px;
+}
+
+/* SIDEBAR */
+.account-sidebar {
+    width: 260px;
+    background: #1a0b2e;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(120, 50, 255, 0.2);
+}
+
+.account-sidebar h3 {
+    color: #d9a7ff;
+    margin-bottom: 15px;
+}
+
+.account-sidebar a {
+    display: block;
+    padding: 12px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    text-decoration: none;
+    background: #2a0f47;
+    color: #c9a7ff;
+    transition: 0.3s;
+}
+
+.account-sidebar a:hover {
+    background: #5b2b8f;
+    color: white;
+}
+
+/* MAIN CONTENT */
+.account-main {
+    flex-grow: 1;
+}
+
+.section-card {
+    background: #1a0b2e;
+    padding: 20px;
+    margin-bottom: 25px;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(132, 0, 255, 0.25);
+    color: #eee;
+}
+
+.section-card h2 {
+    color: #d9a7ff;
+    margin-bottom: 15px;
+}
+
+/* PROFILE BOX */
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.profile-pic {
+    width: 85px;
+    height: 85px;
+    border-radius: 50%;
+    background: #3a165d;
+    background-size: cover;
+    background-position: center;
+    border: 2px solid #8f3dff;
+}
+
+.profile-details p {
+    margin: 6px 0;
+}
+
+/* BUTTONS */
+.btn-purple {
+    display: inline-block;
+    padding: 10px 15px;
+    background: #8f3dff;
+    border-radius: 6px;
+    color: white;
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+.btn-purple:hover {
+    background: #b46cff;
+}
+</style>
+
+<div class="account-container">
+
+    <!-- SIDEBAR -->
+    <div class="account-sidebar">
+        <h3>My Account</h3>
+        <a href="#personal">Personal Details</a>
+        <a href="#orders">Recent Orders</a>
+        <a href="#security">Security</a>
+        <a href="#preferences">Preferences</a>
+        <a href="#addresses">Saved Addresses</a>
+        <a href="#delete">Delete Account</a>
+        <a href="/Team-Project-Group-4/public/index.php?page=logout">Logout</a>
+    </div>
 
 
-<?php if (!empty($user)): ?>
-    <form action="/Team-Project-Group-4/public/index.php?page=update-account" method="POST">
+    <!-- MAIN CONTENT -->
+    <div class="account-main">
 
-        <label>Name:</label><br>
-        <input type="text" name="name" value="<?= htmlspecialchars($user['name']) ?>" required><br><br>
+        <!-- PERSONAL DETAILS -->
+        <div id="personal" class="section-card">
+            <h2>Personal Details</h2>
 
-        <label>Email:</label><br>
-        <input type="email" name="email" value="<?= htmlspecialchars($user['email']) ?>" required><br><br>
+            <div class="profile-header">
+                <div class="profile-pic" style="background-image: url('/Team-Project-Group-4/public/assets/images/avatar.png');"></div>
+                <div class="profile-details">
+                    <p><strong>Name:</strong> <?= htmlspecialchars($user['name']) ?></p>
+                    <p><strong>Email:</strong> <?= htmlspecialchars($user['email']) ?></p>
+                    <p><strong>Phone:</strong> <?= htmlspecialchars($user['phone']) ?></p>
+                    <p><strong>Address:</strong> <?= htmlspecialchars($user['address']) ?></p>
+                    <p><strong>Member Since:</strong> <?= htmlspecialchars(date("F Y", strtotime($user['created_at']))) ?></p>
+                </div>
+            </div>
 
-        <label>Phone:</label><br>
-        <input type="text" name="phone" value="<?= htmlspecialchars($user['phone'] ?? '') ?>"><br><br>
+            <br>
+            <a class="btn-purple" href="/Team-Project-Group-4/public/index.php?page=account-edit">Edit Details</a>
+        </div>
 
-        <label>Address:</label><br>
-        <textarea name="address" rows="3"><?= htmlspecialchars($user['address'] ?? '') ?></textarea><br><br>
 
-        <button type="submit">Update Profile</button>
+        <!-- RECENT ORDERS -->
+        <div id="orders" class="section-card">
+            <h2>Recent Orders</h2>
 
-    </form>
-<?php else: ?>
-    <p>Error loading account information.</p>
-<?php endif; ?>
+            <?php if (empty($recentOrders)): ?>
+                <p>You haven't placed any orders yet.</p>
+            <?php else: ?>
+                <?php foreach ($recentOrders as $o): ?>
+                    <div class="order-item">
+                        <p><strong>Order #<?= $o['order_id'] ?></strong></p>
+                        <p>Date: <?= $o['order_date'] ?></p>
+                        <p>Total: £<?= number_format($o['total_price'], 2) ?></p>
+                        <p>Status: <?= $o['status'] ?></p>
+                        <a class="btn-purple" href="/Team-Project-Group-4/public/index.php?page=order&id=<?= $o['order_id'] ?>">View Order</a>
+                        <hr>
+                    </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
 
-<?php if (isset($_GET['error'])): ?>
-    <?php if ($_GET['error'] == 'invalid_email'): ?>
-        <p style="color: red; font-weight: bold;">Invalid email format.</p>
-    <?php elseif ($_GET['error'] == 'email_taken'): ?>
-        <p style="color: red; font-weight: bold;">Email is already in use by another account.</p>
-    <?php endif; ?>
-<?php endif; ?>
+            <a class="btn-purple" href="/Team-Project-Group-4/public/index.php?page=orders">View All Orders</a>
+        </div>
 
-<hr>
-<h3>Change Password</h3>
 
-<form action="/Team-Project-Group-4/public/index.php?page=change-password" method="POST">
+        <!-- SECURITY -->
+        <div id="security" class="section-card">
+            <h2>Security Settings</h2>
 
-    <label>Current Password:</label><br>
-    <input type="password" name="current_password" required><br><br>
+            <a class="btn-purple" href="/Team-Project-Group-4/public/index.php?page=change-password">Change Password</a>
 
-    <label>New Password:</label><br>
-    <input type="password" name="new_password" minlength="6" required><br><br>
+            <p style="margin-top:12px;">
+                <strong>Two-Factor Authentication:</strong> Not Enabled  
+                <em style="opacity:0.6">(coming soon)</em>
+            </p>
+        </div>
 
-    <label>Confirm New Password:</label><br>
-    <input type="password" name="confirm_password" minlength="6" required><br><br>
 
-    <button type="submit">Update Password</button>
-</form>
+        <!-- PREFERENCES -->
+        <div id="preferences" class="section-card">
+            <h2>Account Preferences</h2>
 
-<?php if (isset($_GET['pw'])): ?>
-    <?php if ($_GET['pw'] == 'success'): ?>
-        <p style="color: green; font-weight: bold;">Password changed successfully!</p>
-    <?php elseif ($_GET['pw'] == 'incorrect'): ?>
-        <p style="color: red; font-weight: bold;">Current password is incorrect.</p>
-    <?php elseif ($_GET['pw'] == 'mismatch'): ?>
-        <p style="color: red; font-weight: bold;">New passwords do not match.</p>
-    <?php endif; ?>
-<?php endif; ?>
+            <p><strong>Dark Mode:</strong> Enabled</p>
+            <p><strong>Email Notifications:</strong> You are subscribed</p>
+        </div>
+
+
+        <!-- SAVED ADDRESSES -->
+        <div id="addresses" class="section-card">
+            <h2>Saved Addresses</h2>
+
+            <p><strong>Home Address:</strong></p>
+            <p><?= htmlspecialchars($user['address'] ?? 'Not provided') ?></p>
+
+            <a class="btn-purple" href="#">Add New Address</a>
+        </div>
+
+
+        <!-- DELETE ACCOUNT -->
+        <div id="delete" class="section-card">
+            <h2>Delete Account</h2>
+
+            <p style="color:#ff7777;">This action cannot be undone.</p>
+
+            <a class="btn-purple" style="background:#ff4f4f;" href="#">
+                Request Deletion (Coming Soon)
+            </a>
+        </div>
+
+    </div>
+</div>
 
 
 <?php include __DIR__ . '/../footer.php'; ?>

@@ -88,11 +88,11 @@ switch ($page) {
        $controller = new BasketController();
        $controller->add();
        break;
-    case 'remove-item':
+    case 'basket-remove':
        $controller = new BasketController();
        $controller->remove();
        break;
-    case 'update-basket':
+    case 'basket-update':
        $controller = new BasketController();
        $controller->update();
        break;

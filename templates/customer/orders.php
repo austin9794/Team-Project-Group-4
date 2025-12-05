@@ -67,7 +67,7 @@
 <h1>Your Orders</h1>
 
 <?php if (empty($orders)): ?>
-    <p>You have no orders yet.</p>
+    <p>You have no orders yet. <a href="index.php?page=products">Shop here today.</a></p>
 
 <?php else: ?>
     <?php foreach ($orders as $order): ?>

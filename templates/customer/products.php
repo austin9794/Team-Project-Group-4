@@ -85,10 +85,11 @@ try {
   
   $filtered_products = array_map(function($product) use ($category_icons) {
     return array_merge($product, [
-      'icon' => $category_icons[$product['category']] ?? '',
-      'original_price' => null
+        'icon' => $category_icons[$product['category_name']] ?? '',
+        'original_price' => null
     ]);
-  });
+}, $products);
+
   
   // Apply filters to fallback data
   $selected_category = isset($_GET['category']) ? $_GET['category'] : null;

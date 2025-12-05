@@ -3,103 +3,107 @@
 <style>
 .basket-container {
     max-width: 900px;
-    margin: 30px auto;
-    background: #140928;
+    margin: 40px auto;
+    background: #140a26;
     padding: 25px;
     border-radius: 12px;
-    box-shadow: 0 0 15px rgba(130, 0, 255, 0.25);
+    box-shadow: 0 0 20px rgba(132, 0, 255, 0.25);
     color: white;
 }
 
-.basket-title {
-    font-size: 28px;
-    color: #d9a7ff;
-    margin-bottom: 25px;
-}
-
-.empty-basket {
-    text-align: center;
-    font-size: 18px;
-    padding: 40px 0;
-}
-
-.item-card {
+.cart-item {
     display: flex;
-    gap: 20px;
-    background: #1d0a35;
-    padding: 15px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px;
+    background: #1d1133;
     border-radius: 10px;
-    margin-bottom: 15px;
-    box-shadow: 0 0 10px rgba(120, 50, 255, 0.15);
+    margin-bottom: 20px;
 }
 
-.item-img img {
+.item-left {
+    display: flex;
+    gap: 18px;
+    align-items: center;
+}
+
+.item-left img {
     width: 110px;
     height: 110px;
     object-fit: contain;
-    border-radius: 6px;
-    background: #0f071d;
+    background: #0f081c;
+    border-radius: 8px;
 }
 
-.item-info {
-    flex-grow: 1;
+.item-info h3 {
+    margin: 0;
+    color: #d9a7ff;
 }
 
-.item-name {
-    font-size: 18px;
-    color: #c9a7ff;
-    margin-bottom: 5px;
+.item-info p {
+    margin: 4px 0;
 }
 
-.item-price {
-    font-size: 16px;
-    margin-bottom: 8px;
-}
-
-.qty-controls {
+.quantity-box {
     display: flex;
     align-items: center;
     gap: 10px;
 }
 
-.qty-controls button {
-    background: #7e3fff;
+.qty-btn {
+    background: #5A3FA3;
     color: white;
-    border: none;
     width: 32px;
     height: 32px;
     border-radius: 6px;
+    border: none;
+    font-size: 20px;
     cursor: pointer;
-    font-size: 18px;
+    transition: 0.2s;
+}
+
+.qty-btn:hover {
+    background: #7E5AF5;
+}
+
+.quantity-display {
+    padding: 6px 12px;
+    background: #2a0f47;
+    border-radius: 6px;
+    color: #d9a7ff;
     font-weight: bold;
 }
 
 .remove-btn {
-    margin-top: 10px;
-    background: #ff4f4f;
-    color: white;
-    padding: 6px 12px;
+    background: #b30000;
+    padding: 10px 18px;
     border-radius: 6px;
-    font-size: 14px;
-    display: inline-block;
+    color: white;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: 0.2s;
 }
 
-.summary-box {
-    margin-top: 25px;
-    padding-top: 15px;
-    border-top: 1px solid #4e2b85;
-    text-align: right;
+.remove-btn:hover {
+    background: #ff4444;
 }
 
+.total-price {
+    font-size: 20px;
+    font-weight: bold;
+    color: #c097ff;
+}
 .checkout-btn {
     background: #8f3dff;
-    padding: 14px 24px;
+    padding: 14px 22px;
     border-radius: 8px;
-    color: white;
-    font-size: 18px;
     font-weight: bold;
-    display: inline-block;
-    margin-top: 10px;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    transition: 0.2s;
 }
 
 .checkout-btn:hover {
@@ -107,69 +111,63 @@
 }
 </style>
 
+
 <div class="basket-container">
-    <h2 class="basket-title">Shopping Basket</h2>
 
-    <?php if (empty($items)) : ?>
-        <div class="empty-basket">
-            Your basket is empty.<br>
-            <a href="/Team-Project-Group-4/public/index.php?page=products" style="color:#c9a7ff;">
-                Browse products →
-            </a>
-        </div>
-    <?php else: ?>
+    <h1>Shopping Basket</h1>
 
-        <?php foreach ($items as $item): ?>
-            <div class="item-card">
+    <?php foreach ($basketItems as $item): ?>
+        <div class="cart-item">
 
-                <!-- Product Image -->
-                <div class="item-img">
-                    <img src="/Team-Project-Group-4/public/assets/images/<?= $item['image'] ?>"
-                         alt="<?= htmlspecialchars($item['name']) ?>">
-                </div>
+            <div class="item-left">
+                <img src="/Team-Project-Group-4/public/assets/images/<?= $item['image'] ?>" alt="Product">
 
-                <!-- Info -->
                 <div class="item-info">
-                    <p class="item-name"><?= htmlspecialchars($item['name']) ?></p>
-                    <p class="item-price">£<?= number_format($item['price'], 2) ?></p>
+                    <h3><?= htmlspecialchars($item['name']) ?></h3>
+                    <p>£<?= number_format($item['price'], 2) ?></p>
 
                     <!-- Quantity Controls -->
-                    <form method="POST" action="/Team-Project-Group-4/public/index.php?page=basket-update">
-                    <input type="hidden" name="product_id" value="<?= $item['id'] ?>">
-                    <input type="hidden" name="quantity" value="<?= $item['quantity'] - 1 ?>"> <!-- for minus -->
-                    <button type="submit">-</button>
-                 </form>
+                    <div class="quantity-box">
 
-                    <form method="POST" action="/Team-Project-Group-4/public/index.php?page=basket-update">
-                    <input type="hidden" name="product_id" value="<?= $item['id'] ?>">
-                    <input type="hidden" name="quantity" value="<?= $item['quantity'] + 1 ?>"> <!-- for plus -->
-                    <button type="submit">+</button>
-                   </form>
+                        <!-- Minus -->
+                        <form method="POST" action="/Team-Project-Group-4/public/index.php?page=basket-update">
+                            <input type="hidden" name="product_id" value="<?= $item['id'] ?>">
+                            <input type="hidden" name="quantity" value="<?= $item['quantity'] - 1 ?>">
+                            <button class="qty-btn">−</button>
+                        </form>
 
-                   <!-- Remove item -->
+                        <!-- Quantity Display -->
+                        <div class="quantity-display"><?= $item['quantity'] ?></div>
+
+                        <!-- Plus -->
+                        <form method="POST" action="/Team-Project-Group-4/public/index.php?page=basket-update">
+                            <input type="hidden" name="product_id" value="<?= $item['id'] ?>">
+                            <input type="hidden" name="quantity" value="<?= $item['quantity'] + 1 ?>">
+                            <button class="qty-btn">+</button>
+                        </form>
+
+                    </div>
+
+                    <!-- Remove -->
                     <form method="POST" action="/Team-Project-Group-4/public/index.php?page=basket-remove">
-                    <input type="hidden" name="product_id" value="<?= $item['id'] ?>">
-                    <button type="submit" class="remove-btn">Remove Item</button>
-                </form>
-
-                </div>
-
-                <!-- Line Total -->
-                <div class="item-total">
-                    £<?= number_format($item['total'], 2) ?>
+                        <input type="hidden" name="product_id" value="<?= $item['id'] ?>">
+                        <button class="remove-btn">Remove Item</button>
+                    </form>
                 </div>
             </div>
-        <?php endforeach; ?>
 
-        <div class="summary-box">
-            <h3>Total: £<?= number_format($total, 2) ?></h3>
+            <div class="total-price">
+                £<?= number_format($item['total'], 2) ?>
+            </div>
 
-            <a href="/Team-Project-Group-4/public/index.php?page=checkout" class="checkout-btn">
-                Proceed to Checkout →
-            </a>
         </div>
+    <?php endforeach; ?>
 
-    <?php endif; ?>
+
+    <h2>Total: £<?= number_format($basketTotal, 2) ?></h2>
+
+    <button class="checkout-btn">Proceed to Checkout</button>
+
 </div>
 
 <?php include __DIR__ . '/../footer.php'; ?>

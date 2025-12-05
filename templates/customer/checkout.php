@@ -1,4 +1,14 @@
-<?php include __DIR__ . '/../header.php'; ?>
+<?php 
+require_once __DIR__ . '/../../src/Controllers/AccountController.php';
+
+$accountController = new AccountController();
+$userData = $accountController->getUserData(); 
+$addresses = $accountController->getAddresses();
+$paymentMethods = $accountController->getPaymentMethods();
+
+include __DIR__ . '/../header.php'; 
+
+?>
 
 <style>
 .checkout-container {

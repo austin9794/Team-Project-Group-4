@@ -28,4 +28,13 @@ class OrderController
         }
     }
 
+    // Insert into orders table
+    $orderStmt = $db->prepare("
+        INSERT INTO orders (user_id, total_price, status)
+        VALUES (?, ?, 'pending')
+    ");
+    $orderStmt->execute([$_SESSION['user_id'], $total]);
+
+    $orderId = $db->lastInsertId();
+
     

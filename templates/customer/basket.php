@@ -138,7 +138,8 @@
         <div class="cart-item">
 
             <div class="item-left">
-                <img src="<?= BASE_URL ?>assets/images/<?= htmlspecialchars($item['image']) ?>" alt="<?= htmlspecialchars($item['name']) ?>">
+                <img src="/Team-Project-Group-4/public/assets/images/<?= htmlspecialchars($item['image']) ?>" alt="<?= htmlspecialchars($item['name']) ?>">
+
 
                 <div class="item-info">
                     <h3><?= htmlspecialchars($item['name']) ?></h3>

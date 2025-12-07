@@ -279,8 +279,8 @@ include __DIR__ . '/../header.php';
   <div class="product-detail-grid">
     <!-- Product Image -->
     <div class="product-image-section">
-      <img src="<?= BASE_URL ?>assets/images/<?= htmlspecialchars($product['image'] ?? 'placeholder.png') ?>">
-             alt="<?= htmlspecialchars($product['name']) ?>">
+      <img src="<?= BASE_URL ?>assets/images/<?= htmlspecialchars($product['image'] ?? 'placeholder.png') ?>"> alt="<?= htmlspecialchars($product['name']) ?>">
+
     </div>
   </div>
 

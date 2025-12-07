@@ -5,7 +5,7 @@
 
 <hr>
 <footer style="display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 2rem;">
-    <p>© 2025 E-Commerce Platform</p>
+    <p>© Level Up Inc.</p>
     <div style="text-align: right;">
         <p class="footer-info" style="margin: 0;">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">

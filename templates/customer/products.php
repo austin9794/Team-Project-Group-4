@@ -271,8 +271,8 @@ $filters = [
         <div class="product-card">
 
             <div class="product-img">
-                <img src="<?= BASE_URL ?>assets/images/<?php echo htmlspecialchars($product['image'] ?? 'placeholder.png'); ?>"
-             alt="<?php echo htmlspecialchars($product['name']); ?>">
+                <img src="/Team-Project-Group-4/public/assets/images/<?= htmlspecialchars($product['image'] ?? 'placeholder.png') ?>" alt="<?= htmlspecialchars($product['name']) ?>">
+
 
 
             </div>

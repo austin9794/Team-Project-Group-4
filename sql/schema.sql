@@ -76,6 +76,7 @@ CREATE INDEX idx_products_category
 CREATE TABLE orders (
     order_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
+    address_id INT NULL,
     total_price DECIMAL(10,2) NOT NULL,
     status ENUM('pending','processing','shipped','delivered','returned')
         DEFAULT 'pending',
@@ -84,8 +85,15 @@ CREATE TABLE orders (
     FOREIGN KEY (user_id)
         REFERENCES users(user_id)
         ON DELETE CASCADE
+        ON UPDATE CASCADE,
+
+    FOREIGN KEY (address_id)
+        REFERENCES addresses(address_id)
+        ON DELETE SET NULL
         ON UPDATE CASCADE
 );
+
+
 
 -- Forms --
 CREATE TABLE IF NOT EXISTS contact_messages (

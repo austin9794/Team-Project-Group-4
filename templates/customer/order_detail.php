@@ -71,7 +71,8 @@
 
     <?php foreach ($items as $item): ?>
         <div class="item-card">
-            <img src="<?= BASE_URL ?>assets/images/<?= htmlspecialchars($item['image']) ?>" alt="">
+            <img src="/Team-Project-Group-4/public/assets/images/<?= htmlspecialchars($item['image']) ?>" alt="">
+
             <div>
                 <h3><?= htmlspecialchars($item['name']) ?></h3>
                 <p>Quantity: <?= $item['quantity'] ?></p>

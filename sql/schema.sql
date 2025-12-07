@@ -15,6 +15,31 @@ CREATE TABLE users (
 );
 
 
+-- Adresses Table --
+
+CREATE TABLE addresses (
+    address_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    label VARCHAR(50),   -- e.g. "Home", "Work", "Uni"
+    full_address TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+);
+
+
+-- Payment Table --
+
+CREATE TABLE payment_methods (
+    payment_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    card_brand VARCHAR(20),
+    card_last4 VARCHAR(4),
+    expiry_month INT,
+    expiry_year INT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+);
+
 -- Categories Table --
 
 CREATE TABLE categories (
@@ -32,7 +57,7 @@ CREATE TABLE products (
     name VARCHAR(150) NOT NULL,
     description TEXT NOT NULL,
     price DECIMAL(10,2) NOT NULL,
-    image VARCHAR(255) DEFAULT 'placeholder.jpg',
+    image VARCHAR(255) DEFAULT 'placeholder.png',
     stock INT NOT NULL DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
@@ -51,6 +76,7 @@ CREATE INDEX idx_products_category
 CREATE TABLE orders (
     order_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
+    address_id INT NULL,
     total_price DECIMAL(10,2) NOT NULL,
     status ENUM('pending','processing','shipped','delivered','returned')
         DEFAULT 'pending',
@@ -59,8 +85,26 @@ CREATE TABLE orders (
     FOREIGN KEY (user_id)
         REFERENCES users(user_id)
         ON DELETE CASCADE
+        ON UPDATE CASCADE,
+
+    FOREIGN KEY (address_id)
+        REFERENCES addresses(address_id)
+        ON DELETE SET NULL
         ON UPDATE CASCADE
 );
+
+
+
+-- Forms --
+CREATE TABLE IF NOT EXISTS contact_messages (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    subject VARCHAR(255) NOT NULL,
+    message TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 
 CREATE INDEX idx_orders_user
     ON orders(user_id);

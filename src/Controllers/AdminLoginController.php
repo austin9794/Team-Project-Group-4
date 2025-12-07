@@ -1,7 +1,4 @@
 <?php
-if (!defined('ACCESS_ALLOWED')) {
-    die('Direct access not permitted');
-}
 
 require_once __DIR__ . '/BaseAdminController.php';
 
@@ -25,7 +22,7 @@ class AdminLoginController {
         }
 
         if (BaseAdminController::login($username, $password)) {
-            header('Location: http://localhost/Team-Project-Group-4-main/templates/admin/dashboard.php');
+            header('Location: /Team-Project-Group-4-main/templates/admin/dashboard.php');
             exit();
         } else {
             return $this->showLoginForm('Invalid username or password');

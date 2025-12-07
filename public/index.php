@@ -7,20 +7,19 @@ require_once __DIR__ . '/../src/Database.php';
 
 // Controllers 
 require_once __DIR__ . '/../src/Controllers/AccountController.php';
+require_once __DIR__ . '/../src/Controllers/AdminDashboardController.php';
+require_once __DIR__ . '/../src/Controllers/AdminLoginController.php';
+require_once __DIR__ . '/../src/Controllers/BaseAdminController.php';
 require_once __DIR__ . '/../src/Controllers/AuthController.php';
 require_once __DIR__ . '/../src/Controllers/ProductController.php';
 require_once __DIR__ . '/../src/Controllers/OrderController.php';
 require_once __DIR__ . '/../src/Controllers/BasketController.php';
-require_once __DIR__ . '/../src/Controllers/AdminController.php';
 require_once __DIR__ . '/../src/Controllers/ReviewController.php';
 
 
 // --- Start session ---
 session_start();
 require_once __DIR__ . '/../src/Helpers/session.php';
-
-// TEMPORARY ONLY FOR TESTING ACCOUNT CONTROLLER
-$_SESSION['user_id'] = 2; // John Doe
 
 // --- Basic routing setup ---
 $page = $_GET['page'] ?? 'home';
@@ -41,16 +40,27 @@ switch ($page) {
 
         // ---- Authentication ----
     case 'login':
-        include __DIR__ . '/../templates/auth/login.php';
+        $controller = new AuthController();
+        $controller->showLogin();
+        break;
+    case 'login-submit':
+        $controller = new AuthController();
+        $controller->login();
         break;
     case 'admin_login':
         include __DIR__ . '/../templates/auth/admin_login.php';
         break;
     case 'signup':
-        include __DIR__ . '/../templates/auth/signup.php';
+        $controller = new AuthController();
+        $controller->showSignup();
+        break;
+    case 'signup-submit':
+        $controller = new AuthController();
+        $controller->signup();
         break;
     case 'logout':
-        logoutUser(); // function from AuthController
+        $controller = new AuthController();
+        $controller->logout();
         break;
 
         // ---- Customer Pages ----
@@ -58,23 +68,103 @@ switch ($page) {
         $controller = new AccountController();
         $controller->showAccount();
         break;
-    case 'update-account':
+    case 'account-update':
         $controller = new AccountController();
         $controller->updateAccount();
+        break;
+    case 'account-edit':
+        $controller = new AccountController();
+        $controller->editAccountForm();
         break;
     case 'change-password':
         $controller = new AccountController();
         $controller->changePassword();
         break;
     case 'basket':
-        include __DIR__ . '/../templates/customer/basket.php';
+       $controller = new BasketController();
+       $controller->index();
+       break;
+    case 'add-to-basket':
+       $controller = new BasketController();
+       $controller->add();
+       break;
+    case 'basket-remove':
+       $controller = new BasketController();
+       $controller->remove();
+       break;
+    case 'basket-update':
+       $controller = new BasketController();
+       $controller->update();
+       break;
+    case 'basket-update-ajax':
+       $controller = new BasketController();
+       $controller->updateAjax();
+       break;
+    case 'order':
+        $controller = new OrderController();
+        $controller->showOrder();
         break;
     case 'orders':
-        include __DIR__ . '/../templates/customer/orders.php';
+        $controller = new OrderController();
+        $controller->listUserOrders();
         break;
+    case 'contact-submit':
+        require_once __DIR__ . '/../src/Controllers/ContactController.php';
+        $controller = new ContactController();
+        $controller->submit();
+       break;
+    case 'place-order':
+        $controller = new OrderController();
+        $controller->placeOrder();
+        break;
+    case 'checkout':
+       $controller = new OrderController();
+       $controller->checkoutPage();
+       break;
+
+    case 'order-success':
+        include __DIR__ . '/../templates/customer/order_success.php';
+        break;
+    case 'add-address':
+        $controller = new AccountController();
+        $controller->showAddAddressForm();
+        break;
+    case 'save-address':
+        $controller = new AccountController();
+        $controller->saveAddress();
+        break;
+    case 'edit-address':
+        $controller = new AccountController();
+        $controller->showEditAddressForm();
+        break;
+    case 'update-address':
+        $controller = new AccountController();
+        $controller->updateAddress();
+        break;
+    case 'delete-address':
+        $controller = new AccountController();
+        $controller->deleteAddress();
+        break;
+    case 'add-payment':
+        $controller = new AccountController();
+        $controller->showAddPaymentForm();
+        break;
+    case 'save-payment':
+        $controller = new AccountController();
+        $controller->savePayment();
+        break;
+    case 'delete-payment':
+        $controller = new AccountController();
+        $controller->deletePayment();
+        break;
+    case 'product':
+       $controller = new ProductController();
+       $controller->show();
+       break;
     case 'products':
-        include __DIR__ . '/../templates/customer/products.php';
-        break;
+       $controller = new ProductController();
+       $controller->list();
+       break;
 
         // ---- Admin Pages ----
     case 'dashboard':

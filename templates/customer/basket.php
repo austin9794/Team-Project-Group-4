@@ -186,8 +186,12 @@
 
     <h2>Total: £<?= number_format($basketTotal, 2) ?></h2>
 
+
+    <a href="/Team-Project-Group-4/public/index.php?page=products" class="checkout-btn" style="margin-right: 1rem;">
+        Continue Shopping
+    </a>
     <a href="/Team-Project-Group-4/public/index.php?page=checkout" class="checkout-btn">
-    Proceed to Checkout
+        Proceed to Checkout
     </a>
 
 

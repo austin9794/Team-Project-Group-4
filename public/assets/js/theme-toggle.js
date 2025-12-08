@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const sunIcon = document.querySelector('.theme-toggle-icon.sun');
     const moonIcon = document.querySelector('.theme-toggle-icon.moon');
     
-    // Check localStorage for saved theme preference
+    // Check Storage for saved theme preference
     const savedTheme = localStorage.getItem('theme') || 'light';
     
     // Set initial theme

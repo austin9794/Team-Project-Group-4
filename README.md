@@ -1,4 +1,4 @@
-**Level Up Gaming – E-Commerce Platform**
+## **Level Up Gaming – E-Commerce Platform**
 A full-stack PHP & MySQL e-commerce web application developed as part of the CS2 Team Project.
 The platform allows customers to browse products, manage accounts, place orders, and interact with a professional shopping basket and checkout flow.
 

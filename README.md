@@ -78,16 +78,6 @@ The platform allows customers to browse products, manage accounts, place orders,
 
 ---
 
-## Tech Stack
-
-- **Frontend:** HTML, CSS, JavaScript, Figma (for designing)
-- **Backend:** PHP (PDO), MVC-style architecture  
-- **Database:** MySQL  
-- **Version Control:** GitHub  
-- **Server:** University-hosted PHP/MySQL environment  
-
----
-
 ## How to Run Locally
 
 1. Install "Github Pull Request" extension is Visual Studio Code.

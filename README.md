@@ -10,13 +10,41 @@ The platform allows customers to browse products, manage accounts, place orders,
 
 **Project Goal:** Replace an outdated system with a modern, database-driven e-commerce website featuring secure authentication, product browsing, and order management.
 
-##  Project Folder Structure
+## Core Features
 
-public/ → Main entry point and front-end assets 
-src/ → Backend logic (controllers, models, helpers)
-templates/ → Page templates (customer, admin, auth)
-sql/ → Database scripts
-docs/ → Documentation
+**Customer Features**
+
+User registration, login, and logout
+
+Product browsing with categories and search
+
+Detailed product pages with pricing and stock status
+
+Shopping basket with:
+
+Quantity adjustment
+
+Item removal
+
+Live total updates
+
+
+Dummy checkout flow
+
+Order placement and order history
+
+“My Account” section:
+
+Personal details
+
+Saved delivery addresses
+
+Saved payment methods
+
+
+Fully functional Contact Us form (stored in database)
+
+
 
 
 ---

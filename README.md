@@ -44,10 +44,16 @@ Saved payment methods
 
 Fully functional Contact Us form (stored in database)
 
+**UI / UX**
 
+Consistent brand identity (logo, colour scheme, typography)
 
+Responsive layout across pages
 
----
+Light/Dark mode toggle
+
+Clear navigation and feedback messages
+
 
 ## Team Roles & Responsibilities
 

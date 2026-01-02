@@ -1,7 +1,6 @@
-## E-Commerce Group Project
-
-This is our group project for the CS2TP module.  
-We are a fully functional e-commerce platform with both **customer** and **admin** interfaces.
+**Level Up Gaming – E-Commerce Platform**
+A full-stack PHP & MySQL e-commerce web application developed as part of the CS2 Team Project.
+The platform allows customers to browse products, manage accounts, place orders, and interact with a professional shopping basket and checkout flow.
 
 ##  Project Overview
 

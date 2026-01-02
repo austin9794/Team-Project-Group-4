@@ -14,60 +14,59 @@ The platform allows customers to browse products, manage accounts, place orders,
 
 **Customer Features**
 
-User registration, login, and logout
+- User registration, login, and logout
 
-Product browsing with categories and search
+- Product browsing with categories and search
 
-Detailed product pages with pricing and stock status
+- Detailed product pages with pricing and stock status
 
-Shopping basket with:
+- Shopping basket with:
 
-Quantity adjustment
+   - Quantity adjustment
 
-Item removal
+   - Item removal
 
-Live total updates
-
-
-Dummy checkout flow
-
-Order placement and order history
-
-“My Account” section:
-
-Personal details
-
-Saved delivery addresses
-
-Saved payment methods
+   - Live total updates
 
 
-Fully functional Contact Us form (stored in database)
+- Dummy checkout flow
+
+- Order placement and order history
+
+- “My Account” section:
+
+   - Personal details
+
+   - Saved delivery addresses
+
+   - Saved payment methods
+
+
+- Fully functional Contact Us form (stored in database)
 
 
 **UI / UX**
 
-Consistent brand identity (logo, colour scheme, typography)
+- Consistent brand identity (logo, colour scheme, typography)
 
-Responsive layout across pages
+- Responsive layout across pages
 
-Light/Dark mode toggle
+- Light/Dark mode toggle
 
-Clear navigation and feedback messages
+- Clear navigation and feedback messages
 
 
-## Team Roles & Responsibilities
+## Tech Stack
 
-| Member | Role | Main Responsibilities |
-|----------------|-------------------------------------------|--------|
-| **1. Umair**   | **System Architect & Database Lead**      | Project setup, database, backend routing, My Account integration, testing & deployment |
-| **2. Amy**     | **Frontend & UI/UX Developer**            | Page layout, theme design, responsive front-end |
-| **3. Ayaan**   | **Authentication & Security Developer**   | Login, signup, password management, access control |
-| **4. Ikram**   | **Basket & Checkout Developer**           | Basket logic, checkout flow, order history |
-| **5. Palak**   | **Admin Dashboard Developer**             | Admin panel, stock & order management, reporting |
-| **6. Kayroba** | **Product Catalogue & Reviews Developer** | Product listing, filtering, and review system |
+- **Backend:** PHP (MVC-style routing via index.php)
 
----
+- **Frontend:** HTML, CSS, JavaScript
+
+- **Database:** MySQL (PDO)
+
+- **Version Control:** GitHub
+
+- **Server:** University-hosted PHP/MySQL environment
 
 ## Timeline
 

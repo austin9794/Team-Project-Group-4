@@ -4,18 +4,11 @@ The platform allows customers to browse products, manage accounts, place orders,
 
 ##  Project Overview
 
-The goal is to design, build, and deploy a website that allows customers to:
-- Register, log in, and manage their accounts.
-- Browse products by category, search, and filter.
-- Add products to a basket, checkout, and view orders.
-- Leave ratings and reviews for products.
+**Business Domain:** Online Gaming Accessories 
 
-Admins can:
-- Manage users, products, and orders.
-- Track stock levels and sales reports.
-- Process shipments and handle inventory updates.
+**Target Audience:** Casual and competitive gamers looking for keyboards, mice, headsets, monitors, and microphones
 
----
+**Project Goal:** Replace an outdated system with a modern, database-driven e-commerce website featuring secure authentication, product browsing, and order management.
 
 ##  Project Folder Structure
 

@@ -94,6 +94,11 @@ Prerequisites
 - Create a database named: 
    ecommerce_db
    
+4. Import database files
+
+- Import /sql/schema.sql
+
+- Then import /sql/seed_data.sql   
 
 ## Timeline
 

@@ -148,22 +148,6 @@ Test before merging to keep the main branch stable.
 
 ---
 
-## To-Do
-
-Database schema finalization (Umair)
-
-Homepage styling (Amy)
-
-Login/Signup logic (Ayaan)
-
-Basket system (Ikram)
-
-Admin dashboard layout (Palak)
-
-Product display (Kayroba)
-
-
----
 
 ##  Save and Commit
 

@@ -136,22 +136,6 @@ Password: customer456
 
 ---
 
-## How to Run Locally
-
-1. Install "Github Pull Request" extension is Visual Studio Code.
-
-2. Clone the repository:
-   ```bash
-    https://github.com/austin9794/Team-Project-Group-4.git
-   
-3. Run "git clone" followed by the url on the Visual Studio Code terminal.
-
-4. Choose a local directory for the project.
-
-5. Run "git status" to ensure the repositoryis upto date.
-
----
-
 ## Contribution Guidelines
 
 Each member works in a separate branch for their feature.

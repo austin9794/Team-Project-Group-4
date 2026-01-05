@@ -68,6 +68,10 @@ The platform allows customers to browse products, manage accounts, place orders,
 
 - **Server:** University-hosted PHP/MySQL environment
 
+## How to Run the Project Locally
+
+
+
 ## Timeline
 
 | Phase  | Period  | Goal |

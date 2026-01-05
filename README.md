@@ -1,46 +1,130 @@
-## E-Commerce Group Project
-
-This is our group project for the CS2TP module.  
-We are a fully functional e-commerce platform with both **customer** and **admin** interfaces.
+## **Level Up Gaming – E-Commerce Platform**
+A full-stack PHP & MySQL e-commerce web application developed as part of the CS2 Team Project.
+The platform allows customers to browse products, manage accounts, place orders, and interact with a professional shopping basket and checkout flow.
 
 ##  Project Overview
 
-The goal is to design, build, and deploy a website that allows customers to:
-- Register, log in, and manage their accounts.
-- Browse products by category, search, and filter.
-- Add products to a basket, checkout, and view orders.
-- Leave ratings and reviews for products.
+**Business Domain:** Online Gaming Accessories 
 
-Admins can:
-- Manage users, products, and orders.
-- Track stock levels and sales reports.
-- Process shipments and handle inventory updates.
+**Target Audience:** Casual and competitive gamers looking for keyboards, mice, headsets, monitors, and microphones
 
----
+**Project Goal:** Replace an outdated system with a modern, database-driven e-commerce website featuring secure authentication, product browsing, and order management.
 
-##  Project Folder Structure
+## Core Features
 
-public/ → Main entry point and front-end assets 
-src/ → Backend logic (controllers, models, helpers)
-templates/ → Page templates (customer, admin, auth)
-sql/ → Database scripts
-docs/ → Documentation
+**Customer Features**
+
+- User registration, login, and logout
+
+- Product browsing with categories and search
+
+- Detailed product pages with pricing and stock status
+
+- Shopping basket with:
+
+   - Quantity adjustment
+
+   - Item removal
+
+   - Live total updates
 
 
----
+- Dummy checkout flow
 
-## Team Roles & Responsibilities
+- Order placement and order history
 
-| Member | Role | Main Responsibilities |
-|----------------|-------------------------------------------|--------|
-| **1. Umair**   | **System Architect & Database Lead**      | Project setup, database, backend routing, My Account integration, testing & deployment |
-| **2. Amy**     | **Frontend & UI/UX Developer**            | Page layout, theme design, responsive front-end |
-| **3. Ayaan**   | **Authentication & Security Developer**   | Login, signup, password management, access control |
-| **4. Ikram**   | **Basket & Checkout Developer**           | Basket logic, checkout flow, order history |
-| **5. Palak**   | **Admin Dashboard Developer**             | Admin panel, stock & order management, reporting |
-| **6. Kayroba** | **Product Catalogue & Reviews Developer** | Product listing, filtering, and review system |
+- “My Account” section:
 
----
+   - Personal details
+
+   - Saved delivery addresses
+
+   - Saved payment methods
+
+
+- Fully functional Contact Us form (stored in database)
+
+
+**UI / UX**
+
+- Consistent brand identity (logo, colour scheme, typography)
+
+- Responsive layout across pages
+
+- Light/Dark mode toggle
+
+- Clear navigation and feedback messages
+
+
+## Tech Stack
+
+- **Backend:** PHP (MVC-style routing via index.php)
+
+- **Frontend:** HTML, CSS, JavaScript
+
+- **Database:** MySQL (PDO)
+
+- **Version Control:** GitHub
+
+- **Server:** University-hosted PHP/MySQL environment
+
+## How to Run the Project Locally
+
+Prerequisites
+
+- XAMPP / MAMP / WAMP
+
+- PHP 8+
+
+- MySQL
+
+- Web browser
+
+1. Clone the repository:
+   ```bash
+    https://github.com/austin9794/Team-Project-Group-4.git
+
+2. Move the project into your server root
+    htdocs/Team-Project-Group-4
+
+3. Create the database
+
+- Open phpMyAdmin
+
+- Create a database named: 
+   ecommerce_db
+   
+4. Import database files
+
+- Import /sql/schema.sql
+
+- Then import /sql/seed_data.sql   
+
+5. Check configuration
+In src/Config.php:
+      define('DB_NAME', 'ecommerce_db');
+      define('DB_USER', 'root');
+      define('DB_PASS', '');
+      define('BASE_URL', '/Team-Project-Group-4/public/');
+
+6. Run the project
+    http://localhost/Team-Project-Group-4/public/index.php?page=home
+
+
+## Test Accounts
+
+Admin
+
+Email: BryanS231@gmail.com
+
+Password: admin123
+
+Customer
+
+Email: johndoe34@gmail.com
+
+Password: customer456
+
 
 ## Timeline
 
@@ -49,32 +133,6 @@ docs/ → Documentation
 | **Phase 1 – Setup** | Oct–Nov | Project skeleton, database, and static pages |
 | **Phase 2 – MVP** | Nov–Dec | Login, products, basket, checkout |
 | **Phase 3 – Final** | Jan–May | Admin tools, reviews, reporting, deployment |
-
----
-
-## Tech Stack
-
-- **Frontend:** HTML, CSS, JavaScript, Figma (for designing)
-- **Backend:** PHP (PDO), MVC-style architecture  
-- **Database:** MySQL  
-- **Version Control:** GitHub  
-- **Server:** University-hosted PHP/MySQL environment  
-
----
-
-## How to Run Locally
-
-1. Install "Github Pull Request" extension is Visual Studio Code.
-
-2. Clone the repository:
-   ```bash
-    https://github.com/austin9794/Team-Project-Group-4.git
-   
-3. Run "git clone" followed by the url on the Visual Studio Code terminal.
-
-4. Choose a local directory for the project.
-
-5. Run "git status" to ensure the repositoryis upto date.
 
 ---
 
@@ -90,22 +148,6 @@ Test before merging to keep the main branch stable.
 
 ---
 
-## To-Do
-
-Database schema finalization (Umair)
-
-Homepage styling (Amy)
-
-Login/Signup logic (Ayaan)
-
-Basket system (Ikram)
-
-Admin dashboard layout (Palak)
-
-Product display (Kayroba)
-
-
----
 
 ##  Save and Commit
 

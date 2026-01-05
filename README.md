@@ -70,7 +70,15 @@ The platform allows customers to browse products, manage accounts, place orders,
 
 ## How to Run the Project Locally
 
+Prerequisites
 
+- XAMPP / MAMP / WAMP
+
+- PHP 8+
+
+- MySQL
+
+- Web browser
 
 ## Timeline
 

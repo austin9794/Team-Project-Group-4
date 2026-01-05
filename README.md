@@ -107,6 +107,24 @@ In src/Config.php:
       define('DB_PASS', '');
       define('BASE_URL', '/Team-Project-Group-4/public/');
 
+6. Run the project
+    http://localhost/Team-Project-Group-4/public/index.php?page=home
+
+
+## Test Accounts
+
+Admin
+
+Email: BryanS231@gmail.com
+
+Password: admin123
+
+Customer
+
+Email: johndoe34@gmail.com
+
+Password: customer456
+
 
 ## Timeline
 

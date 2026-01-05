@@ -80,6 +80,21 @@ Prerequisites
 
 - Web browser
 
+1. Clone the repository:
+   ```bash
+    https://github.com/austin9794/Team-Project-Group-4.git
+
+2. Move the project into your server root
+    htdocs/Team-Project-Group-4
+
+3. Create the database
+
+- Open phpMyAdmin
+
+- Create a database named: 
+   ecommerce_db
+   
+
 ## Timeline
 
 | Phase  | Period  | Goal |

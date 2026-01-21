@@ -1,7 +1,10 @@
 <?php
 session_start();
-session_unset();
-session_destroy();
-header("Location: login.php");
-exit();
+define('ACCESS_ALLOWED', true);
+
+require "Database.php";
+require "AuthController.php";
+
+$auth = new AuthController();
+$auth->logout();
 ?>

@@ -1,98 +1,110 @@
 <?php
+require_once __DIR__ . '/../Database.php';
 
-class AuthController
-{
+class AuthController {
+
     private $db;
 
-    public function __construct()
-    {
+    public function __construct() {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
         $this->db = Database::getInstance()->getConnection();
     }
 
-    /* -----------------------------
-       REGISTER NEW USER (NO HASH)
-    ------------------------------*/
-    public function register($name, $email, $password, $phone, $address)
-    {
-        // Check if email exists
-        $query = $this->db->prepare("SELECT user_id FROM users WHERE email = ?");
-        $query->execute([$email]);
+    // Show Sign-Up Page
+    public function showSignup() {
+    include __DIR__ . '/../../templates/auth/signup.php';
+}
 
-        if ($query->rowCount() > 0) {
-            return "Email already registered.";
-        }
 
-        // Insert plain password (MVP)
-        $insert = $this->db->prepare("
-            INSERT INTO users (name, email, password, phone, address, role)
-            VALUES (?, ?, ?, ?, ?, 'customer')
-        ");
-
-        if ($insert->execute([$name, $email, $password, $phone, $address])) {
-            return true;
-        }
-
-        return "Could not create account. Try again.";
+    // Show login page
+    public function showLogin() {
+        include __DIR__ . '/../../templates/auth/login.php';
     }
 
-    /* -----------------------------
-       LOGIN USER
-    ------------------------------*/
-    public function login($email, $password)
-    {
-        $query = $this->db->prepare("SELECT * FROM users WHERE email = ?");
-        $query->execute([$email]);
+    // Handle login
+    public function login() {
 
-        if ($query->rowCount() !== 1) {
-            return "Invalid email or password.";
+        $email = trim($_POST['email']);
+        $password = trim($_POST['password']);
+
+        $stmt = $this->db->prepare("SELECT * FROM users WHERE email = ?");
+        $stmt->execute([$email]);
+        $user = $stmt->fetch();
+
+        if (!$user) {
+            header("Location: index.php?page=login&error=Invalid+email+or+password");
+            exit;
         }
 
-        $user = $query->fetch();
 
-        // Plain text password match (MVP)
-        if ($password !== $user['password']) {
-            return "Invalid email or password.";
+        // Compare hashed password
+        if (!password_verify($password, $user['password'])) {
+            header("Location: index.php?page=login&error=Invalid+email+or+password");
+            exit;
         }
-
+        
         // Set session
-        $_SESSION['uid']  = $user['user_id'];
-        $_SESSION['name'] = $user['name'];
-        $_SESSION['role'] = $user['role'];
+        $_SESSION['user_id'] = $user['user_id'];
+        $_SESSION['user_role'] = $user['role'];
+        $_SESSION['user_name'] = $user['name'];
 
-        return true;
+        header("Location: index.php?page=home");
+        exit;
     }
 
-    /* -----------------------------
-       CHECK IF USER LOGGED IN
-    ------------------------------*/
-    public function requireLogin()
-    {
-        if (!isset($_SESSION['uid'])) {
-            header("Location: login.php");
-            exit();
-        }
-    }
-
-    /* -----------------------------
-       CHECK IF ADMIN
-    ------------------------------*/
-    public function requireAdmin()
-    {
-        if (!isset($_SESSION['uid']) || $_SESSION['role'] !== 'admin') {
-            header("Location: index.php");
-            exit();
-        }
-    }
-
-    /* -----------------------------
-       LOGOUT USER
-    ------------------------------*/
-    public function logout()
-    {
+    // Logout
+    public function logout() {
         session_unset();
         session_destroy();
-        header("Location: login.php");
-        exit();
+        header("Location: index.php?page=login");
+        exit;
     }
+
+    public function signup() {
+
+    $name = trim($_POST['name']);
+    $email = trim($_POST['email']);
+    $password = trim($_POST['password']);
+    $confirm = trim($_POST['confirm']);
+    $phone = trim($_POST['phone']);
+    $address = trim($_POST['address']);
+
+    // 1. Validate passwords match
+    if ($password !== $confirm) {
+        header("Location: index.php?page=signup&error=Passwords+do+not+match");
+        exit;
+    }
+
+    // 2. Validate password length
+    if (strlen($password) < 6) {
+        header("Location: index.php?page=signup&error=Password+must+be+at+least+6+characters");
+        exit;
+    }
+
+    // 3. Check if email already exists
+    $check = $this->db->prepare("SELECT user_id FROM users WHERE email = ?");
+    $check->execute([$email]);
+    if ($check->rowCount() > 0) {
+        header("Location: index.php?page=signup&error=Email+is+already+registered");
+        exit;
+    }
+
+    // 4. Hash the password properly
+    $hashed = password_hash($password, PASSWORD_BCRYPT);
+
+    // 5. Insert user
+    $stmt = $this->db->prepare("
+        INSERT INTO users (name, email, password, role, phone, address)
+        VALUES (?, ?, ?, 'customer', ?, ?)
+    ");
+
+    if ($stmt->execute([$name, $email, $hashed, $phone, $address])) {
+        header("Location: index.php?page=login&success=Account+created,+please+login");
+        exit;
+    }
+
+    header("Location: index.php?page=signup&error=An+error+occurred");
 }
-?>
+}

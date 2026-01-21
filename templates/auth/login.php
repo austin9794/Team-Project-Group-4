@@ -1,98 +1,126 @@
-<?php
-
-class AuthController
-{
-    private $db;
-
-    public function __construct()
-    {
-        $this->db = Database::getInstance()->getConnection();
-    }
-
-    /* -----------------------------
-       REGISTER NEW USER (NO HASH)
-    ------------------------------*/
-    public function register($name, $email, $password, $phone, $address)
-    {
-        // Check if email exists
-        $query = $this->db->prepare("SELECT user_id FROM users WHERE email = ?");
-        $query->execute([$email]);
-
-        if ($query->rowCount() > 0) {
-            return "Email already registered.";
-        }
-
-        // Insert plain password (MVP)
-        $insert = $this->db->prepare("
-            INSERT INTO users (name, email, password, phone, address, role)
-            VALUES (?, ?, ?, ?, ?, 'customer')
-        ");
-
-        if ($insert->execute([$name, $email, $password, $phone, $address])) {
-            return true;
-        }
-
-        return "Could not create account. Try again.";
-    }
-
-    /* -----------------------------
-       LOGIN USER
-    ------------------------------*/
-    public function login($email, $password)
-    {
-        $query = $this->db->prepare("SELECT * FROM users WHERE email = ?");
-        $query->execute([$email]);
-
-        if ($query->rowCount() !== 1) {
-            return "Invalid email or password.";
-        }
-
-        $user = $query->fetch();
-
-        // Plain text password match (MVP)
-        if ($password !== $user['password']) {
-            return "Invalid email or password.";
-        }
-
-        // Set session
-        $_SESSION['uid']  = $user['user_id'];
-        $_SESSION['name'] = $user['name'];
-        $_SESSION['role'] = $user['role'];
-
-        return true;
-    }
-
-    /* -----------------------------
-       CHECK IF USER LOGGED IN
-    ------------------------------*/
-    public function requireLogin()
-    {
-        if (!isset($_SESSION['uid'])) {
-            header("Location: login.php");
-            exit();
-        }
-    }
-
-    /* -----------------------------
-       CHECK IF ADMIN
-    ------------------------------*/
-    public function requireAdmin()
-    {
-        if (!isset($_SESSION['uid']) || $_SESSION['role'] !== 'admin') {
-            header("Location: index.php");
-            exit();
-        }
-    }
-
-    /* -----------------------------
-       LOGOUT USER
-    ------------------------------*/
-    public function logout()
-    {
-        session_unset();
-        session_destroy();
-        header("Location: login.php");
-        exit();
-    }
-}
+<?php 
+$title = 'Login - Level Up Gaming';
+include __DIR__ . '/../header.php'; 
 ?>
+
+<style>
+/* Container */
+/* Auth container */
+.auth-box {
+    width: 100%;
+    max-width: 420px;     /* Ensures proper alignment */
+    margin: 60px auto;    /* Center on page */
+    padding: 30px;
+    border-radius: 14px;
+    background: var(--bg-secondary);
+    box-shadow: var(--shadow-lg);
+    color: var(--text-primary);
+    font-family: Arial, sans-serif;
+    box-sizing: border-box;
+    border: 1px solid var(--border-color);
+}
+
+/* Title */
+.auth-box h2 {
+    text-align: left;
+    margin-bottom: 25px;
+    font-size: 22px;
+    color: var(--highlight-color);
+    font-weight: bold;
+}
+
+/* Ensure consistent label spacing */
+.auth-box label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 15px;
+    color: var(--text-primary);
+}
+
+/* Inputs perfectly aligned */
+.auth-box input {
+    width: 100%;
+    padding: 14px;
+    margin-bottom: 16px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-size: 15px;
+    box-sizing: border-box;
+}
+
+/* Input placeholders */
+.auth-box input::placeholder {
+    color: var(--text-secondary);
+}
+
+/* Button centered + aligned */
+.auth-box button {
+    width: 100%;
+    padding: 12px;
+    background: var(--highlight-color);
+    border: none;
+    border-radius: 20px;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.auth-box button:hover {
+    background: var(--highlight-dark);
+}
+
+/* Fix error/success spacing */
+.error, .success {
+    padding: 12px;
+    margin-bottom: 15px;
+    border-left: 4px solid;
+}
+
+.error { border-color: var(--danger); color: var(--danger); background: rgba(255, 79, 79, 0.15); }
+.success { border-color: #24ff75; color: #6bff8f; background: rgba(50, 255, 120, 0.15); }
+
+/* Links */
+.auth-box a {
+    display: block;
+    margin-top: 15px;
+    color: var(--highlight-color);
+    text-decoration: none;
+}
+
+.auth-box a:hover {
+    color: white;
+}
+
+</style>
+
+<div class="auth-box">
+
+    <h2>Sign in to your account</h2>
+
+    <?php if (isset($_GET['error'])): ?>
+        <div class="error"><?= htmlspecialchars($_GET['error']) ?></div>
+    <?php endif; ?>
+
+    <?php if (isset($_GET['success'])): ?>
+        <div class="success"><?= htmlspecialchars($_GET['success']) ?></div>
+    <?php endif; ?>
+
+    <form method="POST" action="/Team-Project-Group-4/public/index.php?page=login-submit">
+        <label>Enter email</label>
+        <input type="email" name="email" required placeholder="Email address">
+
+        <label>Password</label>
+        <input type="password" name="password" required placeholder="Password">
+
+        <button type="submit">Continue</button>
+    </form>
+
+    <a href="/Team-Project-Group-4/public/index.php?page=signup">Create an account</a>
+
+</div>
+
+<?php include __DIR__ . '/../footer.php'; ?>

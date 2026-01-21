@@ -1,137 +1,126 @@
-<?php include __DIR__ . '/../header.php'; ?>
-
-<?php
-session_start();
-define('ACCESS_ALLOWED', true);
-require "Database.php";
-
-$db = Database::getInstance()->getConnection();
-
-$error = "";
-
-if (isset($_POST["login"])) {
-
-```
-$email = trim($_POST["email"]);
-$password = trim($_POST["password"]);
-
-$query = $db->prepare("SELECT * FROM users WHERE email = ?");
-$query->execute([$email]);
-
-if ($query->rowCount() === 1) {
-    $user = $query->fetch();
-
-    // Plain text password check (MVP only)
-    if ($password === $user['password']) {
-
-        $_SESSION['uid']  = $user['user_id'];
-        $_SESSION['name'] = $user['name'];
-        $_SESSION['role'] = $user['role'];
-
-        // Redirect to homepage instead of dashboard
-        header("Location: index.php");
-        exit();
-    }
-}
-
-$error = "Invalid email or password.";
-
-```
-
-}
+<?php 
+$title = 'Login - Level Up Gaming';
+include __DIR__ . '/../header.php'; 
 ?>
 
-<!DOCTYPE html>
-<html>
-<head>
-<title>Login - LevelUp</title>
-
 <style>
-body {
-background:#1a0b2e;
-font-family:Arial, sans-serif;
-color:#eee;
+/* Container */
+/* Auth container */
+.auth-box {
+    width: 100%;
+    max-width: 420px;     /* Ensures proper alignment */
+    margin: 60px auto;    /* Center on page */
+    padding: 30px;
+    border-radius: 14px;
+    background: var(--bg-secondary);
+    box-shadow: var(--shadow-lg);
+    color: var(--text-primary);
+    font-family: Arial, sans-serif;
+    box-sizing: border-box;
+    border: 1px solid var(--border-color);
 }
 
-.container {
-width: 420px;
-margin: 80px auto;
-background:#2a0f47;
-padding: 25px;
-border-radius: 12px;
-box-shadow: 0 0 20px rgba(132, 0, 255, 0.4);
+/* Title */
+.auth-box h2 {
+    text-align: left;
+    margin-bottom: 25px;
+    font-size: 22px;
+    color: var(--highlight-color);
+    font-weight: bold;
 }
 
-h2 {
-text-align:center;
-margin-bottom:20px;
-color:#d9a7ff;
-font-weight:bold;
+/* Ensure consistent label spacing */
+.auth-box label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 15px;
+    color: var(--text-primary);
 }
 
-input {
-width:100%;
-padding:12px;
-margin:10px 0;
-border-radius:6px;
-border:1px solid #5d3b8a;
-background:#3a165d;
-color:white;
+/* Inputs perfectly aligned */
+.auth-box input {
+    width: 100%;
+    padding: 14px;
+    margin-bottom: 16px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-size: 15px;
+    box-sizing: border-box;
 }
 
-input::placeholder { color:#c9a8ff; }
-
-button {
-width:100%;
-padding:12px;
-background:#8f3dff;
-border:none;
-border-radius:6px;
-color:white;
-cursor:pointer;
-font-weight:bold;
-transition:0.3s;
+/* Input placeholders */
+.auth-box input::placeholder {
+    color: var(--text-secondary);
 }
 
-button:hover { background:#b46cff; }
-
-.error {
-color:#ff6b6b;
-text-align:center;
+/* Button centered + aligned */
+.auth-box button {
+    width: 100%;
+    padding: 12px;
+    background: var(--highlight-color);
+    border: none;
+    border-radius: 20px;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
 }
 
-a {
-display:block;
-text-align:center;
-color:#d8b6ff;
-margin-top:12px;
+.auth-box button:hover {
+    background: var(--highlight-dark);
 }
 
-a:hover { color:white; }
+/* Fix error/success spacing */
+.error, .success {
+    padding: 12px;
+    margin-bottom: 15px;
+    border-left: 4px solid;
+}
+
+.error { border-color: var(--danger); color: var(--danger); background: rgba(255, 79, 79, 0.15); }
+.success { border-color: #24ff75; color: #6bff8f; background: rgba(50, 255, 120, 0.15); }
+
+/* Links */
+.auth-box a {
+    display: block;
+    margin-top: 15px;
+    color: var(--highlight-color);
+    text-decoration: none;
+}
+
+.auth-box a:hover {
+    color: white;
+}
+
 </style>
 
-</head>
+<div class="auth-box">
 
-<body>
+    <h2>Sign in to your account</h2>
 
-<div class="container">
+    <?php if (isset($_GET['error'])): ?>
+        <div class="error"><?= htmlspecialchars($_GET['error']) ?></div>
+    <?php endif; ?>
 
-<h2>Login to LevelUp</h2>
+    <?php if (isset($_GET['success'])): ?>
+        <div class="success"><?= htmlspecialchars($_GET['success']) ?></div>
+    <?php endif; ?>
 
-<?php if ($error): ?>
-<p class="error"><?= $error ?></p>
-<?php endif; ?>
+    <form method="POST" action="/Team-Project-Group-4/public/index.php?page=login-submit">
+        <label>Enter email</label>
+        <input type="email" name="email" required placeholder="Email address">
 
-<form method="POST">
-<input type="email" name="email" placeholder="Email Address" required>
-<input type="password" name="password" placeholder="Password" required>
-<button type="submit" name="login">Login</button>
-</form>
+        <label>Password</label>
+        <input type="password" name="password" required placeholder="Password">
 
-<a href="signup.php">Create a new account</a>
+        <button type="submit">Continue</button>
+    </form>
+
+    <a href="/Team-Project-Group-4/public/index.php?page=signup">Create an account</a>
 
 </div>
-</body>
-</html>
 
 <?php include __DIR__ . '/../footer.php'; ?>

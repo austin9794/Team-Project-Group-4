@@ -3,7 +3,11 @@ require_once "Database.php";
 
 class Product {
     public static function getAll($filters = []) {
+<<<<<<< HEAD
         $db =Database::getInstance()->getConnection();
+=======
+        $db = Database::getInstance()->getConnection();
+>>>>>>> 63d410e1e4f15d2463ca0bbd4c3852888b325f28
         $sql = "SELECT p.*, c.name AS category_name 
                 FROM products p 
                 JOIN categories c ON p.category_id = c.category_id 
@@ -37,7 +41,11 @@ class Product {
     }
 
     public static function findById($id) {
+<<<<<<< HEAD
         $db = Database::getInstance()->getConnection();
+=======
+       $db = Database::getInstance()->getConnection();
+>>>>>>> 63d410e1e4f15d2463ca0bbd4c3852888b325f28
         $stmt = $db->prepare("SELECT p.*, c.name AS category_name 
                              FROM products p 
                              JOIN categories c ON p.category_id = c.category_id 

@@ -66,6 +66,8 @@ CREATE TABLE products (
         ON UPDATE CASCADE
 );
 
+ALTER TABLE products ADD slug VARCHAR(100) UNIQUE;
+
 -- Index for faster category filtering
 CREATE INDEX idx_products_category
     ON products(category_id);

@@ -87,23 +87,23 @@ INSERT INTO products (category_id, name, slug, description, price, stock) VALUES
  49.99, 50),
 
 -- MONITORS (category_id = 4)
-(4,'Philips 27E1N1100A 27"',
+(4,'Philips 27E1N1100A 27"', 'monitor1',
  '27-inch Full HD IPS panel with wide viewing angles. Built-in speakers and Flicker-Free technology enhance multimedia and productivity use.',
  94.99, 20),
 
-(4,'ASUS TUF VG279QM1A 280Hz',
+(4,'ASUS TUF VG279QM1A 280Hz', 'monitor2',
  'Ultra-fast 280Hz refresh rate ideal for competitive gaming. ELMB Sync technology reduces ghosting for sharper, smoother visuals.',
  129.99, 15),
  
-(4,'Minifire 27" 180Hz Curved Monitor',
+(4,'Minifire 27" 180Hz Curved Monitor', 'monitor3',
  'Curved Full HD panel with 180Hz refresh rate for smooth gameplay. Frameless design provides an immersive viewing experience.',
  144.99, 25),
 
-(4,'MSI PRO MP275',
+(4,'MSI PRO MP275', 'monitor4',
  '27-inch IPS display with 100Hz refresh rate for everyday work. Delivers crisp colours and wide viewing angles for office and study environments.',
  109.99, 10),
  
-(4,'LG 27U411A-B',
+(4,'LG 27U411A-B', 'monitor5',
  '27-inch IPS display with HDR10 and VRR support. Produces vivid colours and fast response times for entertainment and casual gaming.',
  89.99, 12),
 

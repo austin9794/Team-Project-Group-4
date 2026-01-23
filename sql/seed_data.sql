@@ -22,25 +22,25 @@ VALUES
 
 
 -- PRODUCTS (25 total)
-INSERT INTO products (category_id, name, description, price, stock) VALUES
+INSERT INTO products (category_id, name, slug, description, price, stock) VALUES
 -- KEYBOARDS (category_id = 1)
-(1,'TECKNET RGB Gaming Keyboard',
+(1,'TECKNET RGB Gaming Keyboard', 'keyboard1',
  'Mechanical-feel keyboard with vibrant RGB lighting zones. Features stepped keycaps for ergonomic typing and durable construction ideal for gaming and daily use.',
  32.99, 30),
 
-(1,'CORSAIR K55 RGB PRO',
+(1,'CORSAIR K55 RGB PRO', 'keyboard2',
  'Six customisable lighting zones with quiet membrane keys for productivity and gaming. Includes dedicated media controls and spill-resistant design.',
  59.99, 50),
 
-(1,'AULA F75 Wireless Mechanical Keyboard',
+(1,'AULA F75 Wireless Mechanical Keyboard', 'keyboard3',
  'Tri-mode connectivity with Bluetooth, 2.4GHz, and USB-C wired options. Hot-swappable switches and compact 75% layout with enhanced sound dampening.',
  82.99, 40),
 
-(1,'UGREEN Wireless Keyboard',
+(1,'UGREEN Wireless Keyboard', 'keyboard4',
  'Ultra-slim low-profile keyboard supporting Bluetooth and 2.4GHz connections. Can pair with up to three devices, making it perfect for laptops, tablets, and desktops.',
  27.99, 35),
 
-(1,'SteelSeries Apex Pro TKL Gen 3',
+(1,'SteelSeries Apex Pro TKL Gen 3', 'keyboard5',
  'Hall-effect adjustable switches deliver extreme speed and precision. Strong aluminium body and esports-grade performance with deep customization.',
  209.99, 60),
 

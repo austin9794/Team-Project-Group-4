@@ -23,6 +23,7 @@ VALUES
 
 -- PRODUCTS (25 total)
 INSERT INTO products (category_id, name, slug, description, price, stock) VALUES
+
 -- KEYBOARDS (category_id = 1)
 (1,'TECKNET RGB Gaming Keyboard', 'keyboard1',
  'Mechanical-feel keyboard with vibrant RGB lighting zones. Features stepped keycaps for ergonomic typing and durable construction ideal for gaming and daily use.',

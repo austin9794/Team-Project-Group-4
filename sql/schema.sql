@@ -70,6 +70,21 @@ CREATE TABLE products (
 CREATE INDEX idx_products_category
     ON products(category_id);
 
+
+-- Product Images Table --
+
+CREATE TABLE product_images (
+    image_id INT AUTO_INCREMENT PRIMARY KEY,
+    product_id INT NOT NULL,
+    image_path VARCHAR(255) NOT NULL,
+    is_primary BOOLEAN DEFAULT 0,
+    sort_order INT DEFAULT 1,
+
+    FOREIGN KEY (product_id)
+        REFERENCES products(product_id)
+        ON DELETE CASCADE
+);
+
 -- Orders Table --
 
 CREATE TABLE orders (

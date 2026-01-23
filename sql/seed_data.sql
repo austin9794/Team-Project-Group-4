@@ -129,6 +129,72 @@ INSERT INTO products (category_id, name, slug, description, price, stock) VALUES
  'Premium USB microphone with tap-to-mute, pop filter, and shock mount. Multiple pickup patterns for versatile recording environments.',
  94.99, 60);
 
+-- Product Images
+
+-- HEADSET 1 IMAGES
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/headsets/head1/01.png', 1, 1
+FROM products WHERE slug = 'head1';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/headsets/head1/02.png', 0, 2
+FROM products WHERE slug = 'head1';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/headsets/head1/03.png', 0, 3
+FROM products WHERE slug = 'head1';
+
+-- HEADSET 2 IMAGES
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/headsets/head2/01.png', 1, 1
+FROM products WHERE slug = 'head2';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/headsets/head2/02.png', 0, 2
+FROM products WHERE slug = 'head2';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/headsets/head2/03.png', 0, 3
+FROM products WHERE slug = 'head2';
+
+-- HEADSET 3 IMAGES
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/headsets/head3/01.png', 1, 1
+FROM products WHERE slug = 'head3';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/headsets/head3/02.png', 0, 2
+FROM products WHERE slug = 'head3';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/headsets/head3/03.png', 0, 3
+FROM products WHERE slug = 'head3';
+
+-- HEADSET 4 IMAGES
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/headsets/head4/01.png', 1, 1
+FROM products WHERE slug = 'head4';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/headsets/head4/02.png', 0, 2
+FROM products WHERE slug = 'head4';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/headsets/head4/03.png', 0, 3
+FROM products WHERE slug = 'head4';
+
+-- HEADSET 5 IMAGES
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/headsets/head5/01.png', 1, 1
+FROM products WHERE slug = 'head5';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/headsets/head5/02.png', 0, 2
+FROM products WHERE slug = 'head5';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/headsets/head5/03.png', 0, 3
+FROM products WHERE slug = 'head5';
 
 -- EXAMPLE ORDER
 INSERT INTO orders (user_id, total_price, status)
@@ -153,3 +219,5 @@ VALUES
 (1, -1, 'purchase'),
 (3, -1, 'purchase'),
 (1, 10, 'restock');
+
+

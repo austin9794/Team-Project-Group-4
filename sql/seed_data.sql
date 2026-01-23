@@ -108,23 +108,23 @@ INSERT INTO products (category_id, name, slug, description, price, stock) VALUES
  89.99, 12),
 
 -- MICROPHONES (category_id = 5)
-(5,'TONOR RGB USB Microphone',
+(5,'TONOR RGB USB Microphone', 'mic1',
  'High-clarity microphone with built-in noise reduction. RGB lighting adds style and enhances gaming or streaming setups.',
  49.99, 30),
 
-(5,'FIFINE XLR/USB Dynamic Microphone',
+(5,'FIFINE XLR/USB Dynamic Microphone', 'mic2',
  'Dual USB and XLR compatibility for flexible studio or gaming use. Warm vocal tone with low noise floor for cleaner recordings.',
  56.99, 75),
  
-(5,'UGREEN 24bit/96KHz Condenser Microphone',
+(5,'UGREEN 24bit/96KHz Condenser Microphone', 'mic3',
  'High-resolution audio capture with crisp detail. Noise-cancelling mode reduces background distractions for clear communication.',
  36.99, 50),
 
-(5,'MAONO USB Noise-Cancellation Mic',
+(5,'MAONO USB Noise-Cancellation Mic', 'mic4',
  'One-tap noise cancellation removes ambient sounds. Balanced, clean audio suited for meetings, streaming, and gaming.',
  52.99, 18),
  
-(5,'HyperX QuadCast',
+(5,'HyperX QuadCast', 'mic5',
  'Premium USB microphone with tap-to-mute, pop filter, and shock mount. Multiple pickup patterns for versatile recording environments.',
  94.99, 60);
 

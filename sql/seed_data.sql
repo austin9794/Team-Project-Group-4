@@ -45,23 +45,23 @@ INSERT INTO products (category_id, name, slug, description, price, stock) VALUES
  209.99, 60),
 
 -- MICE (category_id = 2)
-(2,'Logitech G305 LIGHTSPEED',
+(2,'Logitech G305 LIGHTSPEED', 'mouse1',
  'High-accuracy HERO sensor with up to 12,000 DPI. LIGHTSPEED wireless provides low-latency performance and long battery life for gaming and work.',
  59.99, 45),
 
-(2,'Apple Magic Mouse',
+(2,'Apple Magic Mouse', 'mouse2',
  'Rechargeable Bluetooth mouse with multi-touch surface for intuitive gestures. Sleek, minimal design that glides smoothly across your desk.',
  79.99, 80),
 
-(2,'Logitech G502 HERO',
+(2,'Logitech G502 HERO', 'mouse3',
  '25K DPI sensor for precise tracking and customizable weight tuning. Features 11 programmable buttons for gaming macros or workflow shortcuts.',
  34.99, 55),
 
-(2,'Anker Vertical Ergonomic Mouse',
+(2,'Anker Vertical Ergonomic Mouse', 'mouse4',
  'Ergonomic vertical design that reduces wrist strain during long sessions. Smooth tracking and comfortable grip ideal for work and browsing.',
  23.99, 30),
  
-(2,'TECKNET Bluetooth Mouse',
+(2,'TECKNET Bluetooth Mouse', 'mouse5',
  'Dual-mode wireless connection via Bluetooth or USB dongle. Side scroll wheel and navigation buttons enhance productivity and web browsing.',
  28.99, 90),
 

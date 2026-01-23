@@ -66,23 +66,23 @@ INSERT INTO products (category_id, name, slug, description, price, stock) VALUES
  28.99, 90),
 
 -- HEADSETS (category_id = 3)
-(3,'HyperX Cloud Alpha',
+(3,'HyperX Cloud Alpha', 'head1',
  'Dual-chamber drivers provide cleaner audio with reduced distortion. Comfortable memory-foam ear cushions and multi-platform compatibility.',
  34.99, 25),
 
-(3,'Vakedy Wireless Gaming Headset',
+(3,'Vakedy Wireless Gaming Headset', 'head2',
  'Supports Bluetooth and 2.4GHz low-latency wireless modes. Deep bass sound profile and long battery life designed for immersive gaming.',
  149.99, 40),
  
-(3,'Jabra Evolve 20',
+(3,'Jabra Evolve 20', 'head3',
  'Noise-isolating ear cushions for clearer calls and online meetings. Inline controls for easy volume and mute adjustments during classes or work.',
  34.99, 70),
 
-(3,'beyerdynamic DT 990 PRO',
+(3,'beyerdynamic DT 990 PRO',  'head4',
  'Professional open-back studio headphones with wide soundstage. Ideal for music production, mixing, and immersive listening sessions.',
  138.99, 15),
  
-(3,'JLab Go Work 2nd Gen',
+(3,'JLab Go Work 2nd Gen', 'head5',
  'Wireless headset that connects to two devices simultaneously. Clear-voice microphone with noise reduction and lightweight comfort for long use.',
  49.99, 50),
 

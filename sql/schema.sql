@@ -85,7 +85,11 @@ CREATE TABLE product_images (
     FOREIGN KEY (product_id)
         REFERENCES products(product_id)
         ON DELETE CASCADE
+        ON UPDATE CASCADE
 );
+
+CREATE INDEX idx_product_images_product
+    ON product_images(product_id);
 
 -- Orders Table --
 

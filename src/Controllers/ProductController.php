@@ -15,7 +15,6 @@ class ProductController {
 
        $params = [];
 
-
         $filters = [
             'category' => $_GET['category'] ?? null,
             'search' => $_GET['search'] ?? null,

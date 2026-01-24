@@ -390,4 +390,20 @@ include __DIR__ . '/../header.php';
   </div>
 </div>
 
+<script>
+  const mainImage = document.getElementById('mainProductImage');
+  const thumbnails = document.querySelectorAll('.thumbnail');
+
+  thumbnails.forEach(thumb => {
+    thumb.addEventListener('click', () => {
+      // Update main image
+      mainImage.src = thumb.dataset.image;
+
+      // Update active state
+      thumbnails.forEach(t => t.classList.remove('active'));
+      thumb.classList.add('active');
+    });
+  });
+</script>
+
 <?php include __DIR__ . '/../footer.php'; ?>

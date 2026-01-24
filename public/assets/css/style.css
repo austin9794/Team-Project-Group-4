@@ -219,3 +219,23 @@ body {
 .thumbnail.active {
   border-color: #7c5cff; /* your accent colour */
 }
+
+/* Zoom effect styles */
+.zoom-container {
+  overflow: hidden;
+  border-radius: 12px;
+  cursor: zoom-in;
+}
+
+.zoom-image {
+  width: 100%;
+  height: auto;
+  transition: transform 0.35s ease;
+  transform-origin: center center;
+}
+
+.zoom-container:hover .zoom-image {
+  transform: scale(1.6);
+}
+
+

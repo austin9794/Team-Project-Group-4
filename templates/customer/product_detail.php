@@ -279,6 +279,12 @@ include __DIR__ . '/../header.php';
 <div class="product-gallery">
 
   <!-- MAIN IMAGE -->
+   <?php
+$mainImage = !empty($images)
+    ? $images[0]['image_path']
+    : 'placeholder.png';
+?>
+
   <div class="main-image">
     <img 
       id="mainProductImage"

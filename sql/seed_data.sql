@@ -261,7 +261,70 @@ INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
 SELECT product_id, 'products/keyboards/keyboard5/03.png', 0, 3
 FROM products WHERE slug = 'keyboard5';
 
+-- MICROPHONE 1 IMAGES
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/microphones/mic1/01.png', 1, 1
+FROM products WHERE slug = 'mic1';
 
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/microphones/mic1/02.png', 0, 2
+FROM products WHERE slug = 'mic1';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/microphones/mic1/03.png', 0, 3
+FROM products WHERE slug = 'mic1';
+
+-- MICROPHONE 2 IMAGES
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/microphones/mic2/01.png', 1, 1
+FROM products WHERE slug = 'mic2';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/microphones/mic2/02.png', 0, 2
+FROM products WHERE slug = 'mic2';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/microphones/mic2/03.png', 0, 3
+FROM products WHERE slug = 'mic2';
+
+-- MICROPHONE 3 IMAGES
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/microphones/mic3/01.png', 1, 1
+FROM products WHERE slug = 'mic3';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/microphones/mic3/02.png', 0, 2
+FROM products WHERE slug = 'mic3';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/microphones/mic3/03.png', 0, 3
+FROM products WHERE slug = 'mic3';
+
+-- MICROPHONE 4 IMAGES
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/microphones/mic4/01.png', 1, 1
+FROM products WHERE slug = 'mic4';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/microphones/mic4/02.png', 0, 2
+FROM products WHERE slug = 'mic4';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/microphones/mic4/03.png', 0, 3
+FROM products WHERE slug = 'mic4';
+
+-- MICROPHONE 5 IMAGES
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/microphones/mic5/01.png', 1, 1
+FROM products WHERE slug = 'mic5';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/microphones/mic5/02.png', 0, 2
+FROM products WHERE slug = 'mic5';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/microphones/mic5/03.png', 0, 3
+FROM products WHERE slug = 'mic5';
 
 -- EXAMPLE ORDER
 INSERT INTO orders (user_id, total_price, status)

@@ -24,6 +24,9 @@
     </div>
 </footer>
 
-<script src="assets/js/theme-toggle.js"></script>
+<script src="<?= BASE_URL ?>assets/js/main.js" defer></script>
+<script src="<?= BASE_URL ?>assets/js/theme-toggle.js" defer></script>
+<script src="<?= BASE_URL ?>assets/js/validation.js" defer></script>
+
 </body>
 </html>

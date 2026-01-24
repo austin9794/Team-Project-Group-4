@@ -57,7 +57,6 @@ CREATE TABLE products (
     name VARCHAR(150) NOT NULL,
     description TEXT NOT NULL,
     price DECIMAL(10,2) NOT NULL,
-    image VARCHAR(255) DEFAULT 'placeholder.png',
     stock INT NOT NULL DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
@@ -67,9 +66,30 @@ CREATE TABLE products (
         ON UPDATE CASCADE
 );
 
+ALTER TABLE products ADD slug VARCHAR(100) UNIQUE;
+
 -- Index for faster category filtering
 CREATE INDEX idx_products_category
     ON products(category_id);
+
+
+-- Product Images Table --
+
+CREATE TABLE product_images (
+    image_id INT AUTO_INCREMENT PRIMARY KEY,
+    product_id INT NOT NULL,
+    image_path VARCHAR(255) NOT NULL,
+    is_primary BOOLEAN DEFAULT 0,
+    sort_order INT DEFAULT 1,
+
+    FOREIGN KEY (product_id)
+        REFERENCES products(product_id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
+CREATE INDEX idx_product_images_product
+    ON product_images(product_id);
 
 -- Orders Table --
 

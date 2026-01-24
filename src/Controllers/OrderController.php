@@ -22,7 +22,17 @@ class OrderController {
         $total = 0;  
 
         foreach ($_SESSION['basket'] as $productId => $qty) {
-            $stmt = $db->prepare("SELECT price FROM products WHERE product_id = ?");
+           $stmt = $db->prepare("
+           SELECT 
+           p.name,
+           p.price,
+           p.slug,
+           c.name AS category
+           FROM products p
+           JOIN categories c ON p.category_id = c.category_id
+           WHERE p.product_id = ?
+       ");
+
             $stmt->execute([$productId]);
             $price = $stmt->fetchColumn();
 
@@ -88,22 +98,37 @@ class OrderController {
     $basketTotal = 0;
 
     foreach ($_SESSION['basket'] as $productId => $qty) {
-        $stmt = $db->prepare("SELECT name, price, image FROM products WHERE product_id = ?");
-        $stmt->execute([$productId]);
-        $p = $stmt->fetch();
+        $stmt = $db->prepare("
+    SELECT 
+        p.name,
+        p.price,
+        p.slug,
+        c.name AS category
+    FROM products p
+    JOIN categories c ON p.category_id = c.category_id
+    WHERE p.product_id = ?
+");
+$stmt->execute([$productId]);
+$p = $stmt->fetch();
+
         
         if ($p) {
-            $line = $p['price'] * $qty;
+    $line = $p['price'] * $qty;
 
-            $basketItems[] = [
-                'name' => $p['name'],
-                'quantity' => $qty,
-                'total' => $line,
-                'image' => $p['image']
-            ];
+    $imagePath = "products/"
+        . strtolower($p['category']) . "/"
+        . $p['slug'] . "/01.png";
 
-            $basketTotal += $line;
-        }
+    $basketItems[] = [
+        'name'     => $p['name'],
+        'quantity' => $qty,
+        'total'    => $line,
+        'image'    => $imagePath
+    ];
+
+    $basketTotal += $line;
+}
+
     }
 
     // PASS VARIABLES INTO TEMPLATE
@@ -162,13 +187,28 @@ public function showOrder()
 
     // Fetch items
     $itemsStmt = $db->prepare("
-        SELECT oi.*, pr.name, pr.image
+        SELECT 
+          oi.*,
+          pr.name,
+          pr.slug,
+          c.name AS category
         FROM order_items oi
         JOIN products pr ON oi.product_id = pr.product_id
+        JOIN categories c ON pr.category_id = c.category_id
         WHERE oi.order_id = ?
+
     ");
+
     $itemsStmt->execute([$orderId]);
     $items = $itemsStmt->fetchAll();
+
+    foreach ($items as &$item) {
+    $item['image'] =
+        "products/"
+        . strtolower($item['category']) . "/"
+        . $item['slug'] . "/01.png";
+}
+
 
     include __DIR__ . '/../../templates/customer/order_detail.php';
 }

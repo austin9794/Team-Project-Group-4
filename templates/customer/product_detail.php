@@ -286,12 +286,12 @@ $mainImage = !empty($images)
 ?>
 
   <div class="main-image">
-    <img 
-      id="mainProductImage"
-      src="<?= BASE_URL ?>assets/images/<?= htmlspecialchars($images[0]['image_path']) ?>"
-      alt="<?= htmlspecialchars($product['name']) ?>"
-    >
-  </div>
+  <img 
+    id="mainProductImage"
+    src="<?= BASE_URL ?>assets/images/<?= htmlspecialchars($mainImage) ?>"
+    alt="<?= htmlspecialchars($product['name']) ?>"
+  >
+</div>
 
   <!-- THUMBNAILS -->
   <div class="thumbnail-row">

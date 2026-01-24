@@ -22,7 +22,17 @@ class OrderController {
         $total = 0;  
 
         foreach ($_SESSION['basket'] as $productId => $qty) {
-            $stmt = $db->prepare("SELECT price FROM products WHERE product_id = ?");
+           $stmt = $db->prepare("
+           SELECT 
+           p.name,
+           p.price,
+           p.slug,
+           c.name AS category
+           FROM products p
+           JOIN categories c ON p.category_id = c.category_id
+           WHERE p.product_id = ?
+       ");
+
             $stmt->execute([$productId]);
             $price = $stmt->fetchColumn();
 
@@ -95,11 +105,15 @@ class OrderController {
         if ($p) {
             $line = $p['price'] * $qty;
 
+            $imagePath = "products/"
+           . strtolower($p['category']) . "/"
+           . $p['slug'] . "/01.png";
+
             $basketItems[] = [
                 'name' => $p['name'],
                 'quantity' => $qty,
                 'total' => $line,
-                'image' => $p['image']
+                'image' => $imagePath
             ];
 
             $basketTotal += $line;

@@ -23,24 +23,34 @@ class BasketController
 
             // Fetch product info including image
             $stmt = $this->db->prepare("
-                SELECT product_id, name, price, image
-                FROM products
-                WHERE product_id = ?
-            ");
+             SELECT 
+             p.product_id,
+             p.name,
+             p.price,
+             p.slug,
+             c.name AS category
+             FROM products p
+             JOIN categories c ON p.category_id = c.category_id
+              WHERE p.product_id = ?
+           ");
             $stmt->execute([$productId]);
             $product = $stmt->fetch();
 
-            if ($product) {
-                $lineTotal = $product['price'] * $qty;
+
+            $imagePath = "products/"
+           . strtolower($product['category']) . "/"
+           . $product['slug'] . "/01.png";
+
 
                 $items[] = [
-                    'id'       => $product['product_id'],
-                    'name'     => $product['name'],
-                    'price'    => $product['price'],
-                    'image'    => $product['image'], // <-- ADDED
-                    'quantity' => $qty,
-                    'total'    => $lineTotal
-                ];
+               'id'       => $product['product_id'],
+               'name'     => $product['name'],
+               'price'    => $product['price'],
+               'image'    => $imagePath,
+               'quantity' => $qty,
+               'total'    => $lineTotal
+     ];
+
 
                 $total += $lineTotal;
             }

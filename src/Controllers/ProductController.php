@@ -95,6 +95,17 @@ class ProductController {
             return;
         }
 
+        // Fetch all images for product
+        $imgStmt = $this->db->prepare("
+           SELECT image_path, is_primary
+           FROM product_images
+           WHERE product_id = ?
+           ORDER BY sort_order ASC
+        ");
+        $imgStmt->execute([$id]);
+        $images = $imgStmt->fetchAll();
+
+
         include __DIR__ . '/../../templates/customer/product_detail.php';
     }
 }

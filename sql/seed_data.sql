@@ -391,6 +391,71 @@ INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
 SELECT product_id, 'products/monitors/monitor5/03.png', 0, 3
 FROM products WHERE slug = 'monitor5';
 
+-- MICE 1 IMAGES
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/mice/mouse1/01.png', 1, 1
+FROM products WHERE slug = 'mouse1';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/mice/mouse1/02.png', 0, 2
+FROM products WHERE slug = 'mouse1';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/mice/mouse1/03.png', 0, 3
+FROM products WHERE slug = 'mouse1';
+
+-- MICE 2 IMAGES
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/mice/mouse2/01.png', 1, 1
+FROM products WHERE slug = 'mouse2';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/mice/mouse2/02.png', 0, 2
+FROM products WHERE slug = 'mouse2';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/mice/mouse2/03.png', 0, 3
+FROM products WHERE slug = 'mouse2';
+
+-- MICE 3 IMAGES
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/mice/mouse3/01.png', 1, 1
+FROM products WHERE slug = 'mouse3';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/mice/mouse3/02.png', 0, 2
+FROM products WHERE slug = 'mouse3';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/mice/mouse3/03.png', 0, 3
+FROM products WHERE slug = 'mouse3';
+
+-- MICE 4 IMAGES
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/mice/mouse4/01.png', 1, 1
+FROM products WHERE slug = 'mouse4';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/mice/mouse4/02.png', 0, 2
+FROM products WHERE slug = 'mouse4';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/mice/mouse4/03.png', 0, 3
+FROM products WHERE slug = 'mouse4';
+
+-- MICE 5 IMAGES
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/mice/mouse5/01.png', 1, 1
+FROM products WHERE slug = 'mouse5';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/mice/mouse5/02.png', 0, 2
+FROM products WHERE slug = 'mouse5';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/mice/mouse5/03.png', 0, 3
+FROM products WHERE slug = 'mouse5';
+
 -- EXAMPLE ORDER
 INSERT INTO orders (user_id, total_price, status)
 VALUES

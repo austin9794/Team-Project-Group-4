@@ -285,13 +285,15 @@ $mainImage = !empty($images)
     : 'placeholder.png';
 ?>
 
-  <div class="main-image">
-  <img 
+<div class="main-image zoom-container">
+  <img
     id="mainProductImage"
+    class="zoom-image"
     src="<?= BASE_URL ?>assets/images/<?= htmlspecialchars($mainImage) ?>"
     alt="<?= htmlspecialchars($product['name']) ?>"
   >
 </div>
+
 
   <!-- THUMBNAILS -->
   <?php if (!empty($images)): ?>

@@ -176,13 +176,28 @@ public function showOrder()
 
     // Fetch items
     $itemsStmt = $db->prepare("
-        SELECT oi.*, pr.name, pr.image
+        SELECT 
+          oi.*,
+          pr.name,
+          pr.slug,
+          c.name AS category
         FROM order_items oi
         JOIN products pr ON oi.product_id = pr.product_id
+        JOIN categories c ON pr.category_id = c.category_id
         WHERE oi.order_id = ?
+
     ");
+
     $itemsStmt->execute([$orderId]);
     $items = $itemsStmt->fetchAll();
+
+    foreach ($items as &$item) {
+    $item['image'] =
+        "products/"
+        . strtolower($item['category']) . "/"
+        . $item['slug'] . "/01.png";
+}
+
 
     include __DIR__ . '/../../templates/customer/order_detail.php';
 }

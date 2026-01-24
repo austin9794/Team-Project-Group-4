@@ -24,18 +24,18 @@ class ProductController {
 
    // Base query
         $sql = "
-    SELECT 
-        p.*, 
-        c.name AS category_name,
-        pi.image_path AS primary_image
-    FROM products p
-    JOIN categories c ON p.category_id = c.category_id
-    LEFT JOIN product_images pi 
-        ON p.product_id = pi.product_id 
-        AND pi.is_primary = 1
-    WHERE 1=1
-";
-
+      SELECT 
+      p.product_id,
+      p.name,
+      p.slug,
+      p.description,
+      p.price,
+      p.stock,
+      c.name AS category_name
+      FROM products p
+      JOIN categories c ON p.category_id = c.category_id
+      WHERE 1=1
+    ";
 
     // SEARCH FILTER
         if (!empty($filters['search'])) {

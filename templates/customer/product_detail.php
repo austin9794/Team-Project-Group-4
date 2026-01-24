@@ -294,6 +294,7 @@ $mainImage = !empty($images)
 </div>
 
   <!-- THUMBNAILS -->
+  <?php if (!empty($images)): ?>
   <div class="thumbnail-row">
     <?php foreach ($images as $index => $img): ?>
       <img
@@ -304,6 +305,8 @@ $mainImage = !empty($images)
       >
     <?php endforeach; ?>
   </div>
+<?php endif; ?>
+
 
 </div>
 

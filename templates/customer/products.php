@@ -281,7 +281,7 @@ $filters = [
                 <h3 class="product-title"><?php echo htmlspecialchars($product['name']); ?></h3>
 
                 <p class="product-category">
-                    <?php echo htmlspecialchars($product['category']); ?>
+                    <?php echo htmlspecialchars($product['category_name']); ?>
                 </p>
 
                 <p class="product-desc">
@@ -293,13 +293,14 @@ $filters = [
                 </p>
 
                 <div class="product-actions">
-                    <a href="index.php?page=product&id=<?php echo $product['id']; ?>"
-                       class="btn-view">View Details</a>
+                    <a href="index.php?page=product&id=<?= $product['product_id'] ?>"
+                        class="btn-view">View Details</a>
+
 
                     <?php if ($product['stock'] > 0): ?>
                         <form method="POST"
                               action="index.php?page=add-to-basket">
-                            <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
+                            <input type="hidden" name="product_id" value="<?= $product['product_id'] ?>">
                             <button type="submit" class="btn-basket">Add to Basket</button>
                         </form>
                     <?php else: ?>

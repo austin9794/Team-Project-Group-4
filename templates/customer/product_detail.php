@@ -403,16 +403,19 @@ $mainImage = !empty($images)
   const mainImage = document.getElementById('mainProductImage');
   const thumbnails = document.querySelectorAll('.thumbnail');
 
-  thumbnails.forEach(thumb => {
-    thumb.addEventListener('click', () => {
-      // Update main image
-      mainImage.src = thumb.dataset.image;
+  function activateThumbnail(thumb) {
+    mainImage.src = thumb.dataset.image;
+    thumbnails.forEach(t => t.classList.remove('active'));
+    thumb.classList.add('active');
+  }
 
-      // Update active state
-      thumbnails.forEach(t => t.classList.remove('active'));
-      thumb.classList.add('active');
+  thumbnails.forEach(thumb => {
+    thumb.addEventListener('click', () => activateThumbnail(thumb));
+    thumb.addEventListener('keydown', e => {
+      if (e.key === 'Enter') activateThumbnail(thumb);
     });
   });
 </script>
+
 
 <?php include __DIR__ . '/../footer.php'; ?>

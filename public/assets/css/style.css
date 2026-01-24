@@ -238,4 +238,9 @@ body {
   transform: scale(1.6);
 }
 
-
+/* Disable zoom effect on touch devices */
+@media (hover: none) {
+  .zoom-container:hover .zoom-image {
+    transform: none;
+  }
+}

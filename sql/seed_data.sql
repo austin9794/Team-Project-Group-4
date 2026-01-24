@@ -326,6 +326,71 @@ INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
 SELECT product_id, 'products/microphones/mic5/03.png', 0, 3
 FROM products WHERE slug = 'mic5';
 
+-- MONITOR 1 IMAGES
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/monitors/monitor1/01.png', 1, 1
+FROM products WHERE slug = 'monitor1';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/monitors/monitor1/02.png', 0, 2
+FROM products WHERE slug = 'monitor1';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/monitors/monitor1/03.png', 0, 3
+FROM products WHERE slug = 'monitor1';
+
+-- MONITOR 2 IMAGES
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/monitors/monitor2/01.png', 1, 1
+FROM products WHERE slug = 'monitor2';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/monitors/monitor2/02.png', 0, 2
+FROM products WHERE slug = 'monitor2';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/monitors/monitor2/03.png', 0, 3
+FROM products WHERE slug = 'monitor2';
+
+-- MONITOR 3 IMAGES
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/monitors/monitor3/01.png', 1, 1
+FROM products WHERE slug = 'monitor3';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/monitors/monitor3/02.png', 0, 2
+FROM products WHERE slug = 'monitor3';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/monitors/monitor3/03.png', 0, 3
+FROM products WHERE slug = 'monitor3';
+
+-- MONITOR 4 IMAGES
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/monitors/monitor4/01.png', 1, 1
+FROM products WHERE slug = 'monitor4';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/monitors/monitor4/02.png', 0, 2
+FROM products WHERE slug = 'monitor4';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/monitors/monitor4/03.png', 0, 3
+FROM products WHERE slug = 'monitor4';
+
+-- MONITOR 5 IMAGES
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/monitors/monitor5/01.png', 1, 1
+FROM products WHERE slug = 'monitor5';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/monitors/monitor5/02.png', 0, 2
+FROM products WHERE slug = 'monitor5';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/monitors/monitor5/03.png', 0, 3
+FROM products WHERE slug = 'monitor5';
+
 -- EXAMPLE ORDER
 INSERT INTO orders (user_id, total_price, status)
 VALUES

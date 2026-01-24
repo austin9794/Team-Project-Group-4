@@ -276,18 +276,30 @@ include __DIR__ . '/../header.php';
     <span><?= htmlspecialchars($product['category_name'] ?? 'Product') ?></span>
   </div>
 
-  <div class="product-detail-grid">
-    <!-- Product Image -->
-    <div class="product-image-section">
-      <img 
-    src="<?= BASE_URL ?>assets/images/<?= htmlspecialchars($product['image'] ?? 'placeholder.png') ?>" 
-    alt="<?= htmlspecialchars($product['name']) ?>"
-    style="max-width:100%; max-height:400px; object-fit:contain;"
->
+<div class="product-gallery">
 
-
-    </div>
+  <!-- MAIN IMAGE -->
+  <div class="main-image">
+    <img 
+      id="mainProductImage"
+      src="<?= BASE_URL ?>assets/images/<?= htmlspecialchars($images[0]['image_path']) ?>"
+      alt="<?= htmlspecialchars($product['name']) ?>"
+    >
   </div>
+
+  <!-- THUMBNAILS -->
+  <div class="thumbnail-row">
+    <?php foreach ($images as $index => $img): ?>
+      <img
+        src="<?= BASE_URL ?>assets/images/<?= htmlspecialchars($img['image_path']) ?>"
+        class="thumbnail <?= $index === 0 ? 'active' : '' ?>"
+        data-image="<?= BASE_URL ?>assets/images/<?= htmlspecialchars($img['image_path']) ?>"
+        alt="Thumbnail <?= $index + 1 ?>"
+      >
+    <?php endforeach; ?>
+  </div>
+
+</div>
 
   <!-- Details and Reviews Grid -->
   <div class="details-reviews-grid">

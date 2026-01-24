@@ -98,26 +98,37 @@ class OrderController {
     $basketTotal = 0;
 
     foreach ($_SESSION['basket'] as $productId => $qty) {
-        $stmt = $db->prepare("SELECT name, price, image FROM products WHERE product_id = ?");
-        $stmt->execute([$productId]);
-        $p = $stmt->fetch();
+        $stmt = $db->prepare("
+    SELECT 
+        p.name,
+        p.price,
+        p.slug,
+        c.name AS category
+    FROM products p
+    JOIN categories c ON p.category_id = c.category_id
+    WHERE p.product_id = ?
+");
+$stmt->execute([$productId]);
+$p = $stmt->fetch();
+
         
         if ($p) {
-            $line = $p['price'] * $qty;
+    $line = $p['price'] * $qty;
 
-            $imagePath = "products/"
-           . strtolower($p['category']) . "/"
-           . $p['slug'] . "/01.png";
+    $imagePath = "products/"
+        . strtolower($p['category']) . "/"
+        . $p['slug'] . "/01.png";
 
-            $basketItems[] = [
-                'name' => $p['name'],
-                'quantity' => $qty,
-                'total' => $line,
-                'image' => $imagePath
-            ];
+    $basketItems[] = [
+        'name'     => $p['name'],
+        'quantity' => $qty,
+        'total'    => $line,
+        'image'    => $imagePath
+    ];
 
-            $basketTotal += $line;
-        }
+    $basketTotal += $line;
+}
+
     }
 
     // PASS VARIABLES INTO TEMPLATE

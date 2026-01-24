@@ -400,23 +400,5 @@ $mainImage = !empty($images)
   </div>
 </div>
 
-<script>
-  const mainImage = document.getElementById('mainProductImage');
-  const thumbnails = document.querySelectorAll('.thumbnail');
-
-  function activateThumbnail(thumb) {
-    mainImage.src = thumb.dataset.image;
-    thumbnails.forEach(t => t.classList.remove('active'));
-    thumb.classList.add('active');
-  }
-
-  thumbnails.forEach(thumb => {
-    thumb.addEventListener('click', () => activateThumbnail(thumb));
-    thumb.addEventListener('keydown', e => {
-      if (e.key === 'Enter') activateThumbnail(thumb);
-    });
-  });
-</script>
-
 
 <?php include __DIR__ . '/../footer.php'; ?>

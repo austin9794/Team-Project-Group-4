@@ -92,13 +92,13 @@ try {
 
   
   // Apply filters to fallback data
-  $selected_category = isset($_GET['category']) ? $_GET['category'] : null;
+  $selected_category = isset($_GET['category_name']) ? $_GET['category_name'] : null;
   $search_term = isset($_GET['search']) ? $_GET['search'] : null;
   $min_price = isset($_GET['min_price']) ? (float)$_GET['min_price'] : null;
   $max_price = isset($_GET['max_price']) ? (float)$_GET['max_price'] : null;
   
   if (!empty($selected_category)) {
-    $filtered_products = array_filter($filtered_products, fn($p) => $p['category'] === $selected_category);
+    $filtered_products = array_filter($filtered_products, fn($p) => $p['category_name'] === $selected_category);
   }
   
   if (!empty($search_term)) {

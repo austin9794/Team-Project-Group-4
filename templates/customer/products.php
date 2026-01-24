@@ -271,9 +271,16 @@ $filters = [
         <div class="product-card">
 
             <div class="product-img">
-                <img src="/Team-Project-Group-4/public/assets/images/<?= htmlspecialchars($product['image'] ?? 'placeholder.png') ?>" alt="<?= htmlspecialchars($product['name']) ?>">
+                <?php
+               $imagePath = "products/"
+              . strtolower($product['category_name']) . "/"
+              . $product['slug'] . "/01.png";
+             ?>
 
-
+            <img 
+                src="<?= BASE_URL ?>assets/images/<?= htmlspecialchars($imagePath) ?>" 
+                alt="<?= htmlspecialchars($product['name']) ?>"
+                >
 
             </div>
 

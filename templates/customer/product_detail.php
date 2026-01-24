@@ -297,6 +297,7 @@ $mainImage = !empty($images)
   <?php if (!empty($images)): ?>
   <div class="thumbnail-row">
     <?php foreach ($images as $index => $img): ?>
+      <img ... tabindex="0">
       <img
         src="<?= BASE_URL ?>assets/images/<?= htmlspecialchars($img['image_path']) ?>"
         class="thumbnail <?= $index === 0 ? 'active' : '' ?>"

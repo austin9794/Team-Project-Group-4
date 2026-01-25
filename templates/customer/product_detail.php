@@ -277,3 +277,6 @@ include __DIR__ . '/../header.php';
     <span>/</span>
     <span><?= htmlspecialchars($product['category_name']) ?></span>
   </div>
+
+  <!-- TOP SECTION: Gallery + Info -->
+  <div class="product-main-grid">

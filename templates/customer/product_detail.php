@@ -363,9 +363,13 @@ include __DIR__ . '/../header.php';
       <?php endif; ?>
 
       <!-- Description -->
-      <p class="product-description">
-        <?= nl2br(htmlspecialchars($product['description'])) ?>
+      <div class="product-about">
+      <h3 class="about-title">About this item</h3>
+
+       <p class="product-description">
+       <?= nl2br(htmlspecialchars($product['description'])) ?>
       </p>
+    </div>
 
       <!-- (Future) Variants go HERE -->
       <div class="product-variants">

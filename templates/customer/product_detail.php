@@ -339,3 +339,33 @@ include __DIR__ . '/../header.php';
       <p class="product-description">
         <?= nl2br(htmlspecialchars($product['description'])) ?>
       </p>
+
+      <!-- (Future) Variants go HERE -->
+      <div class="product-variants">
+        <!-- colour / style selectors later -->
+      </div>
+
+      <!-- Add to cart -->
+      <?php if ($product['stock'] > 0): ?>
+        <form method="POST" action="<?= BASE_URL ?>index.php?page=add-to-basket" class="add-to-cart-form">
+          <input type="hidden" name="product_id" value="<?= $product['product_id'] ?>">
+
+          <div class="quantity-row">
+            <label for="quantity">Qty</label>
+            <input
+              type="number"
+              id="quantity"
+              name="quantity"
+              value="1"
+              min="1"
+              max="<?= $product['stock'] ?>"
+            >
+            <button type="submit" class="btn-add-cart">Add to Cart</button>
+          </div>
+        </form>
+      <?php else: ?>
+        <button class="btn-add-cart" disabled>Out of Stock</button>
+      <?php endif; ?>
+
+    </div>
+  </div>

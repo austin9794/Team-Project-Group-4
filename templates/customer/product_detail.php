@@ -314,3 +314,28 @@ include __DIR__ . '/../header.php';
       <?php endif; ?>
 
     </div>
+
+    <!-- RIGHT: PRODUCT INFO -->
+    <div class="product-info-panel">
+
+      <h1 class="product-title"><?= htmlspecialchars($product['name']) ?></h1>
+
+      <div class="product-price">£<?= number_format($product['price'], 2) ?></div>
+
+      <div class="product-rating">
+        ☆☆☆☆☆ <span>(<?= $product['review_count'] ?? 0 ?> reviews)</span>
+      </div>
+
+      <!-- Stock Status -->
+      <?php if ($product['stock'] > 10): ?>
+        <span class="stock-status in-stock">✓ In Stock</span>
+      <?php elseif ($product['stock'] > 0): ?>
+        <span class="stock-status low-stock">⚠ Low Stock (<?= $product['stock'] ?> left)</span>
+      <?php else: ?>
+        <span class="stock-status out-of-stock">✗ Out of Stock</span>
+      <?php endif; ?>
+
+      <!-- Description -->
+      <p class="product-description">
+        <?= nl2br(htmlspecialchars($product['description'])) ?>
+      </p>

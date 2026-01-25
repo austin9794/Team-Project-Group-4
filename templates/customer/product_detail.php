@@ -267,7 +267,3 @@ include __DIR__ . '/../header.php';
   }
 </style>
 
-
-
-
-<?php include __DIR__ . '/../footer.php'; ?>

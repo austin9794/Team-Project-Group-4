@@ -161,6 +161,12 @@ include __DIR__ . '/../header.php';
     text-align: center;
   }
 
+  .quantity-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
   .product-actions {
     display: flex;
     gap: 1rem;

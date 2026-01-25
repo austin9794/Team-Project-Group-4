@@ -378,7 +378,7 @@ include __DIR__ . '/../header.php';
           <input type="hidden" name="product_id" value="<?= $product['product_id'] ?>">
 
           <div class="quantity-row">
-            <label for="quantity">Qty</label>
+            <label for="quantity">Quantity</label>
             <input
               type="number"
               id="quantity"

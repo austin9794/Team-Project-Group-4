@@ -394,3 +394,5 @@ include __DIR__ . '/../header.php';
   </section>
 
 </div>
+
+<?php include __DIR__ . '/../footer.php'; ?>

@@ -267,3 +267,13 @@ include __DIR__ . '/../header.php';
   }
 </style>
 
+<div class="product-detail-container">
+
+  <!-- Breadcrumb -->
+  <div class="product-breadcrumb">
+    <a href="<?= BASE_URL ?>index.php?page=home">Home</a>
+    <span>/</span>
+    <a href="<?= BASE_URL ?>index.php?page=products">Products</a>
+    <span>/</span>
+    <span><?= htmlspecialchars($product['category_name']) ?></span>
+  </div>

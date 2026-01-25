@@ -214,6 +214,13 @@ include __DIR__ . '/../header.php';
     border-radius: 12px;
   }
 
+  .reviews-section.full-width {
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255,255,255,0.1);
+  }
+
+
   .details-reviews-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;

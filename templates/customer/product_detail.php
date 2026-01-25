@@ -280,3 +280,37 @@ include __DIR__ . '/../header.php';
 
   <!-- TOP SECTION: Gallery + Info -->
   <div class="product-main-grid">
+
+  <!-- LEFT: IMAGE GALLERY -->
+    <div class="product-gallery">
+
+      <?php
+        $mainImage = !empty($images)
+          ? $images[0]['image_path']
+          : 'placeholder.png';
+      ?>
+
+      <div class="main-image zoom-container">
+        <img
+          id="mainProductImage"
+          class="zoom-image"
+          src="<?= BASE_URL ?>assets/images/<?= htmlspecialchars($mainImage) ?>"
+          alt="<?= htmlspecialchars($product['name']) ?>"
+        >
+      </div>
+
+      <?php if (!empty($images)): ?>
+        <div class="thumbnail-row">
+          <?php foreach ($images as $index => $img): ?>
+            <img
+              src="<?= BASE_URL ?>assets/images/<?= htmlspecialchars($img['image_path']) ?>"
+              class="thumbnail <?= $index === 0 ? 'active' : '' ?>"
+              data-image="<?= BASE_URL ?>assets/images/<?= htmlspecialchars($img['image_path']) ?>"
+              alt="Thumbnail <?= $index + 1 ?>"
+              tabindex="0"
+            >
+          <?php endforeach; ?>
+        </div>
+      <?php endif; ?>
+
+    </div>

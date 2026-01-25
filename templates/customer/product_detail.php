@@ -28,6 +28,14 @@ include __DIR__ . '/../header.php';
     margin-bottom: 3rem;
   }
 
+  .product-main-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: start;
+  }
+
+
   .product-image-section {
     background: var(--bg-secondary);
     padding: 2rem;

@@ -35,6 +35,12 @@ include __DIR__ . '/../header.php';
     align-items: start;
   }
 
+  .product-info-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
 
   .product-image-section {
     background: var(--bg-secondary);

@@ -25,21 +25,23 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Hover zoom (desktop only)
-  if (zoomContainer && zoomImage) {
-    zoomContainer.addEventListener('mousemove', e => {
-      const rect = zoomContainer.getBoundingClientRect();
-      const x = ((e.clientX - rect.left) / rect.width) * 100;
-      const y = ((e.clientY - rect.top) / rect.height) * 100;
+  zoomImage.addEventListener("mousemove", (e) => {
+  const rect = zoomImage.getBoundingClientRect();
 
-      zoomImage.style.transformOrigin = `${x}% ${y}%`;
-      zoomImage.style.transform = 'scale(1.8)';
-    });
+  // Mouse position RELATIVE to image
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
 
-    zoomContainer.addEventListener('mouseleave', () => {
-      zoomImage.style.transform = 'scale(1)';
-      zoomImage.style.transformOrigin = 'center center';
-    });
-  }
+  // Ignore if mouse somehow escapes bounds
+  if (x < 0 || y < 0 || x > rect.width || y > rect.height) return;
+
+  const xPercent = (x / rect.width) * 100;
+  const yPercent = (y / rect.height) * 100;
+
+  zoomImage.style.transformOrigin = `${xPercent}% ${yPercent}%`;
+  zoomImage.style.transform = "scale(1.8)";
+});
+
 
 });
 

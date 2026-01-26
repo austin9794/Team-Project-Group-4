@@ -40,6 +40,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   zoomImage.style.transformOrigin = `${xPercent}% ${yPercent}%`;
   zoomImage.style.transform = "scale(1.8)";
+
+  zoomImage.addEventListener("mouseleave", () => {
+  zoomImage.style.transform = "scale(1)";
+  zoomImage.style.transformOrigin = "center center";
+ });
+
 });
 
 

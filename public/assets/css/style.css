@@ -301,7 +301,7 @@ body {
   color: #fff;
   font-size: 60px;
   cursor: pointer;
-  opacity: 0.6;
+  opacity: 0.8;
 }
 
 .modal-nav:hover {
@@ -360,11 +360,4 @@ body {
   transform: scale(1.03);
 }
 
-.modal-nav {
-  cursor: pointer;
-  opacity: 0.8;
-}
 
-.modal-nav:hover {
-  opacity: 1;
-}

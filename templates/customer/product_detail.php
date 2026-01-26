@@ -276,18 +276,42 @@ include __DIR__ . '/../header.php';
     <span><?= htmlspecialchars($product['category_name'] ?? 'Product') ?></span>
   </div>
 
-  <div class="product-detail-grid">
-    <!-- Product Image -->
-    <div class="product-image-section">
-      <img 
-    src="<?= BASE_URL ?>assets/images/<?= htmlspecialchars($product['image'] ?? 'placeholder.png') ?>" 
+<div class="product-gallery">
+
+  <!-- MAIN IMAGE -->
+   <?php
+$mainImage = !empty($images)
+    ? $images[0]['image_path']
+    : 'placeholder.png';
+?>
+
+<div class="main-image zoom-container">
+  <img
+    id="mainProductImage"
+    class="zoom-image"
+    src="<?= BASE_URL ?>assets/images/<?= htmlspecialchars($mainImage) ?>"
     alt="<?= htmlspecialchars($product['name']) ?>"
-    style="max-width:100%; max-height:400px; object-fit:contain;"
->
+  >
+</div>
 
 
-    </div>
+  <!-- THUMBNAILS -->
+  <?php if (!empty($images)): ?>
+  <div class="thumbnail-row">
+    <?php foreach ($images as $index => $img): ?>
+      <img ... tabindex="0">
+      <img
+        src="<?= BASE_URL ?>assets/images/<?= htmlspecialchars($img['image_path']) ?>"
+        class="thumbnail <?= $index === 0 ? 'active' : '' ?>"
+        data-image="<?= BASE_URL ?>assets/images/<?= htmlspecialchars($img['image_path']) ?>"
+        alt="Thumbnail <?= $index + 1 ?>"
+      >
+    <?php endforeach; ?>
   </div>
+<?php endif; ?>
+
+
+</div>
 
   <!-- Details and Reviews Grid -->
   <div class="details-reviews-grid">
@@ -377,5 +401,6 @@ include __DIR__ . '/../header.php';
     </section>
   </div>
 </div>
+
 
 <?php include __DIR__ . '/../footer.php'; ?>

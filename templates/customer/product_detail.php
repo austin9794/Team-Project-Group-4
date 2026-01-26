@@ -317,14 +317,19 @@ include __DIR__ . '/../header.php';
           : 'placeholder.png';
       ?>
 
-      <div class="main-image zoom-container">
-        <img
+        <div class="main-image zoom-container">
+          <img
           id="mainProductImage"
-          class="zoom-image"
+          class="zoom-image clickable"
           src="<?= BASE_URL ?>assets/images/<?= htmlspecialchars($mainImage) ?>"
-          alt="<?= htmlspecialchars($product['name']) ?>"
-        >
-      </div>
+           alt="<?= htmlspecialchars($product['name']) ?>"
+            >
+
+           <button class="view-full-btn" type="button">
+           View full image
+          </button>
+       </div>
+
 
       <?php if (!empty($images)): ?>
         <div class="thumbnail-row">
@@ -433,16 +438,6 @@ include __DIR__ . '/../header.php';
   <img id="modalImage" src="" alt="Product image fullscreen">
 
   <button class="modal-nav next">&#10095;</button>
-  </div>
-
-  <div class="main-image zoom-container">
-  <img
-    id="mainProductImage"
-    class="zoom-image clickable"
-    src="<?= BASE_URL ?>assets/images/<?= htmlspecialchars($mainImage) ?>"
-    alt="<?= htmlspecialchars($product['name']) ?>"
-  >
-  <span class="view-full">View full image</span>
   </div>
 
 

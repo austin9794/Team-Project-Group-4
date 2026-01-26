@@ -241,14 +241,13 @@ body {
 /* Zoom effect styles */
 .zoom-container {
   overflow: hidden;
-  border-radius: 12px;
   cursor: zoom-in;
 }
 
 .zoom-image {
   width: 100%;
   height: auto;
-  transition: transform 0.35s ease;
+  transition: transform 0.2s ease;
   transform-origin: center center;
 }
 
@@ -321,7 +320,8 @@ body {
 }
 
 .main-image {
-  position: relative; /* anchor for absolute children */
+  position: relative; 
+  overflow: visible;
 }
 
 .view-full-btn {
@@ -339,7 +339,7 @@ body {
 
   cursor: pointer;
   z-index: 10; 
-  
+
   transition: background 0.2s ease, transform 0.2s ease;
 }
 

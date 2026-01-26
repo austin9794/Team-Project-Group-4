@@ -316,19 +316,6 @@ body {
   right: 30px;
 }
 
-.view-full {
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
-  background: rgba(0,0,0,0.6);
-  padding: 6px 12px;
-  font-size: 0.85rem;
-  color: #fff;
-  border-radius: 6px;
-  pointer-events: auto;
-  cursor: pointer
-}
-
 .clickable {
   cursor: zoom-in;
 }

@@ -338,8 +338,8 @@ body {
   border: 1px solid rgba(255,255,255,0.2);
 
   cursor: pointer;
-  z-index: 10; /* VERY IMPORTANT */
-
+  z-index: 10; 
+  
   transition: background 0.2s ease, transform 0.2s ease;
 }
 

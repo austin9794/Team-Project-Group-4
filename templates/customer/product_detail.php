@@ -424,6 +424,17 @@ include __DIR__ . '/../header.php';
     <?php endif; ?>
   </section>
 
+  <!-- FULLSCREEN IMAGE MODAL -->
+ <div id="imageModal" class="image-modal" aria-hidden="true">
+   <span class="modal-close">&times;</span>
+
+  <button class="modal-nav prev">&#10094;</button>
+
+  <img id="modalImage" src="" alt="Product image fullscreen">
+
+  <button class="modal-nav next">&#10095;</button>
+</div>
+
 </div>
 
 <?php include __DIR__ . '/../footer.php'; ?>

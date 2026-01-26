@@ -322,13 +322,11 @@ include __DIR__ . '/../header.php';
           id="mainProductImage"
           class="zoom-image clickable"
           src="<?= BASE_URL ?>assets/images/<?= htmlspecialchars($mainImage) ?>"
-           alt="<?= htmlspecialchars($product['name']) ?>"
+          alt="<?= htmlspecialchars($product['name']) ?>"
             >
 
-           <button class="view-full-btn" type="button">
-           View full image
-          </button>
-       </div>
+          <button type="button" class="view-full-btn">View full image</button>
+        </div>
 
 
       <?php if (!empty($images)): ?>

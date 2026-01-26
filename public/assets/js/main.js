@@ -44,10 +44,9 @@ document.addEventListener('DOMContentLoaded', () => {
   zoomImage.addEventListener("mouseleave", () => {
   zoomImage.style.transform = "scale(1)";
   zoomImage.style.transformOrigin = "center center";
+   });
+
  });
-
-});
-
 
 });
 

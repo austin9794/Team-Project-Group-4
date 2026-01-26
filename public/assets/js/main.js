@@ -42,3 +42,62 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+  const modal = document.getElementById("imageModal");
+  const modalImg = document.getElementById("modalImage");
+  const closeBtn = document.querySelector(".modal-close");
+  const nextBtn = document.querySelector(".modal-nav.next");
+  const prevBtn = document.querySelector(".modal-nav.prev");
+
+  const thumbnails = document.querySelectorAll(".thumbnail");
+  const mainImage = document.getElementById("mainProductImage");
+
+  if (!modal || thumbnails.length === 0) return;
+
+  let currentIndex = 0;
+  const images = Array.from(thumbnails).map(t => t.dataset.image);
+
+  function openModal(index) {
+    currentIndex = index;
+    modalImg.src = images[currentIndex];
+    modal.classList.add("active");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeModal() {
+    modal.classList.remove("active");
+    document.body.style.overflow = "";
+  }
+
+  function showNext() {
+    currentIndex = (currentIndex + 1) % images.length;
+    modalImg.src = images[currentIndex];
+  }
+
+  function showPrev() {
+    currentIndex = (currentIndex - 1 + images.length) % images.length;
+    modalImg.src = images[currentIndex];
+  }
+
+  thumbnails.forEach((thumb, i) => {
+    thumb.addEventListener("click", () => openModal(i));
+  });
+
+  mainImage.addEventListener("click", () => openModal(0));
+
+  closeBtn.addEventListener("click", closeModal);
+  nextBtn.addEventListener("click", showNext);
+  prevBtn.addEventListener("click", showPrev);
+
+  modal.addEventListener("click", e => {
+    if (e.target === modal) closeModal();
+  });
+
+  document.addEventListener("keydown", e => {
+    if (!modal.classList.contains("active")) return;
+    if (e.key === "Escape") closeModal();
+    if (e.key === "ArrowRight") showNext();
+    if (e.key === "ArrowLeft") showPrev();
+  });
+});

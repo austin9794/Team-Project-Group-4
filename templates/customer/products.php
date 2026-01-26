@@ -223,7 +223,8 @@ $filters = [
         <input type="hidden" name="page" value="products">
 
         <!-- Logo positioned behind filters -->
-        <img src="<?= BASE_URL ?>assets/images/logo_no_text.png" alt="Level Up Gaming" style="position: absolute; right: -50px; top: 45%; transform: translateY(-50%); height: 400px; width: auto; opacity: 0.7; z-index: -1;">
+        <img src="<?= BASE_URL ?>assets/images/logo_no_text.png" alt="Level Up Gaming" style="position: absolute; right: 0;
+         transform: translateX(50%); top: 45%; transform: translateY(-50%); height: 400px; width: auto; opacity: 0.7; z-index: -1;">
 
 
         <!-- Other Filters Section -->

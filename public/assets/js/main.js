@@ -28,26 +28,56 @@ document.addEventListener('DOMContentLoaded', () => {
   zoomImage.addEventListener("mousemove", (e) => {
   const rect = zoomImage.getBoundingClientRect();
 
-  // Mouse position RELATIVE to image
-  const x = e.clientX - rect.left;
-  const y = e.clientY - rect.top;
+    // Mouse position RELATIVE to image
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
 
-  // Ignore if mouse somehow escapes bounds
-  if (x < 0 || y < 0 || x > rect.width || y > rect.height) return;
+    // Ignore if mouse somehow escapes bounds
+    if (x < 0 || y < 0 || x > rect.width || y > rect.height) return;
 
-  const xPercent = (x / rect.width) * 100;
-  const yPercent = (y / rect.height) * 100;
+    const xPercent = (x / rect.width) * 100;
+    const yPercent = (y / rect.height) * 100;
 
-  zoomImage.style.transformOrigin = `${xPercent}% ${yPercent}%`;
-  zoomImage.style.transform = "scale(1.8)";
+    zoomImage.style.transformOrigin = `${xPercent}% ${yPercent}%`;
+    zoomImage.style.transform = "scale(1.8)";
 
-  zoomImage.addEventListener("mouseleave", () => {
-  zoomImage.style.transform = "scale(1)";
-  zoomImage.style.transformOrigin = "center center";
-   });
+    zoomImage.addEventListener("mouseleave", () => {
+    zoomImage.style.transform = "scale(1)";
+    zoomImage.style.transformOrigin = "center center";
+    });
+  });
+});
 
- });
+document.addEventListener("DOMContentLoaded", () => {
+  const img = document.getElementById("mainProductImage");
+  const zoomResult = document.getElementById("zoomResult");
 
+  if (!img || !zoomResult) return;
+
+  zoomResult.style.backgroundImage = `url(${img.src})`;
+
+  img.addEventListener("mouseenter", () => {
+    zoomResult.style.display = "block";
+  });
+
+  img.addEventListener("mouseleave", () => {
+    zoomResult.style.display = "none";
+  });
+
+  img.addEventListener("mousemove", (e) => {
+    const rect = img.getBoundingClientRect();
+
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    // Safety guard
+    if (x < 0 || y < 0 || x > rect.width || y > rect.height) return;
+
+    const xPercent = (x / rect.width) * 100;
+    const yPercent = (y / rect.height) * 100;
+
+    zoomResult.style.backgroundPosition = `${xPercent}% ${yPercent}%`;
+  });
 });
 
 document.addEventListener("DOMContentLoaded", () => {

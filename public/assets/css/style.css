@@ -348,4 +348,25 @@ body {
   transform: scale(1.03);
 }
 
+.image-zoom-wrapper {
+  position: relative;
+  display: flex;
+  gap: 20px;
+}
+
+.image-zoom-wrapper img {
+  width: 420px;
+  height: auto;
+  cursor: crosshair;
+}
+
+#zoomResult {
+  width: 420px;
+  height: 420px;
+  border-radius: 10px;
+  background-repeat: no-repeat;
+  background-size: 200%;
+  display: none;
+  border: 1px solid rgba(255,255,255,0.15);
+}
 

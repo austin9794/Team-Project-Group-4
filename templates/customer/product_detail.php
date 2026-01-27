@@ -309,45 +309,50 @@ include __DIR__ . '/../header.php';
   <div class="product-main-grid">
 
     <!-- LEFT: IMAGE + ZOOM -->
-    <div class="product-gallery image-zoom-wrapper">
+<div class="product-gallery">
 
-      <?php
-        $mainImage = !empty($images)
-          ? $images[0]['image_path']
-          : 'placeholder.png';
-      ?>
+  <?php
+    $mainImage = !empty($images)
+      ? $images[0]['image_path']
+      : 'placeholder.png';
+  ?>
 
-      <div class="main-image">
-        <img
-          id="mainProductImage"
-          src="<?= BASE_URL ?>assets/images/<?= htmlspecialchars($mainImage) ?>"
-          alt="<?= htmlspecialchars($product['name']) ?>"
-        >
+  <div class="image-zoom-wrapper">
 
-        <button type="button" class="view-full-btn">
-          View full image
-        </button>
-      </div>
+    <!-- MAIN IMAGE -->
+    <div class="image-preview">
+      <img
+        id="mainProductImage"
+        src="<?= BASE_URL ?>assets/images/<?= htmlspecialchars($mainImage) ?>"
+        alt="<?= htmlspecialchars($product['name']) ?>"
+      >
 
-      <!-- Zoom preview panel -->
-      <div id="zoomResult"></div>
-
-      <!-- Thumbnails -->
-      <?php if (!empty($images)): ?>
-        <div class="thumbnail-row">
-          <?php foreach ($images as $index => $img): ?>
-            <img
-              src="<?= BASE_URL ?>assets/images/<?= htmlspecialchars($img['image_path']) ?>"
-              class="thumbnail <?= $index === 0 ? 'active' : '' ?>"
-              data-image="<?= BASE_URL ?>assets/images/<?= htmlspecialchars($img['image_path']) ?>"
-              tabindex="0"
-              alt="Thumbnail <?= $index + 1 ?>"
-            >
-          <?php endforeach; ?>
-        </div>
-      <?php endif; ?>
-
+      <button type="button" class="view-full-btn">
+        View full image
+      </button>
     </div>
+
+    <!-- ZOOM RESULT -->
+    <div id="zoomResult"></div>
+
+  </div>
+
+  <!-- THUMBNAILS -->
+  <?php if (!empty($images)): ?>
+    <div class="thumbnail-row">
+      <?php foreach ($images as $index => $img): ?>
+        <img
+          src="<?= BASE_URL ?>assets/images/<?= htmlspecialchars($img['image_path']) ?>"
+          class="thumbnail <?= $index === 0 ? 'active' : '' ?>"
+          data-image="<?= BASE_URL ?>assets/images/<?= htmlspecialchars($img['image_path']) ?>"
+          alt="Thumbnail <?= $index + 1 ?>"
+        >
+      <?php endforeach; ?>
+    </div>
+  <?php endif; ?>
+
+</div>
+
 
     <!-- RIGHT: PRODUCT INFO -->
     <div class="product-info-panel">

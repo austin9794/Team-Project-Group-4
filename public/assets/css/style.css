@@ -202,10 +202,14 @@ body {
 }
 
 .product-gallery {
-  position: sticky;
+  position: relative;
   top: 120px;
 }
 
+.product-gallery-wrapper {
+  position: sticky;
+  top: 120px;
+}
 
 .main-image img {
   width: 420px;

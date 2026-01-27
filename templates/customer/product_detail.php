@@ -343,17 +343,6 @@ include __DIR__ . '/../header.php';
         </div>
       <?php endif; ?>
 
-      <div class="image-zoom-wrapper">
-       <img
-        id="mainProductImage"
-        src="<?= BASE_URL ?>assets/images/<?= htmlspecialchars($mainImage) ?>"
-        alt="<?= htmlspecialchars($product['name']) ?>"
-         >
-
-         <!-- Zoom result panel -->
-             <div id="zoomResult"></div>
-      </div>
-
     </div>
 
     <!-- RIGHT: PRODUCT INFO -->

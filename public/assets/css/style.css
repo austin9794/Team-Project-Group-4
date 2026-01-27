@@ -340,7 +340,8 @@ body {
 .image-zoom-wrapper {
   position: relative;
   display: flex;
-  gap: 20px;
+  gap: 24px;
+  align-items: flex-start;
 }
 
 .image-zoom-wrapper img {

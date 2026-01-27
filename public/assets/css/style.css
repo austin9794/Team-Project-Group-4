@@ -318,19 +318,13 @@ body {
   position: absolute;
   bottom: 12px;
   right: 12px;
-
   padding: 8px 14px;
-  font-size: 0.9rem;
-  border-radius: 6px;
-
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(0,0,0,0.75);
   color: #fff;
-  border: 1px solid rgba(255,255,255,0.2);
-
+  border-radius: 6px;
+  border: none;
   cursor: pointer;
-  z-index: 5; 
-
-  transition: background 0.2s ease, transform 0.2s ease;
+  z-index: 5;
 }
 
 .view-full-btn:hover {

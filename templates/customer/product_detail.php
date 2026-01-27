@@ -317,33 +317,37 @@ include __DIR__ . '/../header.php';
           : 'placeholder.png';
       ?>
 
-        <div class="main-image zoom-container">
-          <img
+        <div class="product-gallery image-zoom-wrapper">
+
+         <div class="main-image">
+        <img
           id="mainProductImage"
-          class="zoom-image clickable"
           src="<?= BASE_URL ?>assets/images/<?= htmlspecialchars($mainImage) ?>"
           alt="<?= htmlspecialchars($product['name']) ?>"
-            >
+        >
 
-          <button type="button" class="view-full-btn">View full image</button>
-        </div>
+        <button type="button" class="view-full-btn">
+          View full image
+         </button>
+       </div>
 
+       <div id="zoomResult"></div>
 
-      <?php if (!empty($images)): ?>
+        <?php if (!empty($images)): ?>
         <div class="thumbnail-row">
-          <?php foreach ($images as $index => $img): ?>
-            <img
-              src="<?= BASE_URL ?>assets/images/<?= htmlspecialchars($img['image_path']) ?>"
-              class="thumbnail <?= $index === 0 ? 'active' : '' ?>"
-              data-image="<?= BASE_URL ?>assets/images/<?= htmlspecialchars($img['image_path']) ?>"
-              alt="Thumbnail <?= $index + 1 ?>"
-              tabindex="0"
-            >
-          <?php endforeach; ?>
+        <?php foreach ($images as $index => $img): ?>
+         <img
+          src="<?= BASE_URL ?>assets/images/<?= htmlspecialchars($img['image_path']) ?>"
+          class="thumbnail <?= $index === 0 ? 'active' : '' ?>"
+          data-image="<?= BASE_URL ?>assets/images/<?= htmlspecialchars($img['image_path']) ?>"
+          tabindex="0"
+          >
+         <?php endforeach; ?>
         </div>
       <?php endif; ?>
 
-    </div>
+     </div>
+
 
     <!-- RIGHT: PRODUCT INFO -->
     <div class="product-info-panel">

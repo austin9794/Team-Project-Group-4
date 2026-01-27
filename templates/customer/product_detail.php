@@ -305,11 +305,11 @@ include __DIR__ . '/../header.php';
     <span><?= htmlspecialchars($product['category_name']) ?></span>
   </div>
 
-  <!-- TOP SECTION: Gallery + Info -->
+  <!-- MAIN SECTION -->
   <div class="product-main-grid">
 
-  <!-- LEFT: IMAGE GALLERY -->
-    <div class="product-gallery">
+    <!-- LEFT: IMAGE + ZOOM -->
+    <div class="product-gallery image-zoom-wrapper">
 
       <?php
         $mainImage = !empty($images)
@@ -317,9 +317,7 @@ include __DIR__ . '/../header.php';
           : 'placeholder.png';
       ?>
 
-        <div class="product-gallery image-zoom-wrapper">
-
-         <div class="main-image">
+      <div class="main-image">
         <img
           id="mainProductImage"
           src="<?= BASE_URL ?>assets/images/<?= htmlspecialchars($mainImage) ?>"
@@ -328,26 +326,28 @@ include __DIR__ . '/../header.php';
 
         <button type="button" class="view-full-btn">
           View full image
-         </button>
-       </div>
+        </button>
+      </div>
 
-       <div id="zoomResult"></div>
+      <!-- Zoom preview panel -->
+      <div id="zoomResult"></div>
 
-        <?php if (!empty($images)): ?>
+      <!-- Thumbnails -->
+      <?php if (!empty($images)): ?>
         <div class="thumbnail-row">
-        <?php foreach ($images as $index => $img): ?>
-         <img
-          src="<?= BASE_URL ?>assets/images/<?= htmlspecialchars($img['image_path']) ?>"
-          class="thumbnail <?= $index === 0 ? 'active' : '' ?>"
-          data-image="<?= BASE_URL ?>assets/images/<?= htmlspecialchars($img['image_path']) ?>"
-          tabindex="0"
-          >
-         <?php endforeach; ?>
+          <?php foreach ($images as $index => $img): ?>
+            <img
+              src="<?= BASE_URL ?>assets/images/<?= htmlspecialchars($img['image_path']) ?>"
+              class="thumbnail <?= $index === 0 ? 'active' : '' ?>"
+              data-image="<?= BASE_URL ?>assets/images/<?= htmlspecialchars($img['image_path']) ?>"
+              tabindex="0"
+              alt="Thumbnail <?= $index + 1 ?>"
+            >
+          <?php endforeach; ?>
         </div>
       <?php endif; ?>
 
-     </div>
-
+    </div>
 
     <!-- RIGHT: PRODUCT INFO -->
     <div class="product-info-panel">
@@ -360,7 +360,6 @@ include __DIR__ . '/../header.php';
         ☆☆☆☆☆ <span>(<?= $product['review_count'] ?? 0 ?> reviews)</span>
       </div>
 
-      <!-- Stock Status -->
       <?php if ($product['stock'] > 10): ?>
         <span class="stock-status in-stock">✓ In Stock</span>
       <?php elseif ($product['stock'] > 0): ?>
@@ -369,21 +368,13 @@ include __DIR__ . '/../header.php';
         <span class="stock-status out-of-stock">✗ Out of Stock</span>
       <?php endif; ?>
 
-      <!-- Description -->
       <div class="product-about">
-      <h3 class="about-title">About this item</h3>
-
-       <p class="product-description">
-       <?= nl2br(htmlspecialchars($product['description'])) ?>
-      </p>
-    </div>
-
-      <!-- (Future) Variants go HERE -->
-      <div class="product-variants">
-        <!-- colour / style selectors later -->
+        <h3 class="about-title">About this item</h3>
+        <p class="product-description">
+          <?= nl2br(htmlspecialchars($product['description'])) ?>
+        </p>
       </div>
 
-      <!-- Add to cart -->
       <?php if ($product['stock'] > 0): ?>
         <form method="POST" action="<?= BASE_URL ?>index.php?page=add-to-basket" class="add-to-cart-form">
           <input type="hidden" name="product_id" value="<?= $product['product_id'] ?>">
@@ -408,7 +399,7 @@ include __DIR__ . '/../header.php';
     </div>
   </div>
 
-  <!-- BOTTOM SECTION: REVIEWS -->
+  <!-- REVIEWS -->
   <section class="reviews-section full-width">
     <h2 class="reviews-title">Customer Reviews</h2>
 
@@ -431,17 +422,13 @@ include __DIR__ . '/../header.php';
     <?php endif; ?>
   </section>
 
-  <!-- FULLSCREEN IMAGE MODAL -->
- <div id="imageModal" class="image-modal" aria-hidden="true">
-   <span class="modal-close">&times;</span>
-
-  <button class="modal-nav prev">&#10094;</button>
-
-  <img id="modalImage" src="" alt="Product image fullscreen">
-
-  <button class="modal-nav next">&#10095;</button>
+  <!-- FULLSCREEN MODAL -->
+  <div id="imageModal" class="image-modal" aria-hidden="true">
+    <span class="modal-close">&times;</span>
+    <button class="modal-nav prev">&#10094;</button>
+    <img id="modalImage" src="" alt="Product image fullscreen">
+    <button class="modal-nav next">&#10095;</button>
   </div>
-
 
 </div>
 

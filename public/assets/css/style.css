@@ -311,6 +311,7 @@ body {
 .main-image {
   position: relative; 
   overflow: visible;
+  width: 420px;
 }
 
 .view-full-btn {
@@ -337,33 +338,19 @@ body {
   transform: scale(1.03);
 }
 
-.image-zoom-wrapper {
-  position: relative;
-  display: flex;
-  gap: 24px;
-  align-items: flex-start;
-}
-
-.image-zoom-wrapper img {
-  width: 420px;
-  height: auto;
-  cursor: crosshair;
-}
-
 #zoomResult {
   position: absolute;
   top: 0;
   left: calc(100% + 20px);
-
   width: 420px;
   height: 420px;
 
   background-repeat: no-repeat;
   background-size: 200%;
   border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.15);
 
   display: none;
-  z-index: 50;
+  pointer-events: none;
 }
-
 

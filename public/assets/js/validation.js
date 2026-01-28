@@ -1,1 +1,1 @@
-/* # Front-end validation
+/* Validation logic for forms */

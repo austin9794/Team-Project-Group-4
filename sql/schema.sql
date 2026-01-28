@@ -1,218 +1,216 @@
--- =====================================================
--- Team Project E-Commerce Platform - Database Schema
--- =====================================================
--- Database: team_project_db
--- Prefix: tp_
--- =====================================================
+-- Ensure safe mode
+SET FOREIGN_KEY_CHECKS = 0;
 
--- =====================================================
--- USERS TABLE
--- =====================================================
-CREATE TABLE IF NOT EXISTS `tp_users` (
-  `id` INT PRIMARY KEY AUTO_INCREMENT,
-  `username` VARCHAR(50) NOT NULL UNIQUE,
-  `email` VARCHAR(100) NOT NULL UNIQUE,
-  `password_hash` VARCHAR(255) NOT NULL,
-  `first_name` VARCHAR(100),
-  `last_name` VARCHAR(100),
-  `phone` VARCHAR(20),
-  `address` TEXT,
-  `city` VARCHAR(100),
-  `postal_code` VARCHAR(20),
-  `country` VARCHAR(100),
-  `role` ENUM('customer', 'admin', 'staff') DEFAULT 'customer',
-  `is_active` BOOLEAN DEFAULT TRUE,
-  `is_verified` BOOLEAN DEFAULT FALSE,
-  `verification_token` VARCHAR(255),
-  `reset_token` VARCHAR(255),
-  `reset_token_expires` DATETIME,
-  `last_login` DATETIME,
-  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  INDEX `idx_email` (`email`),
-  INDEX `idx_username` (`username`),
-  INDEX `idx_role` (`role`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+-- Users Table --
 
--- =====================================================
--- PRODUCTS TABLE
--- =====================================================
-CREATE TABLE IF NOT EXISTS `tp_products` (
-  `id` INT PRIMARY KEY AUTO_INCREMENT,
-  `name` VARCHAR(255) NOT NULL,
-  `slug` VARCHAR(255) NOT NULL UNIQUE,
-  `description` LONGTEXT,
-  `price` DECIMAL(10, 2) NOT NULL,
-  `cost` DECIMAL(10, 2),
-  `category` VARCHAR(100),
-  `image_url` VARCHAR(500),
-  `sku` VARCHAR(100) NOT NULL UNIQUE,
-  `quantity_in_stock` INT DEFAULT 0,
-  `min_stock_level` INT DEFAULT 5,
-  `is_active` BOOLEAN DEFAULT TRUE,
-  `is_featured` BOOLEAN DEFAULT FALSE,
-  `rating_average` DECIMAL(3, 2) DEFAULT 0,
-  `rating_count` INT DEFAULT 0,
-  `created_by` INT,
-  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  FOREIGN KEY (`created_by`) REFERENCES `tp_users`(`id`) ON DELETE SET NULL,
-  INDEX `idx_category` (`category`),
-  INDEX `idx_is_active` (`is_active`),
-  INDEX `idx_sku` (`sku`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE users (
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(150) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    role ENUM('customer', 'admin') DEFAULT 'customer',
+    phone VARCHAR(20),
+    address TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
--- =====================================================
--- INVENTORY TABLE
--- =====================================================
-CREATE TABLE IF NOT EXISTS `tp_inventory` (
-  `id` INT PRIMARY KEY AUTO_INCREMENT,
-  `product_id` INT NOT NULL,
-  `quantity_available` INT DEFAULT 0,
-  `quantity_reserved` INT DEFAULT 0,
-  `quantity_damaged` INT DEFAULT 0,
-  `warehouse_location` VARCHAR(100),
-  `last_restocked` DATETIME,
-  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  FOREIGN KEY (`product_id`) REFERENCES `tp_products`(`id`) ON DELETE CASCADE,
-  INDEX `idx_product_id` (`product_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- =====================================================
--- BASKETS TABLE
--- =====================================================
-CREATE TABLE IF NOT EXISTS `tp_baskets` (
-  `id` INT PRIMARY KEY AUTO_INCREMENT,
-  `user_id` INT NOT NULL,
-  `product_id` INT NOT NULL,
-  `quantity` INT NOT NULL DEFAULT 1,
-  `price_at_time` DECIMAL(10, 2),
-  `added_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  FOREIGN KEY (`user_id`) REFERENCES `tp_users`(`id`) ON DELETE CASCADE,
-  FOREIGN KEY (`product_id`) REFERENCES `tp_products`(`id`) ON DELETE CASCADE,
-  INDEX `idx_user_id` (`user_id`),
-  UNIQUE KEY `unique_basket_item` (`user_id`, `product_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+-- Adresses Table --
 
--- =====================================================
--- ORDERS TABLE
--- =====================================================
-CREATE TABLE IF NOT EXISTS `tp_orders` (
-  `id` INT PRIMARY KEY AUTO_INCREMENT,
-  `order_number` VARCHAR(50) NOT NULL UNIQUE,
-  `user_id` INT NOT NULL,
-  `subtotal` DECIMAL(10, 2) NOT NULL,
-  `tax_amount` DECIMAL(10, 2) DEFAULT 0,
-  `shipping_cost` DECIMAL(10, 2) DEFAULT 0,
-  `discount_amount` DECIMAL(10, 2) DEFAULT 0,
-  `total_amount` DECIMAL(10, 2) NOT NULL,
-  `status` ENUM('pending', 'processing', 'shipped', 'delivered', 'cancelled', 'refunded') DEFAULT 'pending',
-  `payment_method` VARCHAR(50),
-  `payment_status` ENUM('pending', 'completed', 'failed', 'refunded') DEFAULT 'pending',
-  `shipping_address` TEXT,
-  `billing_address` TEXT,
-  `notes` TEXT,
-  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `shipped_at` DATETIME,
-  `delivered_at` DATETIME,
-  FOREIGN KEY (`user_id`) REFERENCES `tp_users`(`id`) ON DELETE RESTRICT,
-  INDEX `idx_user_id` (`user_id`),
-  INDEX `idx_status` (`status`),
-  INDEX `idx_created_at` (`created_at`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE addresses (
+    address_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    label VARCHAR(50),   -- e.g. "Home", "Work", "Uni"
+    full_address TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+);
 
--- =====================================================
--- ORDER ITEMS TABLE
--- =====================================================
-CREATE TABLE IF NOT EXISTS `tp_order_items` (
-  `id` INT PRIMARY KEY AUTO_INCREMENT,
-  `order_id` INT NOT NULL,
-  `product_id` INT NOT NULL,
-  `quantity` INT NOT NULL,
-  `unit_price` DECIMAL(10, 2) NOT NULL,
-  `line_total` DECIMAL(10, 2) NOT NULL,
-  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (`order_id`) REFERENCES `tp_orders`(`id`) ON DELETE CASCADE,
-  FOREIGN KEY (`product_id`) REFERENCES `tp_products`(`id`) ON DELETE RESTRICT,
-  INDEX `idx_order_id` (`order_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- =====================================================
--- REVIEWS TABLE
--- =====================================================
-CREATE TABLE IF NOT EXISTS `tp_reviews` (
-  `id` INT PRIMARY KEY AUTO_INCREMENT,
-  `product_id` INT NOT NULL,
-  `user_id` INT NOT NULL,
-  `order_id` INT,
-  `rating` TINYINT NOT NULL CHECK (rating BETWEEN 1 AND 5),
-  `title` VARCHAR(255),
-  `review_text` LONGTEXT,
-  `is_verified_purchase` BOOLEAN DEFAULT FALSE,
-  `helpful_count` INT DEFAULT 0,
-  `unhelpful_count` INT DEFAULT 0,
-  `is_published` BOOLEAN DEFAULT TRUE,
-  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  FOREIGN KEY (`product_id`) REFERENCES `tp_products`(`id`) ON DELETE CASCADE,
-  FOREIGN KEY (`user_id`) REFERENCES `tp_users`(`id`) ON DELETE CASCADE,
-  FOREIGN KEY (`order_id`) REFERENCES `tp_orders`(`id`) ON DELETE SET NULL,
-  INDEX `idx_product_id` (`product_id`),
-  INDEX `idx_user_id` (`user_id`),
-  INDEX `idx_rating` (`rating`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+-- Payment Table --
 
--- =====================================================
--- CATEGORIES TABLE
--- =====================================================
-CREATE TABLE IF NOT EXISTS `tp_categories` (
-  `id` INT PRIMARY KEY AUTO_INCREMENT,
-  `name` VARCHAR(100) NOT NULL UNIQUE,
-  `slug` VARCHAR(100) NOT NULL UNIQUE,
-  `description` TEXT,
-  `parent_id` INT,
-  `image_url` VARCHAR(500),
-  `display_order` INT DEFAULT 0,
-  `is_active` BOOLEAN DEFAULT TRUE,
-  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  FOREIGN KEY (`parent_id`) REFERENCES `tp_categories`(`id`) ON DELETE SET NULL,
-  INDEX `idx_name` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE payment_methods (
+    payment_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    card_brand VARCHAR(20),
+    card_last4 VARCHAR(4),
+    expiry_month INT,
+    expiry_year INT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+);
 
--- =====================================================
--- SETTINGS TABLE
--- =====================================================
-CREATE TABLE IF NOT EXISTS `tp_settings` (
-  `id` INT PRIMARY KEY AUTO_INCREMENT,
-  `setting_key` VARCHAR(100) NOT NULL UNIQUE,
-  `setting_value` LONGTEXT,
-  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  INDEX `idx_key` (`setting_key`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+-- Categories Table --
 
--- =====================================================
--- ACTIVITY LOG TABLE
--- =====================================================
-CREATE TABLE IF NOT EXISTS `tp_activity_logs` (
-  `id` INT PRIMARY KEY AUTO_INCREMENT,
-  `user_id` INT,
-  `action` VARCHAR(100),
-  `module` VARCHAR(50),
-  `table_name` VARCHAR(100),
-  `record_id` INT,
-  `old_values` JSON,
-  `new_values` JSON,
-  `ip_address` VARCHAR(45),
-  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (`user_id`) REFERENCES `tp_users`(`id`) ON DELETE SET NULL,
-  INDEX `idx_user_id` (`user_id`),
-  INDEX `idx_created_at` (`created_at`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE categories (
+    category_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL UNIQUE,
+    description TEXT
+);
 
--- =====================================================
--- END OF SCHEMA
--- =====================================================
+
+-- Products Table --
+
+CREATE TABLE products (
+    product_id INT AUTO_INCREMENT PRIMARY KEY,
+    category_id INT NOT NULL,
+    name VARCHAR(150) NOT NULL,
+    description TEXT NOT NULL,
+    price DECIMAL(10,2) NOT NULL,
+    stock INT NOT NULL DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (category_id)
+        REFERENCES categories(category_id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
+ALTER TABLE products ADD slug VARCHAR(100) UNIQUE;
+
+-- Index for faster category filtering
+CREATE INDEX idx_products_category
+    ON products(category_id);
+
+
+-- Product Images Table --
+
+CREATE TABLE product_images (
+    image_id INT AUTO_INCREMENT PRIMARY KEY,
+    product_id INT NOT NULL,
+    image_path VARCHAR(255) NOT NULL,
+    is_primary BOOLEAN DEFAULT 0,
+    sort_order INT DEFAULT 1,
+
+    FOREIGN KEY (product_id)
+        REFERENCES products(product_id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
+CREATE INDEX idx_product_images_product
+    ON product_images(product_id);
+
+-- Orders Table --
+
+CREATE TABLE orders (
+    order_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    address_id INT NULL,
+    total_price DECIMAL(10,2) NOT NULL,
+    status ENUM('pending','processing','shipped','delivered','returned')
+        DEFAULT 'pending',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (user_id)
+        REFERENCES users(user_id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+
+    FOREIGN KEY (address_id)
+        REFERENCES addresses(address_id)
+        ON DELETE SET NULL
+        ON UPDATE CASCADE
+);
+
+
+
+-- Forms --
+CREATE TABLE IF NOT EXISTS contact_messages (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    subject VARCHAR(255) NOT NULL,
+    message TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+CREATE INDEX idx_orders_user
+    ON orders(user_id);
+
+
+-- Order Items Table --
+
+CREATE TABLE order_items (
+    order_item_id INT AUTO_INCREMENT PRIMARY KEY,
+    order_id INT NOT NULL,
+    product_id INT NOT NULL,
+    quantity INT NOT NULL,
+    price_at_purchase DECIMAL(10,2) NOT NULL,
+
+    FOREIGN KEY (order_id)
+        REFERENCES orders(order_id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+
+    FOREIGN KEY (product_id)
+        REFERENCES products(product_id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+
+    UNIQUE (order_id, product_id)
+);
+
+
+-- Reviews Table --
+
+CREATE TABLE reviews (
+    review_id INT AUTO_INCREMENT PRIMARY KEY,
+    product_id INT NOT NULL,
+    user_id INT NOT NULL,
+    rating TINYINT NOT NULL,
+    comment TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (product_id)
+        REFERENCES products(product_id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+
+    FOREIGN KEY (user_id)
+        REFERENCES users(user_id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
+CREATE INDEX idx_reviews_product
+    ON reviews(product_id);
+
+
+-- Returns Table --
+
+CREATE TABLE returns (
+    return_id INT AUTO_INCREMENT PRIMARY KEY,
+    order_item_id INT NOT NULL,
+    reason TEXT,
+    status ENUM('pending','approved','rejected') DEFAULT 'pending',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (order_item_id)
+        REFERENCES order_items(order_item_id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
+-- Iventory Log Table (For Reports and Alerts) --
+
+CREATE TABLE inventory_logs (
+    log_id INT AUTO_INCREMENT PRIMARY KEY,
+    product_id INT NOT NULL,
+    change_amount INT NOT NULL,
+    action ENUM('restock','purchase','return','manual_adjust') NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (product_id)
+        REFERENCES products(product_id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
+CREATE INDEX idx_inventory_product
+    ON inventory_logs(product_id);
+
+
+
+

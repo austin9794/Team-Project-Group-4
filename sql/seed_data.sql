@@ -1,124 +1,483 @@
--- =====================================================
--- Team Project E-Commerce Platform - Seed Data
--- =====================================================
+-- USERS
+INSERT INTO users (name, email, password, role, phone, address)
+VALUES
+('Bryan Singer', 'BryanS231@gmail.com',
+ '$2y$12$6ieDfoEBai1QyKn.w/w7t.nBDvQlzeB214Lbi.M3aJCnsFoc.qIh6', -- admin123
+ 'admin', '0123456789', '456 Admin Street'),
 
--- =====================================================
--- ADMIN USERS
--- =====================================================
-INSERT INTO `tp_users` (`username`, `email`, `password_hash`, `first_name`, `last_name`, `role`, `is_active`, `is_verified`) VALUES
-('admin', 'admin@teamproject.local', '$2y$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcg7b3XeKeUxWdeS86E36DXo4FG', 'Admin', 'User', 'admin', TRUE, TRUE),
-('staff', 'staff@teamproject.local', '$2y$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcg7b3XeKeUxWdeS86E36DXo4FG', 'Staff', 'Member', 'staff', TRUE, TRUE);
+('John Doe', 'johndoe34@gmail.com',
+ '$2y$12$9j2iiA.J4z8ewxPT8lPLfOuALEjvO4F0zVHZxPAUu.CJF2pRp7F3y', -- customer456
+ 'customer', '07891234567', '123 Example Road');
 
--- =====================================================
--- TEST CUSTOMER USERS
--- =====================================================
-INSERT INTO `tp_users` (`username`, `email`, `password_hash`, `first_name`, `last_name`, `phone`, `address`, `city`, `postal_code`, `country`, `role`, `is_active`, `is_verified`) VALUES
-('john_doe', 'john@example.com', '$2y$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcg7b3XeKeUxWdeS86E36DXo4FG', 'John', 'Doe', '+44 123 456 7890', '123 Main Street', 'London', 'SW1A 1AA', 'United Kingdom', 'customer', TRUE, TRUE),
-('jane_smith', 'jane@example.com', '$2y$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcg7b3XeKeUxWdeS86E36DXo4FG', 'Jane', 'Smith', '+44 234 567 8901', '456 Oak Avenue', 'Manchester', 'M1 1AE', 'United Kingdom', 'customer', TRUE, TRUE),
-('mike_wilson', 'mike@example.com', '$2y$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcg7b3XeKeUxWdeS86E36DXo4FG', 'Mike', 'Wilson', '+44 345 678 9012', '789 Pine Road', 'Birmingham', 'B1 1AA', 'United Kingdom', 'customer', TRUE, TRUE);
 
--- =====================================================
--- PRODUCT CATEGORIES
--- =====================================================
-INSERT INTO `tp_categories` (`name`, `slug`, `description`, `display_order`, `is_active`) VALUES
-('Electronics', 'electronics', 'Electronic devices and gadgets', 1, TRUE),
-('Clothing', 'clothing', 'Apparel and fashion items', 2, TRUE),
-('Books', 'books', 'Physical and digital books', 3, TRUE),
-('Home & Garden', 'home-garden', 'Furniture and home improvement', 4, TRUE),
-('Sports & Outdoors', 'sports-outdoors', 'Sports equipment and outdoor gear', 5, TRUE);
+-- Insert 5 Categories --
 
--- =====================================================
--- PRODUCTS - ELECTRONICS
--- =====================================================
-INSERT INTO `tp_products` (`name`, `slug`, `description`, `price`, `cost`, `category`, `sku`, `quantity_in_stock`, `min_stock_level`, `is_active`, `is_featured`, `created_by`) VALUES
-('Wireless Headphones', 'wireless-headphones', 'Premium noise-cancelling wireless headphones with 30-hour battery life', 89.99, 35.00, 'Electronics', 'ELEC-001', 50, 10, TRUE, TRUE, 1),
-('USB-C Cable 3-Pack', 'usb-c-cable-3pack', 'High-quality USB-C charging cables, 3 meters each', 24.99, 8.00, 'Electronics', 'ELEC-002', 120, 20, TRUE, FALSE, 1),
-('Portable Phone Charger', 'portable-phone-charger', '20000mAh portable charger with fast charging', 39.99, 15.00, 'Electronics', 'ELEC-003', 75, 10, TRUE, TRUE, 1),
-('LED Desk Lamp', 'led-desk-lamp', 'Adjustable LED lamp with USB charging port', 34.99, 12.00, 'Electronics', 'ELEC-004', 40, 5, TRUE, FALSE, 1),
-('Webcam 1080p', 'webcam-1080p', 'Full HD webcam with built-in microphone', 49.99, 18.00, 'Electronics', 'ELEC-005', 30, 5, TRUE, FALSE, 1);
+INSERT INTO categories (name, description)
+VALUES
+('Keyboards', 'Mechanical, wireless, and gaming keyboards'),
+('Mice', 'Wired, wireless, and ergonomic mice'),
+('Headsets', 'Wired and wireless audio headsets'),
+('Monitors', 'Gaming, portable, and 4K monitors'),
+('Microphones', 'USB, wireless, and studio microphones');
 
--- =====================================================
--- PRODUCTS - CLOTHING
--- =====================================================
-INSERT INTO `tp_products` (`name`, `slug`, `description`, `price`, `cost`, `category`, `sku`, `quantity_in_stock`, `min_stock_level`, `is_active`, `is_featured`) VALUES
-('Premium T-Shirt', 'premium-tshirt', '100% organic cotton comfortable t-shirt', 19.99, 6.00, 'Clothing', 'CLOTH-001', 200, 30, TRUE, TRUE),
-('Jeans Blue', 'jeans-blue', 'Classic blue denim jeans, all sizes available', 49.99, 18.00, 'Clothing', 'CLOTH-002', 150, 20, TRUE, FALSE),
-('Winter Jacket', 'winter-jacket', 'Warm and waterproof winter jacket', 129.99, 50.00, 'Clothing', 'CLOTH-003', 60, 10, TRUE, TRUE),
-('Casual Sneakers', 'casual-sneakers', 'Comfortable everyday sneakers', 69.99, 25.00, 'Clothing', 'CLOTH-004', 80, 15, TRUE, FALSE);
 
--- =====================================================
--- PRODUCTS - BOOKS
--- =====================================================
-INSERT INTO `tp_products` (`name`, `slug`, `description`, `price`, `cost`, `category`, `sku`, `quantity_in_stock`, `min_stock_level`, `is_active`, `is_featured`) VALUES
-('Learning PHP Design Patterns', 'learning-php-design-patterns', 'Comprehensive guide to PHP design patterns', 34.99, 10.00, 'Books', 'BOOK-001', 45, 5, TRUE, FALSE),
-('Web Development with MySQL', 'web-development-mysql', 'Master database design with MySQL', 44.99, 15.00, 'Books', 'BOOK-002', 38, 5, TRUE, TRUE),
-('JavaScript Mastery', 'javascript-mastery', 'Advanced JavaScript techniques and best practices', 39.99, 12.00, 'Books', 'BOOK-003', 52, 10, TRUE, FALSE);
+-- PRODUCTS (25 total)
+INSERT INTO products (category_id, name, slug, description, price, stock) VALUES
 
--- =====================================================
--- PRODUCTS - HOME & GARDEN
--- =====================================================
-INSERT INTO `tp_products` (`name`, `slug`, `description`, `price`, `cost`, `category`, `sku`, `quantity_in_stock`, `min_stock_level`, `is_active`, `is_featured`) VALUES
-('Coffee Table', 'coffee-table', 'Modern wooden coffee table with storage', 199.99, 80.00, 'Home & Garden', 'HOME-001', 25, 5, TRUE, FALSE),
-('Bed Sheets Set', 'bed-sheets-set', 'Luxury Egyptian cotton bed sheets, king size', 79.99, 25.00, 'Home & Garden', 'HOME-002', 60, 10, TRUE, TRUE),
-('Kitchen Knife Set', 'kitchen-knife-set', '5-piece stainless steel knife set', 89.99, 30.00, 'Home & Garden', 'HOME-003', 35, 5, TRUE, FALSE);
+-- KEYBOARDS (category_id = 1)
+(1,'TECKNET RGB Gaming Keyboard', 'keyboard1',
+ 'Mechanical-feel keyboard with vibrant RGB lighting zones. Features stepped keycaps for ergonomic typing and durable construction ideal for gaming and daily use.',
+ 32.99, 30),
 
--- =====================================================
--- INVENTORY
--- =====================================================
-INSERT INTO `tp_inventory` (`product_id`, `quantity_available`, `quantity_reserved`, `warehouse_location`) VALUES
-(1, 50, 0, 'A-101'),
-(2, 120, 5, 'B-202'),
-(3, 75, 10, 'A-103'),
-(4, 40, 3, 'C-304'),
-(5, 30, 2, 'A-105'),
-(6, 200, 15, 'B-206'),
-(7, 150, 8, 'C-307'),
-(8, 60, 5, 'A-208'),
-(9, 80, 12, 'B-309'),
-(10, 45, 0, 'C-310'),
-(11, 38, 2, 'A-211'),
-(12, 52, 8, 'B-312'),
-(13, 25, 3, 'C-313'),
-(14, 60, 6, 'A-314'),
-(15, 35, 4, 'B-315');
+(1,'CORSAIR K55 RGB PRO', 'keyboard2',
+ 'Six customisable lighting zones with quiet membrane keys for productivity and gaming. Includes dedicated media controls and spill-resistant design.',
+ 59.99, 50),
 
--- =====================================================
--- SAMPLE ORDER
--- =====================================================
-INSERT INTO `tp_orders` (`order_number`, `user_id`, `subtotal`, `tax_amount`, `shipping_cost`, `total_amount`, `status`, `payment_method`, `payment_status`, `shipping_address`, `billing_address`, `notes`) VALUES
-('ORD-001-2024', 3, 139.98, 27.99, 10.00, 177.97, 'processing', 'credit_card', 'completed', '123 Main Street, London, SW1A 1AA', '123 Main Street, London, SW1A 1AA', 'Please deliver on weekday');
+(1,'AULA F75 Wireless Mechanical Keyboard', 'keyboard3',
+ 'Tri-mode connectivity with Bluetooth, 2.4GHz, and USB-C wired options. Hot-swappable switches and compact 75% layout with enhanced sound dampening.',
+ 82.99, 40),
 
--- =====================================================
--- SAMPLE ORDER ITEMS
--- =====================================================
-INSERT INTO `tp_order_items` (`order_id`, `product_id`, `quantity`, `unit_price`, `line_total`) VALUES
-(1, 1, 1, 89.99, 89.99),
-(1, 2, 1, 24.99, 24.99),
-(1, 3, 1, 39.99, 39.99);
+(1,'UGREEN Wireless Keyboard', 'keyboard4',
+ 'Ultra-slim low-profile keyboard supporting Bluetooth and 2.4GHz connections. Can pair with up to three devices, making it perfect for laptops, tablets, and desktops.',
+ 27.99, 35),
 
--- =====================================================
--- SAMPLE REVIEWS
--- =====================================================
-INSERT INTO `tp_reviews` (`product_id`, `user_id`, `order_id`, `rating`, `title`, `review_text`, `is_verified_purchase`, `is_published`) VALUES
-(1, 3, 1, 5, 'Excellent headphones!', 'These headphones are fantastic! Sound quality is amazing and they are very comfortable for extended use.', TRUE, TRUE),
-(2, 3, 1, 4, 'Good quality cables', 'Durable cables, work as expected. Good value for money.', TRUE, TRUE),
-(3, 2, NULL, 4, 'Great power bank', 'Fast charging and good build quality. Highly recommend.', FALSE, TRUE);
+(1,'SteelSeries Apex Pro TKL Gen 3', 'keyboard5',
+ 'Hall-effect adjustable switches deliver extreme speed and precision. Strong aluminium body and esports-grade performance with deep customization.',
+ 209.99, 60),
 
--- =====================================================
--- APPLICATION SETTINGS
--- =====================================================
-INSERT INTO `tp_settings` (`setting_key`, `setting_value`) VALUES
-('site_name', 'Team Project E-Commerce'),
-('site_email', 'info@teamproject.local'),
-('currency', 'GBP'),
-('tax_rate', '0.20'),
-('shipping_threshold', '50.00'),
-('items_per_page', '12'),
-('max_upload_size', '5242880');
+-- MICE (category_id = 2)
+(2,'Logitech G305 LIGHTSPEED', 'mouse1',
+ 'High-accuracy HERO sensor with up to 12,000 DPI. LIGHTSPEED wireless provides low-latency performance and long battery life for gaming and work.',
+ 59.99, 45),
 
--- =====================================================
--- END OF SEED DATA
--- =====================================================
+(2,'Apple Magic Mouse', 'mouse2',
+ 'Rechargeable Bluetooth mouse with multi-touch surface for intuitive gestures. Sleek, minimal design that glides smoothly across your desk.',
+ 79.99, 80),
 
--- Note: Password hash is for 'password123'
--- To generate new hashes, use: password_hash('your_password', PASSWORD_BCRYPT)
+(2,'Logitech G502 HERO', 'mouse3',
+ '25K DPI sensor for precise tracking and customizable weight tuning. Features 11 programmable buttons for gaming macros or workflow shortcuts.',
+ 34.99, 55),
+
+(2,'Anker Vertical Ergonomic Mouse', 'mouse4',
+ 'Ergonomic vertical design that reduces wrist strain during long sessions. Smooth tracking and comfortable grip ideal for work and browsing.',
+ 23.99, 30),
+ 
+(2,'TECKNET Bluetooth Mouse', 'mouse5',
+ 'Dual-mode wireless connection via Bluetooth or USB dongle. Side scroll wheel and navigation buttons enhance productivity and web browsing.',
+ 28.99, 90),
+
+-- HEADSETS (category_id = 3)
+(3,'HyperX Cloud Alpha', 'head1',
+ 'Dual-chamber drivers provide cleaner audio with reduced distortion. Comfortable memory-foam ear cushions and multi-platform compatibility.',
+ 34.99, 25),
+
+(3,'Vakedy Wireless Gaming Headset', 'head2',
+ 'Supports Bluetooth and 2.4GHz low-latency wireless modes. Deep bass sound profile and long battery life designed for immersive gaming.',
+ 149.99, 40),
+ 
+(3,'Jabra Evolve 20', 'head3',
+ 'Noise-isolating ear cushions for clearer calls and online meetings. Inline controls for easy volume and mute adjustments during classes or work.',
+ 34.99, 70),
+
+(3,'beyerdynamic DT 990 PRO',  'head4',
+ 'Professional open-back studio headphones with wide soundstage. Ideal for music production, mixing, and immersive listening sessions.',
+ 138.99, 15),
+ 
+(3,'JLab Go Work 2nd Gen', 'head5',
+ 'Wireless headset that connects to two devices simultaneously. Clear-voice microphone with noise reduction and lightweight comfort for long use.',
+ 49.99, 50),
+
+-- MONITORS (category_id = 4)
+(4,'Philips 27E1N1100A 27"', 'monitor1',
+ '27-inch Full HD IPS panel with wide viewing angles. Built-in speakers and Flicker-Free technology enhance multimedia and productivity use.',
+ 94.99, 20),
+
+(4,'ASUS TUF VG279QM1A 280Hz', 'monitor2',
+ 'Ultra-fast 280Hz refresh rate ideal for competitive gaming. ELMB Sync technology reduces ghosting for sharper, smoother visuals.',
+ 129.99, 15),
+ 
+(4,'Minifire 27" 180Hz Curved Monitor', 'monitor3',
+ 'Curved Full HD panel with 180Hz refresh rate for smooth gameplay. Frameless design provides an immersive viewing experience.',
+ 144.99, 25),
+
+(4,'MSI PRO MP275', 'monitor4',
+ '27-inch IPS display with 100Hz refresh rate for everyday work. Delivers crisp colours and wide viewing angles for office and study environments.',
+ 109.99, 10),
+ 
+(4,'LG 27U411A-B', 'monitor5',
+ '27-inch IPS display with HDR10 and VRR support. Produces vivid colours and fast response times for entertainment and casual gaming.',
+ 89.99, 12),
+
+-- MICROPHONES (category_id = 5)
+(5,'TONOR RGB USB Microphone', 'mic1',
+ 'High-clarity microphone with built-in noise reduction. RGB lighting adds style and enhances gaming or streaming setups.',
+ 49.99, 30),
+
+(5,'FIFINE XLR/USB Dynamic Microphone', 'mic2',
+ 'Dual USB and XLR compatibility for flexible studio or gaming use. Warm vocal tone with low noise floor for cleaner recordings.',
+ 56.99, 75),
+ 
+(5,'UGREEN 24bit/96KHz Condenser Microphone', 'mic3',
+ 'High-resolution audio capture with crisp detail. Noise-cancelling mode reduces background distractions for clear communication.',
+ 36.99, 50),
+
+(5,'MAONO USB Noise-Cancellation Mic', 'mic4',
+ 'One-tap noise cancellation removes ambient sounds. Balanced, clean audio suited for meetings, streaming, and gaming.',
+ 52.99, 18),
+ 
+(5,'HyperX QuadCast', 'mic5',
+ 'Premium USB microphone with tap-to-mute, pop filter, and shock mount. Multiple pickup patterns for versatile recording environments.',
+ 94.99, 60);
+
+-- Product Images
+
+-- HEADSET 1 IMAGES
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/headsets/head1/01.png', 1, 1
+FROM products WHERE slug = 'head1';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/headsets/head1/02.png', 0, 2
+FROM products WHERE slug = 'head1';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/headsets/head1/03.png', 0, 3
+FROM products WHERE slug = 'head1';
+
+-- HEADSET 2 IMAGES
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/headsets/head2/01.png', 1, 1
+FROM products WHERE slug = 'head2';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/headsets/head2/02.png', 0, 2
+FROM products WHERE slug = 'head2';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/headsets/head2/03.png', 0, 3
+FROM products WHERE slug = 'head2';
+
+-- HEADSET 3 IMAGES
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/headsets/head3/01.png', 1, 1
+FROM products WHERE slug = 'head3';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/headsets/head3/02.png', 0, 2
+FROM products WHERE slug = 'head3';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/headsets/head3/03.png', 0, 3
+FROM products WHERE slug = 'head3';
+
+-- HEADSET 4 IMAGES
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/headsets/head4/01.png', 1, 1
+FROM products WHERE slug = 'head4';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/headsets/head4/02.png', 0, 2
+FROM products WHERE slug = 'head4';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/headsets/head4/03.png', 0, 3
+FROM products WHERE slug = 'head4';
+
+-- HEADSET 5 IMAGES
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/headsets/head5/01.png', 1, 1
+FROM products WHERE slug = 'head5';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/headsets/head5/02.png', 0, 2
+FROM products WHERE slug = 'head5';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/headsets/head5/03.png', 0, 3
+FROM products WHERE slug = 'head5';
+
+-- KEYBOARD 1 IMAGES
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/keyboards/keyboard1/01.png', 1, 1
+FROM products WHERE slug = 'keyboard1';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)                 
+SELECT product_id, 'products/keyboards/keyboard1/02.png', 0, 2
+FROM products WHERE slug = 'keyboard1';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/keyboards/keyboard1/03.png', 0, 3
+FROM products WHERE slug = 'keyboard1';
+
+-- KEYBOARD 2 IMAGES
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/keyboards/keyboard2/01.png', 1, 1
+FROM products WHERE slug = 'keyboard2';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/keyboards/keyboard2/02.png', 0, 2
+FROM products WHERE slug = 'keyboard2';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/keyboards/keyboard2/03.png', 0, 3
+FROM products WHERE slug = 'keyboard2';
+
+-- KEYBOARD 3 IMAGES
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/keyboards/keyboard3/01.png', 1, 1
+FROM products WHERE slug = 'keyboard3';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/keyboards/keyboard3/02.png', 0, 2
+FROM products WHERE slug = 'keyboard3';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/keyboards/keyboard3/03.png', 0, 3
+FROM products WHERE slug = 'keyboard3'; 
+
+-- KEYBOARD 4 IMAGES
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/keyboards/keyboard4/01.png', 1, 1
+FROM products WHERE slug = 'keyboard4';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/keyboards/keyboard4/02.png', 0, 2
+FROM products WHERE slug = 'keyboard4';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/keyboards/keyboard4/03.png', 0, 3
+FROM products WHERE slug = 'keyboard4';
+
+-- KEYBOARD 5 IMAGES
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/keyboards/keyboard5/01.png', 1, 1
+FROM products WHERE slug = 'keyboard5';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/keyboards/keyboard5/02.png', 0, 2
+FROM products WHERE slug = 'keyboard5';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/keyboards/keyboard5/03.png', 0, 3
+FROM products WHERE slug = 'keyboard5';
+
+-- MICROPHONE 1 IMAGES
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/microphones/mic1/01.png', 1, 1
+FROM products WHERE slug = 'mic1';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/microphones/mic1/02.png', 0, 2
+FROM products WHERE slug = 'mic1';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/microphones/mic1/03.png', 0, 3
+FROM products WHERE slug = 'mic1';
+
+-- MICROPHONE 2 IMAGES
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/microphones/mic2/01.png', 1, 1
+FROM products WHERE slug = 'mic2';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/microphones/mic2/02.png', 0, 2
+FROM products WHERE slug = 'mic2';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/microphones/mic2/03.png', 0, 3
+FROM products WHERE slug = 'mic2';
+
+-- MICROPHONE 3 IMAGES
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/microphones/mic3/01.png', 1, 1
+FROM products WHERE slug = 'mic3';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/microphones/mic3/02.png', 0, 2
+FROM products WHERE slug = 'mic3';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/microphones/mic3/03.png', 0, 3
+FROM products WHERE slug = 'mic3';
+
+-- MICROPHONE 4 IMAGES
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/microphones/mic4/01.png', 1, 1
+FROM products WHERE slug = 'mic4';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/microphones/mic4/02.png', 0, 2
+FROM products WHERE slug = 'mic4';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/microphones/mic4/03.png', 0, 3
+FROM products WHERE slug = 'mic4';
+
+-- MICROPHONE 5 IMAGES
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/microphones/mic5/01.png', 1, 1
+FROM products WHERE slug = 'mic5';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/microphones/mic5/02.png', 0, 2
+FROM products WHERE slug = 'mic5';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/microphones/mic5/03.png', 0, 3
+FROM products WHERE slug = 'mic5';
+
+-- MONITOR 1 IMAGES
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/monitors/monitor1/01.png', 1, 1
+FROM products WHERE slug = 'monitor1';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/monitors/monitor1/02.png', 0, 2
+FROM products WHERE slug = 'monitor1';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/monitors/monitor1/03.png', 0, 3
+FROM products WHERE slug = 'monitor1';
+
+-- MONITOR 2 IMAGES
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/monitors/monitor2/01.png', 1, 1
+FROM products WHERE slug = 'monitor2';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/monitors/monitor2/02.png', 0, 2
+FROM products WHERE slug = 'monitor2';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/monitors/monitor2/03.png', 0, 3
+FROM products WHERE slug = 'monitor2';
+
+-- MONITOR 3 IMAGES
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/monitors/monitor3/01.png', 1, 1
+FROM products WHERE slug = 'monitor3';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/monitors/monitor3/02.png', 0, 2
+FROM products WHERE slug = 'monitor3';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/monitors/monitor3/03.png', 0, 3
+FROM products WHERE slug = 'monitor3';
+
+-- MONITOR 4 IMAGES
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/monitors/monitor4/01.png', 1, 1
+FROM products WHERE slug = 'monitor4';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/monitors/monitor4/02.png', 0, 2
+FROM products WHERE slug = 'monitor4';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/monitors/monitor4/03.png', 0, 3
+FROM products WHERE slug = 'monitor4';
+
+-- MONITOR 5 IMAGES
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/monitors/monitor5/01.png', 1, 1
+FROM products WHERE slug = 'monitor5';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/monitors/monitor5/02.png', 0, 2
+FROM products WHERE slug = 'monitor5';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/monitors/monitor5/03.png', 0, 3
+FROM products WHERE slug = 'monitor5';
+
+-- MICE 1 IMAGES
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/mice/mouse1/01.png', 1, 1
+FROM products WHERE slug = 'mouse1';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/mice/mouse1/02.png', 0, 2
+FROM products WHERE slug = 'mouse1';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/mice/mouse1/03.png', 0, 3
+FROM products WHERE slug = 'mouse1';
+
+-- MICE 2 IMAGES
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/mice/mouse2/01.png', 1, 1
+FROM products WHERE slug = 'mouse2';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/mice/mouse2/02.png', 0, 2
+FROM products WHERE slug = 'mouse2';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/mice/mouse2/03.png', 0, 3
+FROM products WHERE slug = 'mouse2';
+
+-- MICE 3 IMAGES
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/mice/mouse3/01.png', 1, 1
+FROM products WHERE slug = 'mouse3';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/mice/mouse3/02.png', 0, 2
+FROM products WHERE slug = 'mouse3';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/mice/mouse3/03.png', 0, 3
+FROM products WHERE slug = 'mouse3';
+
+-- MICE 4 IMAGES
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/mice/mouse4/01.png', 1, 1
+FROM products WHERE slug = 'mouse4';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/mice/mouse4/02.png', 0, 2
+FROM products WHERE slug = 'mouse4';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/mice/mouse4/03.png', 0, 3
+FROM products WHERE slug = 'mouse4';
+
+-- MICE 5 IMAGES
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/mice/mouse5/01.png', 1, 1
+FROM products WHERE slug = 'mouse5';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/mice/mouse5/02.png', 0, 2
+FROM products WHERE slug = 'mouse5';
+
+INSERT INTO product_images (product_id, image_path, is_primary, sort_order)
+SELECT product_id, 'products/mice/mouse5/03.png', 0, 3
+FROM products WHERE slug = 'mouse5';
+
+-- EXAMPLE ORDER
+INSERT INTO orders (user_id, total_price, status)
+VALUES
+(2, 72.99, 'delivered');
+
+INSERT INTO order_items (order_id, product_id, quantity, price_at_purchase)
+VALUES
+(1, 1, 1, 32.99),
+(1, 3, 1, 39.99);
+
+
+-- REVIEWS
+INSERT INTO reviews (product_id, user_id, rating, comment)
+VALUES
+(1, 2, 5, 'Excellent feel and nice to use!'),
+(3, 1, 4, 'Good sound quality.');
+
+-- INVENTORY LOGS
+INSERT INTO inventory_logs (product_id, change_amount, action)
+VALUES
+(1, -1, 'purchase'),
+(3, -1, 'purchase'),
+(1, 10, 'restock');
+
+

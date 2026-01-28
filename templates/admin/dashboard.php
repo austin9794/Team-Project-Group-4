@@ -1,19 +1,17 @@
-<!-- Admin dashboard -->
- <?php
- include "../config/db.php";
- include "../controllers/AdminController.php";
+<?php
+define('ACCESS_ALLOWED', true);
 
- 
- $stats = $admin-> getDashboardStats();
- <!DOCTYPE html>
- <html>
- <head>
+//This dashboard will include a navigation bar to other admin pages functions. The admin page will show various notifcations and logs about orders and changes to the system, such as the database.
 
- <title>Admin Dashboard</title>
- </head>
- <body>
- <h1>Dashboard</h1>
- <p> 
+require_once __DIR__ . '/../../src/Controllers/AdminDashboardController.php';
 
+// Instantiate the controller - this automatically checks authentication
+$controller = new AdminDashboardController();
+// You can call controller methods here, e.g., $controller->index();
+?>
 
-# As the Authentication & Security Developer, my responsibility will be to build a secure and reliable login system that protects both user and admin accounts. My focus will be on handling all user authentication, account security, and implementing role-based access control. This will begin with developing the core Sign Up, Login, and Logout functionality with secure database integration, before expanding to password management and ensuring authorised access to customer and admin areas. For the final product, I will strengthen backend security with measures like CSRF protection and comprehensive input validation. Overall, this will give me a robust system that safeguards the entire application 
+<?php include __DIR__ . '/../header.php'; ?>
+<h2>Admin Dashboard</h2>
+<p>This is the Admin Dashboard — routing confirmed!</p>
+<p>Welcome, <?php echo htmlspecialchars($controller->getAdminName()); ?>!</p>
+<?php include __DIR__ . '/../footer.php'; ?>

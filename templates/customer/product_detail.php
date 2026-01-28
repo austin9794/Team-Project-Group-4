@@ -309,18 +309,11 @@ include __DIR__ . '/../header.php';
   <div class="product-main-grid">
 
     <!-- LEFT: IMAGE + ZOOM -->
-  <div class="product-gallery-wrapper">     
-<div class="product-gallery">
-
-  <?php
-    $mainImage = !empty($images)
-      ? $images[0]['image_path']
-      : 'placeholder.png';
-  ?>
+   <div class="product-gallery">
 
   <div class="image-zoom-wrapper">
 
-    <!-- MAIN IMAGE -->
+    <!-- IMAGE PREVIEW -->
     <div class="image-preview">
       <img
         id="mainProductImage"
@@ -333,7 +326,7 @@ include __DIR__ . '/../header.php';
       </button>
     </div>
 
-    <!-- ZOOM RESULT -->
+    <!-- ZOOM PANEL -->
     <div id="zoomResult"></div>
 
   </div>
@@ -351,7 +344,7 @@ include __DIR__ . '/../header.php';
       <?php endforeach; ?>
     </div>
   <?php endif; ?>
-</div>
+
 </div>
 
 

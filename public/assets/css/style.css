@@ -323,7 +323,8 @@ body {
   border-radius: 6px;
   border: none;
   cursor: pointer;
-  z-index: 2;
+  pointer-events: auto;
+  z-index: 999;
 }
 
 .view-full-btn:hover {

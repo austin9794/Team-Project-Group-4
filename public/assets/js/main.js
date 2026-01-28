@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const img = document.getElementById("mainProductImage");
   const zoom = document.getElementById("zoomResult");
   const thumbs = document.querySelectorAll(".thumbnail");
-  const viewBtn = document.querySelector(".view-full-btn");
+  const viewBtn = document.querySelectorAll(".view-full-btn");
 
   if (!img || !zoom) return;
 
@@ -43,4 +43,12 @@ document.addEventListener("DOMContentLoaded", () => {
       setImage(t.dataset.image);
     });
   });
+
+  viewBtns.forEach(btn => {
+  btn.addEventListener("click", () => {
+    const idx = images.findIndex(src => img.src.includes(src));
+    openModal(idx !== -1 ? idx : 0);
+  });
+});
+
 });

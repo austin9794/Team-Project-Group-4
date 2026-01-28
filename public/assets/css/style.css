@@ -313,7 +313,8 @@ body {
 }
 
 .view-full-btn {
-  position: absolute;
+  position: static;
+  margin-top: 8px;
   bottom: 12px;
   right: 12px;
   padding: 8px 14px;
@@ -332,8 +333,8 @@ body {
 
 #zoomResult {
   width: 600%;
-  height: 420px;
-  border-radius: 14px;
+  height: 500px;
+  border-radius: 12px;
   background-repeat: no-repeat;
   background-size: 200%;
   display: none;

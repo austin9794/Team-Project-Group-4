@@ -439,4 +439,14 @@ if (!empty($images) && isset($images[0]['image_path'])) {
 
 </div>
 
+<script>
+  const images = <?= json_encode(
+    array_map(
+      fn($img) => BASE_URL . 'assets/images/' . $img['image_path'],
+      $images ?? []
+    )
+  ) ?>;
+</script>
+
+
 <?php include __DIR__ . '/../footer.php'; ?>

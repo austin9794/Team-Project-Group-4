@@ -4,13 +4,24 @@ document.addEventListener("DOMContentLoaded", () => {
   const img = document.getElementById("mainProductImage");
   const zoom = document.getElementById("zoomResult");
   const thumbs = document.querySelectorAll(".thumbnail");
-  const viewBtn = document.querySelectorAll(".view-full-btn");
+  const viewBtns = document.querySelectorAll(".view-full-btn");
+
+  const modal = document.getElementById("imageModal");
+  const modalImg = document.getElementById("modalImage");
+  const closeBtn = document.querySelector(".modal-close");
+  const nextBtn = document.querySelector(".modal-nav.next");
+  const prevBtn = document.querySelector(".modal-nav.prev");
 
   if (!img || !zoom) return;
+
+  /* -----------------------------
+     IMAGE + ZOOM
+  ----------------------------- */
 
   function setImage(src) {
     img.src = src;
     zoom.style.backgroundImage = `url(${src})`;
+    zoom.style.backgroundPosition = "50% 50%";
   }
 
   setImage(img.src);
@@ -36,19 +47,91 @@ document.addEventListener("DOMContentLoaded", () => {
     zoom.style.backgroundPosition = `${xPct}% ${yPct}%`;
   });
 
-  thumbs.forEach(t => {
-    t.addEventListener("click", () => {
-      thumbs.forEach(x => x.classList.remove("active"));
-      t.classList.add("active");
-      setImage(t.dataset.image);
+  /* -----------------------------
+     THUMBNAILS
+  ----------------------------- */
+
+  thumbs.forEach((thumb, index) => {
+    thumb.addEventListener("click", () => {
+      thumbs.forEach(t => t.classList.remove("active"));
+      thumb.classList.add("active");
+      setImage(thumb.dataset.image);
+      currentIndex = index;
     });
   });
 
-  viewBtns.forEach(btn => {
-  btn.addEventListener("click", () => {
-    const idx = images.findIndex(src => img.src.includes(src));
-    openModal(idx !== -1 ? idx : 0);
-  });
-});
+  /* -----------------------------
+     MODAL STATE
+  ----------------------------- */
 
+  let currentIndex = 0;
+
+  function openModalByIndex(index) {
+    if (typeof images === "undefined" || images.length === 0) return;
+
+    currentIndex = index;
+    modalImg.src = images[currentIndex];
+    modal.classList.add("active");
+    modal.setAttribute("aria-hidden", "false");
+  }
+
+  function closeModal() {
+    modal.classList.remove("active");
+    modal.setAttribute("aria-hidden", "true");
+  }
+
+  function showNext() {
+    currentIndex = (currentIndex + 1) % images.length;
+    modalImg.src = images[currentIndex];
+  }
+
+  function showPrev() {
+    currentIndex = (currentIndex - 1 + images.length) % images.length;
+    modalImg.src = images[currentIndex];
+  }
+
+  /* -----------------------------
+     VIEW FULL IMAGE BUTTON
+  ----------------------------- */
+
+  viewBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+      if (typeof images === "undefined") return;
+
+      const idx = images.findIndex(src => img.src.includes(src));
+      openModalByIndex(idx !== -1 ? idx : 0);
+    });
+  });
+
+  /* -----------------------------
+     MODAL CONTROLS
+  ----------------------------- */
+
+  closeBtn?.addEventListener("click", closeModal);
+
+  modal?.addEventListener("click", e => {
+    if (e.target === modal) closeModal();
+  });
+
+  nextBtn?.addEventListener("click", e => {
+    e.stopPropagation();
+    showNext();
+  });
+
+  prevBtn?.addEventListener("click", e => {
+    e.stopPropagation();
+    showPrev();
+  });
+
+  /* -----------------------------
+     KEYBOARD SUPPORT
+  ----------------------------- */
+
+  document.addEventListener("keydown", e => {
+    if (!modal.classList.contains("active")) return;
+
+    if (e.key === "ArrowRight") showNext();
+    if (e.key === "ArrowLeft") showPrev();
+    if (e.key === "Escape") closeModal();
+  });
 });

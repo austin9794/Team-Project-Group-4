@@ -309,6 +309,7 @@ include __DIR__ . '/../header.php';
   <div class="product-main-grid">
 
     <!-- LEFT: IMAGE + ZOOM -->
+  <div class="product-gallery-wrapper">     
 <div class="product-gallery">
 
   <?php
@@ -350,7 +351,7 @@ include __DIR__ . '/../header.php';
       <?php endforeach; ?>
     </div>
   <?php endif; ?>
-
+</div>
 </div>
 
 

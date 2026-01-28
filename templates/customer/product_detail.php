@@ -309,7 +309,7 @@ include __DIR__ . '/../header.php';
   <div class="product-main-grid">
 
     <!-- LEFT: IMAGE + ZOOM -->
-   <div class="product-gallery">
+    <div class="product-gallery">
 
   <div class="image-zoom-wrapper">
 

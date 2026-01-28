@@ -13,6 +13,8 @@ class ProductController {
    
     public function list() {
 
+       $params = [];
+
         $filters = [
             'category' => $_GET['category'] ?? null,
             'search' => $_GET['search'] ?? null,
@@ -22,13 +24,18 @@ class ProductController {
 
    // Base query
         $sql = "
-            SELECT p.*, c.name AS category_name
-            FROM products p
-            JOIN categories c ON p.category_id = c.category_id
-            WHERE 1=1
-        ";
-        $params = [];
-
+      SELECT 
+      p.product_id,
+      p.name,
+      p.slug,
+      p.description,
+      p.price,
+      p.stock,
+      c.name AS category_name
+      FROM products p
+      JOIN categories c ON p.category_id = c.category_id
+      WHERE 1=1
+    ";
 
     // SEARCH FILTER
         if (!empty($filters['search'])) {
@@ -89,6 +96,17 @@ class ProductController {
             echo "<h2>Product not found.</h2>";
             return;
         }
+
+        // Fetch all images for product
+        $imgStmt = $this->db->prepare("
+           SELECT image_path, is_primary
+           FROM product_images
+           WHERE product_id = ?
+           ORDER BY sort_order ASC
+        ");
+        $imgStmt->execute([$id]);
+        $images = $imgStmt->fetchAll();
+
 
         include __DIR__ . '/../../templates/customer/product_detail.php';
     }

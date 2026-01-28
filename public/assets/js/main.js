@@ -1,3 +1,5 @@
+console.log("main.js loaded");
+
 document.addEventListener("DOMContentLoaded", () => {
   const img = document.getElementById("mainProductImage");
   const zoom = document.getElementById("zoomResult");

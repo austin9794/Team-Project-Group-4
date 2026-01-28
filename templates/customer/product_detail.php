@@ -3,6 +3,14 @@ $title = isset($product) ? htmlspecialchars($product['name']) . ' - Level Up Gam
 include __DIR__ . '/../header.php'; 
 ?>
 
+<?php
+$mainImage = 'placeholder.png';
+
+if (!empty($images) && isset($images[0]['image_path'])) {
+    $mainImage = $images[0]['image_path'];
+}
+?>
+
 <style>
   .product-detail-container {
     max-width: 1200px;

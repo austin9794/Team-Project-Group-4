@@ -239,7 +239,7 @@ public function adminProcessOrders()
         
         if ((int)$order['stock_deducted'] === 1) {
             $db->commit();
-            header("Location: /Team-Project-Group-4/public/admin/orders.php");
+            header("Location: /Team-Project-Group-4/public/index.php?page=admin-orders");
             exit;
         }
 
@@ -283,7 +283,7 @@ public function adminProcessOrders()
 
         $db->commit();
 
-        header("Location: /Team-Project-Group-4/public/admin/orders.php");
+        header("Location: /Team-Project-Group-4/public/index.php?page=admin-orders");
         exit;
 
     } catch (Exception $e) {

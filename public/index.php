@@ -174,9 +174,13 @@ switch ($page) {
     case 'admin-products':
         include __DIR__ . '/../templates/admin/products.php';
         break;
-    case 'admin-orders':
-        include __DIR__ . '/../templates/admin/orders.php';
-        break;
+
+        case 'admin-orders':
+    requireAdmin(); // keep admin protection
+    $controller = new AdminDashboardController();
+    $controller->orders();
+    break;
+
     case 'reports':
         include __DIR__ . '/../templates/admin/reports.php';
         break;

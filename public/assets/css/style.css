@@ -215,7 +215,9 @@ body {
   display: flex;
   gap: 12px;
   margin-top: 16px;
+  min-height: 72px;
 }
+
 
 .thumbnail {
   width: 72px;
@@ -242,7 +244,7 @@ body {
   display: none;
   justify-content: center;
   align-items: center;
-  z-index: 9999;
+  z-index: 9;
 }
 
 .image-modal.active {
@@ -293,6 +295,7 @@ body {
 }
 
 .image-zoom-wrapper {
+  position: relative;
   display: grid;
   grid-template-columns: minmax(380px, 420px) 1fr;
   gap: 32px;
@@ -333,12 +336,11 @@ body {
 }
 
 #zoomResult {
+  position: sticky;
+  top: 0;
+  left: calc(100% + 32px);
   width: 600%;
-  height: 500px;
-  border-radius: 12px;
-  background-repeat: no-repeat;
-  background-size: 200%;
+  height: 110%;
   display: none;
-  border: 1px solid rgba(255,255,255,0.15);
 }
 

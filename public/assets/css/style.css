@@ -309,6 +309,7 @@ body {
   border-radius: 14px;
   cursor: crosshair;
   display: block;
+  object-fit: contain;
 }
 
 .view-full-btn {
@@ -330,7 +331,7 @@ body {
 }
 
 #zoomResult {
-  width: 100%;
+  width: 600%;
   height: 420px;
   border-radius: 14px;
   background-repeat: no-repeat;

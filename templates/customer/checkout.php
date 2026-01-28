@@ -86,8 +86,8 @@ textarea {
         <!-- PAYMENT METHOD -->
         <h2 class="section-title">Payment Method</h2>
 
-<?php if (!empty($payments)): ?>
-    <?php foreach ($payments as $p): ?>
+<?php if (!empty($paymentMethods)): ?>
+    <?php foreach ($paymentMethods as $p): ?>
         <label style="display:block;margin-bottom:8px;">
             <input type="radio" name="payment_id" value="<?= $p['payment_id'] ?>" required>
             <?= htmlspecialchars($p['card_brand']) ?> ending in <?= htmlspecialchars($p['card_last4']) ?>

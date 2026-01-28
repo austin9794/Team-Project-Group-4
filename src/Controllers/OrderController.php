@@ -19,28 +19,22 @@ class OrderController {
         $db = Database::getInstance()->getConnection();
 
         // Calculate totals again for safety
-        $total = 0;  
+      $total = 0;
 
-        foreach ($_SESSION['basket'] as $productId => $qty) {
-           $stmt = $db->prepare("
-           SELECT 
-           p.name,
-           p.price,
-           p.slug,
-           c.name AS category
-           FROM products p
-           JOIN categories c ON p.category_id = c.category_id
-           WHERE p.product_id = ?
-       ");
+     foreach ($_SESSION['basket'] as $productId => $qty) {
+       $productId = (int)$productId;
+       $qty = max(1, (int)$qty);
 
-            $stmt->execute([$productId]);
-            $price = $stmt->fetchColumn();
+    $stmt = $db->prepare("SELECT price FROM products WHERE product_id = ?");
+    $stmt->execute([$productId]);
+    $price = $stmt->fetchColumn();
 
-            if ($price) {
-                $total += $price * $qty;
-            }
-        }
+    if ($price !== false) {
+        $total += (float)$price * $qty;
+    }
+}
 
+    
         // Insert into orders table
         $addressId = $_POST['address_id'] ?? null;
 

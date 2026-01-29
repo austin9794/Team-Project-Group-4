@@ -233,5 +233,18 @@ CREATE INDEX idx_inventory_product
     ON inventory_logs(product_id);
 
 
+-- Aadmin Activity Log Table --
+
+CREATE TABLE admin_actions (
+  action_id INT AUTO_INCREMENT PRIMARY KEY,
+  admin_id INT NOT NULL,
+
+  action_type VARCHAR(50) NOT NULL,
+  description TEXT,
+
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+  FOREIGN KEY (admin_id) REFERENCES users(user_id)
+);
 
 

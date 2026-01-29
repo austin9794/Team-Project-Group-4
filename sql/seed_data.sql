@@ -476,7 +476,8 @@ VALUES
 INSERT INTO order_items (order_id, product_id, quantity, price_at_purchase)
 VALUES
 (1, 1, 1, 32.99),
-(1, 3, 1, 39.99);
+(2, 3, 1, 39.99),
+(3, 2, 1, 149.99);
 
 
 -- REVIEWS

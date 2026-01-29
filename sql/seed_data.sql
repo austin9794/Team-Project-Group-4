@@ -487,10 +487,10 @@ VALUES
 (3, 1, 4, 'Good sound quality.');
 
 -- INVENTORY LOGS
-INSERT INTO inventory_logs (product_id, change_amount, action)
+INSERT INTO inventory_logs
+(product_id, change_amount, action, admin_id)
 VALUES
-(1, -1, 'purchase'),
-(3, -1, 'purchase'),
-(1, 10, 'restock');
-
-
+(1, -1, 'purchase', 1),
+(2, -1, 'purchase', 1),
+(2, 10, 'restock', 1),
+(3, -5, 'manual_adjust', 1);

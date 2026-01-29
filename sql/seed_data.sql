@@ -1,14 +1,13 @@
 -- USERS
-INSERT INTO users (name, email, password, role, phone, address)
+INSERT INTO users (name, email, password, role, phone, password_changed)
 VALUES
 ('Bryan Singer', 'BryanS231@gmail.com',
  '$2y$12$6ieDfoEBai1QyKn.w/w7t.nBDvQlzeB214Lbi.M3aJCnsFoc.qIh6', -- admin123
- 'admin', '0123456789', '456 Admin Street'),
+ 'admin', '0123456789', 0),
 
 ('John Doe', 'johndoe34@gmail.com',
  '$2y$12$9j2iiA.J4z8ewxPT8lPLfOuALEjvO4F0zVHZxPAUu.CJF2pRp7F3y', -- customer456
- 'customer', '07891234567', '123 Example Road');
-
+ 'customer', '07891234567', 0);
 
 -- Insert 5 Categories --
 

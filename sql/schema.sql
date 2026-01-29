@@ -4,15 +4,19 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- Users Table --
 
 CREATE TABLE users (
-    user_id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    email VARCHAR(150) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL,
-    role ENUM('customer', 'admin') DEFAULT 'customer',
-    phone VARCHAR(20),
-    address TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  user_id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  email VARCHAR(150) NOT NULL UNIQUE,
+  password VARCHAR(255) NOT NULL,
+  role ENUM('customer','admin') DEFAULT 'customer',
+  phone VARCHAR(20),
+
+  password_changed BOOLEAN DEFAULT 0,
+  last_login TIMESTAMP NULL,
+
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
 
 
 -- Adresses Table --

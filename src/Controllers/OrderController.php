@@ -222,7 +222,7 @@ public function adminProcessOrders()
 
         
         $check = $db->prepare("
-            SELECT stock_deducted
+            SELECT status
             FROM orders
             WHERE order_id = ?
             FOR UPDATE
@@ -237,7 +237,7 @@ public function adminProcessOrders()
         }
 
         
-        if ((int)$order['stock_deducted'] === 1) {
+        if ($order['status'] !== 'pending') {
             $db->commit();
             header("Location: /Team-Project-Group-4/public/index.php?page=admin-orders");
             exit;
@@ -266,8 +266,8 @@ public function adminProcessOrders()
 
             
             $log = $db->prepare("
-                INSERT INTO inventory_logs (product_id, change_qty, direction, created_at)
-                VALUES (?, ?, 'OUT', NOW())
+                INSERT INTO inventory_logs (product_id, change_amount, action, created_at)
+                VALUES (?, ?, 'purchase', NOW())
             ");
             $log->execute([$productId, $quantity]);
         }
@@ -275,8 +275,7 @@ public function adminProcessOrders()
         
         $final = $db->prepare("
             UPDATE orders
-            SET status = 'processing',
-                stock_deducted = 1
+            SET status = 'processing'
             WHERE order_id = ?
         ");
         $final->execute([$orderId]);

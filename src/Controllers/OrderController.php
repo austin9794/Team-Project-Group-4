@@ -207,7 +207,89 @@ public function showOrder()
     include __DIR__ . '/../../templates/customer/order_detail.php';
 }
 
+public function adminProcessOrders()
+{
+    if (!isset($_POST['order_id'])) {
+        echo "Missing order ID";
+        return;
+    }
 
+    $orderId = (int)$_POST['order_id'];
+    $db = Database::getInstance()->getConnection();
+
+    try {
+        $db->beginTransaction();
+
+        
+        $check = $db->prepare("
+            SELECT status
+            FROM orders
+            WHERE order_id = ?
+            FOR UPDATE
+        ");
+        $check->execute([$orderId]);
+        $order = $check->fetch();
+
+        if (!$order) {
+            $db->rollBack();
+            echo "Order not found.";
+            return;
+        }
+
+        
+        if ($order['status'] !== 'pending') {
+            $db->commit();
+            header("Location: /Team-Project-Group-4/public/index.php?page=admin-orders");
+            exit;
+        }
+
+        
+        $items = $db->prepare("
+            SELECT product_id, quantity
+            FROM order_items
+            WHERE order_id = ?
+        ");
+        $items->execute([$orderId]);
+        $rows = $items->fetchAll();
+
+        foreach ($rows as $item) {
+            $productId = (int)$item['product_id'];
+            $quantity = (int)$item['quantity'];
+
+            // Reduced stock
+            $update = $db->prepare("
+                UPDATE products
+                SET stock = stock - ?
+                WHERE product_id = ?
+            ");
+            $update->execute([$quantity, $productId]);
+
+            
+            $log = $db->prepare("
+                INSERT INTO inventory_logs (product_id, change_amount, action, created_at)
+                VALUES (?, ?, 'purchase', NOW())
+            ");
+            $log->execute([$productId, $quantity]);
+        }
+
+        
+        $final = $db->prepare("
+            UPDATE orders
+            SET status = 'processing'
+            WHERE order_id = ?
+        ");
+        $final->execute([$orderId]);
+
+        $db->commit();
+
+        header("Location: /Team-Project-Group-4/public/index.php?page=admin-orders");
+        exit;
+
+    } catch (Exception $e) {
+        $db->rollBack();
+        echo "Error: " . $e->getMessage();
+    }
+}
 }
 
 

@@ -9,6 +9,7 @@ require_once __DIR__ . '/../src/Database.php';
 require_once __DIR__ . '/../src/Controllers/AccountController.php';
 require_once __DIR__ . '/../src/Controllers/AdminDashboardController.php';
 require_once __DIR__ . '/../src/Controllers/AdminLoginController.php';
+require_once __DIR__ . '/../src/Controllers/AdminCustomerController.php';
 require_once __DIR__ . '/../src/Controllers/BaseAdminController.php';
 require_once __DIR__ . '/../src/Controllers/AuthController.php';
 require_once __DIR__ . '/../src/Controllers/ProductController.php';
@@ -49,6 +50,15 @@ switch ($page) {
         break;
     case 'admin_login':
         include __DIR__ . '/../templates/auth/admin_login.php';
+        break;
+    case 'admin-dashboard':
+        $controller = new AdminDashboardController();
+        $controller->index();
+        include __DIR__ . '/../templates/admin/dashboard.php';
+        break;
+    case 'admin-orders':
+        $controller = new AdminDashboardController();
+        $controller->orders();
         break;
     case 'signup':
         $controller = new AuthController();
@@ -174,9 +184,31 @@ switch ($page) {
     case 'admin-products':
         include __DIR__ . '/../templates/admin/products.php';
         break;
+
     case 'admin-orders':
-        include __DIR__ . '/../templates/admin/orders.php';
+        requireAdmin(); // keep admin protection
+        $controller = new AdminDashboardController();
+        $controller->orders();
         break;
+
+    case 'admin-customers':
+        requireAdmin();
+        $controller = new AdminCustomerController();
+        $controller->list();
+        break;
+
+    case 'admin-customer-edit':
+        requireAdmin();
+        $controller = new AdminCustomerController();
+        $controller->edit();
+        break;
+
+    case 'admin-customer-delete':
+        requireAdmin();
+        $controller = new AdminCustomerController();
+        $controller->delete();
+        break;
+
     case 'reports':
         include __DIR__ . '/../templates/admin/reports.php';
         break;

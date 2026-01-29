@@ -494,3 +494,11 @@ VALUES
 (2, -1, 'purchase', 1),
 (2, 10, 'restock', 1),
 (3, -5, 'manual_adjust', 1);
+
+-- ADMIN ACTIONS
+INSERT INTO admin_actions
+(admin_id, action_type, description)
+VALUES
+(1, 'PROCESS_ORDER', 'Order #2 marked as processing'),
+(1, 'RESTOCK', 'Restocked Vakedy Wireless Headset by 10 units'),
+(1, 'PRODUCT_UPDATE', 'Updated stock threshold for Logitech G203');

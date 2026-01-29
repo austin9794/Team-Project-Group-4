@@ -125,8 +125,6 @@ CREATE TABLE orders (
 );
 
 
-
-
 -- Forms --
 CREATE TABLE IF NOT EXISTS contact_messages (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -208,17 +206,25 @@ CREATE TABLE returns (
 -- Iventory Log Table (For Reports and Alerts) --
 
 CREATE TABLE inventory_logs (
-    log_id INT AUTO_INCREMENT PRIMARY KEY,
-    product_id INT NOT NULL,
-    change_amount INT NOT NULL,
-    action ENUM('restock','purchase','return','manual_adjust') NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  log_id INT AUTO_INCREMENT PRIMARY KEY,
+  product_id INT NOT NULL,
 
-    FOREIGN KEY (product_id)
-        REFERENCES products(product_id)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
+  change_amount INT NOT NULL,
+  action ENUM(
+    'restock',
+    'purchase',
+    'return',
+    'manual_adjust'
+  ) NOT NULL,
+
+  admin_id INT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+  FOREIGN KEY (product_id) REFERENCES products(product_id),
+  FOREIGN KEY (admin_id) REFERENCES users(user_id)
+    ON DELETE SET NULL
 );
+
 
 CREATE INDEX idx_inventory_product
     ON inventory_logs(product_id);

@@ -56,21 +56,23 @@ CREATE TABLE categories (
 -- Products Table --
 
 CREATE TABLE products (
-    product_id INT AUTO_INCREMENT PRIMARY KEY,
-    category_id INT NOT NULL,
-    name VARCHAR(150) NOT NULL,
-    description TEXT NOT NULL,
-    price DECIMAL(10,2) NOT NULL,
-    stock INT NOT NULL DEFAULT 0,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  product_id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(150) NOT NULL,
+  description TEXT,
+  price DECIMAL(10,2) NOT NULL,
+  stock INT NOT NULL DEFAULT 0,
 
-    FOREIGN KEY (category_id)
-        REFERENCES categories(category_id)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
+  low_stock_threshold INT DEFAULT 10,
+  is_active BOOLEAN DEFAULT 1,
+
+  category_id INT NOT NULL,
+  slug VARCHAR(150) UNIQUE,
+
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+  FOREIGN KEY (category_id) REFERENCES categories(category_id)
 );
 
-ALTER TABLE products ADD slug VARCHAR(100) UNIQUE;
 
 -- Index for faster category filtering
 CREATE INDEX idx_products_category

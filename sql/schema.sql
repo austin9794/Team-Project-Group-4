@@ -100,24 +100,30 @@ CREATE INDEX idx_product_images_product
 -- Orders Table --
 
 CREATE TABLE orders (
-    order_id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT NOT NULL,
-    address_id INT NULL,
-    total_price DECIMAL(10,2) NOT NULL,
-    status ENUM('pending','processing','shipped','delivered','returned')
-        DEFAULT 'pending',
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  order_id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL,
+  total_price DECIMAL(10,2) NOT NULL,
 
-    FOREIGN KEY (user_id)
-        REFERENCES users(user_id)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE,
+  status ENUM(
+    'pending',
+    'processing',
+    'shipped',
+    'delivered',
+    'returned'
+  ) DEFAULT 'pending',
 
-    FOREIGN KEY (address_id)
-        REFERENCES addresses(address_id)
-        ON DELETE SET NULL
-        ON UPDATE CASCADE
+  address_id INT NULL,
+
+  processed_at TIMESTAMP NULL,
+  shipped_at TIMESTAMP NULL,
+  delivered_at TIMESTAMP NULL,
+
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+  FOREIGN KEY (user_id) REFERENCES users(user_id),
+  FOREIGN KEY (address_id) REFERENCES addresses(address_id)
 );
+
 
 
 

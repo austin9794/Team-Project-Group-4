@@ -49,6 +49,8 @@ class AdminDashboardController extends BaseAdminController {
         ");
         $stmt->execute();
         $orders = $stmt->fetchAll();
+        
+        error_log("AdminDashboardController::orders() - Found " . count($orders) . " orders");
 
         include __DIR__ . '/../../templates/admin/orders.php';
     }

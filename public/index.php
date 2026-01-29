@@ -50,6 +50,15 @@ switch ($page) {
     case 'admin_login':
         include __DIR__ . '/../templates/auth/admin_login.php';
         break;
+    case 'admin-dashboard':
+        $controller = new AdminDashboardController();
+        $controller->index();
+        include __DIR__ . '/../templates/admin/dashboard.php';
+        break;
+    case 'admin-orders':
+        $controller = new AdminDashboardController();
+        $controller->orders();
+        break;
     case 'signup':
         $controller = new AuthController();
         $controller->showSignup();

@@ -27,7 +27,10 @@ CREATE TABLE addresses (
     label VARCHAR(50),   -- e.g. "Home", "Work", "Uni"
     full_address TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+    is_default BOOLEAN DEFAULT 0,
+
+    FOREIGN KEY (user_id) REFERENCES users(user_id) 
+    ON DELETE CASCADE
 );
 
 

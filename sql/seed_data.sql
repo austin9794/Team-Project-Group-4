@@ -465,9 +465,13 @@ INSERT INTO addresses (user_id, full_address, is_default) VALUES
 (3, '45 Queen Road, London, E1 6AN', 1);
 
 -- EXAMPLE ORDER
-INSERT INTO orders (user_id, total_price, status)
+INSERT INTO orders
+(user_id, total_price, status, address_id)
 VALUES
-(2, 72.99, 'delivered');
+(2, 32.99, 'pending', 1),
+(3, 149.99, 'processing', 2),
+(2, 24.99, 'shipped', 1);
+
 
 INSERT INTO order_items (order_id, product_id, quantity, price_at_purchase)
 VALUES

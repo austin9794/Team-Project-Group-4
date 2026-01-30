@@ -182,6 +182,7 @@ switch ($page) {
         include __DIR__ . '/../templates/admin/dashboard.php';
         break;
     case 'admin-products':
+        requireAdmin();
         include __DIR__ . '/../templates/admin/products.php';
         break;
 
@@ -193,8 +194,7 @@ switch ($page) {
 
     case 'admin-customers':
         requireAdmin();
-        $controller = new AdminCustomerController();
-        $controller->list();
+        include __DIR__ . '/../templates/admin/customers.php';
         break;
 
     case 'admin-customer-edit':

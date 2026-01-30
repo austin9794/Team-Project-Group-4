@@ -4,15 +4,19 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- Users Table --
 
 CREATE TABLE users (
-    user_id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    email VARCHAR(150) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL,
-    role ENUM('customer', 'admin') DEFAULT 'customer',
-    phone VARCHAR(20),
-    address TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  user_id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  email VARCHAR(150) NOT NULL UNIQUE,
+  password VARCHAR(255) NOT NULL,
+  role ENUM('customer','admin') DEFAULT 'customer',
+  phone VARCHAR(20),
+
+  password_changed BOOLEAN DEFAULT 0,
+  last_login TIMESTAMP NULL,
+
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
 
 
 -- Adresses Table --
@@ -23,7 +27,10 @@ CREATE TABLE addresses (
     label VARCHAR(50),   -- e.g. "Home", "Work", "Uni"
     full_address TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+    is_default BOOLEAN DEFAULT 0,
+
+    FOREIGN KEY (user_id) REFERENCES users(user_id) 
+    ON DELETE CASCADE
 );
 
 
@@ -52,21 +59,23 @@ CREATE TABLE categories (
 -- Products Table --
 
 CREATE TABLE products (
-    product_id INT AUTO_INCREMENT PRIMARY KEY,
-    category_id INT NOT NULL,
-    name VARCHAR(150) NOT NULL,
-    description TEXT NOT NULL,
-    price DECIMAL(10,2) NOT NULL,
-    stock INT NOT NULL DEFAULT 0,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  product_id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(150) NOT NULL,
+  description TEXT,
+  price DECIMAL(10,2) NOT NULL,
+  stock INT NOT NULL DEFAULT 0,
 
-    FOREIGN KEY (category_id)
-        REFERENCES categories(category_id)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
+  low_stock_threshold INT DEFAULT 10,
+  is_active BOOLEAN DEFAULT 1,
+
+  category_id INT NOT NULL,
+  slug VARCHAR(150) UNIQUE,
+
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+  FOREIGN KEY (category_id) REFERENCES categories(category_id)
 );
 
-ALTER TABLE products ADD slug VARCHAR(100) UNIQUE;
 
 -- Index for faster category filtering
 CREATE INDEX idx_products_category
@@ -94,25 +103,29 @@ CREATE INDEX idx_product_images_product
 -- Orders Table --
 
 CREATE TABLE orders (
-    order_id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT NOT NULL,
-    address_id INT NULL,
-    total_price DECIMAL(10,2) NOT NULL,
-    status ENUM('pending','processing','shipped','delivered','returned')
-        DEFAULT 'pending',
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  order_id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL,
+  total_price DECIMAL(10,2) NOT NULL,
 
-    FOREIGN KEY (user_id)
-        REFERENCES users(user_id)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE,
+  status ENUM(
+    'pending',
+    'processing',
+    'shipped',
+    'delivered',
+    'returned'
+  ) DEFAULT 'pending',
 
-    FOREIGN KEY (address_id)
-        REFERENCES addresses(address_id)
-        ON DELETE SET NULL
-        ON UPDATE CASCADE
+  address_id INT NULL,
+
+  processed_at TIMESTAMP NULL,
+  shipped_at TIMESTAMP NULL,
+  delivered_at TIMESTAMP NULL,
+
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+  FOREIGN KEY (user_id) REFERENCES users(user_id),
+  FOREIGN KEY (address_id) REFERENCES addresses(address_id)
 );
-
 
 
 -- Forms --
@@ -196,21 +209,42 @@ CREATE TABLE returns (
 -- Iventory Log Table (For Reports and Alerts) --
 
 CREATE TABLE inventory_logs (
-    log_id INT AUTO_INCREMENT PRIMARY KEY,
-    product_id INT NOT NULL,
-    change_amount INT NOT NULL,
-    action ENUM('restock','purchase','return','manual_adjust') NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  log_id INT AUTO_INCREMENT PRIMARY KEY,
+  product_id INT NOT NULL,
 
-    FOREIGN KEY (product_id)
-        REFERENCES products(product_id)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
+  change_amount INT NOT NULL,
+  action ENUM(
+    'restock',
+    'purchase',
+    'return',
+    'manual_adjust'
+  ) NOT NULL,
+
+  admin_id INT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+  FOREIGN KEY (product_id) REFERENCES products(product_id),
+  FOREIGN KEY (admin_id) REFERENCES users(user_id)
+    ON DELETE SET NULL
 );
+
 
 CREATE INDEX idx_inventory_product
     ON inventory_logs(product_id);
 
 
+-- Aadmin Activity Log Table --
+
+CREATE TABLE admin_actions (
+  action_id INT AUTO_INCREMENT PRIMARY KEY,
+  admin_id INT NOT NULL,
+
+  action_type VARCHAR(50) NOT NULL,
+  description TEXT,
+
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+  FOREIGN KEY (admin_id) REFERENCES users(user_id)
+);
 
 

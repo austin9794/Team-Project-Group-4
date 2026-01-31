@@ -201,6 +201,15 @@
         <?php endforeach; ?>
     <?php endif; ?>
 
+    <?php if ($addr['is_default']): ?>
+      <span style="color:#7cff9d;">✓ Default Address</span>
+       <?php else: ?>
+    <a class="btn-purple"
+       href="/Team-Project-Group-4/public/index.php?page=set-default-address&id=<?= $addr['address_id'] ?>">
+       Set as Default
+    </a>
+   <?php endif; ?>
+
     <a class="btn-purple" href="/Team-Project-Group-4/public/index.php?page=add-address">
         Add New Address
     </a>

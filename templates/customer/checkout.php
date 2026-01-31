@@ -101,6 +101,25 @@ textarea {
     <input type="radio" name="payment_id" value="manual"> Use a new card (next page)
 </label>
 
+    <!-- AUTO SELECT DEFAULT ADDRESS -->
+     <?php foreach ($addresses as $index => $addr): ?>
+  <label class="address-option">
+    <input
+      type="radio"
+      name="address_id"
+      value="<?= $addr['address_id'] ?>"
+      <?= $addr['is_default'] ? 'checked' : '' ?>
+      required
+    >
+    <strong><?= htmlspecialchars($addr['label']) ?></strong><br>
+    <?= nl2br(htmlspecialchars($addr['full_address'])) ?>
+
+    <?php if ($addr['is_default']): ?>
+      <span class="badge-default">Default</span>
+    <?php endif; ?>
+  </label>
+<?php endforeach; ?>
+
 
         <!-- ORDER SUMMARY -->
         <h2 class="section-title">Order Summary</h2>

@@ -1,26 +1,30 @@
 <?php include __DIR__ . '/../header.php'; ?>
 
-<div class="account-container" style="max-width:700px;margin:40px auto;">
+<div class="edit-container">
+    <h2>Edit Address</h2>
 
-    <div class="section-card">
-        <h2>Edit Address</h2>
+    <form method="POST" action="<?= BASE_URL ?>index.php?page=update-address">
 
-        <form method="POST" action="/Team-Project-Group-4/public/index.php?page=update-address">
+        <input type="hidden" name="address_id" value="<?= $address['address_id'] ?>">
 
-            <input type="hidden" name="address_id" value="<?= $address['address_id'] ?>">
-
+        <div class="form-group">
             <label>Label</label>
-            <input type="text" name="label" value="<?= htmlspecialchars($address['label']) ?>" required>
+            <input type="text" name="label"
+                   value="<?= htmlspecialchars($address['label']) ?>" required>
+        </div>
 
+        <div class="form-group">
             <label>Full Address</label>
-            <textarea name="full_address" rows="4" required style="resize:none;"><?= htmlspecialchars($address['full_address']) ?></textarea>
+            <textarea name="full_address" rows="4" required><?= htmlspecialchars($address['full_address']) ?></textarea>
+        </div>
 
-            <button class="btn-purple" type="submit">Update Address</button>
-        </form>
+        <button type="submit" class="btn-purple">Update Address</button>
 
-        <br>
-        <a class="btn-purple" href="/Team-Project-Group-4/public/index.php?page=account#addresses">Back</a>
-    </div>
+        <a href="<?= BASE_URL ?>index.php?page=account#addresses" class="cancel-link">
+            Cancel
+        </a>
+    </form>
 </div>
 
 <?php include __DIR__ . '/../footer.php'; ?>
+

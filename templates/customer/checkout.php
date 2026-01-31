@@ -120,6 +120,24 @@ textarea {
   </label>
 <?php endforeach; ?>
 
+    <!-- AUTO SELECT DEFAULT PAYMENT METHOD -->
+     <?php foreach ($payments as $p): ?>
+  <label class="payment-option">
+    <input
+      type="radio"
+      name="payment_id"
+      value="<?= $p['payment_id'] ?>"
+      <?= $p['is_default'] ? 'checked' : '' ?>
+      required
+    >
+    <?= htmlspecialchars($p['card_brand']) ?> ending <?= $p['card_last4'] ?>
+
+    <?php if ($p['is_default']): ?>
+      <span class="badge-default">Default</span>
+    <?php endif; ?>
+  </label>
+<?php endforeach; ?>
+
 
         <!-- ORDER SUMMARY -->
         <h2 class="section-title">Order Summary</h2>

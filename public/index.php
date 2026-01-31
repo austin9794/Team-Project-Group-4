@@ -155,6 +155,10 @@ switch ($page) {
         $controller = new AccountController();
         $controller->deleteAddress();
         break;
+    case 'set-default-address':
+        $controller = new AccountController();
+        $controller->setDefaultAddress();
+        break;
     case 'add-payment':
         $controller = new AccountController();
         $controller->showAddPaymentForm();

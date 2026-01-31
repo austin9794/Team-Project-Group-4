@@ -269,6 +269,29 @@ class AccountController {
       exit;
     }
 
+    // Edit Payment
+    public function showEditPaymentForm() {
+    requireLogin();
+
+    $id = $_GET['id'] ?? null;
+    if (!$id) {
+        exit("Payment method not found");
+    }
+
+    $stmt = $this->db->prepare("
+        SELECT * FROM payment_methods
+        WHERE payment_id = ? AND user_id = ?
+    ");
+    $stmt->execute([$id, $_SESSION['user_id']]);
+    $payment = $stmt->fetch();
+
+    if (!$payment) {
+        exit("Unauthorized");
+    }
+
+    include __DIR__ . '/../../templates/customer/edit-payment.php';
+}
+
     // Delete Payment
       public function deletePayment() {
       requireLogin();

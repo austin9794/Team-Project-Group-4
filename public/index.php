@@ -159,6 +159,11 @@ switch ($page) {
         $controller = new AccountController();
         $controller->showAddPaymentForm();
         break;
+    case 'edit-payment':
+        $controller = new AccountController();
+        $controller->showEditPaymentForm();
+    break;
+
     case 'save-payment':
         $controller = new AccountController();
         $controller->savePayment();

@@ -57,17 +57,28 @@ $payment = $payStmt->fetch();
 $paymentSummary = $payment
     ? $payment['card_brand'] . ' ending ' . $payment['card_last4']
     : 'Unknown payment';
-
-
     
         // Insert into orders table
         $addressId = $_POST['address_id'] ?? null;
 
         $orderStmt = $db->prepare("
-         INSERT INTO orders (user_id, total_price, status, address_id)
-         VALUES (?, ?, 'pending', ?)
+         INSERT INTO orders (
+            user_id,
+            total_price,
+            status,
+            address_id,
+            shipping_address,
+            payment_summary
+         VALUES (?, ?, 'pending', ?, ?, ?)
        ");
-        $orderStmt->execute([$_SESSION['user_id'], $total, $addressId]);
+
+        $orderStmt->execute([
+        $_SESSION['user_id'],
+        $total,
+        $addressId,
+        $shippingAddress,
+        $paymentSummary
+        ]);
 
         $orderId = $db->lastInsertId();
 

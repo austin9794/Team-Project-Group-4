@@ -243,6 +243,16 @@
         <?php endforeach; ?>
     <?php endif; ?>
 
+    <?php if ($p['is_default']): ?>
+       <span style="color:#7cff9d;">✓ Default Payment</span>
+   <?php else: ?>
+      <a class="btn-purple"
+          href="/Team-Project-Group-4/public/index.php?page=set-default-payment&id=<?= $p['payment_id'] ?>">
+          Set as Default
+        </a>
+   <?php endif; ?>
+
+
     <a class="btn-purple" href="/Team-Project-Group-4/public/index.php?page=add-payment">
         Add Payment Method
     </a>

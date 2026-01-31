@@ -87,9 +87,14 @@ class OrderController {
     $addresses = $addrStmt->fetchAll();
 
     // FETCH SAVED PAYMENT METHODS
-    $payStmt = $db->prepare("SELECT * FROM payment_methods WHERE user_id = ?");
-    $payStmt->execute([$_SESSION['user_id']]);
-    $payments = $payStmt->fetchAll();
+    $payStmt = $db->prepare("
+       SELECT * FROM payment_methods 
+       WHERE user_id = ?
+       ORDER BY is_default DESC, created_at DESC
+    ");
+   $payStmt->execute([$_SESSION['user_id']]);
+   $payments = $payStmt->fetchAll();
+
 
     // FETCH BASKET ITEMS
     $basketItems = [];

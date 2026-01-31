@@ -44,7 +44,10 @@ CREATE TABLE payment_methods (
     expiry_month INT,
     expiry_year INT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+    is_default BOOLEAN DEFAULT 0;
+
+    FOREIGN KEY (user_id) REFERENCES users(user_id) 
+    ON DELETE CASCADE
 );
 
 -- Categories Table --

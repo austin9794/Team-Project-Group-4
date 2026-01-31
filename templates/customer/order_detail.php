@@ -83,16 +83,18 @@
     <?php endforeach; ?>
 
     <div class="summary-box">
-        <h2>Order Summary</h2>
-        <p><strong>Total:</strong> £<?= number_format($order['total_price'], 2) ?></p>
-        <p><strong>Delivery Address:</strong> <?= htmlspecialchars($order['full_address'] ?? 'Not recorded') ?></p>
-        <p><strong>Payment:</strong> 
-            <?= $order['card_brand'] 
-                ? $order['card_brand'] . " ending " . $order['card_last4']
-                : "Not saved"
-            ?>
-        </p>
-    </div>
+    <h2>Order Summary</h2>
+
+    <p><strong>Total:</strong> £<?= number_format($order['total_price'], 2) ?></p>
+
+    <p><strong>Delivery Address:</strong><br>
+        <?= nl2br(htmlspecialchars($order['shipping_address'])) ?>
+    </p>
+
+    <p><strong>Payment:</strong>
+        <?= htmlspecialchars($order['payment_summary']) ?>
+    </p>
+</div>
 
 </div>
 

@@ -179,6 +179,10 @@ switch ($page) {
         $controller = new AccountController();
         $controller->deletePayment();
         break;
+    case 'set-default-payment':
+        $controller = new AccountController();
+        $controller->setDefaultPayment();
+        break;
     case 'product':
        $controller = new ProductController();
        $controller->show();

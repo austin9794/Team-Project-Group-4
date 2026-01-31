@@ -1,24 +1,26 @@
 <?php include __DIR__ . '/../header.php'; ?>
 
-<div class="account-container" style="max-width:700px;margin:40px auto;">
+<div class="edit-container">
+    <h2>Add New Address</h2>
 
-    <div class="section-card">
-        <h2>Add New Address</h2>
+    <form method="POST" action="<?= BASE_URL ?>index.php?page=save-address">
 
-        <form method="POST" action="/Team-Project-Group-4/public/index.php?page=save-address">
-
-            <label>Label (Home, Work, Uni...)</label>
+        <div class="form-group">
+            <label>Label (Home, Work, Uni)</label>
             <input type="text" name="label" required>
+        </div>
 
+        <div class="form-group">
             <label>Full Address</label>
-            <textarea name="full_address" rows="4" required style="resize:none;"></textarea>
+            <textarea name="full_address" rows="4" required></textarea>
+        </div>
 
-            <button class="btn-purple" type="submit">Save Address</button>
-        </form>
+        <button type="submit" class="btn-purple">Save Address</button>
 
-        <br>
-        <a class="btn-purple" href="/Team-Project-Group-4/public/index.php?page=account#addresses">Back</a>
-    </div>
+        <a href="<?= BASE_URL ?>index.php?page=account#addresses" class="cancel-link">
+            Cancel
+        </a>
+    </form>
 </div>
 
 <?php include __DIR__ . '/../footer.php'; ?>

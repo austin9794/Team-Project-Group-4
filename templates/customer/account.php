@@ -220,10 +220,16 @@
 
                 <p>Expires <?= $p['expiry_month'] ?>/<?= $p['expiry_year'] ?></p>
 
-                <a class="btn-purple" style="background:#ff4f4f;"
-                    href="/Team-Project-Group-4/public/index.php?page=delete-payment&id=<?= $p['payment_id'] ?>">
-                    Remove
-                </a>
+            <a class="btn-purple"
+               href="index.php?page=edit-payment&id=<?= $p['payment_id'] ?>">
+               Edit
+            </a>
+
+            <a class="btn-purple" style="background:#ff4f4f;"
+               href="index.php?page=delete-payment&id=<?= $p['payment_id'] ?>">
+               Remove
+            </a>
+
             </div>
         <?php endforeach; ?>
     <?php endif; ?>
@@ -231,9 +237,7 @@
     <a class="btn-purple" href="/Team-Project-Group-4/public/index.php?page=add-payment">
         Add Payment Method
     </a>
-</div>
-
-
+    </div>
 
         <!-- DELETE ACCOUNT -->
         <div id="delete" class="section-card">

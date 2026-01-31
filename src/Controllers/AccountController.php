@@ -11,7 +11,6 @@ class AccountController {
         $this->db = Database::getInstance()->getConnection();
     }
 
-    
     // SHOW ACCOUNT PAGE
     
     public function showAccount() {
@@ -50,7 +49,6 @@ class AccountController {
 
     
     // UPDATE PROFILE
-    
     public function updateAccount() {
     requireLogin();
 
@@ -92,11 +90,10 @@ class AccountController {
 
     header("Location: /Team-Project-Group-4/public/index.php?page=account&updated=1");
     exit;
-}
+   }
 
-    // CHANGE PASSWORD
-    
-    public function changePassword() {
+       // CHANGE PASSWORD
+       public function changePassword() {
 
         requireLogin();
 
@@ -134,7 +131,7 @@ class AccountController {
 
         header("Location: /Team-Project-Group-4/public/index.php?page=account&pw=success");
         exit;
-    }
+       }
 
        // Edit Account 
         public function editAccountForm() {
@@ -158,27 +155,27 @@ class AccountController {
 
         // Save Address
         public function saveAddress() {
-    requireLogin();
+        requireLogin();
 
-    $label = trim($_POST['label']);
-    $full_address = trim($_POST['full_address']);
+        $label = trim($_POST['label']);
+        $full_address = trim($_POST['full_address']);
 
-    if ($label === "" || $full_address === "") {
-        header("Location: /Team-Project-Group-4/public/index.php?page=add-address&error=1");
-        exit;
-    }
+        if ($label === "" || $full_address === "") {
+            header("Location: /Team-Project-Group-4/public/index.php?page=add-address&error=1");
+            exit;
+       }
 
-    $db = Database::getInstance()->getConnection();
+        $db = Database::getInstance()->getConnection();
 
-    $stmt = $db->prepare("INSERT INTO addresses (user_id, label, full_address) VALUES (?, ?, ?)");
-    $stmt->execute([$_SESSION['user_id'], $label, $full_address]);
+        $stmt = $db->prepare("INSERT INTO addresses (user_id, label, full_address) VALUES (?, ?, ?)");
+        $stmt->execute([$_SESSION['user_id'], $label, $full_address]);
 
-    header("Location: /Team-Project-Group-4/public/index.php?page=account#addresses");
-    exit;
-}
+        header("Location: /Team-Project-Group-4/public/index.php?page=account#addresses");
+         exit;
+       }
 
       // Edit Address
-     public function showEditAddressForm() {
+      public function showEditAddressForm() {
      requireLogin();
 
      $id = $_GET['id'] ?? null;
@@ -234,6 +231,32 @@ class AccountController {
      header("Location: /Team-Project-Group-4/public/index.php?page=account#addresses");
      exit;
     }
+
+    // Default Adddress
+    public function setDefaultAddress() {
+    requireLogin();
+
+    $addressId = $_GET['id'] ?? null;
+    if (!$addressId) {
+        header("Location: index.php?page=account#addresses");
+        exit;
+    }
+
+    // Unset all defaults for user
+    $this->db->prepare("
+        UPDATE addresses SET is_default = 0 WHERE user_id = ?
+    ")->execute([$_SESSION['user_id']]);
+
+    // Set selected address as default
+    $this->db->prepare("
+        UPDATE addresses SET is_default = 1
+        WHERE address_id = ? AND user_id = ?
+    ")->execute([$addressId, $_SESSION['user_id']]);
+
+    header("Location: index.php?page=account#addresses");
+    exit;
+  }
+
 
       // Payment Form
       public function showAddPaymentForm() {

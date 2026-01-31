@@ -34,6 +34,31 @@ class OrderController {
     }
 }
 
+   // Get selected address snapshot
+$addrStmt = $db->prepare("
+    SELECT full_address 
+    FROM addresses 
+    WHERE address_id = ? AND user_id = ?
+");
+$addrStmt->execute([$addressId, $_SESSION['user_id']]);
+$shippingAddress = $addrStmt->fetchColumn();
+
+// Get selected payment snapshot
+$paymentId = $_POST['payment_id'] ?? null;
+
+$payStmt = $db->prepare("
+    SELECT card_brand, card_last4 
+    FROM payment_methods 
+    WHERE payment_id = ? AND user_id = ?
+");
+$payStmt->execute([$paymentId, $_SESSION['user_id']]);
+$payment = $payStmt->fetch();
+
+$paymentSummary = $payment
+    ? $payment['card_brand'] . ' ending ' . $payment['card_last4']
+    : 'Unknown payment';
+
+
     
         // Insert into orders table
         $addressId = $_POST['address_id'] ?? null;

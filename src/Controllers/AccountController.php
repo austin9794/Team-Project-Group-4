@@ -369,6 +369,30 @@ class AccountController {
      exit;
     }
 
+    //Default Payment
+    public function setDefaultPayment() {
+    requireLogin();
+
+    $paymentId = $_GET['id'] ?? null;
+    if (!$paymentId) {
+        header("Location: index.php?page=account#payment-methods");
+        exit;
+    }
+
+    $this->db->prepare("
+        UPDATE payment_methods SET is_default = 0 WHERE user_id = ?
+    ")->execute([$_SESSION['user_id']]);
+
+    $this->db->prepare("
+        UPDATE payment_methods SET is_default = 1
+        WHERE payment_id = ? AND user_id = ?
+    ")->execute([$paymentId, $_SESSION['user_id']]);
+
+    header("Location: index.php?page=account#payment-methods");
+    exit;
+}
+
+
       //User Data
       public function getUserData() {
        $stmt = $this->db->prepare("SELECT * FROM users WHERE user_id = ?");

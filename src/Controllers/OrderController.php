@@ -5,6 +5,7 @@ require_once __DIR__ . '/../Database.php';
 class OrderController {
 
     public function placeOrder() {   
+        $addressId = null;
 
         if (empty($_SESSION['basket'])) {
             header("Location: /Team-Project-Group-4/public/index.php?page=basket");
@@ -21,48 +22,60 @@ class OrderController {
         // Calculate totals again for safety
       $total = 0;
 
-     foreach ($_SESSION['basket'] as $productId => $qty) {
-       $productId = (int)$productId;
-       $qty = max(1, (int)$qty);
+    foreach ($_SESSION['basket'] as $productId => $qty) {
+         $productId = (int)$productId;
+         $qty = max(1, (int)$qty);
 
-    $stmt = $db->prepare("SELECT price FROM products WHERE product_id = ?");
-    $stmt->execute([$productId]);
-    $price = $stmt->fetchColumn();
+       $stmt = $db->prepare("SELECT price FROM products WHERE product_id = ?");
+       $stmt->execute([$productId]);
+       $price = $stmt->fetchColumn();
 
-    if ($price !== false) {
-        $total += (float)$price * $qty;
+       if ($price !== false) {
+            $total += (float)$price * $qty;
+       }
     }
-}
 
-   // Get selected address snapshot
-$addrStmt = $db->prepare("
-    SELECT full_address 
-    FROM addresses 
-    WHERE address_id = ? AND user_id = ?
-");
-$addrStmt->execute([$addressId, $_SESSION['user_id']]);
-$shippingAddress = $addrStmt->fetchColumn();
+       // Get selected address snapshot
+       $addrStmt = $db->prepare(" SELECT full_address 
+         FROM addresses 
+         WHERE address_id = ? AND user_id = ?
+        ");
+        $addrStmt->execute([$addressId, $_SESSION['user_id']]);
+        $shippingAddress = $addrStmt->fetchColumn();
 
-// Get selected payment snapshot
-$paymentId = $_POST['payment_id'] ?? null;
+       // Get selected payment snapshot
+       $paymentId = $_POST['payment_id'] ?? null;
 
-$payStmt = $db->prepare("
-    SELECT card_brand, card_last4 
-    FROM payment_methods 
-    WHERE payment_id = ? AND user_id = ?
-");
-$payStmt->execute([$paymentId, $_SESSION['user_id']]);
-$payment = $payStmt->fetch();
+        $payStmt = $db->prepare(" SELECT card_brand, card_last4 
+         FROM payment_methods 
+         WHERE payment_id = ? AND user_id = ?
+       ");
+        $payStmt->execute([$paymentId, $_SESSION['user_id']]);
+        $payment = $payStmt->fetch();
 
-$paymentSummary = $payment
-    ? $payment['card_brand'] . ' ending ' . $payment['card_last4']
-    : 'Unknown payment';
-    
+        $paymentSummary = $payment
+        ? $payment['card_brand'] . ' ending ' . $payment['card_last4']
+       : 'Unknown payment';
+
+       // Address selection
+       $addressId = $_POST['address_id'] ?? null;
+
+        if (!$addressId) {
+
+         // Auto-select default address
+          $stmt = $db->prepare(" SELECT address_id
+            FROM addresses
+            WHERE user_id = ? AND is_default = 1
+            LIMIT 1
+           ");
+          $stmt->execute([$_SESSION['user_id']]);
+          $addressId = $stmt->fetchColumn() ?: null;
+        }
+
         // Insert into orders table
         $addressId = $_POST['address_id'] ?? null;
 
-        $orderStmt = $db->prepare("
-         INSERT INTO orders (
+        $orderStmt = $db->prepare(" INSERT INTO orders (
             user_id,
             total_price,
             status,
@@ -88,8 +101,7 @@ $paymentSummary = $payment
             $stmt->execute([$productId]);
             $price = $stmt->fetchColumn();
 
-            $insert = $db->prepare("
-                INSERT INTO order_items (order_id, product_id, quantity, price_at_purchase)
+            $insert = $db->prepare(" INSERT INTO order_items (order_id, product_id, quantity, price_at_purchase)
                 VALUES (?, ?, ?, ?)
             ");
             $insert->execute([$orderId, $productId, $qty, $price]);
@@ -103,8 +115,7 @@ $paymentSummary = $payment
         exit;
     }
 
-    public function checkoutPage()
-{
+    public function checkoutPage() {
     requireLogin();
     $db = Database::getInstance()->getConnection();
 
@@ -133,8 +144,7 @@ $paymentSummary = $payment
     $basketTotal = 0;
 
     foreach ($_SESSION['basket'] as $productId => $qty) {
-        $stmt = $db->prepare("
-    SELECT 
+        $stmt = $db->prepare(" SELECT 
         p.name,
         p.price,
         p.slug,
@@ -142,9 +152,9 @@ $paymentSummary = $payment
     FROM products p
     JOIN categories c ON p.category_id = c.category_id
     WHERE p.product_id = ?
-");
-$stmt->execute([$productId]);
-$p = $stmt->fetch();
+   ");
+     $stmt->execute([$productId]);
+    $p = $stmt->fetch();
 
         
         if ($p) {
@@ -175,8 +185,7 @@ public function listUserOrders()
     requireLogin();
     $db = Database::getInstance()->getConnection();
 
-    $stmt = $db->prepare("
-        SELECT * FROM orders 
+    $stmt = $db->prepare(" SELECT * FROM orders 
         WHERE user_id = ?
         ORDER BY created_at DESC
     ");
@@ -205,8 +214,7 @@ public function showOrder()
     $db = Database::getInstance()->getConnection();
 
     // Fetch order
-    $orderStmt = $db->prepare("
-        SELECT o.*, a.full_address
+    $orderStmt = $db->prepare(" SELECT o.*, a.full_address
         FROM orders o
         LEFT JOIN addresses a ON o.address_id = a.address_id
         WHERE o.order_id = ? AND o.user_id = ?
@@ -221,8 +229,7 @@ public function showOrder()
     }
 
     // Fetch items
-    $itemsStmt = $db->prepare("
-        SELECT 
+    $itemsStmt = $db->prepare(" SELECT 
           oi.*,
           pr.name,
           pr.slug,
@@ -262,8 +269,7 @@ public function adminProcessOrders()
         $db->beginTransaction();
 
         
-        $check = $db->prepare("
-            SELECT status
+        $check = $db->prepare(" SELECT status
             FROM orders
             WHERE order_id = ?
             FOR UPDATE
@@ -285,8 +291,7 @@ public function adminProcessOrders()
         }
 
         
-        $items = $db->prepare("
-            SELECT product_id, quantity
+        $items = $db->prepare(" SELECT product_id, quantity
             FROM order_items
             WHERE order_id = ?
         ");
@@ -298,24 +303,21 @@ public function adminProcessOrders()
             $quantity = (int)$item['quantity'];
 
             // Reduced stock
-            $update = $db->prepare("
-                UPDATE products
+            $update = $db->prepare(" UPDATE products
                 SET stock = stock - ?
                 WHERE product_id = ?
             ");
             $update->execute([$quantity, $productId]);
 
             
-            $log = $db->prepare("
-                INSERT INTO inventory_logs (product_id, change_amount, action, created_at)
+            $log = $db->prepare("INSERT INTO inventory_logs (product_id, change_amount, action, created_at)
                 VALUES (?, ?, 'purchase', NOW())
             ");
             $log->execute([$productId, $quantity]);
         }
 
         
-        $final = $db->prepare("
-            UPDATE orders
+        $final = $db->prepare(" UPDATE orders
             SET status = 'processing'
             WHERE order_id = ?
         ");

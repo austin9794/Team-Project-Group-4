@@ -96,35 +96,37 @@ class DashboardController {
         exit();
     }
 
-    /**
-     * Switch role - allow admin to view as customer and vice versa
-     */
+    public function getActualUserRole() {
+        return $_SESSION['actual_role'] ?? $_SESSION['user_role'] ?? 'customer';
+    }
+
     public function switchRole() {
         if (!$this->isLoggedIn()) {
             header('Location: /Team-Project-Group-4/public/index.php?page=login');
             exit();
         }
 
-        // Only allow switching if user has admin privileges
-        if (!isset($_SESSION['can_be_admin']) || $_SESSION['can_be_admin'] !== true) {
+        $actualRole = $this->getActualUserRole();
+        
+        if ($actualRole !== 'admin') {
             header('Location: /Team-Project-Group-4/public/index.php?page=dashboard');
             exit();
         }
 
-        // Get current role and switch
         $currentRole = $_SESSION['user_role'] ?? 'customer';
         
+        if (!isset($_SESSION['actual_role'])) {
+            $_SESSION['actual_role'] = $_SESSION['user_role'];
+        }
+        
         if ($currentRole === 'admin') {
-            // Switch to customer view
             $_SESSION['user_role'] = 'customer';
             $_SESSION['is_admin'] = false;
         } else {
-            // Switch back to admin view
             $_SESSION['user_role'] = 'admin';
             $_SESSION['is_admin'] = true;
         }
 
-        // Ensure session is written to disk before redirect
         session_write_close();
         header('Location: /Team-Project-Group-4/public/index.php?page=dashboard');
         exit();

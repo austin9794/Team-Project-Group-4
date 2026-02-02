@@ -51,6 +51,7 @@ class AuthController {
         if ($admin) {
             $_SESSION['user_id'] = $admin['user_id'];
             $_SESSION['is_admin'] = true;
+            $_SESSION['can_be_admin'] = true;
             $_SESSION['user_role'] = 'admin';
             $_SESSION['user_name'] = $admin['name'];
             $_SESSION['user_email'] = $admin['email'];

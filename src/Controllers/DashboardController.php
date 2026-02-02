@@ -101,27 +101,32 @@ class DashboardController {
      */
     public function switchRole() {
         if (!$this->isLoggedIn()) {
+            error_log("switchRole: User not logged in");
             header('Location: /Team-Project-Group-4/public/index.php?page=login');
             exit();
         }
 
         // Only allow switching if user has admin privileges
         if (!isset($_SESSION['can_be_admin']) || $_SESSION['can_be_admin'] !== true) {
+            error_log("switchRole: User does not have admin privileges. can_be_admin = " . (isset($_SESSION['can_be_admin']) ? var_export($_SESSION['can_be_admin'], true) : 'NOT SET'));
             header('Location: /Team-Project-Group-4/public/index.php?page=dashboard');
             exit();
         }
 
         // Get current role
         $currentRole = $_SESSION['user_role'] ?? 'customer';
+        error_log("switchRole: Current role = $currentRole, switching...");
         
         if ($currentRole === 'admin') {
             // Switch to customer view
             $_SESSION['user_role'] = 'customer';
             $_SESSION['is_admin'] = false;
+            error_log("switchRole: Switched to customer view");
         } else {
             // Switch back to admin view
             $_SESSION['user_role'] = 'admin';
             $_SESSION['is_admin'] = true;
+            error_log("switchRole: Switched to admin view");
         }
 
         header('Location: /Team-Project-Group-4/public/index.php?page=dashboard');

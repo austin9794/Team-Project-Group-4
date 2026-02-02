@@ -186,36 +186,38 @@ foreach ($addresses as $a) {
 
         <!-- PAYMENT METHOD -->
 
-        <h2 class="section-title">Payment Method</h2>
+<h2 class="section-title">Payment Method</h2>
 
-<?php if (!empty($paymentMethods)): ?>
-  <div class="option-grid">
-    <?php foreach ($paymentMethods as $p): ?>
-      <label class="option-card">
-        <input
-          type="radio"
-          name="payment_id"
-          value="<?= $p['payment_id'] ?>"
-          <?= $p['is_default'] ? 'checked' : '' ?>
-          required
-        >
+<?php
+$defaultPayment = null;
+foreach ($paymentMethods as $p) {
+  if ($p['is_default']) {
+    $defaultPayment = $p;
+    break;
+  }
+}
+?>
 
-        <div class="option-content">
-          <strong><?= htmlspecialchars($p['card_brand']) ?></strong>
-          <p>Ending in <?= htmlspecialchars($p['card_last4']) ?></p>
-
-          <?php if ($p['is_default']): ?>
-            <span class="badge-default">Default</span>
-          <?php endif; ?>
-        </div>
-      </label>
-    <?php endforeach; ?>
+<?php if ($defaultPayment): ?>
+  <div class="option-card static-card">
+    <div class="option-content">
+      <strong><?= htmlspecialchars($defaultPayment['card_brand']) ?></strong>
+      <p>Ending in <?= htmlspecialchars($defaultPayment['card_last4']) ?></p>
+      <span class="badge-default">Default</span>
+    </div>
   </div>
+
+  <!-- Hidden value actually submitted -->
+  <input type="hidden" name="payment_id" value="<?= $defaultPayment['payment_id'] ?>">
+
+<?php else: ?>
+  <p>No default payment method set.</p>
 <?php endif; ?>
 
-<a href="<?= BASE_URL ?>index.php?page=add-payment" class="link-action">
-  + Add a new payment method
+<a href="<?= BASE_URL ?>index.php?page=account#payment-methods" class="link-action">
+  + Add / change payment method
 </a>
+
 
         <!-- ORDER SUMMARY -->
        <h2 class="section-title">Order Summary</h2>

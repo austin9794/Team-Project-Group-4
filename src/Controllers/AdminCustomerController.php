@@ -12,7 +12,7 @@ class AdminCustomerController extends BaseAdminController {
     public function list() {
         $db = Database::getInstance()->getConnection();
         
-        // Fetch all customers
+      
         $stmt = $db->prepare("SELECT * FROM users WHERE role = 'customer' ORDER BY created_at DESC");
         $stmt->execute();
         $customers = $stmt->fetchAll();

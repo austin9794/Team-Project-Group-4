@@ -120,25 +120,39 @@ textarea {
 <?php endif; ?>
 
 
-
         <!-- PAYMENT METHOD -->
+         
         <h2 class="section-title">Payment Method</h2>
 
 <?php if (!empty($paymentMethods)): ?>
+  <div class="option-grid">
     <?php foreach ($paymentMethods as $p): ?>
-        <label style="display:block;margin-bottom:8px;">
-            <input type="radio" name="payment_id" value="<?= $p['payment_id'] ?>" required>
-            <?= htmlspecialchars($p['card_brand']) ?> ending in <?= htmlspecialchars($p['card_last4']) ?>
-        </label>
+      <label class="option-card">
+        <input
+          type="radio"
+          name="payment_id"
+          value="<?= $p['payment_id'] ?>"
+          <?= $p['is_default'] ? 'checked' : '' ?>
+          required
+        >
+
+        <div class="option-content">
+          <strong><?= htmlspecialchars($p['card_brand']) ?></strong>
+          <p>Ending in <?= htmlspecialchars($p['card_last4']) ?></p>
+
+          <?php if ($p['is_default']): ?>
+            <span class="badge-default">Default</span>
+          <?php endif; ?>
+        </div>
+      </label>
     <?php endforeach; ?>
-<?php else: ?>
-    <p style="color: #ff6b6b; font-weight: bold;">⚠️ You must add a payment method before placing an order.</p>
-    <a href="/Team-Project-Group-4/public/index.php?page=add-payment" style="color: #8f3dff; text-decoration: underline;">Add Payment Method</a>
+  </div>
 <?php endif; ?>
 
-<label style="display:block;margin-top:14px;">
-    <input type="radio" name="payment_id" value="manual"> Use a new card (next page)
-</label>
+<a href="<?= BASE_URL ?>index.php?page=add-payment" class="link-action">
+  + Add a new payment method
+</a>
+
 
     <!-- AUTO SELECT DEFAULT ADDRESS -->
      <?php foreach ($addresses as $index => $addr): ?>

@@ -24,23 +24,29 @@ class AuthController {
         include __DIR__ . '/../../templates/auth/login.php';
     }
 
-    // Handle login - supports both customer and admin
+    // Handle login - automatically detects if user is admin or customer
     public function login() {
 
         $email = trim($_POST['email'] ?? '');
         $password = trim($_POST['password'] ?? '');
-        $loginType = $_POST['login_type'] ?? 'customer'; // 'customer' or 'admin'
 
         if (empty($email) || empty($password)) {
             header("Location: index.php?page=login&error=Invalid+email+or+password");
             exit;
         }
 
-        if ($loginType === 'admin') {
+        // Try admin login first
+        $adminModel = new Admin();
+        $admin = $adminModel->verifyCredentials($email, $password);
+        
+        if ($admin) {
+            // User is an admin
             $this->adminLogin($email, $password);
-        } else {
-            $this->customerLogin($email, $password);
+            return;
         }
+        
+        // If not admin, try customer login
+        $this->customerLogin($email, $password);
     }
 
     // Admin login

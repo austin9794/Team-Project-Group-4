@@ -4,6 +4,7 @@ include __DIR__ . '/../header.php';
 ?>
 
 <style>
+/* CACHE BUSTER: <?= time() ?> */
 /* Container */
 /* Auth container */
 .auth-box {
@@ -95,47 +96,11 @@ include __DIR__ . '/../header.php';
     color: white;
 }
 
-/* Login type tabs */
-.login-tabs {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 25px;
-    border-bottom: 2px solid var(--border-color);
-}
-
-.login-tab {
-    padding: 10px 15px;
-    background: none;
-    border: none;
-    color: var(--text-secondary);
-    cursor: pointer;
-    font-size: 15px;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    border-bottom: 3px solid transparent;
-    margin-bottom: -2px;
-}
-
-.login-tab.active {
-    color: var(--highlight-color);
-    border-bottom-color: var(--highlight-color);
-}
-
-.login-tab:hover {
-    color: var(--text-primary);
-}
-
-.login-form {
-    display: none;
-}
-
-.login-form.active {
-    display: block;
-}
+/* Removed login type tabs - auto-detect user type */
 
 </style>
 
-<div class="auth-box">
+<div class="auth-box" id="unified-login-v2">
 
     <h2>Sign in to your account</h2>
 
@@ -147,36 +112,16 @@ include __DIR__ . '/../header.php';
         <div class="success"><?= htmlspecialchars($_GET['success']) ?></div>
     <?php endif; ?>
 
-    <!-- Login Type Selector -->
-    <div class="login-tabs">
-        <button type="button" class="login-tab active" data-type="customer">Customer Login</button>
-        <button type="button" class="login-tab" data-type="admin">Admin Login</button>
-    </div>
-
-    <!-- Customer Login Form -->
-    <form id="customer-form" class="login-form active" method="POST" action="/Team-Project-Group-4/public/index.php?page=login-submit">
-        <input type="hidden" name="login_type" value="customer">
+    <!-- Single unified form - auto-detects user role from database -->
+    <form method="POST" action="/Team-Project-Group-4/public/index.php?page=login-submit" id="auto-login-form">
         
-        <label>Enter email</label>
-        <input type="email" name="email" required placeholder="Email address">
+        <label for="user-email">Email</label>
+        <input type="email" id="user-email" name="email" required placeholder="Enter your email">
 
-        <label>Password</label>
-        <input type="password" name="password" required placeholder="Password">
+        <label for="user-password">Password</label>
+        <input type="password" id="user-password" name="password" required placeholder="Enter your password">
 
         <button type="submit">Sign In</button>
-    </form>
-
-    <!-- Admin Login Form -->
-    <form id="admin-form" class="login-form" method="POST" action="/Team-Project-Group-4/public/index.php?page=login-submit">
-        <input type="hidden" name="login_type" value="admin">
-        
-        <label>Admin Email</label>
-        <input type="email" name="email" required placeholder="Admin email address">
-
-        <label>Admin Password</label>
-        <input type="password" name="password" required placeholder="Admin password">
-
-        <button type="submit">Admin Sign In</button>
     </form>
 
     <a href="/Team-Project-Group-4/public/index.php?page=signup">Create a customer account</a>
@@ -184,18 +129,12 @@ include __DIR__ . '/../header.php';
 </div>
 
 <script>
-document.querySelectorAll('.login-tab').forEach(tab => {
-    tab.addEventListener('click', function() {
-        const type = this.dataset.type;
-        
-        // Update active tab
-        document.querySelectorAll('.login-tab').forEach(t => t.classList.remove('active'));
-        this.classList.add('active');
-        
-        // Update active form
-        document.querySelectorAll('.login-form').forEach(f => f.classList.remove('active'));
-        document.getElementById(type + '-form').classList.add('active');
-    });
+// Remove any old cached login tabs if they exist
+document.addEventListener('DOMContentLoaded', function() {
+    const oldTabs = document.querySelector('.login-tabs');
+    if (oldTabs) oldTabs.remove();
+    const oldForms = document.querySelectorAll('.login-form:not(#auto-login-form)');
+    oldForms.forEach(f => f.remove());
 });
 </script>
 

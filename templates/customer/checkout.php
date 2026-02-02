@@ -81,19 +81,44 @@ textarea {
 
         <!-- DELIVERY ADDRESS -->
 
-        <h2 class="section-title">Delivery Address</h2>
+        <h2 class="section-title">
+  Delivering to <?= htmlspecialchars($userData['name']) ?>
+</h2>
 
 <?php if (!empty($addresses)): ?>
+  <div class="option-grid">
     <?php foreach ($addresses as $a): ?>
-        <label style="display:block;margin-bottom:8px;">
-            <input type="radio" name="address_id" value="<?= $a['address_id'] ?>" required>
-            <?= htmlspecialchars($a['label']) ?> — <?= htmlspecialchars($a['full_address']) ?>
-        </label>
+      <label class="option-card">
+        <input
+          type="radio"
+          name="address_id"
+          value="<?= $a['address_id'] ?>"
+          <?= $a['is_default'] ? 'checked' : '' ?>
+          required
+        >
+
+        <div class="option-content">
+          <strong><?= htmlspecialchars($a['label']) ?></strong>
+          <p><?= nl2br(htmlspecialchars($a['full_address'])) ?></p>
+
+          <?php if ($a['is_default']): ?>
+            <span class="badge-default">Default</span>
+          <?php endif; ?>
+        </div>
+      </label>
     <?php endforeach; ?>
+  </div>
+
+  <a href="<?= BASE_URL ?>index.php?page=account#addresses" class="link-action">
+    Change delivery address
+  </a>
 <?php else: ?>
-    <p>No saved addresses. Enter manually:</p>
-    <textarea name="manual_address" required rows="3" style="resize:none;"></textarea>
+  <p>No saved addresses.</p>
+  <a href="<?= BASE_URL ?>index.php?page=add-address" class="link-action">
+    Add delivery address
+  </a>
 <?php endif; ?>
+
 
 
         <!-- PAYMENT METHOD -->

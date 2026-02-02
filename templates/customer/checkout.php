@@ -148,41 +148,38 @@ textarea {
 
         <!-- DELIVERY ADDRESS -->
 
-        <h2 class="section-title">
+<h2 class="section-title">
   Delivering to <?= htmlspecialchars($userData['name']) ?>
 </h2>
 
-<?php if (!empty($addresses)): ?>
-  <div class="option-grid">
-    <?php foreach ($addresses as $a): ?>
-      <label class="option-card">
-        <input
-          type="radio"
-          name="address_id"
-          value="<?= $a['address_id'] ?>"
-          <?= $a['is_default'] ? 'checked' : '' ?>
-          required
-        >
+<?php
+$defaultAddress = null;
+foreach ($addresses as $a) {
+  if ($a['is_default']) {
+    $defaultAddress = $a;
+    break;
+  }
+}
+?>
 
-        <div class="option-content">
-          <strong><?= htmlspecialchars($a['label']) ?></strong>
-          <p><?= nl2br(htmlspecialchars($a['full_address'])) ?></p>
-
-          <?php if ($a['is_default']): ?>
-            <span class="badge-default">Default</span>
-          <?php endif; ?>
-        </div>
-      </label>
-    <?php endforeach; ?>
+<?php if ($defaultAddress): ?>
+  <div class="option-card static-card">
+    <div class="option-content">
+      <p><?= nl2br(htmlspecialchars($defaultAddress['full_address'])) ?></p>
+      <span class="badge-default">Default</span>
+    </div>
   </div>
+
+  <!-- Hidden value actually submitted -->
+  <input type="hidden" name="address_id" value="<?= $defaultAddress['address_id'] ?>">
 
   <a href="<?= BASE_URL ?>index.php?page=account#addresses" class="link-action">
     Change delivery address
   </a>
 <?php else: ?>
-  <p>No saved addresses.</p>
-  <a href="<?= BASE_URL ?>index.php?page=add-address" class="link-action">
-    Add delivery address
+  <p>No default address set.</p>
+  <a href="<?= BASE_URL ?>index.php?page=account#addresses" class="link-action">
+    Set a delivery address
   </a>
 <?php endif; ?>
 

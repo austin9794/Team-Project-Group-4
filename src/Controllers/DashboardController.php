@@ -58,6 +58,7 @@ class DashboardController {
         if ($admin) {
             $_SESSION['user_id'] = $admin['user_id'];
             $_SESSION['is_admin'] = true;
+            $_SESSION['can_be_admin'] = true;  // Track that this user has admin privileges
             $_SESSION['user_role'] = 'admin';
             $_SESSION['user_name'] = $admin['name'];
             $_SESSION['user_email'] = $admin['email'];
@@ -104,6 +105,12 @@ class DashboardController {
             exit();
         }
 
+        // Only allow switching if user has admin privileges
+        if (!isset($_SESSION['can_be_admin']) || $_SESSION['can_be_admin'] !== true) {
+            header('Location: /Team-Project-Group-4/public/index.php?page=dashboard');
+            exit();
+        }
+
         // Get current role
         $currentRole = $_SESSION['user_role'] ?? 'customer';
         
@@ -112,17 +119,9 @@ class DashboardController {
             $_SESSION['user_role'] = 'customer';
             $_SESSION['is_admin'] = false;
         } else {
-            // Switch to admin view only if user is an admin
-            if (isset($_SESSION['user_id'])) {
-                $stmt = $this->db->prepare("SELECT role FROM admins WHERE user_id = ?");
-                $stmt->execute([$_SESSION['user_id']]);
-                $admin = $stmt->fetch();
-                
-                if ($admin) {
-                    $_SESSION['user_role'] = 'admin';
-                    $_SESSION['is_admin'] = true;
-                }
-            }
+            // Switch back to admin view
+            $_SESSION['user_role'] = 'admin';
+            $_SESSION['is_admin'] = true;
         }
 
         header('Location: /Team-Project-Group-4/public/index.php?page=dashboard');

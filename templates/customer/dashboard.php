@@ -13,6 +13,7 @@ if (!$controller->isLoggedIn()) {
 }
 
 $isAdmin = $controller->isAdmin();
+$canBeAdmin = isset($_SESSION['can_be_admin']) && $_SESSION['can_be_admin'] === true;
 $userName = $controller->getUserName();
 $userRole = $controller->getUserRole();
 
@@ -26,15 +27,16 @@ $userRole = $controller->getUserRole();
         <div class="dashboard-user-info">
             <span>Welcome, <?php echo htmlspecialchars($userName); ?></span>
             <span class="role-badge"><?php echo strtoupper($userRole); ?></span>
-            <?php if ($isAdmin): ?>
-                <a href="/Team-Project-Group-4/public/index.php?page=switch-role" class="btn-switch-role">
-                    Switch to Customer View
-                </a>
-            <?php else: ?>
-                <!-- Only show switch if user has admin privileges -->
-                <a href="/Team-Project-Group-4/public/index.php?page=switch-role" class="btn-switch-role" style="display:none;" id="switch-to-admin">
-                    Switch to Admin View
-                </a>
+            <?php if ($canBeAdmin): ?>
+                <?php if ($isAdmin): ?>
+                    <a href="/Team-Project-Group-4/public/index.php?page=switch-role" class="btn-switch-role">
+                        Switch to Customer View
+                    </a>
+                <?php else: ?>
+                    <a href="/Team-Project-Group-4/public/index.php?page=switch-role" class="btn-switch-role">
+                        Switch to Admin View
+                    </a>
+                <?php endif; ?>
             <?php endif; ?>
         </div>
     </div>

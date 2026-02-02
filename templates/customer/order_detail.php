@@ -87,10 +87,11 @@
         <p><strong>Total:</strong> £<?= number_format($order['total_price'], 2) ?></p>
         <p><strong>Delivery Address:</strong> <?= htmlspecialchars($order['full_address'] ?? 'Not recorded') ?></p>
         <p><strong>Payment:</strong> 
-            <?= $order['card_brand'] 
-                ? $order['card_brand'] . " ending " . $order['card_last4']
-                : "Not saved"
-            ?>
+            <?php if (!empty($order['card_brand']) && !empty($order['card_last4'])): ?>
+                <?= htmlspecialchars($order['card_brand']) ?> ending <?= htmlspecialchars($order['card_last4']) ?>
+            <?php else: ?>
+                Not saved
+            <?php endif; ?>
         </p>
     </div>
 

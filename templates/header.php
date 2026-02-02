@@ -216,9 +216,15 @@ require_once __DIR__ . '/../src/Config.php';
                     <a href="index.php?page=orders">My Orders</a>
 
                     <?php if (isAdmin()): ?>
-                        <a href="index.php?page=dashboard">Admin Panel</a>
+                        <hr style="margin: 5px 0; border: 0; border-top: 1px solid rgba(255,255,255,0.2);">
+                        <a href="index.php?page=dashboard">Admin Dashboard</a>
+                        <a href="index.php?page=admin-orders">Admin - Orders</a>
+                        <a href="index.php?page=admin-products">Admin - Products</a>
+                        <a href="index.php?page=admin-customers">Admin - Customers</a>
+                        <a href="index.php?page=switch-role">Switch to Customer</a>
                     <?php endif; ?>
 
+                    <hr style="margin: 5px 0; border: 0; border-top: 1px solid rgba(255,255,255,0.2);">
                     <a href="index.php?page=logout">Logout</a>
                 </div>
             </div>
@@ -274,7 +280,15 @@ require_once __DIR__ . '/../src/Config.php';
         <a href="index.php?page=about">About Us</a>
     </div>
     <div>
-        <a href="index.php?page=account">Account</a>
-        <a href="index.php?page=orders">Orders</a>
+        <?php if (isLoggedIn()): ?>
+            <a href="index.php?page=orders">Orders</a>
+            <?php if (isAdmin()): ?>
+                <a href="index.php?page=dashboard">Admin Dashboard</a>
+                <a href="index.php?page=admin-orders">Admin Orders</a>
+            <?php endif; ?>
+        <?php else: ?>
+            <a href="index.php?page=account">Account</a>
+            <a href="index.php?page=orders">Orders</a>
+        <?php endif; ?>
     </div>
 </div>

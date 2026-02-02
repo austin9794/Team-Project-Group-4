@@ -16,33 +16,54 @@ class OrderController {
             exit;
         }
 
+        // VALIDATE PAYMENT METHOD - CRITICAL
+        if (empty($_POST['payment_id'])) {
+            header("Location: /Team-Project-Group-4/public/index.php?page=checkout&error=no_payment");
+            exit;
+        }
+
+        // VALIDATE ADDRESS
+        if (empty($_POST['address_id']) && empty($_POST['manual_address'])) {
+            header("Location: /Team-Project-Group-4/public/index.php?page=checkout&error=no_address");
+            exit;
+        }
+
         $db = Database::getInstance()->getConnection();
 
+        // Verify payment method exists and belongs to user
+        $paymentId = (int)$_POST['payment_id'];
+        $payStmt = $db->prepare("SELECT payment_id FROM payment_methods WHERE payment_id = ? AND user_id = ?");
+        $payStmt->execute([$paymentId, $_SESSION['user_id']]);
+        
+        if (!$payStmt->fetch()) {
+            header("Location: /Team-Project-Group-4/public/index.php?page=checkout&error=invalid_payment");
+            exit;
+        }
+
         // Calculate totals again for safety
-      $total = 0;
+        $total = 0;
 
-     foreach ($_SESSION['basket'] as $productId => $qty) {
-       $productId = (int)$productId;
-       $qty = max(1, (int)$qty);
+        foreach ($_SESSION['basket'] as $productId => $qty) {
+            $productId = (int)$productId;
+            $qty = max(1, (int)$qty);
 
-    $stmt = $db->prepare("SELECT price FROM products WHERE product_id = ?");
-    $stmt->execute([$productId]);
-    $price = $stmt->fetchColumn();
+            $stmt = $db->prepare("SELECT price FROM products WHERE product_id = ?");
+            $stmt->execute([$productId]);
+            $price = $stmt->fetchColumn();
 
-    if ($price !== false) {
-        $total += (float)$price * $qty;
-    }
-}
+            if ($price !== false) {
+                $total += (float)$price * $qty;
+            }
+        }
 
-    
         // Insert into orders table
         $addressId = $_POST['address_id'] ?? null;
 
         $orderStmt = $db->prepare("
-         INSERT INTO orders (user_id, total_price, status, address_id)
-         VALUES (?, ?, 'pending', ?)
+         INSERT INTO orders (user_id, total_price, status, address_id, payment_id)
+         VALUES (?, ?, 'pending', ?, ?)
        ");
-        $orderStmt->execute([$_SESSION['user_id'], $total, $addressId]);
+        $orderStmt->execute([$_SESSION['user_id'], $total, $addressId, $paymentId]);
 
         $orderId = $db->lastInsertId();
 
@@ -165,9 +186,10 @@ public function showOrder()
 
     // Fetch order
     $orderStmt = $db->prepare("
-        SELECT o.*, a.full_address
+        SELECT o.*, a.full_address, pm.card_brand, pm.card_last4
         FROM orders o
         LEFT JOIN addresses a ON o.address_id = a.address_id
+        LEFT JOIN payment_methods pm ON o.payment_id = pm.payment_id
         WHERE o.order_id = ? AND o.user_id = ?
 
     ");

@@ -116,6 +116,7 @@ CREATE TABLE orders (
   ) DEFAULT 'pending',
 
   address_id INT NULL,
+  payment_id INT NULL,
 
   processed_at TIMESTAMP NULL,
   shipped_at TIMESTAMP NULL,
@@ -124,7 +125,8 @@ CREATE TABLE orders (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
   FOREIGN KEY (user_id) REFERENCES users(user_id),
-  FOREIGN KEY (address_id) REFERENCES addresses(address_id)
+  FOREIGN KEY (address_id) REFERENCES addresses(address_id),
+  FOREIGN KEY (payment_id) REFERENCES payment_methods(payment_id)
 );
 
 

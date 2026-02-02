@@ -7,7 +7,7 @@ function isLoggedIn() {
 
 // Check if the current user is an admin
 function isAdmin() {
-    return (isset($_SESSION['role']) && $_SESSION['role'] === 'admin');
+    return (isset($_SESSION['is_admin']) && $_SESSION['is_admin'] === true);
 }
 
 // Redirect to login if not logged in

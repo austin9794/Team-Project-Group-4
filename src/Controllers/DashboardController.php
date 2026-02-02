@@ -100,41 +100,32 @@ class DashboardController {
      * Switch role - allow admin to view as customer and vice versa
      */
     public function switchRole() {
-        error_log("switchRole: SESSION at start = " . var_export($_SESSION, true));
-        
         if (!$this->isLoggedIn()) {
-            error_log("switchRole: User not logged in");
             header('Location: /Team-Project-Group-4/public/index.php?page=login');
             exit();
         }
 
         // Only allow switching if user has admin privileges
         if (!isset($_SESSION['can_be_admin']) || $_SESSION['can_be_admin'] !== true) {
-            error_log("switchRole: User does not have admin privileges. can_be_admin = " . (isset($_SESSION['can_be_admin']) ? var_export($_SESSION['can_be_admin'], true) : 'NOT SET'));
-            error_log("switchRole: is_admin = " . (isset($_SESSION['is_admin']) ? var_export($_SESSION['is_admin'], true) : 'NOT SET'));
-            error_log("switchRole: Redirecting to dashboard without switching");
             header('Location: /Team-Project-Group-4/public/index.php?page=dashboard');
             exit();
         }
 
-        // Get current role
+        // Get current role and switch
         $currentRole = $_SESSION['user_role'] ?? 'customer';
-        error_log("switchRole: Current role = $currentRole, switching...");
         
         if ($currentRole === 'admin') {
             // Switch to customer view
             $_SESSION['user_role'] = 'customer';
             $_SESSION['is_admin'] = false;
-            error_log("switchRole: Switched to customer view");
         } else {
             // Switch back to admin view
             $_SESSION['user_role'] = 'admin';
             $_SESSION['is_admin'] = true;
-            error_log("switchRole: Switched to admin view");
         }
 
-        error_log("switchRole: SESSION before redirect = " . var_export($_SESSION, true));
-        session_write_close();  // Ensure session is written before redirect
+        // Ensure session is written to disk before redirect
+        session_write_close();
         header('Location: /Team-Project-Group-4/public/index.php?page=dashboard');
         exit();
     }

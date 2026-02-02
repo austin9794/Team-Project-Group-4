@@ -57,14 +57,19 @@ class Admin {
         $admin = $this->findByUsername($username);
         
         error_log("Admin verifyCredentials - Username: $username, Admin found: " . ($admin ? "YES" : "NO"));
-        error_log("Admin verifyCredentials - Password input length: " . strlen($password) . ", Password match: " . ($admin && $password === $admin['password'] ? "YES" : "NO"));
         
-        if ($admin && $password === $admin['password']) {
+        if (!$admin) {
+            error_log("Admin verifyCredentials - FAILED: Admin not found");
+            return false;
+        }
+        
+        // Use password_verify for hashed passwords
+        if (password_verify($password, $admin['password'])) {
             error_log("Admin verifyCredentials - SUCCESS");
             return $admin;
         }
         
-        error_log("Admin verifyCredentials - FAILED");
+        error_log("Admin verifyCredentials - FAILED: Password mismatch");
         return false;
     }
     

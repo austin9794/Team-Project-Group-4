@@ -121,7 +121,7 @@ textarea {
 
 
         <!-- PAYMENT METHOD -->
-         
+
         <h2 class="section-title">Payment Method</h2>
 
 <?php if (!empty($paymentMethods)): ?>
@@ -193,19 +193,26 @@ textarea {
 
 
         <!-- ORDER SUMMARY -->
-        <h2 class="section-title">Order Summary</h2>
+       <h2 class="section-title">Order Summary</h2>
 
-        <?php foreach ($basketItems as $item): ?>
-            <p>
-                <?= htmlspecialchars($item['name']) ?>
-                (x<?= $item['quantity'] ?>)
-                — £<?= number_format($item['total'], 2) ?>
-            </p>
-        <?php endforeach; ?>
+        <div class="summary-box">
+          <?php foreach ($basketItems as $item): ?>
+            <div class="summary-row">
+              <span>
+                <?= htmlspecialchars($item['name']) ?> × <?= $item['quantity'] ?>
+              </span>
+              <span>£<?= number_format($item['total'], 2) ?></span>
+            </div>
+          <?php endforeach; ?>
 
-        <h3>Total: £<?= number_format($basketTotal, 2) ?></h3>
+          <div class="summary-total">
+           Total: £<?= number_format($basketTotal, 2) ?>
+          </div>
+       </div>
 
-        <button type="submit" class="place-order-btn">Place Order</button>
+        <button type="submit" class="place-order-btn">
+          Place Order
+        </button>
 
     </form>
 

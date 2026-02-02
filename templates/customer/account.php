@@ -125,7 +125,6 @@
                     <p><strong>Name:</strong> <?= htmlspecialchars($user['name']) ?></p>
                     <p><strong>Email:</strong> <?= htmlspecialchars($user['email']) ?></p>
                     <p><strong>Phone:</strong> <?= htmlspecialchars($user['phone']) ?></p>
-                    <p><strong>Address:</strong> <?= htmlspecialchars($user['address']) ?></p>
                     <p><strong>Member Since:</strong> <?= htmlspecialchars(date("F Y", strtotime($user['created_at']))) ?></p>
                 </div>
             </div>

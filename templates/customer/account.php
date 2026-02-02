@@ -224,39 +224,43 @@
     <?php else: ?>
         <?php foreach ($payments as $p): ?>
             <div class="payment-box" style="margin-bottom:15px;">
-                <p><strong><?= htmlspecialchars($p['card_brand']) ?></strong>
-                ending in <strong><?= htmlspecialchars($p['card_last4']) ?></strong></p>
 
-                <p>Expires <?= $p['expiry_month'] ?>/<?= $p['expiry_year'] ?></p>
+                <p>
+                    <strong><?= htmlspecialchars($p['card_brand']) ?></strong>
+                    ending in <strong><?= htmlspecialchars($p['card_last4']) ?></strong>
+                </p>
 
-            <a class="btn-purple"
-               href="index.php?page=edit-payment&id=<?= $p['payment_id'] ?>">
-               Edit
-            </a>
+                <p>Expires <?= (int)$p['expiry_month'] ?>/<?= (int)$p['expiry_year'] ?></p>
 
-            <a class="btn-purple" style="background:#ff4f4f;"
-               href="index.php?page=delete-payment&id=<?= $p['payment_id'] ?>">
-               Remove
-            </a>
+                <?php if ($p['is_default']): ?>
+                    <span style="color:#7cff9d; font-weight:600;">✓ Default Payment</span>
+                <?php else: ?>
+                    <a class="btn-purple"
+                       href="<?= BASE_URL ?>index.php?page=set-default-payment&id=<?= $p['payment_id'] ?>">
+                        Set as Default
+                    </a>
+                <?php endif; ?>
+
+                <br><br>
+
+                <a class="btn-purple"
+                   href="<?= BASE_URL ?>index.php?page=edit-payment&id=<?= $p['payment_id'] ?>">
+                    Edit
+                </a>
+
+                <a class="btn-purple" style="background:#ff4f4f;"
+                   href="<?= BASE_URL ?>index.php?page=delete-payment&id=<?= $p['payment_id'] ?>">
+                    Remove
+                </a>
 
             </div>
         <?php endforeach; ?>
     <?php endif; ?>
 
-    <?php if ($p['is_default']): ?>
-       <span style="color:#7cff9d;">✓ Default Payment</span>
-   <?php else: ?>
-      <a class="btn-purple"
-          href="/Team-Project-Group-4/public/index.php?page=set-default-payment&id=<?= $p['payment_id'] ?>">
-          Set as Default
-        </a>
-   <?php endif; ?>
-
-
-    <a class="btn-purple" href="/Team-Project-Group-4/public/index.php?page=add-payment">
+    <a class="btn-purple" href="<?= BASE_URL ?>index.php?page=add-payment">
         Add Payment Method
     </a>
-    </div>
+</div>
 
         <!-- DELETE ACCOUNT -->
         <div id="delete" class="section-card">

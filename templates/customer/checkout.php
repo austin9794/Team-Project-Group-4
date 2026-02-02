@@ -58,6 +58,73 @@ textarea {
 .place-order-btn:hover {
     background: #b46cff;
 }
+
+.option-grid {
+  display: grid;
+  gap: 14px;
+  margin-bottom: 10px;
+}
+
+.option-card {
+  display: flex;
+  gap: 12px;
+  background: #2a0f47;
+  padding: 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  border: 2px solid transparent;
+}
+
+.option-card input {
+  margin-top: 6px;
+}
+
+.option-card:has(input:checked) {
+  border-color: #8f3dff;
+  background: #3a165d;
+}
+
+.option-content p {
+  margin: 4px 0;
+  font-size: 14px;
+}
+
+.badge-default {
+  display: inline-block;
+  margin-top: 6px;
+  background: #8f3dff;
+  padding: 3px 8px;
+  font-size: 12px;
+  border-radius: 12px;
+}
+
+.link-action {
+  display: inline-block;
+  margin-top: 10px;
+  color: #c9a7ff;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.summary-box {
+  background: #1a0b2e;
+  padding: 16px;
+  border-radius: 10px;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.summary-total {
+  border-top: 1px solid #5d3b8a;
+  padding-top: 10px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
 </style>
 
 <div class="checkout-container">

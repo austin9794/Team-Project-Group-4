@@ -88,6 +88,10 @@ switch ($page) {
         $controller = new AccountController();
         $controller->changePassword();
         break;
+    case 'change-password-submit':
+        $controller = new AccountController();
+        $controller->changePassword();
+        break;
     case 'basket':
        $controller = new BasketController();
        $controller->index();

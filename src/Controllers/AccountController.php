@@ -100,13 +100,20 @@ class AccountController {
 
         requireLogin();
 
+        // Show form on GET
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            include __DIR__ . '/../../templates/customer/change_password.php';
+            return;
+        }
+
+        // Handle POST
         $current = $_POST['current_password'] ?? '';
         $new     = $_POST['new_password'] ?? '';
         $confirm = $_POST['confirm_password'] ?? '';
 
         // NEW PASSWORDS MATCH?
         if ($new !== $confirm) {
-            header("Location: /Team-Project-Group-4/public/index.php?page=account&pw=mismatch");
+            header("Location: /Team-Project-Group-4/public/index.php?page=change-password&pw=mismatch");
             exit;
         }
 
@@ -117,7 +124,7 @@ class AccountController {
 
         // Verify current password
         if (!password_verify($current, $stored)) {
-            header("Location: /Team-Project-Group-4/public/index.php?page=account&pw=incorrect");
+            header("Location: /Team-Project-Group-4/public/index.php?page=change-password&pw=incorrect");
             exit;
         }
 
@@ -132,7 +139,7 @@ class AccountController {
         ");
         $update->execute([$hashed, $_SESSION['user_id']]);
 
-        header("Location: /Team-Project-Group-4/public/index.php?page=account&pw=success");
+        header("Location: /Team-Project-Group-4/public/index.php?page=change-password&pw=success");
         exit;
     }
 

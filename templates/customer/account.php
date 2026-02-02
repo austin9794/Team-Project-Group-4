@@ -179,41 +179,53 @@
 
 
         <!-- SAVED ADDRESSES -->
-        <div id="addresses" class="section-card">
-        <h2>Saved Addresses</h2>
+<div id="addresses" class="section-card">
+    <h2>Saved Addresses</h2>
 
     <?php if (empty($addresses)): ?>
         <p>No saved addresses yet.</p>
     <?php else: ?>
         <?php foreach ($addresses as $addr): ?>
-            <div class="address-box" style="margin-bottom:15px;">
-                <p><strong><?= htmlspecialchars($addr['label']) ?>:</strong></p>
+            <div class="address-box" style="margin-bottom:20px;">
+
+                <p>
+                    <strong><?= htmlspecialchars($addr['label']) ?>:</strong>
+                </p>
+
                 <p><?= nl2br(htmlspecialchars($addr['full_address'])) ?></p>
 
-                <a class="btn-purple" href="/Team-Project-Group-4/public/index.php?page=edit-address&id=<?= $addr['address_id'] ?>">
+                <?php if ($addr['is_default']): ?>
+                    <span style="color:#7cff9d; font-weight:600;">
+                        ✓ Default Address
+                    </span>
+                <?php else: ?>
+                    <a class="btn-purple"
+                       href="<?= BASE_URL ?>index.php?page=set-default-address&id=<?= $addr['address_id'] ?>">
+                        Set as Default
+                    </a>
+                <?php endif; ?>
+
+                <br><br>
+
+                <a class="btn-purple"
+                   href="<?= BASE_URL ?>index.php?page=edit-address&id=<?= $addr['address_id'] ?>">
                     Edit
                 </a>
+
                 <a class="btn-purple" style="background:#ff4f4f;"
-                    href="/Team-Project-Group-4/public/index.php?page=delete-address&id=<?= $addr['address_id'] ?>">
+                   href="<?= BASE_URL ?>index.php?page=delete-address&id=<?= $addr['address_id'] ?>">
                     Delete
                 </a>
+
             </div>
         <?php endforeach; ?>
     <?php endif; ?>
 
-    <?php if ($addr['is_default']): ?>
-      <span style="color:#7cff9d;">✓ Default Address</span>
-       <?php else: ?>
-    <a class="btn-purple"
-       href="/Team-Project-Group-4/public/index.php?page=set-default-address&id=<?= $addr['address_id'] ?>">
-       Set as Default
-    </a>
-   <?php endif; ?>
-
-    <a class="btn-purple" href="/Team-Project-Group-4/public/index.php?page=add-address">
+    <a class="btn-purple" href="<?= BASE_URL ?>index.php?page=add-address">
         Add New Address
     </a>
 </div>
+
 
 <!-- PAYMENT METHODS -->
 <div id="payment-methods" class="section-card">

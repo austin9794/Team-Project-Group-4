@@ -6,7 +6,7 @@
 require_once __DIR__ . '/../../src/Database.php';
 $db = Database::getInstance()->getConnection();
 
-// Handle delete
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_customer'])) {
     $userId = (int)$_POST['user_id'];
     $delete = $db->prepare("DELETE FROM users WHERE user_id = ? AND role != 'admin'");
@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_customer'])) {
     exit;
 }
 
-// Fetch all customers
+
 $stmt = $db->prepare("SELECT * FROM users WHERE role = 'customer' ORDER BY created_at DESC");
 $stmt->execute();
 $customers = $stmt->fetchAll();

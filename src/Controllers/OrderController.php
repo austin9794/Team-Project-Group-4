@@ -17,10 +17,32 @@ class OrderController {
             exit;
         }
 
+        // VALIDATE PAYMENT METHOD - CRITICAL
+        if (empty($_POST['payment_id'])) {
+            header("Location: /Team-Project-Group-4/public/index.php?page=checkout&error=no_payment");
+            exit;
+        }
+
+        // VALIDATE ADDRESS
+        if (empty($_POST['address_id']) && empty($_POST['manual_address'])) {
+            header("Location: /Team-Project-Group-4/public/index.php?page=checkout&error=no_address");
+            exit;
+        }
+
         $db = Database::getInstance()->getConnection();
 
+        // Verify payment method exists and belongs to user
+        $paymentId = (int)$_POST['payment_id'];
+        $payStmt = $db->prepare("SELECT payment_id FROM payment_methods WHERE payment_id = ? AND user_id = ?");
+        $payStmt->execute([$paymentId, $_SESSION['user_id']]);
+        
+        if (!$payStmt->fetch()) {
+            header("Location: /Team-Project-Group-4/public/index.php?page=checkout&error=invalid_payment");
+            exit;
+        }
+
         // Calculate totals again for safety
-      $total = 0;
+        $total = 0;
 
     foreach ($_SESSION['basket'] as $productId => $qty) {
          $productId = (int)$productId;
@@ -217,6 +239,7 @@ public function showOrder()
     $orderStmt = $db->prepare(" SELECT o.*, a.full_address
         FROM orders o
         LEFT JOIN addresses a ON o.address_id = a.address_id
+        LEFT JOIN payment_methods pm ON o.payment_id = pm.payment_id
         WHERE o.order_id = ? AND o.user_id = ?
 
     ");

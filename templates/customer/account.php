@@ -101,12 +101,12 @@
     <!-- SIDEBAR -->
     <div class="account-sidebar">
         <h3>My Account</h3>
-        <a href="#personal">Personal Details</a>
-        <a href="#orders">Recent Orders</a>
-        <a href="#security">Security</a>
-        <a href="#preferences">Preferences</a>
-        <a href="#addresses">Saved Addresses</a>
-        <a href="#delete">Delete Account</a>
+        <a href="/Team-Project-Group-4/public/index.php?page=account#personal">Personal Details</a>
+        <a href="/Team-Project-Group-4/public/index.php?page=account#orders">Recent Orders</a>
+        <a href="/Team-Project-Group-4/public/index.php?page=account#security">Security</a>
+        <a href="/Team-Project-Group-4/public/index.php?page=account#preferences">Preferences</a>
+        <a href="/Team-Project-Group-4/public/index.php?page=account#addresses">Saved Addresses</a>
+        <a href="/Team-Project-Group-4/public/index.php?page=account#delete">Delete Account</a>
         <a href="/Team-Project-Group-4/public/index.php?page=logout">Logout</a>
     </div>
 

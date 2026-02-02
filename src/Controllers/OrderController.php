@@ -186,9 +186,10 @@ public function showOrder()
 
     // Fetch order
     $orderStmt = $db->prepare("
-        SELECT o.*, a.full_address
+        SELECT o.*, a.full_address, pm.card_brand, pm.card_last4
         FROM orders o
         LEFT JOIN addresses a ON o.address_id = a.address_id
+        LEFT JOIN payment_methods pm ON o.payment_id = pm.payment_id
         WHERE o.order_id = ? AND o.user_id = ?
 
     ");

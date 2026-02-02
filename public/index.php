@@ -21,10 +21,13 @@ require_once __DIR__ . '/../src/Controllers/ReviewController.php';
 
 // --- Start session ---
 session_start();
+error_log("index.php: Session started, ID = " . session_id() . ", user_id = " . (isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 'NONE'));
+error_log("index.php: SESSION DATA = " . var_export($_SESSION, true));
 require_once __DIR__ . '/../src/Helpers/session.php';
 
 // --- Basic routing setup ---
 $page = $_GET['page'] ?? 'home';
+error_log("index.php: Page = $page");
 
 
 // --- Define available routes ---

@@ -100,6 +100,8 @@ class DashboardController {
      * Switch role - allow admin to view as customer and vice versa
      */
     public function switchRole() {
+        error_log("switchRole: SESSION at start = " . var_export($_SESSION, true));
+        
         if (!$this->isLoggedIn()) {
             error_log("switchRole: User not logged in");
             header('Location: /Team-Project-Group-4/public/index.php?page=login');
@@ -109,6 +111,7 @@ class DashboardController {
         // Only allow switching if user has admin privileges
         if (!isset($_SESSION['can_be_admin']) || $_SESSION['can_be_admin'] !== true) {
             error_log("switchRole: User does not have admin privileges. can_be_admin = " . (isset($_SESSION['can_be_admin']) ? var_export($_SESSION['can_be_admin'], true) : 'NOT SET'));
+            error_log("switchRole: is_admin = " . (isset($_SESSION['is_admin']) ? var_export($_SESSION['is_admin'], true) : 'NOT SET'));
             header('Location: /Team-Project-Group-4/public/index.php?page=dashboard');
             exit();
         }

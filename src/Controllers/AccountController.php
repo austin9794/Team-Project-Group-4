@@ -62,7 +62,6 @@ class AccountController {
     $name = trim($_POST['name']);
     $email = trim($_POST['email']);
     $phone = trim($_POST['phone'] ?? "");
-    $address = trim($_POST['address'] ?? "");
 
     // Validate email
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -84,11 +83,11 @@ class AccountController {
     // Update DB
     $update = $db->prepare("
         UPDATE users 
-        SET name = ?, email = ?, phone = ?, address = ?
+        SET name = ?, email = ?, phone = ?
         WHERE user_id = ?
     ");
 
-    $update->execute([$name, $email, $phone, $address, $_SESSION['user_id']]);
+    $update->execute([$name, $email, $phone, $_SESSION['user_id']]);
 
     header("Location: /Team-Project-Group-4/public/index.php?page=account&updated=1");
     exit;
@@ -149,7 +148,7 @@ class AccountController {
 
         $db = Database::getInstance()->getConnection();
 
-        $stmt = $db->prepare("SELECT name, email, phone, address FROM users WHERE user_id = ?");
+        $stmt = $db->prepare("SELECT name, email, phone FROM users WHERE user_id = ?");
         $stmt->execute([$_SESSION['user_id']]);
         $user = $stmt->fetch();
 

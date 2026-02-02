@@ -13,6 +13,13 @@ if (!$controller->isLoggedIn()) {
 }
 
 $isAdmin = $controller->isAdmin();
+
+// Redirect non-admins to their account page
+if (!$isAdmin) {
+    header('Location: /Team-Project-Group-4/public/index.php?page=account');
+    exit();
+}
+
 $actualRole = $controller->getActualUserRole();
 $userName = $controller->getUserName();
 $userRole = $controller->getUserRole();

@@ -50,7 +50,7 @@
 
     <!-- Results Summary -->
     <div class="results-summary">
-        <p>Showing <strong><?= count($orders) ?></strong> order(s)</p>
+        <p>Showing <strong><?= isset($orders) ? count($orders) : 0 ?></strong> order(s)</p>
     </div>
 
     <!-- Orders Table -->

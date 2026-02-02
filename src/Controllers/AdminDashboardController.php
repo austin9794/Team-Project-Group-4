@@ -64,8 +64,10 @@ class AdminDashboardController extends BaseAdminController {
     }
 
     public function orders() {
-
         $db = Database::getInstance()->getConnection();
+        
+        // Initialize orders array
+        $orders = [];
 
         // If admin clicked Process Order (deduct stock + set processing)
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['process_order'], $_POST['order_id'])) {
@@ -108,7 +110,7 @@ class AdminDashboardController extends BaseAdminController {
         $params = [];
 
         // Filter by status
-        if (!empty($_GET['status'])) {
+        if (!empty($_GET['status']) && $_GET['status'] !== 'all') {
             $sql .= " AND o.status = ?";
             $params[] = $_GET['status'];
         }
@@ -116,7 +118,7 @@ class AdminDashboardController extends BaseAdminController {
         // Search by customer name or email
         if (!empty($_GET['search'])) {
             $sql .= " AND (u.name LIKE ? OR u.email LIKE ?)";
-            $searchTerm = '%' . $_GET['search'] . '%';
+            $searchTerm = '%' . trim($_GET['search']) . '%';
             $params[] = $searchTerm;
             $params[] = $searchTerm;
         }
@@ -133,15 +135,29 @@ class AdminDashboardController extends BaseAdminController {
 
         $sql .= " ORDER BY o.created_at DESC";
 
-        $stmt = $db->prepare($sql);
-        $stmt->execute($params);
-        $orders = $stmt->fetchAll();
+        try {
+            $stmt = $db->prepare($sql);
+            $stmt->execute($params);
+            $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            // Debug: log the query for troubleshooting
+            error_log("Orders Query: " . $sql);
+            error_log("Orders Params: " . print_r($params, true));
+            error_log("Orders Found: " . count($orders));
+        } catch (PDOException $e) {
+            error_log("Orders query error: " . $e->getMessage());
+            $orders = [];
+        }
 
         include __DIR__ . '/../../templates/admin/orders.php';
     }
 
     public function products() {
         $db = Database::getInstance()->getConnection();
+        
+        // Initialize variables
+        $products = [];
+        $categories = [];
 
         // Handle add new product
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_product'])) {
@@ -216,13 +232,13 @@ class AdminDashboardController extends BaseAdminController {
         }
 
         // Filter by category
-        if (!empty($_GET['category'])) {
+        if (!empty($_GET['category']) && $_GET['category'] !== 'all') {
             $sql .= " AND c.name = ?";
             $params[] = $_GET['category'];
         }
 
         // Filter by stock status
-        if (isset($_GET['stock_status'])) {
+        if (isset($_GET['stock_status']) && !empty($_GET['stock_status']) && $_GET['stock_status'] !== 'all') {
             if ($_GET['stock_status'] === 'out') {
                 $sql .= " AND p.stock = 0";
             } elseif ($_GET['stock_status'] === 'low') {
@@ -234,13 +250,23 @@ class AdminDashboardController extends BaseAdminController {
 
         $sql .= " ORDER BY p.name ASC";
 
-        $stmt = $db->prepare($sql);
-        $stmt->execute($params);
-        $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        try {
+            $stmt = $db->prepare($sql);
+            $stmt->execute($params);
+            $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Product query error: " . $e->getMessage());
+            $products = [];
+        }
 
         // Get categories for filter
-        $catStmt = $db->query("SELECT DISTINCT name FROM categories ORDER BY name");
-        $categories = $catStmt->fetchAll(PDO::FETCH_COLUMN);
+        try {
+            $catStmt = $db->query("SELECT DISTINCT name FROM categories ORDER BY name");
+            $categories = $catStmt->fetchAll(PDO::FETCH_COLUMN);
+        } catch (PDOException $e) {
+            error_log("Category query error: " . $e->getMessage());
+            $categories = [];
+        }
 
         include __DIR__ . '/../../templates/admin/products.php';
     }

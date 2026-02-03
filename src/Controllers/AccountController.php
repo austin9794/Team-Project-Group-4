@@ -428,8 +428,7 @@ try {
         $this->db->prepare("DELETE FROM reviews WHERE user_id = ?")->execute([$userId]);
 
         // Anonymise orders 
-        $this->db->prepare("
-            UPDATE orders 
+        $this->db->prepare(" UPDATE orders 
             SET shipping_address = 'Deleted user',
                 payment_summary = 'Deleted user'
             WHERE user_id = ?

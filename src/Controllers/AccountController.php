@@ -435,6 +435,10 @@ try {
             WHERE user_id = ?
         ")->execute([$userId]);
 
+        // Delete user
+        $this->db->prepare("DELETE FROM users WHERE user_id = ?")->execute([$userId]);
+
+
        //User Data
       public function getUserData() {
        $stmt = $this->db->prepare("SELECT * FROM users WHERE user_id = ?");

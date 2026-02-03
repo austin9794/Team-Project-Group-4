@@ -427,6 +427,14 @@ try {
         $this->db->prepare("DELETE FROM payment_methods WHERE user_id = ?")->execute([$userId]);
         $this->db->prepare("DELETE FROM reviews WHERE user_id = ?")->execute([$userId]);
 
+        // Anonymise orders 
+        $this->db->prepare("
+            UPDATE orders 
+            SET shipping_address = 'Deleted user',
+                payment_summary = 'Deleted user'
+            WHERE user_id = ?
+        ")->execute([$userId]);
+
        //User Data
       public function getUserData() {
        $stmt = $this->db->prepare("SELECT * FROM users WHERE user_id = ?");

@@ -418,6 +418,9 @@ class AccountController {
 
     $userId = $_SESSION['user_id'];
 
+    // Begin transaction
+    $this->db->beginTransaction();
+
 
 
        //User Data

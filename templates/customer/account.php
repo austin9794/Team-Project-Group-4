@@ -274,16 +274,26 @@
          </a>
     </div>
 
-        <!-- DELETE ACCOUNT -->
-        <div id="delete" class="section-card">
-            <h2>Delete Account</h2>
+    <!-- DELETE ACCOUNT -->
 
-            <p style="color:#ff7777;">This action cannot be undone.</p>
+    <div id="delete" class="section-card">
+    <h2>Delete Account</h2>
 
-            <a class="btn-purple" style="background:#ff4f4f;" href="#">
-                Request Deletion (Coming Soon)
-            </a>
-        </div>
+    <p style="color:#ff7777; font-weight:600;">
+        This action is permanent and cannot be undone.
+    </p>
+
+    <?php if (isset($_GET['error'])): ?>
+        <p style="color:#ff6b6b;">
+            <?php if ($_GET['error'] === 'password'): ?>
+                Incorrect password.
+            <?php elseif ($_GET['error'] === 'confirm'): ?>
+                You must type YES to confirm.
+            <?php endif; ?>
+        </p>
+    <?php endif; ?>
+
+        
 
     </div>
 </div>

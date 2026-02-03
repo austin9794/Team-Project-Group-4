@@ -34,8 +34,7 @@ class AccountController {
     $payments = $payStmt->fetchAll();
 
     // Fetch last 3 orders
-    $orders = $db->prepare("
-        SELECT order_id, total_price, status, created_at AS order_date
+    $orders = $db->prepare(" SELECT order_id, total_price, status, created_at AS order_date
         FROM orders
         WHERE user_id = ?
         ORDER BY order_id DESC
@@ -45,7 +44,7 @@ class AccountController {
     $recentOrders = $orders->fetchAll();
 
     include __DIR__ . '/../../templates/customer/account.php';
-}
+   }
 
     
     // UPDATE PROFILE
@@ -79,8 +78,7 @@ class AccountController {
     }
 
     // Update DB
-    $update = $db->prepare("
-        UPDATE users 
+    $update = $db->prepare(" UPDATE users 
         SET name = ?, email = ?, phone = ?
         WHERE user_id = ?
     ");
@@ -128,8 +126,7 @@ class AccountController {
         $hashed = password_hash($new, PASSWORD_BCRYPT);
 
         // Update DB
-        $update = $this->db->prepare("
-            UPDATE users 
+        $update = $this->db->prepare(" UPDATE users 
             SET password = ? 
             WHERE user_id = ?
         ");
@@ -137,7 +134,7 @@ class AccountController {
 
         header("Location: /Team-Project-Group-4/public/index.php?page=change-password&pw=success");
         exit;
-       }
+  }
 
        // Edit Account 
         public function editAccountForm() {
@@ -178,7 +175,8 @@ class AccountController {
 
         header("Location: /Team-Project-Group-4/public/index.php?page=account#addresses");
          exit;
-       }
+    }
+
 
       // Edit Address
       public function showEditAddressForm() {
@@ -209,8 +207,7 @@ class AccountController {
 
       $db = Database::getInstance()->getConnection();
 
-       $stmt = $db->prepare("
-        UPDATE addresses
+       $stmt = $db->prepare(" UPDATE addresses
         SET label = ?, full_address = ?
         WHERE address_id = ? AND user_id = ?
     ");
@@ -389,10 +386,30 @@ class AccountController {
 
     header("Location: index.php?page=account#payment-methods");
     exit;
-}
+  }
+
+   //Delete Account
+
+   public function deleteAccount() {
+    requireLogin();
+
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        header("Location: " . BASE_URL . "index.php?page=account#delete");
+        exit;
+    }
+
+    $password = $_POST['password'] ?? '';
+    $confirm  = $_POST['confirm'] ?? '';
+
+    if ($confirm !== 'YES') {
+        header("Location: " . BASE_URL . "index.php?page=account#delete&error=confirm");
+        exit;
+    }
+
+    
 
 
-      //User Data
+       //User Data
       public function getUserData() {
        $stmt = $this->db->prepare("SELECT * FROM users WHERE user_id = ?");
        $stmt->execute([$_SESSION['user_id']]);

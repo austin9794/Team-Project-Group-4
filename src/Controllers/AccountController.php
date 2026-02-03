@@ -438,6 +438,17 @@ try {
         // Delete user
         $this->db->prepare("DELETE FROM users WHERE user_id = ?")->execute([$userId]);
 
+        // Destroy session
+        session_destroy();
+
+        header("Location: " . BASE_URL . "index.php?account_deleted=1");
+        exit;
+
+    } catch (Exception $e) {
+        $this->db->rollBack();
+        exit("Account deletion failed.");
+    }
+}
 
        //User Data
       public function getUserData() {

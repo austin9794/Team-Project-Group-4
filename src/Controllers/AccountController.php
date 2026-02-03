@@ -249,13 +249,11 @@ class AccountController {
     }
 
     // Unset all defaults for user
-    $this->db->prepare("
-        UPDATE addresses SET is_default = 0 WHERE user_id = ?
+    $this->db->prepare(" UPDATE addresses SET is_default = 0 WHERE user_id = ?
     ")->execute([$_SESSION['user_id']]);
 
     // Set selected address as default
-    $this->db->prepare("
-        UPDATE addresses SET is_default = 1
+    $this->db->prepare(" UPDATE addresses SET is_default = 1
         WHERE address_id = ? AND user_id = ?
     ")->execute([$addressId, $_SESSION['user_id']]);
 
@@ -288,8 +286,7 @@ class AccountController {
 
      $db = Database::getInstance()->getConnection();
  
-     $stmt = $db->prepare("
-        INSERT INTO payment_methods (user_id, card_brand, card_last4, expiry_month, expiry_year)
+     $stmt = $db->prepare(" INSERT INTO payment_methods (user_id, card_brand, card_last4, expiry_month, expiry_year)
         VALUES (?, ?, ?, ?, ?)
     ");
       $stmt->execute([$_SESSION['user_id'], $brand, $last4, $expiry_month, $expiry_year]);
@@ -307,8 +304,7 @@ class AccountController {
         exit("Payment method not found");
     }
 
-    $stmt = $this->db->prepare("
-        SELECT * FROM payment_methods
+    $stmt = $this->db->prepare(" SELECT * FROM payment_methods
         WHERE payment_id = ? AND user_id = ?
     ");
     $stmt->execute([$id, $_SESSION['user_id']]);
@@ -340,8 +336,7 @@ class AccountController {
         exit;
     }
 
-    $stmt = $this->db->prepare("
-        UPDATE payment_methods
+    $stmt = $this->db->prepare(" UPDATE payment_methods
         SET card_brand = ?, expiry_month = ?, expiry_year = ?
         WHERE payment_id = ? AND user_id = ?
     ");
@@ -385,12 +380,10 @@ class AccountController {
         exit;
     }
 
-    $this->db->prepare("
-        UPDATE payment_methods SET is_default = 0 WHERE user_id = ?
+    $this->db->prepare(" UPDATE payment_methods SET is_default = 0 WHERE user_id = ?
     ")->execute([$_SESSION['user_id']]);
 
-    $this->db->prepare("
-        UPDATE payment_methods SET is_default = 1
+    $this->db->prepare(" UPDATE payment_methods SET is_default = 1
         WHERE payment_id = ? AND user_id = ?
     ")->execute([$paymentId, $_SESSION['user_id']]);
 

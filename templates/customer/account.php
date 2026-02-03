@@ -293,7 +293,26 @@
         </p>
     <?php endif; ?>
 
-        
+    <form method="POST" action="<?= BASE_URL ?>index.php?page=delete-account"
+          onsubmit="return confirm('This will permanently delete your account. Continue?');">
+
+        <label style="display:block;margin-top:15px;">
+            Confirm Password
+        </label>
+        <input type="password" name="password" required>
+
+        <label style="display:block;margin-top:15px;">
+            Type <strong>YES</strong> to confirm
+        </label>
+        <input type="text" name="confirm" placeholder="YES" required>
+
+        <button class="btn-purple"
+                style="background:#ff4f4f;margin-top:15px;"
+                type="submit">
+            Permanently Delete Account
+        </button>
+    </form>
+</div>
 
     </div>
 </div>

@@ -421,7 +421,11 @@ class AccountController {
     // Begin transaction
     $this->db->beginTransaction();
 
-
+try {
+        // Delete related data
+        $this->db->prepare("DELETE FROM addresses WHERE user_id = ?")->execute([$userId]);
+        $this->db->prepare("DELETE FROM payment_methods WHERE user_id = ?")->execute([$userId]);
+        $this->db->prepare("DELETE FROM reviews WHERE user_id = ?")->execute([$userId]);
 
        //User Data
       public function getUserData() {

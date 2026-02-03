@@ -266,13 +266,13 @@
                 </a>
 
             </div>
-        <?php endforeach; ?>
-    <?php endif; ?>
+            <?php endforeach; ?>
+        <?php endif; ?>
 
-    <a class="btn-purple" href="<?= BASE_URL ?>index.php?page=add-payment">
-        Add Payment Method
-    </a>
-</div>
+        <a class="btn-purple" href="<?= BASE_URL ?>index.php?page=add-payment">
+            Add Payment Method
+         </a>
+    </div>
 
         <!-- DELETE ACCOUNT -->
         <div id="delete" class="section-card">

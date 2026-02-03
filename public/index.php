@@ -193,6 +193,10 @@ switch ($page) {
        $controller = new ProductController();
        $controller->list();
        break;
+    case 'delete-account':
+    (new AccountController())->deleteAccount();
+    break;
+
 
         // ---- Admin Pages ----
     case 'admin-orders':

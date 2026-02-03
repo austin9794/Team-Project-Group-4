@@ -406,7 +406,18 @@ class AccountController {
         exit;
     }
 
-    
+    // Fetch current password hash
+    $stmt = $this->db->prepare("SELECT password FROM users WHERE user_id = ?");
+    $stmt->execute([$_SESSION['user_id']]);
+    $hash = $stmt->fetchColumn();
+
+    if (!$hash || !password_verify($password, $hash)) {
+        header("Location: " . BASE_URL . "index.php?page=account#delete&error=password");
+        exit;
+    }
+
+    $userId = $_SESSION['user_id'];
+
 
 
        //User Data

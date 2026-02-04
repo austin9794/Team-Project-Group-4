@@ -214,6 +214,52 @@ $filters = [
     background-color: var(--lavender);
     color: #0a0a0a;
 }
+
+/* Product card styles */
+.product-card {
+    position: relative;
+}
+
+.stock-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    z-index: 10;
+    text-align: center;
+    max-width: 90%;
+}
+
+.stock-badge.in-stock {
+    background-color: rgba(50, 255, 120, 0.2);
+    color: #6bff8f;
+    border: 1px solid #6bff8f;
+}
+
+.stock-badge.low-stock {
+    background-color: rgba(255, 193, 7, 0.2);
+    color: #ffc107;
+    border: 1px solid #ffc107;
+}
+
+.stock-badge.out-of-stock {
+    background-color: rgba(255, 79, 79, 0.2);
+    color: #ff4f4f;
+    border: 1px solid #ff4f4f;
+}
+
+.product-stock-info {
+    font-size: 12px;
+    margin: 8px 0;
+    min-height: 20px;
+}
+
+.stock-units {
+    color: var(--text-secondary);
+}
 </style>
 
 <div class="container">
@@ -223,7 +269,8 @@ $filters = [
         <input type="hidden" name="page" value="products">
 
         <!-- Logo positioned behind filters -->
-        <img src="<?= BASE_URL ?>assets/images/logo_no_text.png" alt="Level Up Gaming" style="position: absolute; right: -50px; top: 45%; transform: translateY(-50%); height: 400px; width: auto; opacity: 0.7; z-index: -1;">
+        <img src="<?= BASE_URL ?>assets/images/logo_no_text.png" alt="Level Up Gaming" style="position: absolute; right: 0;
+         transform: translateX(50%); top: 45%; transform: translateY(-50%); height: 400px; width: auto; opacity: 0.7; z-index: -1;">
 
 
         <!-- Other Filters Section -->
@@ -277,6 +324,15 @@ $filters = [
               . $product['slug'] . "/01.png";
              ?>
 
+                <!-- Stock Badge -->
+                <?php if ($product['stock'] > 10): ?>
+                    <span class="stock-badge in-stock">✓ In Stock</span>
+                <?php elseif ($product['stock'] > 0): ?>
+                    <span class="stock-badge low-stock">⚠ Low Stock</span>
+                <?php else: ?>
+                    <span class="stock-badge out-of-stock">✗ Out of Stock</span>
+                <?php endif; ?>
+
             <img 
                 src="<?= BASE_URL ?>assets/images/<?= htmlspecialchars($imagePath) ?>" 
                 alt="<?= htmlspecialchars($product['name']) ?>"
@@ -298,6 +354,17 @@ $filters = [
                 <p class="product-price">
                     £<?php echo number_format($product['price'], 2); ?>
                 </p>
+
+                <!-- Stock Level Information -->
+                <div class="product-stock-info">
+                    <?php if ($product['stock'] > 10): ?>
+                        <span class="stock-units">✓ In Stock (<?= $product['stock'] ?> available)</span>
+                    <?php elseif ($product['stock'] > 0): ?>
+                        <span class="stock-units">⚠ Low Stock (<?= $product['stock'] ?> left)</span>
+                    <?php else: ?>
+                        <span class="stock-units">✗ Out of Stock</span>
+                    <?php endif; ?>
+                </div>
 
                 <div class="product-actions">
                     <a href="index.php?page=product&id=<?= $product['product_id'] ?>"

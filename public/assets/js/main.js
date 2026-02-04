@@ -1,44 +1,137 @@
-document.addEventListener('DOMContentLoaded', () => {
+console.log("main.js loaded");
 
-  const mainImage = document.getElementById('mainProductImage');
-  const thumbnails = document.querySelectorAll('.thumbnail');
-  const zoomContainer = document.querySelector('.zoom-container');
-  const zoomImage = document.querySelector('.zoom-image');
+document.addEventListener("DOMContentLoaded", () => {
+  const img = document.getElementById("mainProductImage");
+  const zoom = document.getElementById("zoomResult");
+  const thumbs = document.querySelectorAll(".thumbnail");
+  const viewBtns = document.querySelectorAll(".view-full-btn");
 
-  // Exit if we're not on a product detail page
-  if (!mainImage || thumbnails.length === 0) return;
+  const modal = document.getElementById("imageModal");
+  const modalImg = document.getElementById("modalImage");
+  const closeBtn = document.querySelector(".modal-close");
+  const nextBtn = document.querySelector(".modal-nav.next");
+  const prevBtn = document.querySelector(".modal-nav.prev");
 
-  // Thumbnail switching
-  thumbnails.forEach(thumb => {
-    thumb.addEventListener('click', () => {
-      mainImage.src = thumb.dataset.image;
+  if (!img || !zoom) return;
 
-      thumbnails.forEach(t => t.classList.remove('active'));
-      thumb.classList.add('active');
-    });
-  });
+  /* -----------------------------
+     IMAGE + ZOOM
+  ----------------------------- */
 
-  // Preload images
-  thumbnails.forEach(thumb => {
-    const img = new Image();
-    img.src = thumb.dataset.image;
-  });
-
-  // Hover zoom (desktop only)
-  if (zoomContainer && zoomImage) {
-    zoomContainer.addEventListener('mousemove', e => {
-      const rect = zoomContainer.getBoundingClientRect();
-      const x = ((e.clientX - rect.left) / rect.width) * 100;
-      const y = ((e.clientY - rect.top) / rect.height) * 100;
-
-      zoomImage.style.transformOrigin = `${x}% ${y}%`;
-      zoomImage.style.transform = 'scale(1.8)';
-    });
-
-    zoomContainer.addEventListener('mouseleave', () => {
-      zoomImage.style.transform = 'scale(1)';
-      zoomImage.style.transformOrigin = 'center center';
-    });
+  function setImage(src) {
+    img.src = src;
+    zoom.style.backgroundImage = `url(${src})`;
+    zoom.style.backgroundPosition = "50% 50%";
   }
 
+  setImage(img.src);
+
+  img.addEventListener("mouseenter", () => {
+    zoom.style.display = "block";
+  });
+
+  img.addEventListener("mouseleave", () => {
+    zoom.style.display = "none";
+  });
+
+  img.addEventListener("mousemove", e => {
+    const rect = img.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    if (x < 0 || y < 0 || x > rect.width || y > rect.height) return;
+
+    const xPct = (x / rect.width) * 100;
+    const yPct = (y / rect.height) * 100;
+
+    zoom.style.backgroundPosition = `${xPct}% ${yPct}%`;
+  });
+
+  /* -----------------------------
+     THUMBNAILS
+  ----------------------------- */
+
+  thumbs.forEach((thumb, index) => {
+    thumb.addEventListener("click", () => {
+      thumbs.forEach(t => t.classList.remove("active"));
+      thumb.classList.add("active");
+      setImage(thumb.dataset.image);
+      currentIndex = index;
+    });
+  });
+
+  /* -----------------------------
+     MODAL STATE
+  ----------------------------- */
+
+  let currentIndex = 0;
+
+  function openModalByIndex(index) {
+    if (typeof images === "undefined" || images.length === 0) return;
+
+    currentIndex = index;
+    modalImg.src = images[currentIndex];
+    modal.classList.add("active");
+    modal.setAttribute("aria-hidden", "false");
+  }
+
+  function closeModal() {
+    modal.classList.remove("active");
+    modal.setAttribute("aria-hidden", "true");
+  }
+
+  function showNext() {
+    currentIndex = (currentIndex + 1) % images.length;
+    modalImg.src = images[currentIndex];
+  }
+
+  function showPrev() {
+    currentIndex = (currentIndex - 1 + images.length) % images.length;
+    modalImg.src = images[currentIndex];
+  }
+
+  /* -----------------------------
+     VIEW FULL IMAGE BUTTON
+  ----------------------------- */
+
+  viewBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+      if (typeof images === "undefined") return;
+
+      const idx = images.findIndex(src => img.src.includes(src));
+      openModalByIndex(idx !== -1 ? idx : 0);
+    });
+  });
+
+  /* -----------------------------
+     MODAL CONTROLS
+  ----------------------------- */
+
+  closeBtn?.addEventListener("click", closeModal);
+
+  modal?.addEventListener("click", e => {
+    if (e.target === modal) closeModal();
+  });
+
+  nextBtn?.addEventListener("click", e => {
+    e.stopPropagation();
+    showNext();
+  });
+
+  prevBtn?.addEventListener("click", e => {
+    e.stopPropagation();
+    showPrev();
+  });
+
+  /* -----------------------------
+     KEYBOARD SUPPORT
+  ----------------------------- */
+
+  document.addEventListener("keydown", e => {
+    if (!modal.classList.contains("active")) return;
+
+    if (e.key === "ArrowRight") showNext();
+    if (e.key === "ArrowLeft") showPrev();
+    if (e.key === "Escape") closeModal();
+  });
 });

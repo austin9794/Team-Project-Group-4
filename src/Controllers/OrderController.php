@@ -16,28 +16,43 @@ class OrderController {
             exit;
         }
 
+        // VALIDATE PAYMENT METHOD - CRITICAL
+        if (empty($_POST['payment_id'])) {
+            header("Location: /Team-Project-Group-4/public/index.php?page=checkout&error=no_payment");
+            exit;
+        }
+
+        // VALIDATE ADDRESS
+        if (empty($_POST['address_id']) && empty($_POST['manual_address'])) {
+            header("Location: /Team-Project-Group-4/public/index.php?page=checkout&error=no_address");
+            exit;
+        }
+
         $db = Database::getInstance()->getConnection();
 
+        // Verify payment method exists and belongs to user
+        $paymentId = (int)$_POST['payment_id'];
+        $payStmt = $db->prepare("SELECT payment_id FROM payment_methods WHERE payment_id = ? AND user_id = ?");
+        $payStmt->execute([$paymentId, $_SESSION['user_id']]);
+        
+        if (!$payStmt->fetch()) {
+            header("Location: /Team-Project-Group-4/public/index.php?page=checkout&error=invalid_payment");
+            exit;
+        }
+
         // Calculate totals again for safety
-        $total = 0;  
+        $total = 0;
 
         foreach ($_SESSION['basket'] as $productId => $qty) {
-           $stmt = $db->prepare("
-           SELECT 
-           p.name,
-           p.price,
-           p.slug,
-           c.name AS category
-           FROM products p
-           JOIN categories c ON p.category_id = c.category_id
-           WHERE p.product_id = ?
-       ");
+            $productId = (int)$productId;
+            $qty = max(1, (int)$qty);
 
+            $stmt = $db->prepare("SELECT price FROM products WHERE product_id = ?");
             $stmt->execute([$productId]);
             $price = $stmt->fetchColumn();
 
-            if ($price) {
-                $total += $price * $qty;
+            if ($price !== false) {
+                $total += (float)$price * $qty;
             }
         }
 
@@ -45,10 +60,10 @@ class OrderController {
         $addressId = $_POST['address_id'] ?? null;
 
         $orderStmt = $db->prepare("
-         INSERT INTO orders (user_id, total_price, status, address_id)
-         VALUES (?, ?, 'pending', ?)
+         INSERT INTO orders (user_id, total_price, status, address_id, payment_id)
+         VALUES (?, ?, 'pending', ?, ?)
        ");
-        $orderStmt->execute([$_SESSION['user_id'], $total, $addressId]);
+        $orderStmt->execute([$_SESSION['user_id'], $total, $addressId, $paymentId]);
 
         $orderId = $db->lastInsertId();
 
@@ -171,9 +186,10 @@ public function showOrder()
 
     // Fetch order
     $orderStmt = $db->prepare("
-        SELECT o.*, a.full_address
+        SELECT o.*, a.full_address, pm.card_brand, pm.card_last4
         FROM orders o
         LEFT JOIN addresses a ON o.address_id = a.address_id
+        LEFT JOIN payment_methods pm ON o.payment_id = pm.payment_id
         WHERE o.order_id = ? AND o.user_id = ?
 
     ");
@@ -213,7 +229,89 @@ public function showOrder()
     include __DIR__ . '/../../templates/customer/order_detail.php';
 }
 
+public function adminProcessOrders()
+{
+    if (!isset($_POST['order_id'])) {
+        echo "Missing order ID";
+        return;
+    }
 
+    $orderId = (int)$_POST['order_id'];
+    $db = Database::getInstance()->getConnection();
+
+    try {
+        $db->beginTransaction();
+
+        
+        $check = $db->prepare("
+            SELECT status
+            FROM orders
+            WHERE order_id = ?
+            FOR UPDATE
+        ");
+        $check->execute([$orderId]);
+        $order = $check->fetch();
+
+        if (!$order) {
+            $db->rollBack();
+            echo "Order not found.";
+            return;
+        }
+
+        
+        if ($order['status'] !== 'pending') {
+            $db->commit();
+            header("Location: /Team-Project-Group-4/public/index.php?page=admin-orders");
+            exit;
+        }
+
+        
+        $items = $db->prepare("
+            SELECT product_id, quantity
+            FROM order_items
+            WHERE order_id = ?
+        ");
+        $items->execute([$orderId]);
+        $rows = $items->fetchAll();
+
+        foreach ($rows as $item) {
+            $productId = (int)$item['product_id'];
+            $quantity = (int)$item['quantity'];
+
+            // Reduced stock
+            $update = $db->prepare("
+                UPDATE products
+                SET stock = stock - ?
+                WHERE product_id = ?
+            ");
+            $update->execute([$quantity, $productId]);
+
+            
+            $log = $db->prepare("
+                INSERT INTO inventory_logs (product_id, change_amount, action, created_at)
+                VALUES (?, ?, 'purchase', NOW())
+            ");
+            $log->execute([$productId, $quantity]);
+        }
+
+        
+        $final = $db->prepare("
+            UPDATE orders
+            SET status = 'processing'
+            WHERE order_id = ?
+        ");
+        $final->execute([$orderId]);
+
+        $db->commit();
+
+        header("Location: /Team-Project-Group-4/public/index.php?page=admin-orders");
+        exit;
+
+    } catch (Exception $e) {
+        $db->rollBack();
+        echo "Error: " . $e->getMessage();
+    }
+}
 }
 
 

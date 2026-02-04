@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../Database.php';
+require_once __DIR__ . '/../Models/Admin.php';
 
 class AuthController {
 
@@ -23,13 +24,55 @@ class AuthController {
         include __DIR__ . '/../../templates/auth/login.php';
     }
 
-    // Handle login
+    // Handle login - automatically detects if user is admin or customer
     public function login() {
 
-        $email = trim($_POST['email']);
-        $password = trim($_POST['password']);
+        $email = trim($_POST['email'] ?? '');
+        $password = trim($_POST['password'] ?? '');
 
-        $stmt = $this->db->prepare("SELECT * FROM users WHERE email = ?");
+        if (empty($email) || empty($password)) {
+            header("Location: index.php?page=login&error=Invalid+email+or+password");
+            exit;
+        }
+
+        // Try admin login first
+        $adminModel = new Admin();
+        $admin = $adminModel->verifyCredentials($email, $password);
+        
+        if ($admin) {
+            // User is an admin
+            $this->adminLogin($email, $password);
+            return;
+        }
+        
+        // If not admin, try customer login
+        $this->customerLogin($email, $password);
+    }
+
+    // Admin login
+    private function adminLogin($email, $password) {
+        $adminModel = new Admin();
+        $admin = $adminModel->verifyCredentials($email, $password);
+        
+        if ($admin) {
+            $_SESSION['user_id'] = $admin['user_id'];
+            $_SESSION['is_admin'] = true;
+            $_SESSION['can_be_admin'] = true;
+            $_SESSION['user_role'] = 'admin';
+            $_SESSION['user_name'] = $admin['name'];
+            $_SESSION['user_email'] = $admin['email'];
+            
+            header('Location: index.php?page=dashboard');
+            exit;
+        } else {
+            header("Location: index.php?page=login&error=Invalid+admin+credentials");
+            exit;
+        }
+    }
+
+    // Customer login
+    private function customerLogin($email, $password) {
+        $stmt = $this->db->prepare("SELECT * FROM users WHERE email = ? AND role = 'customer'");
         $stmt->execute([$email]);
         $user = $stmt->fetch();
 
@@ -37,7 +80,6 @@ class AuthController {
             header("Location: index.php?page=login&error=Invalid+email+or+password");
             exit;
         }
-
 
         // Compare hashed password
         if (!password_verify($password, $user['password'])) {
@@ -47,8 +89,10 @@ class AuthController {
         
         // Set session
         $_SESSION['user_id'] = $user['user_id'];
-        $_SESSION['user_role'] = $user['role'];
+        $_SESSION['is_admin'] = false;
+        $_SESSION['user_role'] = 'customer';
         $_SESSION['user_name'] = $user['name'];
+        $_SESSION['user_email'] = $user['email'];
 
         header("Location: index.php?page=home");
         exit;

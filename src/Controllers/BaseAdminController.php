@@ -13,7 +13,7 @@ class BaseAdminController {
         
         
         if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
-            header('Location: /Team-Project-Group-4-main/templates/auth/admin_login.php');
+            header('Location: /Team-Project-Group-4/templates/auth/admin_login.php');
             exit();
         }
         
@@ -50,8 +50,8 @@ class BaseAdminController {
         if ($admin) {
           
             $_SESSION['is_admin'] = true;
-            $_SESSION['admin_id'] = $admin['id'];
-            $_SESSION['admin_name'] = $admin['username'];
+            $_SESSION['admin_id'] = $admin['user_id'];
+            $_SESSION['admin_name'] = $admin['name'];
             $_SESSION['admin_email'] = $admin['email'];
             $_SESSION['ip_address'] = $_SERVER['REMOTE_ADDR'];
             $_SESSION['user_agent'] = $_SERVER['HTTP_USER_AGENT'];

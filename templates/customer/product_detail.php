@@ -3,6 +3,14 @@ $title = isset($product) ? htmlspecialchars($product['name']) . ' - Level Up Gam
 include __DIR__ . '/../header.php'; 
 ?>
 
+<?php
+$mainImage = 'placeholder.png';
+
+if (!empty($images) && isset($images[0]['image_path'])) {
+    $mainImage = $images[0]['image_path'];
+}
+?>
+
 <style>
   .product-detail-container {
     max-width: 1200px;
@@ -27,6 +35,20 @@ include __DIR__ . '/../header.php';
     display: block;
     margin-bottom: 3rem;
   }
+
+  .product-main-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: start;
+  }
+
+  .product-info-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
 
   .product-image-section {
     background: var(--bg-secondary);
@@ -161,6 +183,12 @@ include __DIR__ . '/../header.php';
     text-align: center;
   }
 
+  .quantity-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
   .product-actions {
     display: flex;
     gap: 1rem;
@@ -193,6 +221,13 @@ include __DIR__ . '/../header.php';
     padding: 2rem;
     border-radius: 12px;
   }
+
+  .reviews-section.full-width {
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255,255,255,0.1);
+  }
+
 
   .details-reviews-grid {
     display: grid;
@@ -268,139 +303,150 @@ include __DIR__ . '/../header.php';
 </style>
 
 <div class="product-detail-container">
+
+  <!-- Breadcrumb -->
   <div class="product-breadcrumb">
-    <a href="/Team-Project-Group-4/public/index.php?page=home">Home</a>
+    <a href="<?= BASE_URL ?>index.php?page=home">Home</a>
     <span>/</span>
-    <a href="/Team-Project-Group-4/public/index.php?page=products">Products</a>
+    <a href="<?= BASE_URL ?>index.php?page=products">Products</a>
     <span>/</span>
-    <span><?= htmlspecialchars($product['category_name'] ?? 'Product') ?></span>
+    <span><?= htmlspecialchars($product['category_name']) ?></span>
   </div>
 
-<div class="product-gallery">
+  <!-- MAIN SECTION -->
+  <div class="product-main-grid">
 
-  <!-- MAIN IMAGE -->
-   <?php
-$mainImage = !empty($images)
-    ? $images[0]['image_path']
-    : 'placeholder.png';
-?>
+    <!-- LEFT: IMAGE + ZOOM -->
+    <div class="product-gallery">
 
-<div class="main-image zoom-container">
-  <img
-    id="mainProductImage"
-    class="zoom-image"
-    src="<?= BASE_URL ?>assets/images/<?= htmlspecialchars($mainImage) ?>"
-    alt="<?= htmlspecialchars($product['name']) ?>"
-  >
-</div>
+  <div class="image-zoom-wrapper">
 
+    <!-- IMAGE PREVIEW -->
+    <div class="image-preview">
+      <img
+        id="mainProductImage"
+        src="<?= BASE_URL ?>assets/images/<?= htmlspecialchars($mainImage) ?>"
+        alt="<?= htmlspecialchars($product['name']) ?>"
+      >
+
+      <button type="button" class="view-full-btn">
+        View full image
+      </button>
+    </div>
+
+    <!-- ZOOM PANEL -->
+    <div id="zoomResult"></div>
+
+  </div>
 
   <!-- THUMBNAILS -->
   <?php if (!empty($images)): ?>
-  <div class="thumbnail-row">
-    <?php foreach ($images as $index => $img): ?>
-      <img ... tabindex="0">
-      <img
-        src="<?= BASE_URL ?>assets/images/<?= htmlspecialchars($img['image_path']) ?>"
-        class="thumbnail <?= $index === 0 ? 'active' : '' ?>"
-        data-image="<?= BASE_URL ?>assets/images/<?= htmlspecialchars($img['image_path']) ?>"
-        alt="Thumbnail <?= $index + 1 ?>"
-      >
-    <?php endforeach; ?>
-  </div>
-<?php endif; ?>
-
+    <div class="thumbnail-row">
+      <?php foreach ($images as $index => $img): ?>
+        <img
+          src="<?= BASE_URL ?>assets/images/<?= htmlspecialchars($img['image_path']) ?>"
+          class="thumbnail <?= $index === 0 ? 'active' : '' ?>"
+          data-image="<?= BASE_URL ?>assets/images/<?= htmlspecialchars($img['image_path']) ?>"
+          alt="Thumbnail <?= $index + 1 ?>"
+        >
+      <?php endforeach; ?>
+    </div>
+  <?php endif; ?>
 
 </div>
 
-  <!-- Details and Reviews Grid -->
-  <div class="details-reviews-grid">
-    <!-- Product Information -->
-    <div class="product-info-section">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-        <h1 class="product-title" style="margin-bottom: 0;"><?= htmlspecialchars($product['name']) ?></h1>
-        <div class="product-price" style="margin-bottom: 0;">£<?= number_format($product['price'], 2) ?></div>
-      </div>
-      
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-        <div class="product-rating" style="margin-bottom: 0;">
-          <span>☆☆☆☆☆</span>
-          <span>(<?= isset($product['review_count']) ? $product['review_count'] : 0 ?> reviews)</span>
-        </div>
 
-        <!-- Stock Status -->
-        <?php if ($product['stock'] > 10): ?>
-          <span class="stock-status in-stock">✓ In Stock</span>
-        <?php elseif ($product['stock'] > 0): ?>
-          <span class="stock-status low-stock">⚠ Low Stock (<?= $product['stock'] ?> left)</span>
-        <?php else: ?>
-          <span class="stock-status out-of-stock">✗ Out of Stock</span>
-        <?php endif; ?>
+    <!-- RIGHT: PRODUCT INFO -->
+    <div class="product-info-panel">
+
+      <h1 class="product-title"><?= htmlspecialchars($product['name']) ?></h1>
+
+      <div class="product-price">£<?= number_format($product['price'], 2) ?></div>
+
+      <div class="product-rating">
+        ☆☆☆☆☆ <span>(<?= $product['review_count'] ?? 0 ?> reviews)</span>
       </div>
 
-      <p class="product-description">
-        <?= nl2br(htmlspecialchars($product['description'])) ?>
-      </p>
+      <?php if ($product['stock'] > 10): ?>
+        <span class="stock-status in-stock">✓ In Stock</span>
+      <?php elseif ($product['stock'] > 0): ?>
+        <span class="stock-status low-stock">⚠ Low Stock (<?= $product['stock'] ?> left)</span>
+      <?php else: ?>
+        <span class="stock-status out-of-stock">✗ Out of Stock</span>
+      <?php endif; ?>
 
-      <!-- Specs -->
-      <div class="product-specs" style="display: none;">
-        <div class="spec-item">
-          <span class="spec-label">SKU</span>
-          <span class="spec-value">PRD-<?= str_pad($product['product_id'], 4, '0', STR_PAD_LEFT) ?></span>
-        </div>
-        <div class="spec-item">
-          <span class="spec-label">Category</span>
-          <span class="spec-value"><?= htmlspecialchars($product['category_name']) ?></span>
-        </div>
-        <div class="spec-item">
-          <span class="spec-label">Availability</span>
-          <span class="spec-value"><?= $product['stock'] ?> in stock</span>
-        </div>
+      <div class="product-about">
+        <h3 class="about-title">About this item</h3>
+        <p class="product-description">
+          <?= nl2br(htmlspecialchars($product['description'])) ?>
+        </p>
       </div>
 
       <?php if ($product['stock'] > 0): ?>
-      <form method="POST" action="/Team-Project-Group-4/public/index.php?page=add-to-basket">
-        <input type="hidden" name="product_id" value="<?= $product['product_id'] ?>">
-        
-        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;">
-          <div class="quantity-selector" style="margin-bottom: 0;">
-            <label for="quantity">Quantity:</label>
-            <input type="number" id="quantity" name="quantity" value="1" min="1" max="<?= $product['stock'] ?>">
+        <form method="POST" action="<?= BASE_URL ?>index.php?page=add-to-basket" class="add-to-cart-form">
+          <input type="hidden" name="product_id" value="<?= $product['product_id'] ?>">
+
+          <div class="quantity-row">
+            <label for="quantity">Quantity</label>
+            <input
+              type="number"
+              id="quantity"
+              name="quantity"
+              value="1"
+              min="1"
+              max="<?= $product['stock'] ?>"
+            >
+            <button type="submit" class="btn-add-cart">Add to Cart</button>
           </div>
-          <button type="submit" class="btn-add-cart">Add to Cart</button>
-        </div>
-      </form>
+        </form>
       <?php else: ?>
         <button class="btn-add-cart" disabled>Out of Stock</button>
       <?php endif; ?>
-    </div>
 
-    <!-- Reviews Section -->
-    <section class="reviews-section">
-      <h2 class="reviews-title">Customer Reviews</h2>
-      <?php if (isset($reviews) && count($reviews) > 0): ?>
-        <div class="review-list">
-          <?php foreach ($reviews as $review): ?>
+    </div>
+  </div>
+
+  <!-- REVIEWS -->
+  <section class="reviews-section full-width">
+    <h2 class="reviews-title">Customer Reviews</h2>
+
+    <?php if (!empty($reviews)): ?>
+      <div class="review-list">
+        <?php foreach ($reviews as $review): ?>
           <div class="review-item">
             <div class="review-header">
-              <div>
-                <div class="review-author"><?= htmlspecialchars($review['author']) ?></div>
-                <div class="review-rating"></div>
-              </div>
-              <div class="review-date"><?= date('M d, Y', strtotime($review['date'])) ?></div>
+              <strong><?= htmlspecialchars($review['author']) ?></strong>
+              <span class="review-date">
+                <?= date('M d, Y', strtotime($review['date'])) ?>
+              </span>
             </div>
-            <p class="review-text"><?= htmlspecialchars($review['text']) ?></p>
+            <p><?= htmlspecialchars($review['text']) ?></p>
           </div>
-          <?php endforeach; ?>
-        </div>
-      <?php else: ?>
-        <div class="no-reviews">
-          <p>No reviews yet, could you be the first?</p>
-        </div>
-      <?php endif; ?>
-    </section>
+        <?php endforeach; ?>
+      </div>
+    <?php else: ?>
+      <p class="no-reviews">No reviews yet — be the first!</p>
+    <?php endif; ?>
+  </section>
+
+  <!-- FULLSCREEN MODAL -->
+  <div id="imageModal" class="image-modal" aria-hidden="true">
+    <span class="modal-close">&times;</span>
+    <button class="modal-nav prev">&#10094;</button>
+    <img id="modalImage" src="" alt="Product image fullscreen">
+    <button class="modal-nav next">&#10095;</button>
   </div>
+
 </div>
+
+<script>
+  const images = <?= json_encode(
+    array_map(
+      fn($img) => BASE_URL . 'assets/images/' . $img['image_path'],
+      $images ?? []
+    )
+  ) ?>;
+</script>
 
 
 <?php include __DIR__ . '/../footer.php'; ?>

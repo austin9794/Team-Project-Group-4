@@ -17,12 +17,11 @@ class ProductController {
 
     public function getCategories() {
         return $this->product::getCategories();
-
+    }
     // LIST ALL PRODUCTS OR FILTERED PRODUCTS
    
     public function list() {
 
-    
        $params = [];
 
         $filters = [
@@ -119,6 +118,6 @@ class ProductController {
 
 
         include __DIR__ . '/../../templates/customer/product_detail.php';
-
+ 
     }
 }

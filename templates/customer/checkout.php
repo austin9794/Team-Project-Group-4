@@ -125,6 +125,48 @@ textarea {
   font-weight: bold;
 }
 
+.option-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.option-card {
+  position: relative;
+  background: rgba(255,255,255,0.04);
+  border: 2px solid transparent;
+  border-radius: 12px;
+  padding: 16px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.option-card:hover {
+  border-color: #8f3dff;
+}
+
+.option-card input {
+  display: none;
+}
+
+.option-card input:checked + .option-content {
+  border-left: 4px solid #8f3dff;
+}
+
+.option-content strong {
+  font-size: 1.1rem;
+}
+
+.badge-default {
+  display: inline-block;
+  margin-top: 8px;
+  background: #8f3dff;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+}
+
 </style>
 
 <div class="checkout-container">

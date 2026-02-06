@@ -161,6 +161,10 @@ switch ($page) {
         $controller = new AccountController();
         $controller->setDefaultAddress();
         break;
+    case 'checkout-address':
+    $controller = new OrderController();
+    $controller->checkoutAddressPage();
+    break;
     case 'select-checkout-address':
         $controller = new OrderController();
         $controller->selectCheckoutAddress();

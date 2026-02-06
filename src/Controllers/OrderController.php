@@ -56,6 +56,17 @@ class OrderController {
        //Address Validation
        $addressId = $_SESSION['checkout_address_id'] ?? null;
 
+       if ($addressId) {
+    // Fetch snapshot from selected address
+    $addrStmt = $db->prepare("
+        SELECT address_id, full_address
+        FROM addresses
+        WHERE address_id = ? AND user_id = ?
+    ");
+    $addrStmt->execute([$addressId, $_SESSION['user_id']]);
+    $address = $addrStmt->fetch();
+    } else {
+
        }
 
     public function checkoutPage() {

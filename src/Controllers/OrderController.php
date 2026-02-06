@@ -160,6 +160,10 @@ class OrderController {
     $addrStmt->execute([$_SESSION['user_id']]);
     $addresses = $addrStmt->fetchAll();
 
+    // Determine which address checkout should show
+    $selectedAddress = null;
+
+
     
 }
 

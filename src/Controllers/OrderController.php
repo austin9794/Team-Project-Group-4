@@ -302,6 +302,24 @@ public function selectCheckoutAddress()
         exit;
     }
 
+    $addressId = (int)$_POST['address_id'];
+
+    $db = Database::getInstance()->getConnection();
+
+    // Ensure address belongs to user
+    $stmt = $db->prepare("
+        SELECT address_id
+        FROM addresses
+        WHERE address_id = ? AND user_id = ?
+    ");
+    $stmt->execute([$addressId, $_SESSION['user_id']]);
+
+    if (!$stmt->fetch()) {
+        header("Location: " . BASE_URL . "index.php?page=checkout-address&error=unauthorized");
+        exit;
+    }
+
+
 
 public function adminProcessOrders()
 {

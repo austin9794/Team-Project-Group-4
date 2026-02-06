@@ -122,6 +122,18 @@ class OrderController {
 
      $orderId = $db->lastInsertId();
 
+    //Order Items
+    foreach ($_SESSION['basket'] as $productId => $qty) {
+        $stmt = $db->prepare("SELECT price FROM products WHERE product_id = ?");
+        $stmt->execute([$productId]);
+        $price = $stmt->fetchColumn();
+
+        $insert = $db->prepare(" INSERT INTO order_items (order_id, product_id, quantity, price_at_purchase)
+            VALUES (?, ?, ?, ?)
+        ");
+        $insert->execute([$orderId, $productId, $qty, $price]);
+   }
+
 
 
        }

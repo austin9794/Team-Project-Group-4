@@ -17,7 +17,7 @@ class OrderController {
             exit;
         }
 
-        // VALIDATE PAYMENT METHOD - CRITICAL
+        // VALIDATE PAYMENT METHOD 
         if (empty($_POST['payment_id'])) {
             header("Location: /Team-Project-Group-4/public/index.php?page=checkout&error=no_payment");
             exit;
@@ -64,6 +64,10 @@ class OrderController {
         ");
         $addrStmt->execute([$addressId, $_SESSION['user_id']]);
         $shippingAddress = $addrStmt->fetchColumn();
+
+        $addressId = $_SESSION['checkout_address_id']
+        ?? $defaultAddressId;
+
 
        // Get selected payment snapshot
        $paymentId = $_POST['payment_id'] ?? null;

@@ -278,6 +278,16 @@ public function showOrder()
     include __DIR__ . '/../../templates/customer/order_detail.php';
 }
 
+public function selectCheckoutAddress() {
+    requireLogin();
+
+    $_SESSION['checkout_address_id'] = $_POST['address_id'];
+
+    header("Location: " . BASE_URL . "index.php?page=checkout");
+    exit;
+}
+
+
 public function adminProcessOrders()
 {
     if (!isset($_POST['order_id'])) {
@@ -355,6 +365,7 @@ public function adminProcessOrders()
         $db->rollBack();
         echo "Error: " . $e->getMessage();
     }
+
 }
 }
 

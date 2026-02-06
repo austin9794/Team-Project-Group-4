@@ -325,6 +325,24 @@ public function selectCheckoutAddress()
     exit;
 }
 
+public function checkoutAddressPage()
+{
+    requireLogin();
+
+    $db = Database::getInstance()->getConnection();
+
+    // Fetch user's addresses
+    $stmt = $db->prepare(" SELECT *
+        FROM addresses
+        WHERE user_id = ?
+        ORDER BY is_default DESC, created_at DESC
+    ");
+    $stmt->execute([$_SESSION['user_id']]);
+    $addresses = $stmt->fetchAll();
+
+    include __DIR__ . '/../../templates/customer/checkout_address.php';
+}
+
 public function adminProcessOrders()
 {
     if (!isset($_POST['order_id'])) {

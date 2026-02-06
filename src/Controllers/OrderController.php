@@ -319,7 +319,12 @@ public function selectCheckoutAddress()
         exit;
     }
 
+    // Store selection in session
+    $_SESSION['checkout_address_id'] = $addressId;
 
+    header("Location: " . BASE_URL . "index.php?page=checkout");
+    exit;
+}
 
 public function adminProcessOrders()
 {

@@ -195,11 +195,16 @@ textarea {
        </h2>
 
       <div class="option-card">
-        <div class="option-content">
-        <?= nl2br(htmlspecialchars($defaultAddress['full_address'])) ?>
+      <div class="option-content">
+      <strong><?= htmlspecialchars($selectedAddress['label']) ?></strong>
+      <p><?= nl2br(htmlspecialchars($selectedAddress['full_address'])) ?></p>
+
+      <?php if ($selectedAddress['is_default']): ?>
         <span class="badge-default">Default</span>
-       </div>
+      <?php endif; ?>
      </div>
+   </div>
+
 
      <a href="<?= BASE_URL ?>index.php?page=checkout-address" class="link-action">
          Change delivery address

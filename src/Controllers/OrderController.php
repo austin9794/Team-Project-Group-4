@@ -53,6 +53,9 @@ class OrderController {
 
        $paymentSummary = $payment['card_brand'] . ' ending ' . $payment['card_last4'];
 
+       //Address Validation
+       $addressId = $_SESSION['checkout_address_id'] ?? null;
+
        }
 
     public function checkoutPage() {

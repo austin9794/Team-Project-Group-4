@@ -173,6 +173,16 @@ class OrderController {
         }
     }
 
+    // Fallback to default address
+    if (!$selectedAddress) {
+        foreach ($addresses as $addr) {
+            if ($addr['is_default']) {
+                $selectedAddress = $addr;
+                break;
+            }
+        }
+    }
+
 
 
     

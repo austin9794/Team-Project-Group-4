@@ -218,8 +218,8 @@ class OrderController {
         }
     }
 
-
-
+    // Include template
+    include __DIR__ . '/../../templates/customer/checkout.php';
 
     
 }

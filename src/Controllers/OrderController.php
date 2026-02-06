@@ -157,6 +157,15 @@ class OrderController {
     $addrStmt->execute([$_SESSION['user_id']]);
     $addresses = $addrStmt->fetchAll();
 
+    //DEFAULT ADDRESS
+    $defaultAddress = null;
+        foreach ($addresses as $addr) {
+           if ($addr['is_default']) {
+              $defaultAddress = $addr;
+              break;
+            }
+    }
+
     // FETCH SAVED PAYMENT METHODS
     $payStmt = $db->prepare("SELECT * FROM payment_methods  WHERE user_id = ?
        ORDER BY is_default DESC, created_at DESC

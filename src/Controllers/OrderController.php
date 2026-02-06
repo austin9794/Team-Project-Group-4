@@ -307,8 +307,7 @@ public function selectCheckoutAddress()
     $db = Database::getInstance()->getConnection();
 
     // Ensure address belongs to user
-    $stmt = $db->prepare("
-        SELECT address_id
+    $stmt = $db->prepare(" SELECT address_id
         FROM addresses
         WHERE address_id = ? AND user_id = ?
     ");

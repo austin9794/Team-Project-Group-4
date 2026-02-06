@@ -132,11 +132,16 @@ class OrderController {
             VALUES (?, ?, ?, ?)
         ");
         $insert->execute([$orderId, $productId, $qty, $price]);
-   }
+    }
 
+    //Clean up and redirect
+    unset($_SESSION['basket']);
+    unset($_SESSION['checkout_address_id']);
 
+    header("Location: /Team-Project-Group-4/public/index.php?page=order-success&id=" . $orderId);
+    exit;
 
-       }
+  }
 
     public function checkoutPage() {
     requireLogin();

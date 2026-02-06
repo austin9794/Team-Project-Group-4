@@ -192,6 +192,32 @@ class OrderController {
     $payStmt->execute([$_SESSION['user_id']]);
     $paymentMethods = $payStmt->fetchAll();
 
+    // Basket
+    $basketItems = [];
+    $basketTotal = 0;
+
+    foreach ($_SESSION['basket'] as $productId => $qty) {
+        $stmt = $db->prepare(" SELECT p.name, p.price, p.slug, c.name AS category
+            FROM products p
+            JOIN categories c ON p.category_id = c.category_id
+            WHERE p.product_id = ?
+        ");
+        $stmt->execute([$productId]);
+        $p = $stmt->fetch();
+
+        if ($p) {
+            $line = $p['price'] * $qty;
+
+            $basketItems[] = [
+                'name'     => $p['name'],
+                'quantity' => $qty,
+                'total'    => $line,
+            ];
+
+            $basketTotal += $line;
+        }
+    }
+
 
 
 

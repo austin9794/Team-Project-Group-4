@@ -163,6 +163,17 @@ class OrderController {
     // Determine which address checkout should show
     $selectedAddress = null;
 
+    // Use address chosen during checkout
+    if (!empty($_SESSION['checkout_address_id'])) {
+        foreach ($addresses as $addr) {
+            if ($addr['address_id'] == $_SESSION['checkout_address_id']) {
+                $selectedAddress = $addr;
+                break;
+            }
+        }
+    }
+
+
 
     
 }

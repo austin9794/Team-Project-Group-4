@@ -190,40 +190,20 @@ textarea {
 
         <!-- DELIVERY ADDRESS -->
 
-<h2 class="section-title">
+        <h2 class="section-title">
   Delivering to <?= htmlspecialchars($userData['name']) ?>
 </h2>
 
-<?php
-$defaultAddress = null;
-foreach ($addresses as $a) {
-  if ($a['is_default']) {
-    $defaultAddress = $a;
-    break;
-  }
-}
-?>
-
-<?php if ($defaultAddress): ?>
-  <div class="option-card static-card">
-    <div class="option-content">
-      <p><?= nl2br(htmlspecialchars($defaultAddress['full_address'])) ?></p>
-      <span class="badge-default">Default</span>
-    </div>
+<div class="option-card">
+  <div class="option-content">
+    <?= nl2br(htmlspecialchars($defaultAddress['full_address'])) ?>
+    <span class="badge-default">Default</span>
   </div>
+</div>
 
-  <!-- Hidden value actually submitted -->
-  <input type="hidden" name="address_id" value="<?= $defaultAddress['address_id'] ?>">
-
-  <a href="<?= BASE_URL ?>index.php?page=account#addresses" class="link-action">
-    Change delivery address
-  </a>
-<?php else: ?>
-  <p>No default address set.</p>
-  <a href="<?= BASE_URL ?>index.php?page=account#addresses" class="link-action">
-    Set a delivery address
-  </a>
-<?php endif; ?>
+<a href="<?= BASE_URL ?>index.php?page=checkout-address" class="link-action">
+  Change delivery address
+</a>
 
 
         <!-- PAYMENT METHOD -->

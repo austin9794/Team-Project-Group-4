@@ -85,6 +85,22 @@ class OrderController {
     $addressId        = $address['address_id'];
     $shippingAddress  = $address['full_address'];
 
+    // Recalculate total
+    $total = 0;
+
+      foreach ($_SESSION['basket'] as $productId => $qty) {
+         $productId = (int)$productId;
+         $qty = max(1, (int)$qty);
+
+         $stmt = $db->prepare("SELECT price FROM products WHERE product_id = ?");
+         $stmt->execute([$productId]);
+         $price = $stmt->fetchColumn();
+
+        if ($price !== false) {
+           $total += (float)$price * $qty;
+        }
+    }
+
 
        }
 

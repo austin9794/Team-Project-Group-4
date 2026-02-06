@@ -31,115 +31,29 @@ class OrderController {
 
         $db = Database::getInstance()->getConnection();
 
-        // Verify payment method exists and belongs to user
-        $paymentId = (int)$_POST['payment_id'];
-        $payStmt = $db->prepare("SELECT payment_id FROM payment_methods WHERE payment_id = ? AND user_id = ?");
-        $payStmt->execute([$paymentId, $_SESSION['user_id']]);
-        
-        if (!$payStmt->fetch()) {
-            header("Location: /Team-Project-Group-4/public/index.php?page=checkout&error=invalid_payment");
-            exit;
-        }
+        //Payment Validation
+        if (empty($_POST['payment_id'])) {
+        header("Location: /Team-Project-Group-4/public/index.php?page=checkout&error=no_payment");
+        exit;
+     }
 
-        // Calculate totals again for safety
-        $total = 0;
+        $paymentId = (int) $_POST['payment_id'];
 
-    foreach ($_SESSION['basket'] as $productId => $qty) {
-         $productId = (int)$productId;
-         $qty = max(1, (int)$qty);
-
-       $stmt = $db->prepare("SELECT price FROM products WHERE product_id = ?");
-       $stmt->execute([$productId]);
-       $price = $stmt->fetchColumn();
-
-       if ($price !== false) {
-            $total += (float)$price * $qty;
-       }
-    }
-
-       // Get selected address snapshot
-       $addrStmt = $db->prepare(" SELECT full_address 
-         FROM addresses 
-         WHERE address_id = ? AND user_id = ?
-        ");
-        $addrStmt->execute([$addressId, $_SESSION['user_id']]);
-        $shippingAddress = $addrStmt->fetchColumn();
-
-        $addressId = $_SESSION['checkout_address_id']
-        ?? $defaultAddressId;
-
-
-       // Get selected payment snapshot
-       $paymentId = $_POST['payment_id'] ?? null;
-
-        $payStmt = $db->prepare(" SELECT card_brand, card_last4 
-         FROM payment_methods 
-         WHERE payment_id = ? AND user_id = ?
+        $payStmt = $db->prepare(" SELECT card_brand, card_last4
+           FROM payment_methods
+           WHERE payment_id = ? AND user_id = ?
        ");
         $payStmt->execute([$paymentId, $_SESSION['user_id']]);
         $payment = $payStmt->fetch();
 
-        $paymentSummary = $payment
-        ? $payment['card_brand'] . ' ending ' . $payment['card_last4']
-       : 'Unknown payment';
-
-       // Address selection
-       $addressId = $_POST['address_id'] ?? null;
-
-        if (!$addressId) {
-
-         // Auto-select default address
-          $stmt = $db->prepare(" SELECT address_id
-            FROM addresses
-            WHERE user_id = ? AND is_default = 1
-            LIMIT 1
-           ");
-          $stmt->execute([$_SESSION['user_id']]);
-          $addressId = $stmt->fetchColumn() ?: null;
+       if (!$payment) {
+         header("Location: /Team-Project-Group-4/public/index.php?page=checkout&error=invalid_payment");
+         exit;
         }
 
-        // Insert into orders table
-        $addressId = $_POST['address_id'] ?? null;
+       $paymentSummary = $payment['card_brand'] . ' ending ' . $payment['card_last4'];
 
-        $orderStmt = $db->prepare(" INSERT INTO orders (
-            user_id,
-            total_price,
-            status,
-            address_id,
-            shipping_address,
-            payment_summary
-         VALUES (?, ?, 'pending', ?, ?, ?)
-       ");
-
-        $orderStmt->execute([
-        $_SESSION['user_id'],
-        $total,
-        $addressId,
-        $shippingAddress,
-        $paymentSummary
-        ]);
-
-        $orderId = $db->lastInsertId();
-
-        // Insert order items
-        foreach ($_SESSION['basket'] as $productId => $qty) {
-            $stmt = $db->prepare("SELECT price FROM products WHERE product_id = ?");
-            $stmt->execute([$productId]);
-            $price = $stmt->fetchColumn();
-
-            $insert = $db->prepare(" INSERT INTO order_items (order_id, product_id, quantity, price_at_purchase)
-                VALUES (?, ?, ?, ?)
-            ");
-            $insert->execute([$orderId, $productId, $qty, $price]);
-        }
-
-        // Clear basket
-        unset($_SESSION['basket']);
-
-        // Redirect to success page
-        header("Location: /Team-Project-Group-4/public/index.php?page=order-success&id=" . $orderId);
-        exit;
-    }
+       }
 
     public function checkoutPage() {
     requireLogin();

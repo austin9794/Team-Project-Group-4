@@ -183,6 +183,16 @@ class OrderController {
         }
     }
 
+    // Payments 
+    $payStmt = $db->prepare(" SELECT *
+        FROM payment_methods
+        WHERE user_id = ?
+        ORDER BY is_default DESC, created_at DESC
+    ");
+    $payStmt->execute([$_SESSION['user_id']]);
+    $paymentMethods = $payStmt->fetchAll();
+
+
 
 
     

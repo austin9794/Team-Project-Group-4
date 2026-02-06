@@ -1,3 +1,5 @@
+<?php include __DIR__ . '/../header.php'; ?>
+
 <h1>Select a delivery address</h1>
 
 <form method="POST" action="<?= BASE_URL ?>index.php?page=select-checkout-address">
@@ -28,3 +30,5 @@
 </button>
 
 </form>
+
+<?php include __DIR__ . '/../footer.php'; ?>

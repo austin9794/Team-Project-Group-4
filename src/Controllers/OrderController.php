@@ -101,6 +101,28 @@ class OrderController {
         }
     }
 
+    //Order Snapshot
+      $orderStmt = $db->prepare(" INSERT INTO orders (
+           user_id,
+           total_price,
+           status,
+           address_id,
+           shipping_address,
+           payment_summary
+        ) VALUES (?, ?, 'pending', ?, ?, ?)
+   ");
+
+      $orderStmt->execute([
+        $_SESSION['user_id'],
+        $total,
+        $addressId,
+        $shippingAddress,
+        $paymentSummary
+   ]);
+
+     $orderId = $db->lastInsertId();
+
+
 
        }
 

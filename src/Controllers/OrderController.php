@@ -67,6 +67,25 @@ class OrderController {
     $address = $addrStmt->fetch();
     } else {
 
+     // Auto-select default address
+    $addrStmt = $db->prepare(" SELECT address_id, full_address
+        FROM addresses
+        WHERE user_id = ? AND is_default = 1
+        LIMIT 1
+    ");
+    $addrStmt->execute([$_SESSION['user_id']]);
+    $address = $addrStmt->fetch();
+    }
+
+      if (!$address) {
+         header("Location: /Team-Project-Group-4/public/index.php?page=checkout&error=no_address");
+         exit;
+        }
+
+    $addressId        = $address['address_id'];
+    $shippingAddress  = $address['full_address'];
+
+
        }
 
     public function checkoutPage() {

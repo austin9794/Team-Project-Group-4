@@ -147,74 +147,7 @@ class OrderController {
     requireLogin();
     $db = Database::getInstance()->getConnection();
 
-    // FETCH USER INFO
-    $userStmt = $db->prepare("SELECT * FROM users WHERE user_id = ?");
-    $userStmt->execute([$_SESSION['user_id']]);
-    $user = $userStmt->fetch();
-
-    // FETCH SAVED ADDRESSES
-    $addrStmt = $db->prepare("SELECT * FROM addresses WHERE user_id = ?
-       ORDER BY is_default DESC, created_at DESC
-    ");
-    $addrStmt->execute([$_SESSION['user_id']]);
-    $addresses = $addrStmt->fetchAll();
-
-    //DEFAULT ADDRESS
-    $defaultAddress = null;
-        foreach ($addresses as $addr) {
-           if ($addr['is_default']) {
-              $defaultAddress = $addr;
-              break;
-            }
-    }
-
-    // FETCH SAVED PAYMENT METHODS
-    $payStmt = $db->prepare("SELECT * FROM payment_methods  WHERE user_id = ?
-       ORDER BY is_default DESC, created_at DESC
-    ");
-   $payStmt->execute([$_SESSION['user_id']]);
-   $payments = $payStmt->fetchAll();
-
-
-    // FETCH BASKET ITEMS
-    $basketItems = [];
-    $basketTotal = 0;
-
-    foreach ($_SESSION['basket'] as $productId => $qty) {
-        $stmt = $db->prepare(" SELECT 
-        p.name,
-        p.price,
-        p.slug,
-        c.name AS category
-    FROM products p
-    JOIN categories c ON p.category_id = c.category_id
-    WHERE p.product_id = ?
-   ");
-     $stmt->execute([$productId]);
-    $p = $stmt->fetch();
-
-        
-        if ($p) {
-    $line = $p['price'] * $qty;
-
-    $imagePath = "products/"
-        . strtolower($p['category']) . "/"
-        . $p['slug'] . "/01.png";
-
-    $basketItems[] = [
-        'name'     => $p['name'],
-        'quantity' => $qty,
-        'total'    => $line,
-        'image'    => $imagePath
-    ];
-
-    $basketTotal += $line;
-}
-
-    }
-
-    // PASS VARIABLES INTO TEMPLATE
-    include __DIR__ . '/../../templates/customer/checkout.php';
+    
 }
 
 public function listUserOrders()

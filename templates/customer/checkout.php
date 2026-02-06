@@ -191,19 +191,19 @@ textarea {
         <!-- DELIVERY ADDRESS -->
 
         <h2 class="section-title">
-  Delivering to <?= htmlspecialchars($userData['name']) ?>
-</h2>
+        Delivering to <?= htmlspecialchars($userData['name']) ?>
+       </h2>
 
-<div class="option-card">
-  <div class="option-content">
-    <?= nl2br(htmlspecialchars($defaultAddress['full_address'])) ?>
-    <span class="badge-default">Default</span>
-  </div>
-</div>
+      <div class="option-card">
+        <div class="option-content">
+        <?= nl2br(htmlspecialchars($defaultAddress['full_address'])) ?>
+        <span class="badge-default">Default</span>
+       </div>
+     </div>
 
-<a href="<?= BASE_URL ?>index.php?page=checkout-address" class="link-action">
-  Change delivery address
-</a>
+     <a href="<?= BASE_URL ?>index.php?page=checkout-address" class="link-action">
+         Change delivery address
+     </a>
 
 
         <!-- PAYMENT METHOD -->
@@ -242,9 +242,6 @@ textarea {
 <a href="<?= BASE_URL ?>index.php?page=add-payment" class="link-action">
   + Add a new payment method
 </a>
-
-
-
 
         <!-- ORDER SUMMARY -->
        <h2 class="section-title">Order Summary</h2>

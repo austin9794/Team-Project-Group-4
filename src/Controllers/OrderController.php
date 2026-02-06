@@ -293,14 +293,14 @@ public function showOrder()
     include __DIR__ . '/../../templates/customer/order_detail.php';
 }
 
-public function selectCheckoutAddress() {
+public function selectCheckoutAddress()
+{
     requireLogin();
 
-    $_SESSION['checkout_address_id'] = $_POST['address_id'];
-
-    header("Location: " . BASE_URL . "index.php?page=checkout");
-    exit;
-}
+    if (empty($_POST['address_id'])) {
+        header("Location: " . BASE_URL . "index.php?page=checkout-address&error=invalid");
+        exit;
+    }
 
 
 public function adminProcessOrders()

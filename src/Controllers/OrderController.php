@@ -447,6 +447,12 @@ public function submitReturn() {
         exit("Return window expired");
     }
 
+    // Quantity validation
+    $available = $item['quantity'] - $item['returned_quantity'];
+    if ($qty < 1 || $qty > $available) {
+        exit("Invalid return quantity");
+    }
+
 
 }
 

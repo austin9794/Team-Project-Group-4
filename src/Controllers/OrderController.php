@@ -269,16 +269,20 @@ public function showOrder()
 
     // Fetch items
     $itemsStmt = $db->prepare(" SELECT 
-          oi.*,
-          pr.name,
-          pr.slug,
-          c.name AS category
-        FROM order_items oi
-        JOIN products pr ON oi.product_id = pr.product_id
-        JOIN categories c ON pr.category_id = c.category_id
-        WHERE oi.order_id = ?
+        oi.*,
+        pr.name,
+        pr.slug,
+        c.name AS category,
+        COALESCE(SUM(r.quantity), 0) AS returned_qty,
+        MAX(r.status) AS return_status
+    FROM order_items oi
+    JOIN products pr ON oi.product_id = pr.product_id
+    JOIN categories c ON pr.category_id = c.category_id
+    LEFT JOIN returns r ON r.order_item_id = oi.order_item_id
+    WHERE oi.order_id = ?
+    GROUP BY oi.order_item_id
+");
 
-    ");
 
     $itemsStmt->execute([$orderId]);
     $items = $itemsStmt->fetchAll();

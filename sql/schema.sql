@@ -159,6 +159,7 @@ CREATE TABLE order_items (
     product_id INT NOT NULL,
     quantity INT NOT NULL,
     price_at_purchase DECIMAL(10,2) NOT NULL,
+    returned_quantity INT DEFAULT 0;
 
     FOREIGN KEY (order_id)
         REFERENCES orders(order_id)

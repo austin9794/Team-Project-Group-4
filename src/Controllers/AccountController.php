@@ -11,7 +11,6 @@ class AccountController {
         $this->db = Database::getInstance()->getConnection();
     }
 
-    
     // SHOW ACCOUNT PAGE
     
     public function showAccount() {
@@ -35,8 +34,7 @@ class AccountController {
     $payments = $payStmt->fetchAll();
 
     // Fetch last 3 orders
-    $orders = $db->prepare("
-        SELECT order_id, total_price, status, created_at AS order_date
+    $orders = $db->prepare(" SELECT order_id, total_price, status, created_at AS order_date
         FROM orders
         WHERE user_id = ?
         ORDER BY order_id DESC
@@ -46,11 +44,10 @@ class AccountController {
     $recentOrders = $orders->fetchAll();
 
     include __DIR__ . '/../../templates/customer/account.php';
-}
+   }
 
     
     // UPDATE PROFILE
-    
     public function updateAccount() {
     requireLogin();
 
@@ -81,8 +78,7 @@ class AccountController {
     }
 
     // Update DB
-    $update = $db->prepare("
-        UPDATE users 
+    $update = $db->prepare(" UPDATE users 
         SET name = ?, email = ?, phone = ?
         WHERE user_id = ?
     ");
@@ -91,11 +87,10 @@ class AccountController {
 
     header("Location: /Team-Project-Group-4/public/index.php?page=account&updated=1");
     exit;
-}
+   }
 
-    // CHANGE PASSWORD
-    
-    public function changePassword() {
+       // CHANGE PASSWORD
+       public function changePassword() {
 
         requireLogin();
 
@@ -131,8 +126,7 @@ class AccountController {
         $hashed = password_hash($new, PASSWORD_BCRYPT);
 
         // Update DB
-        $update = $this->db->prepare("
-            UPDATE users 
+        $update = $this->db->prepare(" UPDATE users 
             SET password = ? 
             WHERE user_id = ?
         ");
@@ -140,7 +134,7 @@ class AccountController {
 
         header("Location: /Team-Project-Group-4/public/index.php?page=change-password&pw=success");
         exit;
-    }
+  }
 
        // Edit Account 
         public function editAccountForm() {
@@ -164,27 +158,28 @@ class AccountController {
 
         // Save Address
         public function saveAddress() {
-    requireLogin();
+        requireLogin();
 
-    $label = trim($_POST['label']);
-    $full_address = trim($_POST['full_address']);
+        $label = trim($_POST['label']);
+        $full_address = trim($_POST['full_address']);
 
-    if ($label === "" || $full_address === "") {
-        header("Location: /Team-Project-Group-4/public/index.php?page=add-address&error=1");
-        exit;
+        if ($label === "" || $full_address === "") {
+            header("Location: /Team-Project-Group-4/public/index.php?page=add-address&error=1");
+            exit;
+       }
+
+        $db = Database::getInstance()->getConnection();
+
+        $stmt = $db->prepare("INSERT INTO addresses (user_id, label, full_address) VALUES (?, ?, ?)");
+        $stmt->execute([$_SESSION['user_id'], $label, $full_address]);
+
+        header("Location: /Team-Project-Group-4/public/index.php?page=account#addresses");
+         exit;
     }
 
-    $db = Database::getInstance()->getConnection();
-
-    $stmt = $db->prepare("INSERT INTO addresses (user_id, label, full_address) VALUES (?, ?, ?)");
-    $stmt->execute([$_SESSION['user_id'], $label, $full_address]);
-
-    header("Location: /Team-Project-Group-4/public/index.php?page=account#addresses");
-    exit;
-}
 
       // Edit Address
-     public function showEditAddressForm() {
+      public function showEditAddressForm() {
      requireLogin();
 
      $id = $_GET['id'] ?? null;
@@ -212,8 +207,7 @@ class AccountController {
 
       $db = Database::getInstance()->getConnection();
 
-       $stmt = $db->prepare("
-        UPDATE addresses
+       $stmt = $db->prepare(" UPDATE addresses
         SET label = ?, full_address = ?
         WHERE address_id = ? AND user_id = ?
     ");
@@ -241,6 +235,30 @@ class AccountController {
      exit;
     }
 
+    // Default Adddress
+    public function setDefaultAddress() {
+    requireLogin();
+
+    $addressId = $_GET['id'] ?? null;
+    if (!$addressId) {
+        header("Location: index.php?page=account#addresses");
+        exit;
+    }
+
+    // Unset all defaults for user
+    $this->db->prepare(" UPDATE addresses SET is_default = 0 WHERE user_id = ?
+    ")->execute([$_SESSION['user_id']]);
+
+    // Set selected address as default
+    $this->db->prepare(" UPDATE addresses SET is_default = 1
+        WHERE address_id = ? AND user_id = ?
+    ")->execute([$addressId, $_SESSION['user_id']]);
+
+    header("Location: index.php?page=account#addresses");
+    exit;
+  }
+
+
       // Payment Form
       public function showAddPaymentForm() {
       requireLogin();
@@ -265,8 +283,7 @@ class AccountController {
 
      $db = Database::getInstance()->getConnection();
  
-     $stmt = $db->prepare("
-        INSERT INTO payment_methods (user_id, card_brand, card_last4, expiry_month, expiry_year)
+     $stmt = $db->prepare(" INSERT INTO payment_methods (user_id, card_brand, card_last4, expiry_month, expiry_year)
         VALUES (?, ?, ?, ?, ?)
     ");
       $stmt->execute([$_SESSION['user_id'], $brand, $last4, $expiry_month, $expiry_year]);
@@ -274,6 +291,64 @@ class AccountController {
       header("Location: /Team-Project-Group-4/public/index.php?page=account#payment-methods");
       exit;
     }
+
+    // Edit Payment
+    public function showEditPaymentForm() {
+    requireLogin();
+
+    $id = $_GET['id'] ?? null;
+    if (!$id) {
+        exit("Payment method not found");
+    }
+
+    $stmt = $this->db->prepare(" SELECT * FROM payment_methods
+        WHERE payment_id = ? AND user_id = ?
+    ");
+    $stmt->execute([$id, $_SESSION['user_id']]);
+    $payment = $stmt->fetch();
+
+    if (!$payment) {
+        exit("Unauthorized");
+    }
+
+    include __DIR__ . '/../../templates/customer/edit-payment.php';
+}
+
+    // Update Payment
+    public function updatePayment() {
+    requireLogin();
+
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        header("Location: index.php?page=account");
+        exit;
+    }
+
+    $paymentId = $_POST['payment_id'];
+    $brand = trim($_POST['brand']);
+    $expiryMonth = (int)$_POST['expiry_month'];
+    $expiryYear = (int)$_POST['expiry_year'];
+
+    if (!$paymentId || !$brand || !$expiryMonth || !$expiryYear) {
+        header("Location: index.php?page=account&error=invalid_payment");
+        exit;
+    }
+
+    $stmt = $this->db->prepare(" UPDATE payment_methods
+        SET card_brand = ?, expiry_month = ?, expiry_year = ?
+        WHERE payment_id = ? AND user_id = ?
+    ");
+
+    $stmt->execute([
+        $brand,
+        $expiryMonth,
+        $expiryYear,
+        $paymentId,
+        $_SESSION['user_id']
+    ]);
+
+    header("Location: index.php?page=account#payment-methods");
+    exit;
+}
 
     // Delete Payment
       public function deletePayment() {
@@ -292,7 +367,89 @@ class AccountController {
      exit;
     }
 
-      //User Data
+    //Default Payment
+    public function setDefaultPayment() {
+    requireLogin();
+
+    $paymentId = $_GET['id'] ?? null;
+    if (!$paymentId) {
+        header("Location: index.php?page=account#payment-methods");
+        exit;
+    }
+
+    $this->db->prepare(" UPDATE payment_methods SET is_default = 0 WHERE user_id = ?
+    ")->execute([$_SESSION['user_id']]);
+
+    $this->db->prepare(" UPDATE payment_methods SET is_default = 1
+        WHERE payment_id = ? AND user_id = ?
+    ")->execute([$paymentId, $_SESSION['user_id']]);
+
+    header("Location: index.php?page=account#payment-methods");
+    exit;
+  }
+
+   //Delete Account
+
+   public function deleteAccount() {
+    requireLogin();
+
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        header("Location: " . BASE_URL . "index.php?page=account#delete");
+        exit;
+    }
+
+    $password = $_POST['password'] ?? '';
+    $confirm  = $_POST['confirm'] ?? '';
+
+    if ($confirm !== 'YES') {
+        header("Location: " . BASE_URL . "index.php?page=account#delete&error=confirm");
+        exit;
+    }
+
+    // Fetch current password hash
+    $stmt = $this->db->prepare("SELECT password FROM users WHERE user_id = ?");
+    $stmt->execute([$_SESSION['user_id']]);
+    $hash = $stmt->fetchColumn();
+
+    if (!$hash || !password_verify($password, $hash)) {
+        header("Location: " . BASE_URL . "index.php?page=account#delete&error=password");
+        exit;
+    }
+
+    $userId = $_SESSION['user_id'];
+
+    // Begin transaction
+    $this->db->beginTransaction();
+
+try {
+        // Delete related data
+        $this->db->prepare("DELETE FROM addresses WHERE user_id = ?")->execute([$userId]);
+        $this->db->prepare("DELETE FROM payment_methods WHERE user_id = ?")->execute([$userId]);
+        $this->db->prepare("DELETE FROM reviews WHERE user_id = ?")->execute([$userId]);
+
+        // Anonymise orders 
+        $this->db->prepare(" UPDATE orders 
+            SET shipping_address = 'Deleted user',
+                payment_summary = 'Deleted user'
+            WHERE user_id = ?
+        ")->execute([$userId]);
+
+        // Delete user
+        $this->db->prepare("DELETE FROM users WHERE user_id = ?")->execute([$userId]);
+
+        // Destroy session
+        session_destroy();
+
+        header("Location: " . BASE_URL . "index.php?account_deleted=1");
+        exit;
+
+    } catch (Exception $e) {
+        $this->db->rollBack();
+        exit("Account deletion failed.");
+    }
+}
+
+       //User Data
       public function getUserData() {
        $stmt = $this->db->prepare("SELECT * FROM users WHERE user_id = ?");
        $stmt->execute([$_SESSION['user_id']]);

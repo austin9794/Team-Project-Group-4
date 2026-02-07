@@ -44,7 +44,10 @@ CREATE TABLE payment_methods (
     expiry_month INT,
     expiry_year INT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+    is_default BOOLEAN DEFAULT 0,
+
+    FOREIGN KEY (user_id) REFERENCES users(user_id) 
+    ON DELETE CASCADE
 );
 
 -- Categories Table --
@@ -123,6 +126,9 @@ CREATE TABLE orders (
   delivered_at TIMESTAMP NULL,
 
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+  shipping_address TEXT NOT NULL,
+  payment_summary VARCHAR(100) NOT NULL,
 
   FOREIGN KEY (user_id) REFERENCES users(user_id),
   FOREIGN KEY (address_id) REFERENCES addresses(address_id),

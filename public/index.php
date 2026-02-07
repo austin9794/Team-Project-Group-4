@@ -157,10 +157,30 @@ switch ($page) {
         $controller = new AccountController();
         $controller->deleteAddress();
         break;
+    case 'set-default-address':
+        $controller = new AccountController();
+        $controller->setDefaultAddress();
+        break;
+    case 'checkout-address':
+    $controller = new OrderController();
+    $controller->checkoutAddressPage();
+    break;
+    case 'select-checkout-address':
+        $controller = new OrderController();
+        $controller->selectCheckoutAddress();
+    break;
     case 'add-payment':
         $controller = new AccountController();
         $controller->showAddPaymentForm();
         break;
+    case 'edit-payment':
+        $controller = new AccountController();
+        $controller->showEditPaymentForm();
+    break;
+    case 'update-payment':
+        $controller = new AccountController();
+        $controller->updatePayment();
+    break;
     case 'save-payment':
         $controller = new AccountController();
         $controller->savePayment();
@@ -168,6 +188,10 @@ switch ($page) {
     case 'delete-payment':
         $controller = new AccountController();
         $controller->deletePayment();
+        break;
+    case 'set-default-payment':
+        $controller = new AccountController();
+        $controller->setDefaultPayment();
         break;
     case 'product':
        $controller = new ProductController();
@@ -177,6 +201,10 @@ switch ($page) {
        $controller = new ProductController();
        $controller->list();
        break;
+    case 'delete-account':
+    (new AccountController())->deleteAccount();
+    break;
+
 
         // ---- Admin Pages ----
     case 'admin-orders':

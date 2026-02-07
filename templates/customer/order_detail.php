@@ -70,17 +70,61 @@
     <h2>Items</h2>
 
     <?php foreach ($items as $item): ?>
-        <div class="item-card">
-            <img src="/Team-Project-Group-4/public/assets/images/<?= htmlspecialchars($item['image']) ?>" alt="">
 
-            <div>
-                <h3><?= htmlspecialchars($item['name']) ?></h3>
-                <p>Quantity: <?= $item['quantity'] ?></p>
-                <p>Price: £<?= number_format($item['price_at_purchase'], 2) ?></p>
-                <p><strong>Line Total:</strong> £<?= number_format($item['price_at_purchase'] * $item['quantity'], 2) ?></p>
-            </div>
+<div class="item-card">
+
+    <img src="<?= BASE_URL ?>assets/images/<?= htmlspecialchars($item['image']) ?>" alt="">
+
+    <div>
+        <h3><?= htmlspecialchars($item['name']) ?></h3>
+
+        <p>Purchased: <?= $item['quantity'] ?></p>
+
+        <?php if ($item['returned_qty'] > 0): ?>
+            <p style="color:#ffb86c;">
+                Returned: <?= $item['returned_qty'] ?>
+            </p>
+        <?php endif; ?>
+
+        <p>
+            Price: £<?= number_format($item['price_at_purchase'], 2) ?>
+        </p>
+
+        <p>
+            <strong>Line Total:</strong>
+            £<?= number_format($item['price_at_purchase'] * $item['quantity'], 2) ?>
+        </p>
+
+        <!-- RETURN STATUS / ACTION -->
+        <div style="margin-top:10px;">
+
+        <?php
+        $remaining = $item['quantity'] - $item['returned_qty'];
+        ?>
+
+        <?php if ($item['return_status'] === 'pending'): ?>
+            <span class="badge badge-pending">Return pending</span>
+
+        <?php elseif ($item['return_status'] === 'approved'): ?>
+            <span class="badge badge-approved">Returned</span>
+
+        <?php elseif ($canReturnOrder && $remaining > 0): ?>
+            <a class="btn-purple"
+               href="<?= BASE_URL ?>index.php?page=request-return&item=<?= $item['order_item_id'] ?>">
+                Request return
+            </a>
+
+        <?php elseif (!$canReturnOrder): ?>
+            <span class="badge badge-expired">Return window expired</span>
+
+        <?php endif; ?>
+
         </div>
-    <?php endforeach; ?>
+    </div>
+
+</div>
+
+<?php endforeach; ?>
 
     <div class="summary-box">
     <h2>Order Summary</h2>

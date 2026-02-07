@@ -442,6 +442,11 @@ public function submitReturn() {
 
     if (!$item) exit("Invalid return request");
 
+    // 7-day rule
+    if (strtotime($item['created_at']) < strtotime('-7 days')) {
+        exit("Return window expired");
+    }
+
 
 }
 

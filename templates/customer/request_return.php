@@ -1,3 +1,5 @@
+<?php include __DIR__ . '/../header.php'; ?>
+
 <form method="POST" action="<?= BASE_URL ?>index.php?page=submit-return">
     <input type="hidden" name="order_item_id" value="<?= $item['order_item_id'] ?>">
 
@@ -13,3 +15,5 @@
 
     <button class="btn-purple">Submit Return</button>
 </form>
+
+<?php include __DIR__ . '/../footer.php'; ?>

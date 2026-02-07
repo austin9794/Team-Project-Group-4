@@ -159,10 +159,16 @@ textarea {
 
 </style>
 
-<form method="POST" action="<?= BASE_URL ?>index.php?page=submit-return">
-    <input type="hidden" name="order_item_id" value="<?= $item['order_item_id'] ?>">
+<h1>Request Return</h1>
 
-    <label>Quantity to return</label>
+<p><strong><?= htmlspecialchars($item['name']) ?></strong></p>
+
+<form method="POST" action="<?= BASE_URL ?>index.php?page=submit-return">
+
+    <input type="hidden" name="order_item_id"
+           value="<?= $item['order_item_id'] ?>">
+
+    <label>Quantity</label>
     <input type="number"
            name="quantity"
            min="1"
@@ -173,6 +179,8 @@ textarea {
     <textarea name="reason" required></textarea>
 
     <button class="btn-purple">Submit Return</button>
+
 </form>
+
 
 <?php include __DIR__ . '/../footer.php'; ?>

@@ -204,16 +204,25 @@ CREATE INDEX idx_reviews_product
 
 CREATE TABLE returns (
     return_id INT AUTO_INCREMENT PRIMARY KEY,
-    order_item_id INT NOT NULL,
-    reason TEXT,
-    status ENUM('pending','approved','rejected') DEFAULT 'pending',
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
-    FOREIGN KEY (order_item_id)
-        REFERENCES order_items(order_item_id)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
+    order_id INT NOT NULL,
+    order_item_id INT NOT NULL,
+    user_id INT NOT NULL,
+
+    quantity INT NOT NULL,
+    reason VARCHAR(255),
+
+    status ENUM('pending', 'approved', 'rejected', 'refunded')
+           DEFAULT 'pending',
+
+    requested_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    processed_at DATETIME NULL,
+
+    FOREIGN KEY (order_id) REFERENCES orders(order_id),
+    FOREIGN KEY (order_item_id) REFERENCES order_items(order_item_id),
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
+
 
 -- Iventory Log Table (For Reports and Alerts) --
 

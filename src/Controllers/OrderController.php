@@ -473,6 +473,27 @@ public function submitReturn() {
     exit;
 }
 
+public function showReturnForm()
+{
+    requireLogin();
+    $db = Database::getInstance()->getConnection();
+
+    $itemId = (int)($_GET['item'] ?? 0);
+
+    $stmt = $db->prepare(" SELECT oi.*, pr.name, o.created_at
+        FROM order_items oi
+        JOIN orders o ON oi.order_id = o.order_id
+        JOIN products pr ON oi.product_id = pr.product_id
+        WHERE oi.order_item_id = ? AND o.user_id = ?
+    ");
+    $stmt->execute([$itemId, $_SESSION['user_id']]);
+    $item = $stmt->fetch();
+
+    if (!$item) exit("Invalid item");
+
+    include __DIR__ . '/../../templates/customer/request_return.php';
+}
+
 
 }
 

@@ -453,6 +453,22 @@ public function submitReturn() {
         exit("Invalid return quantity");
     }
 
+    // Insert return
+    $insert = $db->prepare(" INSERT INTO returns (order_id, order_item_id, user_id, quantity, reason)
+        VALUES (?, ?, ?, ?, ?)
+    ");
+    $insert->execute([
+        $item['order_id'],
+        $itemId,
+        $_SESSION['user_id'],
+        $qty,
+        $reason
+    ]);
+
+    header("Location: " . BASE_URL . "index.php?page=orders");
+    exit;
+}
+
 
 }
 

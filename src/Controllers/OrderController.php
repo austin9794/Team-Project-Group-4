@@ -423,14 +423,24 @@ public function adminProcessOrders() {
 
 }
 
-public function submitReturn()
-{
+public function submitReturn() {
     requireLogin();
     $db = Database::getInstance()->getConnection();
 
     $itemId  = (int)$_POST['order_item_id'];
     $qty     = (int)$_POST['quantity'];
     $reason  = trim($_POST['reason']);
+
+    // Fetch order item + order
+    $stmt = $db->prepare("  SELECT oi.*, o.created_at, o.user_id
+        FROM order_items oi
+        JOIN orders o ON oi.order_id = o.order_id
+        WHERE oi.order_item_id = ? AND o.user_id = ?
+    ");
+    $stmt->execute([$itemId, $_SESSION['user_id']]);
+    $item = $stmt->fetch();
+
+    if (!$item) exit("Invalid return request");
 
 
 }

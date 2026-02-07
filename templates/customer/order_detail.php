@@ -32,6 +32,30 @@
 .order-status.delivered { background: #28a745; color: #fff; }
 .order-status.cancelled { background: #dc3545; color: #fff; }
 
+.badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.badge-pending {
+    background: #ffb86c;
+    color: #000;
+}
+
+.badge-approved {
+    background: #7cff9d;
+    color: #000;
+}
+
+.badge-expired {
+    background: #ff4f4f;
+    color: #fff;
+}
+
+
 .item-card {
     display: flex;
     gap: 15px;

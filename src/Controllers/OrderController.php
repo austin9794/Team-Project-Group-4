@@ -23,12 +23,6 @@ class OrderController {
             exit;
         }
 
-        // VALIDATE ADDRESS
-        if (empty($_POST['address_id']) && empty($_POST['manual_address'])) {
-            header("Location: /Team-Project-Group-4/public/index.php?page=checkout&error=no_address");
-            exit;
-        }
-
         $db = Database::getInstance()->getConnection();
 
         //Payment Validation
@@ -58,8 +52,7 @@ class OrderController {
 
        if ($addressId) {
     // Fetch snapshot from selected address
-    $addrStmt = $db->prepare("
-        SELECT address_id, full_address
+    $addrStmt = $db->prepare(" SELECT address_id, full_address
         FROM addresses
         WHERE address_id = ? AND user_id = ?
     ");

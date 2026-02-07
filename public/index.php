@@ -133,9 +133,14 @@ switch ($page) {
        $controller = new OrderController();
        $controller->checkoutPage();
        break;
-
     case 'order-success':
         include __DIR__ . '/../templates/customer/order_success.php';
+        break;
+    case 'request-return':
+    (new OrderController())->showReturnForm();
+        break;
+    case 'submit-return':
+    (new OrderController())->submitReturn();
         break;
     case 'add-address':
         $controller = new AccountController();
@@ -162,8 +167,8 @@ switch ($page) {
         $controller->setDefaultAddress();
         break;
     case 'checkout-address':
-    $controller = new OrderController();
-    $controller->checkoutAddressPage();
+        $controller = new OrderController();
+        $controller->checkoutAddressPage();
     break;
     case 'select-checkout-address':
         $controller = new OrderController();

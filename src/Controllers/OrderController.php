@@ -344,8 +344,7 @@ public function checkoutAddressPage()
     include __DIR__ . '/../../templates/customer/checkout_address.php';
 }
 
-public function adminProcessOrders()
-{
+public function adminProcessOrders() {
     if (!isset($_POST['order_id'])) {
         echo "Missing order ID";
         return;
@@ -423,6 +422,17 @@ public function adminProcessOrders()
     }
 
 }
+
+public function submitReturn()
+{
+    requireLogin();
+    $db = Database::getInstance()->getConnection();
+
+    $itemId  = (int)$_POST['order_item_id'];
+    $qty     = (int)$_POST['quantity'];
+    $reason  = trim($_POST['reason']);
+
+
 }
 
 

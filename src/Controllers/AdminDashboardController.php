@@ -16,8 +16,7 @@ class AdminDashboardController extends BaseAdminController {
     public function reports() {
         $db = Database::getInstance()->getConnection();
 
-        $stmt = $db->query("
-            SELECT 
+        $stmt = $db->query(" SELECT 
                 p.product_id,
                 p.name,
                 p.stock,
@@ -37,8 +36,7 @@ class AdminDashboardController extends BaseAdminController {
         ");
         $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        $summaryStmt = $db->query("
-            SELECT 
+        $summaryStmt = $db->query(" SELECT 
                 COUNT(*) as total_products,
                 SUM(stock) as total_stock_units,
                 SUM(stock * price) as total_stock_value,
@@ -48,8 +46,7 @@ class AdminDashboardController extends BaseAdminController {
         ");
         $summary = $summaryStmt->fetch(PDO::FETCH_ASSOC);
 
-        $orderStmt = $db->query("
-            SELECT 
+        $orderStmt = $db->query(" SELECT 
                 COUNT(CASE WHEN status = 'pending' THEN 1 END) as pending_orders,
                 COUNT(CASE WHEN status = 'processing' THEN 1 END) as processing_orders,
                 COUNT(CASE WHEN status = 'shipped' THEN 1 END) as shipped_orders,
@@ -93,8 +90,7 @@ class AdminDashboardController extends BaseAdminController {
         }
 
         // Build query with filters
-        $sql = "
-            SELECT 
+        $sql = " SELECT 
                 o.order_id,
                 o.total_price,
                 o.status,
@@ -181,8 +177,7 @@ class AdminDashboardController extends BaseAdminController {
             $price = (float)$_POST['price'];
             $threshold = (int)$_POST['low_stock_threshold'];
 
-            $update = $db->prepare("
-                UPDATE products 
+            $update = $db->prepare(" UPDATE products 
                 SET stock = ?, price = ?, low_stock_threshold = ?
                 WHERE product_id = ?
             ");
@@ -193,8 +188,7 @@ class AdminDashboardController extends BaseAdminController {
         }
 
         // Build query with filters
-        $sql = "
-            SELECT 
+        $sql = "  SELECT 
                 p.product_id,
                 p.name,
                 p.slug,

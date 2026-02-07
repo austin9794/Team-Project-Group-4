@@ -69,9 +69,15 @@
 
     <h2>Items</h2>
 
+    <?php
+    $returnDeadline = strtotime($order['created_at'] . ' +7 days');
+    $canReturnOrder = time() <= $returnDeadline;
+    ?>
+
+
     <?php foreach ($items as $item): ?>
 
-<div class="item-card">
+   <div class="item-card">
 
     <img src="<?= BASE_URL ?>assets/images/<?= htmlspecialchars($item['image']) ?>" alt="">
 

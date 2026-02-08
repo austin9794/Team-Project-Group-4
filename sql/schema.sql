@@ -115,7 +115,7 @@ CREATE TABLE orders (
     'processing',
     'shipped',
     'delivered',
-    'returned',
+    'returned'
   ) DEFAULT 'pending',
 
   address_id INT NULL,

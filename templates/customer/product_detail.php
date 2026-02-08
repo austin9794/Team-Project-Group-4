@@ -448,20 +448,5 @@ if (!empty($images) && isset($images[0]['image_path'])) {
   ) ?>;
 </script>
 
-<!-- Returns -->
- <?php
-$canReturn =
-    strtotime($order['created_at']) >= strtotime('-7 days')
-    && ($item['quantity'] - $item['returned_quantity']) > 0;
-?>
-
-<?php if ($canReturn): ?>
-    <a class="btn-purple"
-       href="<?= BASE_URL ?>index.php?page=request-return&item=<?= $item['order_item_id'] ?>">
-        Request Return
-    </a>
-<?php endif; ?>
->
-
 
 <?php include __DIR__ . '/../footer.php'; ?>

@@ -229,6 +229,15 @@
         border-radius: 6px;
     }
 
+    .clickable-row {
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .clickable-row:hover {
+        background: rgba(188, 168, 230, 0.08);
+    }
+
     .results-summary p {
         margin: 0;
         color: var(--text-primary);

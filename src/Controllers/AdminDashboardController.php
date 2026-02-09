@@ -180,6 +180,20 @@ class AdminDashboardController extends BaseAdminController {
         exit;
     }
 
+    // Fetch order + customer
+    $stmt = $db->prepare(" SELECT o.*, u.name AS customer_name, u.email AS customer_email
+        FROM orders o
+        JOIN users u ON o.user_id = u.user_id
+        WHERE o.order_id = ?
+    ");
+    $stmt->execute([$orderId]);
+    $order = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$order) {
+        header("Location: index.php?page=admin-orders");
+        exit;
+    }
+
     public function products() {
         $db = Database::getInstance()->getConnection();
 

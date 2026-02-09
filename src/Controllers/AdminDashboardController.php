@@ -136,6 +136,15 @@ class AdminDashboardController extends BaseAdminController {
         include __DIR__ . '/../../templates/admin/orders.php';
     }
 
+    public function adminView() {
+    $orderId = (int)($_GET['id'] ?? 0);
+    if ($orderId === 0) {
+        header("Location: index.php?page=admin-orders");
+        exit;
+    }
+
+    $db = Database::getInstance()->getConnection();
+
     public function products() {
         $db = Database::getInstance()->getConnection();
 

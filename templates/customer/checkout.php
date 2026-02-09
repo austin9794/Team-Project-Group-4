@@ -6,6 +6,25 @@ $userData = $accountController->getUserData();
 $addresses = $accountController->getAddresses();
 $paymentMethods = $accountController->getPaymentMethods();
 
+
+//pick which address to show in checkout
+$selectedAddress = null;
+
+//if user picked address during checkout
+if (!empty($_SESSION['checkout_address_id']) && !empty($addresses)) {
+    foreach ($addresses as $addr) {
+        if ((int)$addr['address_id'] === (int)$_SESSION['checkout_address_id']) {
+            $selectedAddress = $addr;
+            break;
+        }
+    }
+}
+
+// show most recent address
+if (!$selectedAddress && !empty($addresses)) {
+    $selectedAddress = $addresses[0];
+}
+
 include __DIR__ . '/../header.php'; 
 
 ?>
@@ -194,26 +213,31 @@ textarea {
         Delivering to <?= htmlspecialchars($userData['name']) ?>
        </h2>
 
-      <div class="option-card">
-      <div class="option-content">
-      <strong><?= htmlspecialchars($selectedAddress['label']) ?></strong>
-      <p><?= nl2br(htmlspecialchars($selectedAddress['full_address'])) ?></p>
+      <?php if (!empty($selectedAddress)): ?>
+       <div class="option-card">
+         <div class="option-content">
+       <strong><?= htmlspecialchars($selectedAddress['label'] ?? 'Address') ?></strong>
+      <p><?= nl2br(htmlspecialchars($selectedAddress['full_address'] ?? '')) ?></p>
 
-      <?php if ($selectedAddress['is_default']): ?>
+      <?php if (!empty($selectedAddress['is_default'])): ?>
         <span class="badge-default">Default</span>
       <?php endif; ?>
-     </div>
-   </div>
+    </div>
+  </div>
 
+  <a href="<?= BASE_URL ?>index.php?page=checkout-address" class="link-action">
+    Change delivery address
+  </a>
+<?php else: ?>
+  <p>No saved delivery address.</p>
+  <a href="<?= BASE_URL ?>index.php?page=checkout-address" class="link-action">
+    + Add/select delivery address
+  </a>
+<?php endif; ?>
 
-     <a href="<?= BASE_URL ?>index.php?page=checkout-address" class="link-action">
-         Change delivery address
-     </a>
+<!-- PAYMENT METHOD -->
 
-
-        <!-- PAYMENT METHOD -->
-
-        <h2 class="section-title">Payment Method</h2>
+  <h2 class="section-title">Payment Method</h2>
 
 <?php if (!empty($paymentMethods)): ?>
   <div class="option-grid">
@@ -224,7 +248,7 @@ textarea {
           type="radio"
           name="payment_id"
           value="<?= $p['payment_id'] ?>"
-          <?= $p['is_default'] ? 'checked' : '' ?>
+          <?= !empty($p['is_default']) ? 'checked' : '' ?>
           required
         >
 

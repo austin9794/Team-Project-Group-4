@@ -218,6 +218,11 @@ switch ($page) {
        $controller = new AdminDashboardController();
        $controller->orders();
     break;
+    case 'admin-order-view':
+        requireAdmin();
+        $controller = new OrderController();
+        $controller->adminView();
+    break;
     case 'admin-products':
        requireAdmin();
        $controller = new AdminDashboardController();

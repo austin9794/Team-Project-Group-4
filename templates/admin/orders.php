@@ -361,4 +361,17 @@
     }
 </style>
 
+<script>
+document.querySelectorAll('.clickable-row').forEach(row => {
+    row.addEventListener('click', function (e) {
+        // Prevent navigation when clicking buttons or forms
+        if (e.target.closest('button') || e.target.closest('form')) {
+            return;
+        }
+        window.location = this.dataset.href;
+    });
+});
+</script>
+
+
 <?php include __DIR__ . '/../footer.php'; ?>

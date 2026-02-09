@@ -4,7 +4,7 @@ require_once "Database.php";
 class Product {
     public static function getAll($filters = []) {
         $db =Database::getInstance()->getConnection();
-        $db = Database::getInstance()->getConnection();
+       
         $sql = "SELECT p.*, c.name AS category_name 
                 FROM products p 
                 JOIN categories c ON p.category_id = c.category_id 
@@ -21,13 +21,22 @@ class Product {
             $params[] = "%".$filters['search']."%";
         }
         
-        if (!empty($filters['min_price'])) {
-            $sql .= " AND p.price >= ?";
-            $params[] = $filters['min_price'];
+
+        if (isset($filters['min_price']) && $filters['min_price'] !== '') {
+            $min = filter_var($filters['min_price'], FILTER_VALIDATE_FLOAT);
+            if ($min !== false) {
+                $sql .= " AND p.price >= ?";
+                $params[] = $min;
+            }
         }
-        if (!empty($filters['max_price'])) {
-            $sql .= " AND p.price <= ?";
-            $params[] = $filters['max_price'];
+
+     
+        if (isset($filters['max_price']) && $filters['max_price'] !== '') {
+            $max = filter_var($filters['max_price'], FILTER_VALIDATE_FLOAT);
+            if ($max !== false) {
+                $sql .= " AND p.price <= ?";
+                $params[] = $max;
+            }
         }
 
         $sql .= " ORDER BY p.name ASC";
@@ -39,7 +48,7 @@ class Product {
 
     public static function findById($id) {
         $db = Database::getInstance()->getConnection();
-       $db = Database::getInstance()->getConnection();
+      
         $stmt = $db->prepare("SELECT p.*, c.name AS category_name 
                              FROM products p 
                              JOIN categories c ON p.category_id = c.category_id 

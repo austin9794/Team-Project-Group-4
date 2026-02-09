@@ -159,6 +159,18 @@ class AdminDashboardController extends BaseAdminController {
         exit;
     }
 
+    // Order items
+    $itemsStmt = $db->prepare(" SELECT oi.*, p.name
+        FROM order_items oi
+        JOIN products p ON oi.product_id = p.product_id
+        WHERE oi.order_id = ?
+    ");
+    $itemsStmt->execute([$orderId]);
+    $items = $itemsStmt->fetchAll();
+
+    include __DIR__ . '/../../templates/admin/order_view.php';
+}
+
     public function products() {
         $db = Database::getInstance()->getConnection();
 

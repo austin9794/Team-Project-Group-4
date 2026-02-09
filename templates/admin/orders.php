@@ -74,7 +74,9 @@
                     </tr>
                 <?php else: ?>
                     <?php foreach ($orders as $order): ?>
-                        <tr class="order-row">
+                        <tr class="order-row clickable-row"
+                        data-href="index.php?page=admin-order-view&id=<?= (int)$order['order_id'] ?>">
+
                             <td><strong>#<?= (int)$order['order_id'] ?></strong></td>
                             <td><?= htmlspecialchars($order['customer_name'] ?? 'Unknown') ?></td>
                             <td class="email-cell"><?= htmlspecialchars($order['customer_email'] ?? 'N/A') ?></td>

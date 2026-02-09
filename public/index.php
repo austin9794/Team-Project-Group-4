@@ -223,7 +223,8 @@ switch ($page) {
         break;
     case 'admin-customers':
         requireAdmin();
-        include __DIR__ . '/../templates/admin/customers.php';
+        $controller = new AdminCustomerController();
+        $controller->list();
         break;
     case 'admin-customer-edit':
         requireAdmin();

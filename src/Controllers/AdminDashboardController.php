@@ -181,10 +181,20 @@ class AdminDashboardController extends BaseAdminController {
     }
 
     // Fetch order + customer
-    $stmt = $db->prepare(" SELECT o.*, u.name AS customer_name, u.email AS customer_email
-        FROM orders o
-        JOIN users u ON o.user_id = u.user_id
-        WHERE o.order_id = ?
+   $stmt = $db->prepare(" SELECT 
+        o.order_id,
+        o.status,
+        o.created_at,
+        o.total_price,
+        o.shipping_address,
+        o.payment_summary,
+
+        u.name AS customer_name,
+        u.email AS customer_email
+        
+    FROM orders o
+    JOIN users u ON o.user_id = u.user_id
+    WHERE o.order_id = ?
     ");
     $stmt->execute([$orderId]);
     $order = $stmt->fetch(PDO::FETCH_ASSOC);

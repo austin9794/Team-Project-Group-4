@@ -211,37 +211,41 @@ switch ($page) {
     break;
 
 
-        // ---- Admin Pages ----
+        
+    // ---- Admin Pages ----
     case 'admin-orders':
-        requireAdmin(); // keep admin protection
-        $controller = new AdminDashboardController();
-        $controller->orders();
-        break;
+       requireAdmin();
+       $controller = new AdminDashboardController();
+       $controller->orders();
+    break;
     case 'admin-products':
-        requireAdmin();
-        include __DIR__ . '/../templates/admin/products.php';
-        break;
+       requireAdmin();
+       $controller = new AdminDashboardController();
+       $controller->products();
+    break;
     case 'admin-customers':
-        requireAdmin();
-        $controller = new AdminCustomerController();
-        $controller->list();
-        break;
+       requireAdmin();
+      $controller = new AdminCustomerController();
+       $controller->list();
+    break;
     case 'admin-customer-edit':
-        requireAdmin();
-        $controller = new AdminCustomerController();
-        $controller->edit();
-        break;
+       requireAdmin();
+       $controller = new AdminCustomerController();
+       $controller->edit();
+    break;
     case 'admin-customer-delete':
-        requireAdmin();
-        $controller = new AdminCustomerController();
-        $controller->delete();
-        break;
+       requireAdmin();
+       $controller = new AdminCustomerController();
+       $controller->delete();
+    break;
     case 'admin-reports':
-        requireAdmin();
-        include __DIR__ . '/../templates/admin/reports.php';
-        break;
+       requireAdmin();
+       $controller = new AdminDashboardController();
+       $controller->reports();
+    break;
 
-        // ---- Default ----
+
+    // ---- Default ----
     default:
         include __DIR__ . '/../templates/customer/home.php';
         break;

@@ -145,6 +145,20 @@ class AdminDashboardController extends BaseAdminController {
 
     $db = Database::getInstance()->getConnection();
 
+    // Order info
+    $orderStmt = $db->prepare(" SELECT o.*, u.name, u.email
+        FROM orders o
+        JOIN users u ON o.user_id = u.user_id
+        WHERE o.order_id = ?
+    ");
+    $orderStmt->execute([$orderId]);
+    $order = $orderStmt->fetch();
+
+    if (!$order) {
+        header("Location: index.php?page=admin-orders");
+        exit;
+    }
+
     public function products() {
         $db = Database::getInstance()->getConnection();
 

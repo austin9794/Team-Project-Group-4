@@ -2,25 +2,6 @@
 
 <h1>Customer Management</h1>
 
-<?php
-require_once __DIR__ . '/../../src/Database.php';
-$db = Database::getInstance()->getConnection();
-
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_customer'])) {
-    $userId = (int)$_POST['user_id'];
-    $delete = $db->prepare("DELETE FROM users WHERE user_id = ? AND role != 'admin'");
-    $delete->execute([$userId]);
-    header("Location: /Team-Project-Group-4/public/index.php?page=admin-customers");
-    exit;
-}
-
-
-$stmt = $db->prepare("SELECT * FROM users WHERE role = 'customer' ORDER BY created_at DESC");
-$stmt->execute();
-$customers = $stmt->fetchAll();
-?>
-
 <h2>All Customers</h2>
 
 <table border="1" cellpadding="8" cellspacing="0" width="100%">

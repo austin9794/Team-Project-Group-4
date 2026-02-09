@@ -194,6 +194,24 @@ class AdminDashboardController extends BaseAdminController {
         exit;
     }
 
+     // Fetch order items
+    $itemsStmt = $db->prepare("  SELECT 
+            oi.*,
+            p.name,
+            p.price,
+            pi.image_path
+        FROM order_items oi
+        JOIN products p ON oi.product_id = p.product_id
+        LEFT JOIN product_images pi 
+            ON p.product_id = pi.product_id AND pi.is_primary = 1
+        WHERE oi.order_id = ?
+    ");
+    $itemsStmt->execute([$orderId]);
+    $items = $itemsStmt->fetchAll(PDO::FETCH_ASSOC);
+
+    include __DIR__ . '/../../templates/admin/order_view.php';
+}
+
     public function products() {
         $db = Database::getInstance()->getConnection();
 

@@ -220,7 +220,7 @@ switch ($page) {
     break;
     case 'admin-order-view':
         requireAdmin();
-        $controller = new OrderController();
+        $controller = new AdminDashboardController();
         $controller->adminView();
     break;
     case 'admin-products':

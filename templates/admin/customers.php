@@ -8,37 +8,41 @@
     </div>
 
     <!-- Filter Section -->
-    <div class="filter-section">
-        <form method="GET" action="index.php" class="filter-form">
-            <input type="hidden" name="page" value="admin-customers">
+   <div class="filter-section">
+    <form method="GET" action="index.php" class="filter-form">
+        <input type="hidden" name="page" value="admin-customers">
 
-            <div class="filter-row">
-                <div class="filter-group">
-                    <label>🔍 Search Customer</label>
-                    <input
-                        type="text"
-                        name="search"
-                        placeholder="Name or email..."
-                        value="<?= htmlspecialchars($_GET['search'] ?? '') ?>">
-                </div>
-
-                <div class="filter-group">
-                    <label>📅 Joined From</label>
-                    <input type="date" name="from" value="<?= $_GET['from'] ?? '' ?>">
-                </div>
-
-                <div class="filter-group">
-                    <label>📅 Joined To</label>
-                    <input type="date" name="to" value="<?= $_GET['to'] ?? '' ?>">
-                </div>
+        <div class="filter-row">
+            <div class="filter-group">
+                <label>🔍 Search Customer</label>
+                <input type="text"
+                       name="search"
+                       placeholder="Name or email..."
+                       value="<?= htmlspecialchars($_GET['search'] ?? '') ?>">
             </div>
 
-            <div class="filter-actions">
-                <button class="btn-filter">Apply Filters</button>
-                <a href="index.php?page=admin-customers" class="btn-clear">Clear All</a>
+            <div class="filter-group">
+                <label>📅 Joined From</label>
+                <input type="date"
+                       name="date_from"
+                       value="<?= htmlspecialchars($_GET['date_from'] ?? '') ?>">
             </div>
-        </form>
-    </div>
+
+            <div class="filter-group">
+                <label>📅 Joined To</label>
+                <input type="date"
+                       name="date_to"
+                       value="<?= htmlspecialchars($_GET['date_to'] ?? '') ?>">
+            </div>
+        </div>
+
+        <div class="filter-actions">
+            <button type="submit" class="btn-filter">Apply Filters</button>
+            <a href="index.php?page=admin-customers" class="btn-clear">Clear All</a>
+        </div>
+    </form>
+</div>
+
 
     <!-- Results Summary -->
     <div class="results-summary">

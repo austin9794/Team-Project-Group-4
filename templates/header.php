@@ -23,6 +23,8 @@ require_once __DIR__ . '/../src/Config.php';
     <!-- Dynamic asset loading -->
     <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/style.css">
 
+    <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/admin.css">
+
     <style>
         /* === TOP HEADER BAR === */
         .top-header {

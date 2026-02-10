@@ -233,6 +233,12 @@ switch ($page) {
       $controller = new AdminCustomerController();
        $controller->list();
     break;
+    case 'admin-customer-view':
+       requireAdmin();
+       $controller = new AdminCustomerController();
+       $controller->view();
+    break;
+
     case 'admin-customer-edit':
        requireAdmin();
        $controller = new AdminCustomerController();

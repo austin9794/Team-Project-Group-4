@@ -34,6 +34,34 @@ class AdminCustomerController extends BaseAdminController {
     include __DIR__ . '/../../templates/admin/customers.php';
 }
 
+public function view() {
+    $db = Database::getInstance()->getConnection();
+    $id = (int)($_GET['id'] ?? 0);
+
+    $stmt = $db->prepare(" SELECT user_id, name, email, phone, created_at
+        FROM users
+        WHERE user_id = ? AND role = 'customer'
+    ");
+    $stmt->execute([$id]);
+    $customer = $stmt->fetch();
+
+    if (!$customer) {
+        header("Location: index.php?page=admin-customers");
+        exit;
+    }
+
+    $orders = $db->prepare(" SELECT order_id, total_price, status, created_at
+        FROM orders
+        WHERE user_id = ?
+        ORDER BY created_at DESC
+        LIMIT 5
+    ");
+    $orders->execute([$id]);
+    $recentOrders = $orders->fetchAll();
+
+    include __DIR__ . '/../../templates/admin/customer_view.php';
+}
+
 
     public function edit() {
         $db = Database::getInstance()->getConnection();

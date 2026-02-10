@@ -256,7 +256,7 @@ textarea {
           <strong><?= htmlspecialchars($p['card_brand']) ?></strong>
           <p>Ending in <?= htmlspecialchars($p['card_last4']) ?></p>
 
-          <?php if ($p['is_default']): ?>
+          <?php if (!empty($p['is_default'])): ?>
             <span class="badge-default">Default</span>
           <?php endif; ?>
         </div>

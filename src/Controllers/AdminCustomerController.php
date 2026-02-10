@@ -9,30 +9,25 @@ class AdminCustomerController extends BaseAdminController {
         parent::__construct();
     }
 
-    public function list() {
+    public function list()
+{
     $db = Database::getInstance()->getConnection();
 
-    $stmt = $db->prepare(" SELECT 
+    $sql = "  SELECT 
             u.user_id,
             u.name,
             u.email,
             u.phone,
             u.created_at,
-
             COUNT(o.order_id) AS total_orders,
-            MAX(o.created_at) AS last_order_date,
-            COALESCE(SUM(o.total_price), 0) AS total_spent
+            COALESCE(SUM(o.total_price), 0) AS total_spent,
+            MAX(o.created_at) AS last_order_date
         FROM users u
         LEFT JOIN orders o ON u.user_id = o.user_id
         WHERE u.role = 'customer'
-        GROUP BY u.user_id
-        ORDER BY u.created_at DESC
-    ");
-    $stmt->execute();
-    $customers = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    ";
 
-    include __DIR__ . '/../../templates/admin/customers.php';
-}
+    $params = [];
 
 public function view() {
     $db = Database::getInstance()->getConnection();

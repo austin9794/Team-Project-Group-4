@@ -29,13 +29,36 @@ class AdminCustomerController extends BaseAdminController {
 
     $params = [];
 
-    // 🔍 Search by name or email
+    //  Search by name or email
     if (!empty($_GET['search'])) {
         $sql .= " AND (u.name LIKE ? OR u.email LIKE ?)";
         $search = '%' . $_GET['search'] . '%';
         $params[] = $search;
         $params[] = $search;
     }
+
+    //  Date filters (joined date)
+    if (!empty($_GET['date_from'])) {
+        $sql .= " AND DATE(u.created_at) >= ?";
+        $params[] = $_GET['date_from'];
+    }
+
+    if (!empty($_GET['date_to'])) {
+        $sql .= " AND DATE(u.created_at) <= ?";
+        $params[] = $_GET['date_to'];
+    }
+
+    $sql .= "
+        GROUP BY u.user_id
+        ORDER BY u.created_at DESC
+    ";
+
+    $stmt = $db->prepare($sql);
+    $stmt->execute($params);
+    $customers = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    include __DIR__ . '/../../templates/admin/customers.php';
+}
 
 public function view() {
     $db = Database::getInstance()->getConnection();

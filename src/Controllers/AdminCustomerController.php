@@ -29,6 +29,14 @@ class AdminCustomerController extends BaseAdminController {
 
     $params = [];
 
+    // 🔍 Search by name or email
+    if (!empty($_GET['search'])) {
+        $sql .= " AND (u.name LIKE ? OR u.email LIKE ?)";
+        $search = '%' . $_GET['search'] . '%';
+        $params[] = $search;
+        $params[] = $search;
+    }
+
 public function view() {
     $db = Database::getInstance()->getConnection();
     $id = (int)($_GET['id'] ?? 0);

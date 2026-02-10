@@ -56,22 +56,48 @@
         </div>
     </div>
 
-    <div class="admin-card">
-        <h2>Recent Orders</h2>
+    <h2 style="margin-top:40px;">Recent Orders</h2>
 
-        <?php if (!$recentOrders): ?>
-            <p class="muted">This customer hasn’t placed any orders yet.</p>
-        <?php else: ?>
-            <?php foreach ($recentOrders as $o): ?>
-                <div class="order-card"
-                     onclick="window.location='index.php?page=admin-order-view&id=<?= $o['order_id'] ?>'">
-                    <strong>#<?= $o['order_id'] ?></strong>
-                    <span><?= ucfirst($o['status']) ?></span>
-                    <span>£<?= number_format($o['total_price'], 2) ?></span>
-                </div>
-            <?php endforeach; ?>
-        <?php endif; ?>
+    <?php if (empty($recentOrders)): ?>
+        <p class="text-muted">No orders placed.</p>
+    <?php else: ?>
+    <div class="table-container">
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Status</th>
+                    <th>Total</th>
+                    <th>Order Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($recentOrders as $o): ?>
+                    <tr class="clickable-row"
+                        data-href="index.php?page=admin-order-view&id=<?= (int)$o['order_id'] ?>">
+                        
+                        <td><strong>#<?= (int)$o['order_id'] ?></strong></td>
+
+                        <td>
+                            <span class="status-badge status-<?= htmlspecialchars($o['status']) ?>">
+                                <?= ucfirst(htmlspecialchars($o['status'])) ?>
+                            </span>
+                        </td>
+
+                        <td class="price-cell">
+                            £<?= number_format((float)$o['total_price'], 2) ?>
+                        </td>
+
+                        <td>
+                            <?= date('M d, Y H:i', strtotime($o['created_at'])) ?>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
     </div>
+    <?php endif; ?>
+
 
     <div class="form-actions">
         <a href="index.php?page=admin-customer-edit&id=<?= $customer['user_id'] ?>" class="btn-primary">

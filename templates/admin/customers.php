@@ -1,44 +1,43 @@
 <?php include __DIR__ . '/../header.php'; ?>
 
-<h1>Customer Management</h1>
+<div class="admin-header">
+    <h1>👥 Customer Management</h1>
+    <p>View and manage registered customers</p>
+</div>
 
-<h2>All Customers</h2>
+<div class="results-summary">
+    Showing <strong><?= count($customers) ?></strong> customer(s)
+</div>
 
-<table border="1" cellpadding="8" cellspacing="0" width="100%">
-  <tr>
+<div class="table-container">
+<table class="admin-table clickable">
+<thead>
+<tr>
     <th>ID</th>
     <th>Name</th>
     <th>Email</th>
-    <th>Phone</th>
-    <th>Address</th>
+    <th>Orders</th>
+    <th>Total Spent</th>
+    <th>Last Order</th>
     <th>Joined</th>
-    <th>Actions</th>
-  </tr>
+</tr>
+</thead>
 
-  <?php if (empty($customers)): ?>
-    <tr>
-      <td colspan="7">No customers found.</td>
-    </tr>
-  <?php else: ?>
-    <?php foreach ($customers as $customer): ?>
-      <tr>
-        <td><?= (int)$customer['user_id'] ?></td>
-        <td><?= htmlspecialchars($customer['name']) ?></td>
-        <td><?= htmlspecialchars($customer['email']) ?></td>
-        <td><?= htmlspecialchars($customer['phone'] ?? '-') ?></td>
-        <td><?= htmlspecialchars($customer['address'] ?? '-') ?></td>
-        <td><?= htmlspecialchars($customer['created_at']) ?></td>
-        <td>
-          <a href="/Team-Project-Group-4/public/index.php?page=admin-customer-edit&id=<?= (int)$customer['user_id'] ?>">Edit</a>
-          
-          <form method="POST" style="display:inline;" onsubmit="return confirm('Delete this customer?');">
-            <input type="hidden" name="user_id" value="<?= (int)$customer['user_id'] ?>">
-            <button type="submit" name="delete_customer">Delete</button>
-          </form>
-        </td>
-      </tr>
-    <?php endforeach; ?>
-  <?php endif; ?>
+<tbody>
+<?php foreach ($customers as $c): ?>
+<tr onclick="window.location='index.php?page=admin-customer-view&id=<?= $c['user_id'] ?>'">
+    <td>#<?= $c['user_id'] ?></td>
+    <td><?= htmlspecialchars($c['name']) ?></td>
+    <td><?= htmlspecialchars($c['email']) ?></td>
+    <td><?= $c['total_orders'] ?></td>
+    <td>£<?= number_format($c['total_spent'], 2) ?></td>
+    <td><?= $c['last_order_date'] ? date('M d, Y', strtotime($c['last_order_date'])) : '—' ?></td>
+    <td><?= date('M d, Y', strtotime($c['created_at'])) ?></td>
+</tr>
+<?php endforeach; ?>
+</tbody>
 </table>
+</div>
+
 
 <?php include __DIR__ . '/../footer.php'; ?>

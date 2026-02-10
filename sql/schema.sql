@@ -265,4 +265,4 @@ CREATE TABLE admin_actions (
   FOREIGN KEY (admin_id) REFERENCES users(user_id)
 );
 
-
+SET FOREIGN_KEY_CHECKS = 1;

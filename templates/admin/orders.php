@@ -131,5 +131,9 @@ document.querySelectorAll('.clickable-row').forEach(row => {
 });
 </script>
 
+<a href="index.php?page=dashboard" class="btn-secondary">
+   ← Back to Dashboard
+</a>
+
 
 <?php include __DIR__ . '/../footer.php'; ?>

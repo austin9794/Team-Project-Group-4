@@ -160,22 +160,47 @@ class AccountController {
         public function saveAddress() {
         requireLogin();
 
-        $label = trim($_POST['label']);
-        $full_address = trim($_POST['full_address']);
+       $data = [
+         'label' => trim($_POST['label']),
+         'full_name' => trim($_POST['full_name']),
+         'address_line1' => trim($_POST['address_line1']),
+         'address_line2' => trim($_POST['address_line2'] ?? ''),
+         'city' => trim($_POST['city']),
+         'county' => trim($_POST['county'] ?? ''),
+          'postcode' => trim($_POST['postcode']),
+         'country' => 'United Kingdom'
+        ];
 
-        if ($label === "" || $full_address === "") {
-            header("Location: /Team-Project-Group-4/public/index.php?page=add-address&error=1");
-            exit;
-       }
+       foreach (['label','full_name','address_line1','city','postcode'] as $field) {
+         if ($data[$field] === '') {
+             header("Location: index.php?page=add-address&error=missing");
+             exit;
+            }
+        }
 
-        $db = Database::getInstance()->getConnection();
+       $db = Database::getInstance()->getConnection();
 
-        $stmt = $db->prepare("INSERT INTO addresses (user_id, label, full_address) VALUES (?, ?, ?)");
-        $stmt->execute([$_SESSION['user_id'], $label, $full_address]);
+       $stmt = $db->prepare(" INSERT INTO addresses
+       (user_id, label, full_name, address_line1, address_line2, city, county, postcode, country)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+     ");
 
-        header("Location: /Team-Project-Group-4/public/index.php?page=account#addresses");
-         exit;
+      $stmt->execute([
+         $_SESSION['user_id'],
+         $data['label'],
+         $data['full_name'],
+         $data['address_line1'],
+         $data['address_line2'],
+         $data['city'],
+         $data['county'],
+         $data['postcode'],
+         $data['country']
+       ]);
+
+        header("Location: index.php?page=account#addresses");
+     exit;
     }
+
 
 
       // Edit Address

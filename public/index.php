@@ -204,7 +204,8 @@ switch ($page) {
         break;
     case 'admin-reports':
         requireAdmin();
-        include __DIR__ . '/../templates/admin/reports.php';
+        $controller = new AdminDashboardController();
+        $controller->reports();
         break;
 
         // ---- Default ----

@@ -113,7 +113,6 @@ class AuthController {
     $password = trim($_POST['password']);
     $confirm = trim($_POST['confirm']);
     $phone = trim($_POST['phone']);
-    $address = trim($_POST['address']);
 
     // 1. Validate passwords match
     if ($password !== $confirm) {
@@ -140,11 +139,11 @@ class AuthController {
 
     // 5. Insert user
     $stmt = $this->db->prepare("
-        INSERT INTO users (name, email, password, role, phone, address)
-        VALUES (?, ?, ?, 'customer', ?, ?)
+        INSERT INTO users (name, email, password, role, phone)
+        VALUES (?, ?, ?, 'customer', ?)
     ");
 
-    if ($stmt->execute([$name, $email, $hashed, $phone, $address])) {
+    if ($stmt->execute([$name, $email, $hashed, $phone])) {
         header("Location: index.php?page=login&success=Account+created,+please+login");
         exit;
     }

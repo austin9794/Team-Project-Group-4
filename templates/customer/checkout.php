@@ -6,6 +6,25 @@ $userData = $accountController->getUserData();
 $addresses = $accountController->getAddresses();
 $paymentMethods = $accountController->getPaymentMethods();
 
+
+//pick which address to show in checkout
+$selectedAddress = null;
+
+//if user picked address during checkout
+if (!empty($_SESSION['checkout_address_id']) && !empty($addresses)) {
+    foreach ($addresses as $addr) {
+        if ((int)$addr['address_id'] === (int)$_SESSION['checkout_address_id']) {
+            $selectedAddress = $addr;
+            break;
+        }
+    }
+}
+
+// show most recent address
+if (!$selectedAddress && !empty($addresses)) {
+    $selectedAddress = $addresses[0];
+}
+
 include __DIR__ . '/../header.php'; 
 
 ?>
@@ -58,6 +77,115 @@ textarea {
 .place-order-btn:hover {
     background: #b46cff;
 }
+
+.option-grid {
+  display: grid;
+  gap: 14px;
+  margin-bottom: 10px;
+}
+
+.option-card {
+  display: flex;
+  gap: 12px;
+  background: #2a0f47;
+  padding: 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  border: 2px solid transparent;
+}
+
+.option-card input {
+  margin-top: 6px;
+}
+
+.option-card:has(input:checked) {
+  border-color: #8f3dff;
+  background: #3a165d;
+}
+
+.option-content p {
+  margin: 4px 0;
+  font-size: 14px;
+}
+
+.badge-default {
+  display: inline-block;
+  margin-top: 6px;
+  background: #8f3dff;
+  padding: 3px 8px;
+  font-size: 12px;
+  border-radius: 12px;
+}
+
+.link-action {
+  display: inline-block;
+  margin-top: 10px;
+  color: #c9a7ff;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.summary-box {
+  background: #1a0b2e;
+  padding: 16px;
+  border-radius: 10px;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.summary-total {
+  border-top: 1px solid #5d3b8a;
+  padding-top: 10px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.option-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.option-card {
+  position: relative;
+  background: rgba(255,255,255,0.04);
+  border: 2px solid transparent;
+  border-radius: 12px;
+  padding: 16px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.option-card:hover {
+  border-color: #8f3dff;
+}
+
+.option-card input {
+  display: none;
+}
+
+.option-card input:checked + .option-content {
+  border-left: 4px solid #8f3dff;
+}
+
+.option-content strong {
+  font-size: 1.1rem;
+}
+
+.badge-default {
+  display: inline-block;
+  margin-top: 8px;
+  background: #8f3dff;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+}
+
 </style>
 
 <div class="checkout-container">
@@ -81,51 +209,90 @@ textarea {
 
         <!-- DELIVERY ADDRESS -->
 
-        <h2 class="section-title">Delivery Address</h2>
+        <h2 class="section-title">
+        Delivering to <?= htmlspecialchars($userData['name']) ?>
+       </h2>
 
-<?php if (!empty($addresses)): ?>
-    <?php foreach ($addresses as $a): ?>
-        <label style="display:block;margin-bottom:8px;">
-            <input type="radio" name="address_id" value="<?= $a['address_id'] ?>" required>
-            <?= htmlspecialchars($a['label']) ?> — <?= htmlspecialchars($a['full_address']) ?>
-        </label>
-    <?php endforeach; ?>
+      <?php if (!empty($selectedAddress)): ?>
+       <div class="option-card">
+         <div class="option-content">
+       <strong><?= htmlspecialchars($selectedAddress['label'] ?? 'Address') ?></strong>
+      <p><?= nl2br(htmlspecialchars($selectedAddress['full_address'] ?? '')) ?></p>
+
+      <?php if (!empty($selectedAddress['is_default'])): ?>
+        <span class="badge-default">Default</span>
+      <?php endif; ?>
+    </div>
+  </div>
+
+  <a href="<?= BASE_URL ?>index.php?page=checkout-address" class="link-action">
+    Change delivery address
+  </a>
 <?php else: ?>
-    <p>No saved addresses. Enter manually:</p>
-    <textarea name="manual_address" required rows="3" style="resize:none;"></textarea>
+  <p>No saved delivery address.</p>
+  <a href="<?= BASE_URL ?>index.php?page=checkout-address" class="link-action">
+    + Add/select delivery address
+  </a>
 <?php endif; ?>
 
+<!-- PAYMENT METHOD -->
 
-        <!-- PAYMENT METHOD -->
-        <h2 class="section-title">Payment Method</h2>
+  <h2 class="section-title">Payment Method</h2>
 
 <?php if (!empty($paymentMethods)): ?>
+  <div class="option-grid">
+
     <?php foreach ($paymentMethods as $p): ?>
-        <label style="display:block;margin-bottom:8px;">
-            <input type="radio" name="payment_id" value="<?= $p['payment_id'] ?>" required>
-            <?= htmlspecialchars($p['card_brand']) ?> ending in <?= htmlspecialchars($p['card_last4']) ?>
-        </label>
+      <label class="option-card">
+        <input
+          type="radio"
+          name="payment_id"
+          value="<?= $p['payment_id'] ?>"
+          <?= !empty($p['is_default']) ? 'checked' : '' ?>
+          required
+        >
+
+        <div class="option-content">
+          <strong><?= htmlspecialchars($p['card_brand']) ?></strong>
+          <p>Ending in <?= htmlspecialchars($p['card_last4']) ?></p>
+
+          <?php if ($p['is_default']): ?>
+            <span class="badge-default">Default</span>
+          <?php endif; ?>
+        </div>
+      </label>
     <?php endforeach; ?>
+
+  </div>
 <?php else: ?>
-    <p style="color: #ff6b6b; font-weight: bold;">⚠️ You must add a payment method before placing an order.</p>
-    <a href="/Team-Project-Group-4/public/index.php?page=add-payment" style="color: #8f3dff; text-decoration: underline;">Add Payment Method</a>
+  <p>No saved payment methods.</p>
 <?php endif; ?>
 
+<a href="<?= BASE_URL ?>index.php?page=add-payment" class="link-action">
+  + Add a new payment method
+</a>
 
         <!-- ORDER SUMMARY -->
-        <h2 class="section-title">Order Summary</h2>
+       <h2 class="section-title">Order Summary</h2>
 
-        <?php foreach ($basketItems as $item): ?>
-            <p>
-                <?= htmlspecialchars($item['name']) ?>
-                (x<?= $item['quantity'] ?>)
-                — £<?= number_format($item['total'], 2) ?>
-            </p>
-        <?php endforeach; ?>
+        <div class="summary-box">
+          <?php foreach ($basketItems as $item): ?>
+            <div class="summary-row">
+              <span>
+                <?= htmlspecialchars($item['name']) ?> × <?= $item['quantity'] ?>
+              </span>
+              <span>£<?= number_format($item['total'], 2) ?></span>
+            </div>
+          <?php endforeach; ?>
 
-        <h3>Total: £<?= number_format($basketTotal, 2) ?></h3>
+          <div class="summary-total">
+           Total: £<?= number_format($basketTotal, 2) ?>
+          </div>
+       </div>
 
-        <button type="submit" class="place-order-btn">Place Order</button>
+        <button type="submit" class="place-order-btn">
+          Place Order
+        </button>
 
     </form>
 

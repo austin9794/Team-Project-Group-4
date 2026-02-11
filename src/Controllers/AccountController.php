@@ -202,7 +202,6 @@ class AccountController {
     }
 
 
-
       // Edit Address
       public function showEditAddressForm() {
      requireLogin();
@@ -223,25 +222,39 @@ class AccountController {
 
 
      // Update Address
-      public function updateAddress() {
-      requireLogin();
+     public function updateAddress() {
+    requireLogin();
 
-      $id = $_POST['address_id'];
-      $label = trim($_POST['label']);
-      $full_address = trim($_POST['full_address']);
+    $id = $_POST['address_id'];
 
-      $db = Database::getInstance()->getConnection();
-
-       $stmt = $db->prepare(" UPDATE addresses
-        SET label = ?, full_address = ?
+    $stmt = $this->db->prepare(" UPDATE addresses
+        SET label = ?,
+            full_name = ?,
+            address_line1 = ?,
+            address_line2 = ?,
+            city = ?,
+            county = ?,
+            postcode = ?
         WHERE address_id = ? AND user_id = ?
     ");
 
-       $stmt->execute([$label, $full_address, $id, $_SESSION['user_id']]);
+    $stmt->execute([
+        trim($_POST['label']),
+        trim($_POST['full_name']),
+        trim($_POST['address_line1']),
+        trim($_POST['address_line2'] ?? ''),
+        trim($_POST['city']),
+        trim($_POST['county'] ?? ''),
+        trim($_POST['postcode']),
+        $id,
+        $_SESSION['user_id']
+    ]);
 
-      header("Location: /Team-Project-Group-4/public/index.php?page=account#addresses");
-      exit;
-    }
+    header("Location: " . BASE_URL . "index.php?page=account#addresses");
+    exit;
+}
+
+      
 
      // Delete Address
      public function deleteAddress() {

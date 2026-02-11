@@ -93,6 +93,4 @@
     <?php endforeach; ?>
 <?php endif; ?>
 
-
-
 <?php include __DIR__ . '/../footer.php'; ?>

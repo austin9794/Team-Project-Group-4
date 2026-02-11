@@ -8,6 +8,16 @@ require_once __DIR__ . '/../src/Helpers/session.php';
 require_once __DIR__ . '/../src/Config.php';
 ?>
 
+<?php
+$basketCount = 0;
+
+if (!empty($_SESSION['basket']) && is_array($_SESSION['basket'])) {
+    foreach ($_SESSION['basket'] as $qty) {
+        $basketCount += (int)$qty;
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -216,9 +226,15 @@ require_once __DIR__ . '/../src/Config.php';
                     <a href="index.php?page=orders">My Orders</a>
 
                     <?php if (isAdmin()): ?>
-                        <a href="index.php?page=dashboard">Admin Panel</a>
+                        <hr style="margin: 5px 0; border: 0; border-top: 1px solid rgba(255,255,255,0.2);">
+                        <a href="index.php?page=dashboard">Admin Dashboard</a>
+                        <a href="index.php?page=admin-orders">Admin - Orders</a>
+                        <a href="index.php?page=admin-products">Admin - Products</a>
+                        <a href="index.php?page=admin-customers">Admin - Customers</a>
+                        <a href="index.php?page=switch-role">Switch to Customer</a>
                     <?php endif; ?>
 
+                    <hr style="margin: 5px 0; border: 0; border-top: 1px solid rgba(255,255,255,0.2);">
                     <a href="index.php?page=logout">Logout</a>
                 </div>
             </div>
@@ -260,6 +276,7 @@ require_once __DIR__ . '/../src/Config.php';
                 <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
             </svg>
             <span>Basket</span>
+            <span id="basketCount">(<?= $basketCount ?>)</span>
         </a>
     </div>
 
@@ -274,7 +291,15 @@ require_once __DIR__ . '/../src/Config.php';
         <a href="index.php?page=about">About Us</a>
     </div>
     <div>
-        <a href="index.php?page=account">Account</a>
-        <a href="index.php?page=orders">Orders</a>
+        <?php if (isLoggedIn()): ?>
+            <a href="index.php?page=orders">Orders</a>
+            <?php if (isAdmin()): ?>
+                <a href="index.php?page=dashboard">Admin Dashboard</a>
+                <a href="index.php?page=admin-orders">Admin Orders</a>
+            <?php endif; ?>
+        <?php else: ?>
+            <a href="index.php?page=account">Account</a>
+            <a href="index.php?page=orders">Orders</a>
+        <?php endif; ?>
     </div>
 </div>

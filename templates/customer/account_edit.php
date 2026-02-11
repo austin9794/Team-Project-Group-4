@@ -82,11 +82,6 @@
             <input type="text" name="phone" value="<?= htmlspecialchars($user['phone']) ?>">
         </div>
 
-        <div class="form-group">
-            <label>Home Address</label>
-            <textarea name="address" rows="3"><?= htmlspecialchars($user['address']) ?></textarea>
-        </div>
-
         <button type="submit" class="btn-purple">Save Changes</button>
 
         <a href="/Team-Project-Group-4/public/index.php?page=account" class="cancel-link">

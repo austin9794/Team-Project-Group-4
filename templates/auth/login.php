@@ -4,6 +4,7 @@ include __DIR__ . '/../header.php';
 ?>
 
 <style>
+/* CACHE BUSTER: <?= time() ?> */
 /* Container */
 /* Auth container */
 .auth-box {
@@ -95,9 +96,11 @@ include __DIR__ . '/../header.php';
     color: white;
 }
 
+/* Removed login type tabs - auto-detect user type */
+
 </style>
 
-<div class="auth-box">
+<div class="auth-box" id="unified-login-v2">
 
     <h2>Sign in to your account</h2>
 
@@ -109,18 +112,30 @@ include __DIR__ . '/../header.php';
         <div class="success"><?= htmlspecialchars($_GET['success']) ?></div>
     <?php endif; ?>
 
-    <form method="POST" action="/Team-Project-Group-4/public/index.php?page=login-submit">
-        <label>Enter email</label>
-        <input type="email" name="email" required placeholder="Email address">
+    <!-- Single unified form - auto-detects user role from database -->
+    <form method="POST" action="/Team-Project-Group-4/public/index.php?page=login-submit" id="auto-login-form">
+        
+        <label for="user-email">Email</label>
+        <input type="email" id="user-email" name="email" required placeholder="Enter your email">
 
-        <label>Password</label>
-        <input type="password" name="password" required placeholder="Password">
+        <label for="user-password">Password</label>
+        <input type="password" id="user-password" name="password" required placeholder="Enter your password">
 
-        <button type="submit">Continue</button>
+        <button type="submit">Sign In</button>
     </form>
 
-    <a href="/Team-Project-Group-4/public/index.php?page=signup">Create an account</a>
+    <a href="/Team-Project-Group-4/public/index.php?page=signup">Create a customer account</a>
 
 </div>
+
+<script>
+// Remove any old cached login tabs if they exist
+document.addEventListener('DOMContentLoaded', function() {
+    const oldTabs = document.querySelector('.login-tabs');
+    if (oldTabs) oldTabs.remove();
+    const oldForms = document.querySelectorAll('.login-form:not(#auto-login-form)');
+    oldForms.forEach(f => f.remove());
+});
+</script>
 
 <?php include __DIR__ . '/../footer.php'; ?>

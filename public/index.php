@@ -9,7 +9,9 @@ require_once __DIR__ . '/../src/Database.php';
 require_once __DIR__ . '/../src/Controllers/AccountController.php';
 require_once __DIR__ . '/../src/Controllers/AdminDashboardController.php';
 require_once __DIR__ . '/../src/Controllers/AdminLoginController.php';
+require_once __DIR__ . '/../src/Controllers/AdminCustomerController.php';
 require_once __DIR__ . '/../src/Controllers/BaseAdminController.php';
+require_once __DIR__ . '/../src/Controllers/DashboardController.php';
 require_once __DIR__ . '/../src/Controllers/AuthController.php';
 require_once __DIR__ . '/../src/Controllers/ProductController.php';
 require_once __DIR__ . '/../src/Controllers/OrderController.php';
@@ -47,8 +49,14 @@ switch ($page) {
         $controller = new AuthController();
         $controller->login();
         break;
-    case 'admin_login':
-        include __DIR__ . '/../templates/auth/admin_login.php';
+    case 'dashboard':
+        $controller = new DashboardController();
+        $controller->index();
+        include __DIR__ . '/../templates/customer/dashboard.php';
+        break;
+    case 'switch-role':
+        $controller = new DashboardController();
+        $controller->switchRole();
         break;
     case 'signup':
         $controller = new AuthController();
@@ -77,6 +85,10 @@ switch ($page) {
         $controller->editAccountForm();
         break;
     case 'change-password':
+        $controller = new AccountController();
+        $controller->changePassword();
+        break;
+    case 'change-password-submit':
         $controller = new AccountController();
         $controller->changePassword();
         break;
@@ -145,10 +157,30 @@ switch ($page) {
         $controller = new AccountController();
         $controller->deleteAddress();
         break;
+    case 'set-default-address':
+        $controller = new AccountController();
+        $controller->setDefaultAddress();
+        break;
+    case 'checkout-address':
+    $controller = new OrderController();
+    $controller->checkoutAddressPage();
+    break;
+    case 'select-checkout-address':
+        $controller = new OrderController();
+        $controller->selectCheckoutAddress();
+    break;
     case 'add-payment':
         $controller = new AccountController();
         $controller->showAddPaymentForm();
         break;
+    case 'edit-payment':
+        $controller = new AccountController();
+        $controller->showEditPaymentForm();
+    break;
+    case 'update-payment':
+        $controller = new AccountController();
+        $controller->updatePayment();
+    break;
     case 'save-payment':
         $controller = new AccountController();
         $controller->savePayment();
@@ -156,6 +188,10 @@ switch ($page) {
     case 'delete-payment':
         $controller = new AccountController();
         $controller->deletePayment();
+        break;
+    case 'set-default-payment':
+        $controller = new AccountController();
+        $controller->setDefaultPayment();
         break;
     case 'product':
        $controller = new ProductController();
@@ -165,24 +201,38 @@ switch ($page) {
        $controller = new ProductController();
        $controller->list();
        break;
+    case 'delete-account':
+    (new AccountController())->deleteAccount();
+    break;
+
 
         // ---- Admin Pages ----
-    case 'dashboard':
-        requireAdmin();
-        include __DIR__ . '/../templates/admin/dashboard.php';
+    case 'admin-orders':
+        requireAdmin(); // keep admin protection
+        $controller = new AdminDashboardController();
+        $controller->orders();
         break;
     case 'admin-products':
+        requireAdmin();
         include __DIR__ . '/../templates/admin/products.php';
         break;
-    case 'admin-orders':
-        include __DIR__ . '/../templates/admin/orders.php';
-        break;
-    case 'reports':
-        include __DIR__ . '/../templates/admin/reports.php';
-        break;
-    case 'customers':
+    case 'admin-customers':
         requireAdmin();
-        include __DIR__ . '/../templates/admin/' . $page . '.php';
+        include __DIR__ . '/../templates/admin/customers.php';
+        break;
+    case 'admin-customer-edit':
+        requireAdmin();
+        $controller = new AdminCustomerController();
+        $controller->edit();
+        break;
+    case 'admin-customer-delete':
+        requireAdmin();
+        $controller = new AdminCustomerController();
+        $controller->delete();
+        break;
+    case 'admin-reports':
+        requireAdmin();
+        include __DIR__ . '/../templates/admin/reports.php';
         break;
 
         // ---- Default ----

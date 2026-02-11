@@ -248,7 +248,6 @@ class AccountController {
 }
 
 
-
   // Update Address
  public function updateAddress() {
  requireLogin();
@@ -277,6 +276,16 @@ class AccountController {
         $id,
         $_SESSION['user_id']
     ]);
+
+    $postcode = strtoupper(trim($_POST['postcode']));
+
+    // UK postcode regex
+    $ukPostcodeRegex = '/^(GIR 0AA|[A-Z]{1,2}\d[A-Z\d]?\s?\d[A-Z]{2})$/';
+
+    if (!preg_match($ukPostcodeRegex, $postcode)) {
+         header("Location: " . BASE_URL . "index.php?page=add-address&error=invalid_postcode");
+         exit;
+        }
 
     header("Location: " . BASE_URL . "index.php?page=account#addresses");
     exit;

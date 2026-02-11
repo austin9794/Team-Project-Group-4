@@ -4,6 +4,7 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 require_once __DIR__ . '/../src/Helpers/session.php';
+require_once __DIR__ . '/../src/Helpers/address.php';
 require_once __DIR__ . '/../src/Config.php';
 ?>
 

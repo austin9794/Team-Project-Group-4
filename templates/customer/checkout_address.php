@@ -175,7 +175,7 @@ textarea {
 
     <div class="option-content">
       <strong><?= htmlspecialchars($addr['label']) ?></strong>
-      <p><?= nl2br(htmlspecialchars($addr['full_address'])) ?></p>
+      <p><?= nl2br(htmlspecialchars(formatAddress($addr))) ?></p>
 
       <?php if ($addr['is_default']): ?>
         <span class="badge-default">Default</span>

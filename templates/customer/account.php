@@ -192,7 +192,7 @@
                     <strong><?= htmlspecialchars($addr['label']) ?>:</strong>
                 </p>
 
-                <p><?= nl2br(htmlspecialchars($addr['full_address'])) ?></p>
+                <p><?= nl2br(htmlspecialchars(formatAddress($addr))) ?></p>
 
                 <?php if ($addr['is_default']): ?>
                     <span style="color:#7cff9d; font-weight:600;">

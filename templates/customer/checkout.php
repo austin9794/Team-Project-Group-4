@@ -197,7 +197,7 @@ textarea {
       <div class="option-card">
       <div class="option-content">
       <strong><?= htmlspecialchars($selectedAddress['label']) ?></strong>
-      <p><?= nl2br(htmlspecialchars($selectedAddress['full_address'])) ?></p>
+      <p><?= nl2br(htmlspecialchars(formatAddress($selectedAddress))) ?></p>
 
       <?php if ($selectedAddress['is_default']): ?>
         <span class="badge-default">Default</span>

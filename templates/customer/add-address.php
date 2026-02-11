@@ -10,6 +10,7 @@
     box-shadow: 0 0 20px rgba(132, 0, 255, 0.25);
 }
 
+
 .edit-container h2 {
     color: #d9a7ff;
     margin-bottom: 20px;
@@ -62,36 +63,62 @@
 }
 </style>
 
-<h2>Add New Address</h2>
+<div class="edit-container">
+    <h2>Add New Address</h2>
 
-<form method="POST" action="<?= BASE_URL ?>index.php?page=save-address">
+    <form method="POST" action="<?= BASE_URL ?>index.php?page=save-address">
 
-  <label>Label (Home, Work, Uni)</label>
-  <input type="text" name="label" required>
+        <div class="form-group">
+            <label>Label (Home, Work, Uni)</label>
+            <input type="text" name="label" required>
+        </div>
 
-  <label>Full name</label>
-  <input type="text" name="full_name" required>
+        <div class="form-group">
+            <label>Full name</label>
+            <input type="text" name="full_name" required>
+        </div>
 
-  <label>Address line 1</label>
-  <input type="text" name="address_line1" required>
+        <div class="form-group">
+            <label>Address line 1</label>
+            <input type="text" name="address_line1" required>
+        </div>
 
-  <label>Address line 2 (optional)</label>
-  <input type="text" name="address_line2">
+        <div class="form-group">
+            <label>Address line 2 (optional)</label>
+            <input type="text" name="address_line2">
+        </div>
 
-  <label>Town / City</label>
-  <input type="text" name="city" required>
+        <div class="form-group">
+            <label>Town / City</label>
+            <input type="text" name="city" required>
+        </div>
 
-  <label>County (optional)</label>
-  <input type="text" name="county">
+        <div class="form-group">
+            <label>County (optional)</label>
+            <input type="text" name="county">
+        </div>
 
-  <label>Postcode</label>
-  <input type="text" name="postcode" required>
+        <div class="form-group">
+            <label>Postcode</label>
+            <input type="text" name="postcode" required>
+        </div>
 
-  <input type="hidden" name="country" value="United Kingdom">
+        <div class="form-group">
+           <label>Country</label>
+          <input type="text" value="United Kingdom" disabled>
+       </div>
 
-  <button class="btn-purple">Save Address</button>
-  <a class="cancel-link" href="<?= BASE_URL ?>index.php?page=account#addresses">Cancel</a>
-</form>
+        <input type="hidden" name="country" value="United Kingdom">
+
+        <button type="submit" class="btn-purple">Save Address</button>
+
+        <a class="cancel-link"
+           href="<?= BASE_URL ?>index.php?page=account#addresses">
+            Cancel
+        </a>
+
+    </form>
+</div>
 
 
 <?php include __DIR__ . '/../footer.php'; ?>

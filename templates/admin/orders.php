@@ -86,6 +86,8 @@
                             </td>
                             <td><?= date('M d, Y H:i', strtotime($order['created_at'])) ?></td>
                             <td class="actions-cell">
+                                <a href="index.php?page=order&id=<?= (int)$order['order_id'] ?>" class="btn-action btn-view">👁️ View</a>
+                                
                                 <?php if ($order['status'] === 'pending'): ?>
                                     <form method="POST" style="display:inline;">
                                         <input type="hidden" name="order_id" value="<?= (int)$order['order_id'] ?>">
@@ -317,6 +319,18 @@
         cursor: pointer;
         transition: all 0.3s ease;
         font-size: 0.9rem;
+        margin-right: 5px;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .btn-view {
+        background: #9c27b0;
+        color: white;
+    }
+
+    .btn-view:hover {
+        background: #7b1fa2;
     }
 
     .btn-process {

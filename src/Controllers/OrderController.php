@@ -53,7 +53,7 @@ class OrderController {
         if ($addressId) {
 
         // Fetch snapshot from selected address
-        $addrStmt = $db->prepare(" SELECT address_id, full_address
+        $addrStmt = $db->prepare(" SELECT *
             FROM addresses
             WHERE address_id = ? AND user_id = ?
         ");
@@ -63,7 +63,7 @@ class OrderController {
         } else {
 
          // Auto-select default address
-        $addrStmt = $db->prepare(" SELECT address_id, full_address
+        $addrStmt = $db->prepare(" SELECT *
             FROM addresses
             WHERE user_id = ? AND is_default = 1
             LIMIT 1
@@ -78,7 +78,7 @@ class OrderController {
         }
 
         $addressId        = $address['address_id'];
-        $shippingAddress  = $address['full_address'];
+        $shippingAddress  = formatAddress($address);
 
     // Recalculate total
     $total = 0;
@@ -252,7 +252,7 @@ public function showOrder()
     $db = Database::getInstance()->getConnection();
 
     // Fetch order
-    $orderStmt = $db->prepare(" SELECT o.*, a.full_address
+    $orderStmt = $db->prepare(" SELECT o.*
         FROM orders o
         LEFT JOIN addresses a ON o.address_id = a.address_id
         LEFT JOIN payment_methods pm ON o.payment_id = pm.payment_id

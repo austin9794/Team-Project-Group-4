@@ -18,20 +18,28 @@ CREATE TABLE users (
 );
 
 
-
 -- Adresses Table --
 
 CREATE TABLE addresses (
-    address_id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT NOT NULL,
-    label VARCHAR(50),   -- e.g. "Home", "Work", "Uni"
-    full_address TEXT NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    is_default BOOLEAN DEFAULT 0,
+  address_id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL,
 
-    FOREIGN KEY (user_id) REFERENCES users(user_id) 
-    ON DELETE CASCADE
+  label VARCHAR(50) NOT NULL,
+
+  full_name VARCHAR(100) NOT NULL,
+  address_line1 VARCHAR(150) NOT NULL,
+  address_line2 VARCHAR(150) NULL,
+  city VARCHAR(100) NOT NULL,
+  county VARCHAR(100) NULL,
+  postcode VARCHAR(20) NOT NULL,
+  country VARCHAR(50) NOT NULL DEFAULT 'United Kingdom',
+
+  is_default BOOLEAN DEFAULT 0,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+  FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
+
 
 
 -- Payment Table --

@@ -52,14 +52,14 @@ try {
     $params[] = "%" . $searchTerm . "%";
   }
 
-  if (!empty($_GET['min_price'])) {
+  if (!empty($_GET['min_price']) && is_numeric($_GET['min_price']) && $_GET['min_price'] > 0) {
     $sql .= " AND p.price >= ? ";
-    $params[] = $_GET['min_price'];
+    $params[] = (float)$_GET['min_price'];
   }
 
-  if (!empty($_GET['max_price'])) {
+  if (!empty($_GET['max_price']) && is_numeric($_GET['max_price']) && $_GET['max_price'] > 0) {
     $sql .= " AND p.price <= ? ";
-    $params[] = $_GET['max_price'];
+    $params[] = (float)$_GET['max_price'];
   }
 
   $sql .= " GROUP BY p.product_id ORDER BY p.price ASC";

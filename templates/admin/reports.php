@@ -221,7 +221,7 @@ if (!isset($orderSummary)) {
 
     .summary-cards {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
         gap: 20px;
         margin-bottom: 40px;
     }
@@ -230,11 +230,12 @@ if (!isset($orderSummary)) {
         background: linear-gradient(135deg, rgba(188, 168, 230, 0.1), rgba(188, 168, 230, 0.05));
         border: 2px solid var(--lavender);
         border-radius: 12px;
-        padding: 25px;
+        padding: 25px 20px;
         display: flex;
         align-items: center;
-        gap: 20px;
+        gap: 15px;
         transition: transform 0.3s ease;
+        overflow: hidden;
     }
 
     .summary-card:hover {
@@ -243,20 +244,30 @@ if (!isset($orderSummary)) {
     }
 
     .card-icon {
-        font-size: 3rem;
+        font-size: 2.5rem;
         line-height: 1;
+        flex-shrink: 0;
+    }
+
+    .card-content {
+        flex: 1;
+        min-width: 0;
     }
 
     .card-content h3 {
-        font-size: 2rem;
+        font-size: 1.8rem;
         margin: 0 0 5px 0;
         color: var(--highlight);
+        word-break: break-word;
     }
 
     .card-content p {
         margin: 0;
         color: var(--text-secondary);
-        font-size: 0.95rem;
+        font-size: 0.9rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .order-summary-section {

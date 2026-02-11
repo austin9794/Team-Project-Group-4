@@ -181,19 +181,30 @@ public function showOrder()
 
     $orderId = $_GET['id'];
     $userId = $_SESSION['user_id'];
+    $isAdmin = $_SESSION['is_admin'] ?? false;
 
     $db = Database::getInstance()->getConnection();
 
-    // Fetch order
-    $orderStmt = $db->prepare("
-        SELECT o.*, a.full_address, pm.card_brand, pm.card_last4
-        FROM orders o
-        LEFT JOIN addresses a ON o.address_id = a.address_id
-        LEFT JOIN payment_methods pm ON o.payment_id = pm.payment_id
-        WHERE o.order_id = ? AND o.user_id = ?
-
-    ");
-    $orderStmt->execute([$orderId, $userId]);
+    // Fetch order - admins can view any order, customers only their own
+    if ($isAdmin) {
+        $orderStmt = $db->prepare("
+            SELECT o.*, a.full_address, pm.card_brand, pm.card_last4
+            FROM orders o
+            LEFT JOIN addresses a ON o.address_id = a.address_id
+            LEFT JOIN payment_methods pm ON o.payment_id = pm.payment_id
+            WHERE o.order_id = ?
+        ");
+        $orderStmt->execute([$orderId]);
+    } else {
+        $orderStmt = $db->prepare("
+            SELECT o.*, a.full_address, pm.card_brand, pm.card_last4
+            FROM orders o
+            LEFT JOIN addresses a ON o.address_id = a.address_id
+            LEFT JOIN payment_methods pm ON o.payment_id = pm.payment_id
+            WHERE o.order_id = ? AND o.user_id = ?
+        ");
+        $orderStmt->execute([$orderId, $userId]);
+    }
     $order = $orderStmt->fetch();
 
     if (!$order) {

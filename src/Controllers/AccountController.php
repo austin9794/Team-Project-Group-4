@@ -178,6 +178,16 @@ class AccountController {
             }
         }
 
+        $postcode = strtoupper(trim($_POST['postcode']));
+
+        // UK postcode regex
+       $ukPostcodeRegex = '/^(GIR 0AA|[A-Z]{1,2}\d[A-Z\d]?\s?\d[A-Z]{2})$/';
+
+        if (!preg_match($ukPostcodeRegex, $postcode)) {
+            header("Location: " . BASE_URL . "index.php?page=add-address&error=invalid_postcode");
+           exit;
+       }
+
        $db = Database::getInstance()->getConnection();
 
        $stmt = $db->prepare(" INSERT INTO addresses
@@ -202,9 +212,9 @@ class AccountController {
     }
 
 
-      // Edit Address
-      public function showEditAddressForm() {
-      requireLogin();
+    // Edit Address
+    public function showEditAddressForm() {
+    requireLogin();
 
     $id = $_GET['id'] ?? null;
     if (!$id) {
@@ -239,9 +249,9 @@ class AccountController {
 
 
 
-     // Update Address
-     public function updateAddress() {
-    requireLogin();
+  // Update Address
+ public function updateAddress() {
+ requireLogin();
 
     $id = $_POST['address_id'];
 

@@ -10,7 +10,37 @@ class AdminDashboardController extends BaseAdminController {
     }
 
     public function index() {
-        // Dashboard display logic
+        $db = Database::getInstance()->getConnection();
+        
+        // Get inventory alerts for dashboard
+        $alertStmt = $db->query("
+            SELECT 
+                product_id,
+                name,
+                stock,
+                low_stock_threshold,
+                CASE 
+                    WHEN stock = 0 THEN 'critical'
+                    WHEN stock <= low_stock_threshold THEN 'warning'
+                    ELSE 'ok'
+                END as alert_level
+            FROM products
+            WHERE stock <= low_stock_threshold
+            ORDER BY stock ASC, name ASC
+        ");
+        $alerts = $alertStmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        // Get order summary
+        $orderStmt = $db->query("
+            SELECT 
+                COUNT(CASE WHEN status = 'pending' THEN 1 END) as pending_count,
+                COUNT(CASE WHEN status = 'processing' THEN 1 END) as processing_count,
+                COUNT(CASE WHEN status = 'shipped' THEN 1 END) as shipped_count
+            FROM orders
+        ");
+        $orderSummary = $orderStmt->fetch(PDO::FETCH_ASSOC);
+        
+        include __DIR__ . '/../../templates/admin/dashboard.php';
     }
 
     public function reports() {

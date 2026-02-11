@@ -2,11 +2,31 @@
 define('ACCESS_ALLOWED', true);
 require_once __DIR__ . '/../../src/Controllers/AdminDashboardController.php';
 
+// Initialize variables if not set to prevent redirect loop
 if (!isset($products)) {
-    header('Location: /Team-Project-Group-4/public/index.php?page=admin-reports');
-    exit();
+    $products = [];
+}
+if (!isset($summary)) {
+    $summary = [
+        'total_products' => 0,
+        'total_stock_units' => 0,
+        'total_stock_value' => 0,
+        'low_stock_count' => 0,
+        'out_of_stock_count' => 0
+    ];
+}
+if (!isset($orderSummary)) {
+    $orderSummary = [
+        'pending_orders' => 0,
+        'processing_orders' => 0,
+        'shipped_orders' => 0,
+        'delivered_orders' => 0,
+        'pending_value' => 0,
+        'active_value' => 0
+    ];
 }
 ?>
+
 
 <?php include __DIR__ . '/../header.php'; ?>
 

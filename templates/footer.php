@@ -28,5 +28,14 @@
 <script src="<?= BASE_URL ?>assets/js/theme-toggle.js" defer></script>
 <script src="<?= BASE_URL ?>assets/js/validation.js" defer></script>
 
+<script>
+document.querySelectorAll('.clickable-row').forEach(row => {
+    row.addEventListener('click', function () {
+        window.location = this.dataset.href;
+    });
+});
+</script>
+
+
 </body>
 </html>

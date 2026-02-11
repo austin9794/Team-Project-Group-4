@@ -269,16 +269,20 @@ public function showOrder()
 
     // Fetch items
     $itemsStmt = $db->prepare(" SELECT 
-          oi.*,
-          pr.name,
-          pr.slug,
-          c.name AS category
-        FROM order_items oi
-        JOIN products pr ON oi.product_id = pr.product_id
-        JOIN categories c ON pr.category_id = c.category_id
-        WHERE oi.order_id = ?
+        oi.*,
+        pr.name,
+        pr.slug,
+        c.name AS category,
+        COALESCE(SUM(r.quantity), 0) AS returned_qty,
+        MAX(r.status) AS return_status
+    FROM order_items oi
+    JOIN products pr ON oi.product_id = pr.product_id
+    JOIN categories c ON pr.category_id = c.category_id
+    LEFT JOIN returns r ON r.order_item_id = oi.order_item_id
+    WHERE oi.order_id = ?
+    GROUP BY oi.order_item_id
+");
 
-    ");
 
     $itemsStmt->execute([$orderId]);
     $items = $itemsStmt->fetchAll();
@@ -344,8 +348,7 @@ public function checkoutAddressPage()
     include __DIR__ . '/../../templates/customer/checkout_address.php';
 }
 
-public function adminProcessOrders()
-{
+public function adminProcessOrders() {
     if (!isset($_POST['order_id'])) {
         echo "Missing order ID";
         return;
@@ -423,6 +426,75 @@ public function adminProcessOrders()
     }
 
 }
+
+public function submitReturn() {
+    requireLogin();
+    $db = Database::getInstance()->getConnection();
+
+    $itemId  = (int)$_POST['order_item_id'];
+    $qty     = (int)$_POST['quantity'];
+    $reason  = trim($_POST['reason']);
+
+    // Fetch order item + order
+    $stmt = $db->prepare("  SELECT oi.*, o.created_at, o.user_id
+        FROM order_items oi
+        JOIN orders o ON oi.order_id = o.order_id
+        WHERE oi.order_item_id = ? AND o.user_id = ?
+    ");
+    $stmt->execute([$itemId, $_SESSION['user_id']]);
+    $item = $stmt->fetch();
+
+    if (!$item) exit("Invalid return request");
+
+    // 7-day rule
+    if (strtotime($item['created_at']) < strtotime('-7 days')) {
+        exit("Return window expired");
+    }
+
+    // Quantity validation
+    $available = $item['quantity'] - $item['returned_quantity'];
+    if ($qty < 1 || $qty > $available) {
+        exit("Invalid return quantity");
+    }
+
+    // Insert return
+    $insert = $db->prepare(" INSERT INTO returns (order_id, order_item_id, user_id, quantity, reason)
+        VALUES (?, ?, ?, ?, ?)
+    ");
+    $insert->execute([
+        $item['order_id'],
+        $itemId,
+        $_SESSION['user_id'],
+        $qty,
+        $reason
+    ]);
+
+    header("Location: " . BASE_URL . "index.php?page=orders");
+    exit;
+}
+
+public function showReturnForm()
+{
+    requireLogin();
+    $db = Database::getInstance()->getConnection();
+
+    $itemId = (int)($_GET['item'] ?? 0);
+
+    $stmt = $db->prepare(" SELECT oi.*, pr.name, o.created_at
+        FROM order_items oi
+        JOIN orders o ON oi.order_id = o.order_id
+        JOIN products pr ON oi.product_id = pr.product_id
+        WHERE oi.order_item_id = ? AND o.user_id = ?
+    ");
+    $stmt->execute([$itemId, $_SESSION['user_id']]);
+    $item = $stmt->fetch();
+
+    if (!$item) exit("Invalid item");
+
+    include __DIR__ . '/../../templates/customer/request_return.php';
+}
+
+
 }
 
 

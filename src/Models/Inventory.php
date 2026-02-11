@@ -9,8 +9,7 @@ class Inventory {
     }
     
     public function getLowStockProducts() {
-        $stmt = $this->db->query("
-            SELECT 
+        $stmt = $this->db->query(" SELECT 
                 p.product_id,
                 p.name,
                 p.stock,
@@ -26,8 +25,7 @@ class Inventory {
     }
     
     public function getOutOfStockProducts() {
-        $stmt = $this->db->query("
-            SELECT 
+        $stmt = $this->db->query(" SELECT 
                 p.product_id,
                 p.name,
                 p.stock,
@@ -43,8 +41,7 @@ class Inventory {
     }
     
     public function getInventoryAlertCount() {
-        $stmt = $this->db->query("
-            SELECT COUNT(*) as count
+        $stmt = $this->db->query(" SELECT COUNT(*) as count
             FROM products
             WHERE stock <= low_stock_threshold
         ");
@@ -53,8 +50,7 @@ class Inventory {
     }
     
     public function getAllInventoryAlerts() {
-        $stmt = $this->db->query("
-            SELECT 
+        $stmt = $this->db->query("  SELECT 
                 p.product_id,
                 p.name,
                 p.stock,

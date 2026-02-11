@@ -74,7 +74,9 @@
                     </tr>
                 <?php else: ?>
                     <?php foreach ($orders as $order): ?>
-                        <tr class="order-row">
+                        <tr class="order-row clickable-row"
+                        data-href="index.php?page=admin-order-view&id=<?= (int)$order['order_id'] ?>">
+
                             <td><strong>#<?= (int)$order['order_id'] ?></strong></td>
                             <td><?= htmlspecialchars($order['customer_name'] ?? 'Unknown') ?></td>
                             <td class="email-cell"><?= htmlspecialchars($order['customer_email'] ?? 'N/A') ?></td>
@@ -115,248 +117,23 @@
     </div>
 </div>
 
-<style>
-    .admin-orders-container {
-        max-width: 1400px;
-        margin: 0 auto;
-        padding: 30px;
-    }
 
-    .admin-header {
-        margin-bottom: 30px;
-    }
 
-    .admin-header h1 {
-        color: var(--text-primary);
-        margin-bottom: 5px;
-    }
+<script>
+document.querySelectorAll('.clickable-row').forEach(row => {
+    row.addEventListener('click', function (e) {
+        // Prevent navigation when clicking buttons or forms
+        if (e.target.closest('button') || e.target.closest('form')) {
+            return;
+        }
+        window.location = this.dataset.href;
+    });
+});
+</script>
 
-    .admin-header p {
-        color: var(--text-secondary);
-    }
+<a href="index.php?page=dashboard" class="btn-secondary">
+   ← Back to Dashboard
+</a>
 
-    .filter-section {
-        background: rgba(188, 168, 230, 0.05);
-        border: 2px solid var(--lavender);
-        border-radius: 12px;
-        padding: 25px;
-        margin-bottom: 25px;
-    }
-
-    .filter-form {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-    }
-
-    .filter-row {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 15px;
-    }
-
-    .filter-group {
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-    }
-
-    .filter-group label {
-        color: var(--text-primary);
-        font-weight: 600;
-        font-size: 0.9rem;
-    }
-
-    .filter-group input,
-    .filter-group select {
-        padding: 10px 12px;
-        border: 2px solid rgba(188, 168, 230, 0.3);
-        border-radius: 6px;
-        background: rgba(255, 255, 255, 0.05);
-        color: var(--text-primary);
-        font-size: 0.95rem;
-    }
-
-    .filter-group input:focus,
-    .filter-group select:focus {
-        outline: none;
-        border-color: var(--highlight);
-    }
-
-    .filter-actions {
-        display: flex;
-        gap: 10px;
-    }
-
-    .btn-filter,
-    .btn-clear {
-        padding: 12px 24px;
-        border-radius: 8px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        text-decoration: none;
-        display: inline-block;
-        border: none;
-    }
-
-    .btn-filter {
-        background: var(--highlight);
-        color: white;
-    }
-
-    .btn-filter:hover {
-        background: var(--highlight-dark);
-    }
-
-    .btn-clear {
-        background: rgba(255, 255, 255, 0.1);
-        color: var(--text-primary);
-        border: 2px solid rgba(255, 255, 255, 0.2);
-    }
-
-    .btn-clear:hover {
-        background: rgba(255, 255, 255, 0.2);
-    }
-
-    .results-summary {
-        margin-bottom: 15px;
-        padding: 12px;
-        background: rgba(76, 175, 80, 0.1);
-        border-left: 4px solid #4caf50;
-        border-radius: 6px;
-    }
-
-    .results-summary p {
-        margin: 0;
-        color: var(--text-primary);
-    }
-
-    .table-container {
-        overflow-x: auto;
-        background: rgba(255, 255, 255, 0.02);
-        border-radius: 12px;
-        padding: 20px;
-    }
-
-    .admin-table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-
-    .admin-table thead {
-        background: rgba(188, 168, 230, 0.2);
-    }
-
-    .admin-table th {
-        padding: 15px;
-        text-align: left;
-        color: var(--text-primary);
-        font-weight: 600;
-        border-bottom: 2px solid var(--lavender);
-    }
-
-    .admin-table td {
-        padding: 15px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        color: var(--text-primary);
-    }
-
-    .admin-table tbody tr:hover {
-        background: rgba(188, 168, 230, 0.1);
-    }
-
-    .email-cell {
-        font-size: 0.9rem;
-        color: var(--text-secondary);
-    }
-
-    .price-cell {
-        font-weight: 600;
-        color: var(--highlight);
-    }
-
-    .status-badge {
-        padding: 6px 12px;
-        border-radius: 6px;
-        font-size: 0.85rem;
-        font-weight: 600;
-        text-transform: uppercase;
-        white-space: nowrap;
-    }
-
-    .status-pending {
-        background: rgba(255, 193, 7, 0.2);
-        color: #ffc107;
-    }
-
-    .status-processing {
-        background: rgba(33, 150, 243, 0.2);
-        color: #2196F3;
-    }
-
-    .status-shipped {
-        background: rgba(255, 152, 0, 0.2);
-        color: #ff9800;
-    }
-
-    .status-delivered {
-        background: rgba(76, 175, 80, 0.2);
-        color: #4caf50;
-    }
-
-    .actions-cell {
-        white-space: nowrap;
-    }
-
-    .btn-action {
-        padding: 8px 16px;
-        border: none;
-        border-radius: 6px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        font-size: 0.9rem;
-    }
-
-    .btn-process {
-        background: #2196F3;
-        color: white;
-    }
-
-    .btn-process:hover {
-        background: #1976D2;
-    }
-
-    .btn-ship {
-        background: #ff9800;
-        color: white;
-    }
-
-    .btn-ship:hover {
-        background: #f57c00;
-    }
-
-    .btn-deliver {
-        background: #4caf50;
-        color: white;
-    }
-
-    .btn-deliver:hover {
-        background: #388E3C;
-    }
-
-    .no-results {
-        text-align: center;
-        padding: 40px !important;
-        color: var(--text-secondary);
-        font-style: italic;
-    }
-
-    .text-muted {
-        color: var(--text-secondary);
-        font-style: italic;
-    }
-</style>
 
 <?php include __DIR__ . '/../footer.php'; ?>

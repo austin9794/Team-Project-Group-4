@@ -1,4 +1,3 @@
-
 <?php 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -33,6 +32,8 @@ if (!empty($_SESSION['basket']) && is_array($_SESSION['basket'])) {
 
     <!-- Dynamic asset loading -->
     <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/style.css">
+
+    <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/admin.css">
 
     <style>
         /* === TOP HEADER BAR === */

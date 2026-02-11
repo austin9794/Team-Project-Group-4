@@ -21,8 +21,7 @@ class BasketController
         if (!empty($_SESSION['basket'])) {
             foreach ($_SESSION['basket'] as $productId => $qty) {
 
-                $stmt = $this->db->prepare("
-                    SELECT 
+                $stmt = $this->db->prepare(" SELECT 
                         p.product_id,
                         p.name,
                         p.price,
@@ -130,8 +129,7 @@ class BasketController
 
         foreach ($_SESSION['basket'] as $productId => $qty) {
 
-            $stmt = $this->db->prepare("
-                SELECT 
+            $stmt = $this->db->prepare("  SELECT 
                     p.product_id,
                     p.name,
                     p.price,

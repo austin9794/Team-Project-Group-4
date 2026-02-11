@@ -204,21 +204,39 @@ class AccountController {
 
       // Edit Address
       public function showEditAddressForm() {
-     requireLogin();
+      requireLogin();
 
-     $id = $_GET['id'] ?? null;
-     if (!$id) exit("Address not found");
-
-     $db = Database::getInstance()->getConnection();
-
-     $stmt = $db->prepare("SELECT * FROM addresses WHERE address_id = ? AND user_id = ?");
-     $stmt->execute([$id, $_SESSION['user_id']]);
-     $address = $stmt->fetch();
-
-     if (!$address) exit("Unauthorized");
-
-     include __DIR__ . '/../../templates/customer/edit-address.php';
+    $id = $_GET['id'] ?? null;
+    if (!$id) {
+        header("Location: " . BASE_URL . "index.php?page=account");
+        exit;
     }
+
+    $stmt = $this->db->prepare("  SELECT 
+            address_id,
+            label,
+            full_name,
+            address_line1,
+            address_line2,
+            city,
+            county,
+            postcode,
+            country
+        FROM addresses
+        WHERE address_id = ? AND user_id = ?
+    ");
+
+    $stmt->execute([$id, $_SESSION['user_id']]);
+    $address = $stmt->fetch();
+
+    if (!$address) {
+        header("Location: " . BASE_URL . "index.php?page=account");
+        exit;
+    }
+
+    include __DIR__ . '/../../templates/customer/edit-address.php';
+}
+
 
 
      // Update Address
@@ -487,7 +505,7 @@ try {
     }
 }
 
-       //User Data
+   //User Data
       public function getUserData() {
        $stmt = $this->db->prepare("SELECT * FROM users WHERE user_id = ?");
        $stmt->execute([$_SESSION['user_id']]);

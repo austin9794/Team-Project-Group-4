@@ -1,18 +1,39 @@
 <?php
 
-function formatAddress(array $a): string {
-  $lines = [
-    $a['full_name'],
-    $a['address_line1']
-  ];
+function formatAddress(array $addr): string
+{
+    $parts = [];
 
-  if (!empty($a['address_line2'])) $lines[] = $a['address_line2'];
-  $lines[] = $a['city'];
-  if (!empty($a['county'])) $lines[] = $a['county'];
-  $lines[] = $a['postcode'];
-  $lines[] = $a['country'];
+    if (!empty($addr['full_name'])) {
+        $parts[] = $addr['full_name'];
+    }
 
-  return implode("\n", $lines);
+    if (!empty($addr['address_line1'])) {
+        $parts[] = $addr['address_line1'];
+    }
+
+    if (!empty($addr['address_line2'])) {
+        $parts[] = $addr['address_line2'];
+    }
+
+    if (!empty($addr['city'])) {
+        $parts[] = $addr['city'];
+    }
+
+    if (!empty($addr['county'])) {
+        $parts[] = $addr['county'];
+    }
+
+    if (!empty($addr['postcode'])) {
+        $parts[] = $addr['postcode'];
+    }
+
+    if (!empty($addr['country'])) {
+        $parts[] = $addr['country'];
+    }
+
+    return implode("\n", $parts);
 }
+
 
 ?>

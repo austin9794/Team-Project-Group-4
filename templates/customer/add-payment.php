@@ -108,3 +108,23 @@
         </a>
     </form>
 </div>
+
+<script>
+const cardInput = document.getElementById("cardNumber");
+const brandDisplay = document.getElementById("cardBrandDisplay");
+
+cardInput.addEventListener("input", function() {
+    let value = this.value.replace(/\D/g, '');
+    this.value = value.substring(0,16);
+
+    if (value.startsWith("4")) {
+        brandDisplay.textContent = "Detected: Visa";
+    } else if (value.startsWith("5")) {
+        brandDisplay.textContent = "Detected: Mastercard";
+    } else {
+        brandDisplay.textContent = "";
+    }
+});
+</script>
+
+<?php include __DIR__ . '/../footer.php'; ?>

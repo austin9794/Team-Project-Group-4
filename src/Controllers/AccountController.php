@@ -383,7 +383,12 @@ class AccountController {
         exit;
     }
 
-    
+    // CVV validation
+    if (!preg_match('/^\d{3,4}$/', $cvv)) {
+        header("Location: " . BASE_URL . "index.php?page=add-payment&error=invalid_cvv");
+        exit;
+    }
+
     // Edit Payment
     public function showEditPaymentForm() {
     requireLogin();

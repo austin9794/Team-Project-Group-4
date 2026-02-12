@@ -128,6 +128,7 @@
             <input type="text"
                    name="postcode"
                    maxlength="8"
+                   pattern="[A-Za-z0-9 ]+"
                    value="<?= htmlspecialchars($address['postcode']) ?>"
                    required>
         </div>

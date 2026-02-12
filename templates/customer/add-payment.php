@@ -37,8 +37,15 @@
 
 .inline-row {
     display: flex;
-    gap: 12px;
+    gap: 20px;
+    flex-wrap: wrap;
 }
+
+.inline-row .form-group {
+    flex: 1;
+    min-width: 100px;
+}
+
 
 .btn-purple {
     background: #8f3dff;

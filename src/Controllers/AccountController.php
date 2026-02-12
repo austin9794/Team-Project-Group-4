@@ -373,6 +373,17 @@ class AccountController {
         exit;
     }
 
+    // Auto detect brand
+    if (str_starts_with($cardNumber, '4')) {
+        $brand = 'Visa';
+    } elseif (str_starts_with($cardNumber, '5')) {
+        $brand = 'Mastercard';
+    } else {
+        header("Location: " . BASE_URL . "index.php?page=add-payment&error=unsupported_card");
+        exit;
+    }
+
+    
     // Edit Payment
     public function showEditPaymentForm() {
     requireLogin();

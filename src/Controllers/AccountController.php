@@ -367,7 +367,11 @@ class AccountController {
     $expiry     = $_POST['expiry'] ?? '';
     $cvv        = $_POST['cvv'] ?? '';
 
-    
+    // Card number validation
+    if (strlen($cardNumber) !== 16) {
+        header("Location: " . BASE_URL . "index.php?page=add-payment&error=invalid_card");
+        exit;
+    }
 
     // Edit Payment
     public function showEditPaymentForm() {

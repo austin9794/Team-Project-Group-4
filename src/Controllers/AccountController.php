@@ -389,6 +389,45 @@ class AccountController {
         exit;
     }
 
+    // Expiry validation
+    if (!preg_match('/^(0[1-9]|1[0-2])\/(\d{2})$/', $expiry, $matches)) {
+        header("Location: " . BASE_URL . "index.php?page=add-payment&error=invalid_expiry");
+        exit;
+    }
+
+    $expMonth = (int)$matches[1];
+    $expYear  = 2000 + (int)$matches[2];
+
+    $currentYear  = (int)date("Y");
+    $currentMonth = (int)date("m");
+
+    if ($expYear < $currentYear || 
+       ($expYear == $currentYear && $expMonth < $currentMonth)) {
+
+        header("Location: " . BASE_URL . "index.php?page=add-payment&error=expired_card");
+        exit;
+    }
+
+    $last4 = substr($cardNumber, -4);
+
+    $db = Database::getInstance()->getConnection();
+
+    $stmt = $db->prepare(" INSERT INTO payment_methods
+        (user_id, card_brand, card_last4, expiry_month, expiry_year)
+        VALUES (?, ?, ?, ?, ?)
+    ");
+
+    $stmt->execute([
+        $_SESSION['user_id'],
+        $brand,
+        $last4,
+        $expMonth,
+        $expYear
+    ]);
+
+    header("Location: " . BASE_URL . "index.php?page=account#payment-methods");
+    exit;
+}
     // Edit Payment
     public function showEditPaymentForm() {
     requireLogin();

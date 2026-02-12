@@ -1,5 +1,12 @@
 <?php include __DIR__ . '/../header.php'; ?>
 
+<?php if (isset($_GET['error']) && $_GET['error'] === 'invalid_postcode'): ?>
+    <div style="background:#330000;color:#ff6b6b;padding:10px;border-radius:6px;margin-bottom:15px;">
+        ❌ Please enter a valid UK postcode.
+    </div>
+<?php endif; ?>
+
+
 <style>
 .edit-container {
     max-width: 700px;

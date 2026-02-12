@@ -55,13 +55,14 @@
     display: flex;
     gap: 20px;
     flex-wrap: wrap;
+    align-items: flex-start;
 }
 
 .inline-row .form-group {
     flex: 1;
-    min-width: 100px;
+    display: flex;
+    min-width: 180px;
 }
-
 
 .btn-purple {
     background: #8f3dff;

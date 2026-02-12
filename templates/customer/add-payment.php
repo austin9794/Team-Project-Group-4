@@ -61,3 +61,50 @@
     text-decoration: none;
 }
 </style>
+
+<div class="payment-container">
+    <h2>Add Payment Method</h2>
+
+    <form method="POST" action="<?= BASE_URL ?>index.php?page=save-payment">
+
+        <div class="form-group">
+            <label>Card Number</label>
+            <input type="text" 
+                   name="card_number" 
+                   id="cardNumber"
+                   maxlength="16"
+                   placeholder="1234 5678 9012 3456"
+                   required>
+            <small id="cardBrandDisplay" style="color:#9f7cff;"></small>
+        </div>
+
+        <div class="inline-row">
+            <div class="form-group" style="flex:1;">
+                <label>Expiry (MM/YY)</label>
+                <input type="text" 
+                       name="expiry"
+                       placeholder="MM/YY"
+                       pattern="^(0[1-9]|1[0-2])\/\d{2}$"
+                       required>
+            </div>
+
+            <div class="form-group" style="flex:1;">
+                <label>Security Code (CVV)</label>
+                <input type="text"
+                       name="cvv"
+                       maxlength="4"
+                       pattern="\d{3,4}"
+                       required>
+            </div>
+        </div>
+
+        <button type="submit" class="btn-purple">
+            Save Payment Method
+        </button>
+
+        <a class="cancel-link"
+           href="<?= BASE_URL ?>index.php?page=account#payment-methods">
+            Cancel
+        </a>
+    </form>
+</div>

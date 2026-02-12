@@ -196,20 +196,13 @@ textarea {
     font-size: 14px;
 }
 
-.badge-default {
-    display: inline-block;
-    margin-top: 8px;
-    background: #8f3dff;
-    padding: 4px 10px;
-    border-radius: 12px;
-    font-size: 0.75rem;
-}
-
 </style>
 
 <h1>Select a delivery address</h1>
 
 <form method="POST" action="<?= BASE_URL ?>index.php?page=select-checkout-address">
+
+<div class="address-grid">
 
 <?php foreach ($addresses as $addr): ?>
   <label class="option-card">
@@ -232,12 +225,15 @@ textarea {
   </label>
 <?php endforeach; ?>
 
+</div>
+
 <div style="margin-top:20px;">
     <a class="btn-purple"
        href="<?= BASE_URL ?>index.php?page=add-address&redirect=checkout">
         + Add a new address
     </a>
 </div>
+
 
 <button class="place-order-btn" style="margin-top:20px;">
   Use this address

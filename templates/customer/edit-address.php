@@ -127,6 +127,7 @@
             <label>Postcode</label>
             <input type="text"
                    name="postcode"
+                   maxlength="8"
                    value="<?= htmlspecialchars($address['postcode']) ?>"
                    required>
         </div>

@@ -107,7 +107,7 @@
 
         <div class="form-group">
             <label>Postcode</label>
-            <input type="text" name="postcode" required>
+            <input type="text" name="postcode" maxlength="8" required>
         </div>
 
         <div class="form-group">

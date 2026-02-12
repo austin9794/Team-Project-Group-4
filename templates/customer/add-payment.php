@@ -95,6 +95,8 @@
             <input type="text" 
                    name="card_number" 
                    id="cardNumber"
+                   inputmode="numeric"
+                   pattern="\d*"
                    maxlength="16"
                    placeholder="1234 5678 9012 3456"
                    required>
@@ -106,7 +108,9 @@
                 <label>Expiry (MM/YY)</label>
                 <input type="text" 
                        name="expiry"
+                       id="expiryInput"
                        placeholder="MM/YY"
+                       inputmode="numeric"
                        maxlength="5"
                        pattern="^(0[1-9]|1[0-2])\/\d{2}$"
                        required>
@@ -116,6 +120,8 @@
                 <label>Security Code (CVV)</label>
                 <input type="text"
                        name="cvv"
+                       id="cvvInput"
+                       inputmode="numeric"
                        maxlength="4"
                        pattern="\d{3,4}"
                        required>
@@ -153,20 +159,30 @@ cardInput.addEventListener("input", function() {
 const expiryInput = document.getElementById("expiryInput");
 
 expiryInput.addEventListener("input", function () {
+
     let value = this.value.replace(/\D/g, '');
 
-    // Auto insert slash after 2 digits
     if (value.length >= 2) {
-        let month = value.substring(0,2);
+        let month = value.substring(0, 2);
 
-        // Restrict month between 01–12
-        if (parseInt(month) < 1) month = "01";
-        if (parseInt(month) > 12) month = "12";
+        if (parseInt(month) > 12) {
+            month = "12";
+        }
 
-        value = month + (value.length > 2 ? "/" + value.substring(2,4) : "");
+        if (parseInt(month) < 1) {
+            month = "01";
+        }
+
+        value = month + (value.length > 2 ? "/" + value.substring(2, 4) : "");
     }
 
-    this.value = value.substring(0,5);
+    this.value = value.substring(0, 5);
+});
+
+const cvvInput = document.getElementById("cvvInput");
+
+cvvInput.addEventListener("input", function () {
+    this.value = this.value.replace(/\D/g, '').substring(0, 4);
 });
 
 </script>

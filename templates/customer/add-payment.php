@@ -91,6 +91,7 @@
                 <input type="text" 
                        name="expiry"
                        placeholder="MM/YY"
+                       maxlength="5"
                        pattern="^(0[1-9]|1[0-2])\/\d{2}$"
                        required>
             </div>
@@ -132,6 +133,26 @@ cardInput.addEventListener("input", function() {
         brandDisplay.textContent = "";
     }
 });
+
+const expiryInput = document.getElementById("expiryInput");
+
+expiryInput.addEventListener("input", function () {
+    let value = this.value.replace(/\D/g, '');
+
+    // Auto insert slash after 2 digits
+    if (value.length >= 2) {
+        let month = value.substring(0,2);
+
+        // Restrict month between 01–12
+        if (parseInt(month) < 1) month = "01";
+        if (parseInt(month) > 12) month = "12";
+
+        value = month + (value.length > 2 ? "/" + value.substring(2,4) : "");
+    }
+
+    this.value = value.substring(0,5);
+});
+
 </script>
 
 <?php include __DIR__ . '/../footer.php'; ?>

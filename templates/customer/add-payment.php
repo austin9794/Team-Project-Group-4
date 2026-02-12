@@ -114,7 +114,13 @@
                        maxlength="5"
                        pattern="^(0[1-9]|1[0-2])\/\d{2}$"
                        required>
+
+                        <div id="expiryError" style="color:#ff6b6b; font-size:14px; display:none;">
+               Please enter a valid date.
             </div>
+            </div>
+
+            
 
             <div class="form-group" style="flex:1;">
                 <label>Security Code (CVV)</label>
@@ -183,6 +189,31 @@ const cvvInput = document.getElementById("cvvInput");
 
 cvvInput.addEventListener("input", function () {
     this.value = this.value.replace(/\D/g, '').substring(0, 4);
+});
+
+const expiryError = document.getElementById("expiryError");
+
+expiryInput.addEventListener("blur", function () {
+
+    const value = this.value;
+
+    if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(value)) {
+        expiryError.style.display = "block";
+        return;
+    }
+
+    const parts = value.split("/");
+    const month = parseInt(parts[0]);
+    const year  = parseInt(parts[1]);
+
+    const currentYear = parseInt(new Date().getFullYear().toString().slice(-2));
+    const currentMonth = new Date().getMonth() + 1;
+
+    if (year < currentYear || (year === currentYear && month < currentMonth)) {
+        expiryError.style.display = "block";
+    } else {
+        expiryError.style.display = "none";
+    }
 });
 
 </script>

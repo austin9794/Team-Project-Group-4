@@ -157,6 +157,54 @@ textarea {
   font-size: 0.75rem;
 }
 
+.address-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.option-card {
+    position: relative;
+    background: #2a0f47;
+    border: 2px solid transparent;
+    border-radius: 14px;
+    padding: 20px;
+    cursor: pointer;
+    transition: 0.25s ease;
+}
+
+.option-card:hover {
+    border-color: #8f3dff;
+}
+
+.option-card input {
+    display: none;
+}
+
+.option-card input:checked + .option-content {
+    border-left: 4px solid #8f3dff;
+    padding-left: 10px;
+}
+
+.option-content strong {
+    font-size: 1.1rem;
+}
+
+.option-content p {
+    margin: 6px 0;
+    font-size: 14px;
+}
+
+.badge-default {
+    display: inline-block;
+    margin-top: 8px;
+    background: #8f3dff;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+}
+
 </style>
 
 <h1>Select a delivery address</h1>

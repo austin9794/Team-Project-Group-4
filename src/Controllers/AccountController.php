@@ -359,7 +359,15 @@ class AccountController {
       include __DIR__ . '/../../templates/customer/add-payment.php';
       }
 
-      // Save Payment
+    // Save Payment
+    public function savePayment() {
+    requireLogin();
+
+    $cardNumber = preg_replace('/\D/', '', $_POST['card_number'] ?? '');
+    $expiry     = $_POST['expiry'] ?? '';
+    $cvv        = $_POST['cvv'] ?? '';
+
+    
 
     // Edit Payment
     public function showEditPaymentForm() {

@@ -273,6 +273,24 @@ class AccountController {
         WHERE address_id = ? AND user_id = ?
     ");
 
+    $postcode = strtoupper(trim($_POST['postcode']));
+
+    // Remove all spaces
+    $postcode = preg_replace('/\s+/', '', $postcode);
+
+    // Reinsert single space before last 3 characters
+    if (strlen($postcode) > 3) {
+      $postcode = substr($postcode, 0, -3) . ' ' . substr($postcode, -3);
+    }
+
+    // UK postcode regex
+    $ukPostcodeRegex = '/^(GIR 0AA|[A-Z]{1,2}\d[A-Z\d]?\s?\d[A-Z]{2})$/';
+
+    if (!preg_match($ukPostcodeRegex, $postcode)) {
+        header("Location: " . BASE_URL . "index.php?page=add-address&error=invalid_postcode");
+        exit;
+   }
+
     $stmt->execute([
         trim($_POST['label']),
         trim($_POST['full_name']),
@@ -285,15 +303,6 @@ class AccountController {
         $_SESSION['user_id']
     ]);
 
-    $postcode = strtoupper(trim($_POST['postcode']));
-
-    // UK postcode regex
-    $ukPostcodeRegex = '/^(GIR 0AA|[A-Z]{1,2}\d[A-Z\d]?\s?\d[A-Z]{2})$/';
-
-    if (!preg_match($ukPostcodeRegex, $postcode)) {
-         header("Location: " . BASE_URL . "index.php?page=add-address&error=invalid_postcode");
-         exit;
-        }
 
     header("Location: " . BASE_URL . "index.php?page=account#addresses");
     exit;

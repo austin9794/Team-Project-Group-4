@@ -184,6 +184,13 @@ textarea {
   </label>
 <?php endforeach; ?>
 
+<div style="margin-top:20px;">
+    <a class="btn-purple"
+       href="<?= BASE_URL ?>index.php?page=add-address&redirect=checkout">
+        + Add a new address
+    </a>
+</div>
+
 <button class="place-order-btn" style="margin-top:20px;">
   Use this address
 </button>

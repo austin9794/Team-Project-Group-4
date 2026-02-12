@@ -225,17 +225,19 @@ textarea {
   </label>
 <?php endforeach; ?>
 
+
+<!-- ADD ADDRESS CARD -->
+<a href="<?= BASE_URL ?>index.php?page=add-address&redirect=checkout"
+   class="option-card add-card">
+    <div class="option-content add-content">
+        <div class="add-icon">+</div>
+        <p>Add New Address</p>
+    </div>
+</a>
+
 </div>
 
-<div style="margin-top:20px;">
-    <a class="btn-purple"
-       href="<?= BASE_URL ?>index.php?page=add-address&redirect=checkout">
-        + Add a new address
-    </a>
-</div>
-
-
-<button class="place-order-btn" style="margin-top:20px;">
+<button class="place-order-btn" style="margin-top:25px;">
   Use this address
 </button>
 

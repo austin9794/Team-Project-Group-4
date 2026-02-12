@@ -215,10 +215,12 @@ class AccountController {
          $data['country']
        ]);
 
-        header("Location: index.php?page=account#addresses");
-     exit;
-    }
-
+    if (isset($_POST['redirect']) && $_POST['redirect'] === 'checkout') {
+      header("Location: " . BASE_URL . "index.php?page=checkout-address");
+    } else {
+       header("Location: " . BASE_URL . "index.php?page=account#addresses");
+    } exit;
+} 
 
     // Edit Address
     public function showEditAddressForm() {

@@ -70,10 +70,16 @@
 }
 </style>
 
+<?php $redirect = $_GET['redirect'] ?? null; ?>
+
 <div class="edit-container">
     <h2>Add New Address</h2>
 
     <form method="POST" action="<?= BASE_URL ?>index.php?page=save-address">
+
+        <?php if ($redirect): ?>
+            <input type="hidden" name="redirect" value="<?= htmlspecialchars($redirect) ?>">
+        <?php endif; ?>
 
         <div class="form-group">
             <label>Label (Home, Work, Uni)</label>
@@ -111,9 +117,9 @@
         </div>
 
         <div class="form-group">
-           <label>Country</label>
-          <input type="text" value="United Kingdom" disabled>
-       </div>
+            <label>Country</label>
+            <input type="text" value="United Kingdom" disabled>
+        </div>
 
         <input type="hidden" name="country" value="United Kingdom">
 
@@ -126,6 +132,5 @@
 
     </form>
 </div>
-
 
 <?php include __DIR__ . '/../footer.php'; ?>

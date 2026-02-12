@@ -391,22 +391,15 @@ class AccountController {
 
     // Expiry validation
     if (!preg_match('/^(0[1-9]|1[0-2])\/(\d{2})$/', $expiry, $matches)) {
-        header("Location: " . BASE_URL . "index.php?page=add-payment&error=invalid_expiry");
+         header("Location: " . BASE_URL . "index.php?page=add-payment&error=invalid_expiry");
         exit;
     }
 
-    $expMonth = (int)$matches[1];
-    $expYear  = 2000 + (int)$matches[2];
+     $expMonth = (int)$matches[1];
+     $expYear  = (int)$matches[2]; // only last 2 digits
 
-    $currentYear  = (int)date("Y");
-    $currentMonth = (int)date("m");
-
-    if ($expYear < $currentYear || 
-       ($expYear == $currentYear && $expMonth < $currentMonth)) {
-
-        header("Location: " . BASE_URL . "index.php?page=add-payment&error=expired_card");
-        exit;
-    }
+     $currentYearShort  = (int)date("y");
+     $currentMonth      = (int)date("m");
 
     $last4 = substr($cardNumber, -4);
 

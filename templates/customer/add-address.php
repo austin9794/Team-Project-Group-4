@@ -70,7 +70,13 @@
 }
 </style>
 
-<?php $redirect = $_GET['redirect'] ?? null; ?>
+<?php
+$redirect = $_GET['redirect'] ?? null;
+
+$cancelUrl = ($redirect === 'checkout')
+    ? BASE_URL . "index.php?page=checkout-address"
+    : BASE_URL . "index.php?page=account#addresses";
+?>
 
 <div class="edit-container">
     <h2>Add New Address</h2>
@@ -125,8 +131,7 @@
 
         <button type="submit" class="btn-purple">Save Address</button>
 
-        <a class="cancel-link"
-           href="<?= BASE_URL ?>index.php?page=account#addresses">
+        <a class="cancel-link" href="<?= $cancelUrl ?>">
             Cancel
         </a>
 

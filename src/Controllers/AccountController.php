@@ -180,6 +180,14 @@ class AccountController {
 
         $postcode = strtoupper(trim($_POST['postcode']));
 
+        // Remove all spaces
+        $postcode = preg_replace('/\s+/', '', $postcode);
+
+       // Reinsert single space before last 3 characters
+       if (strlen($postcode) > 3) {
+           $postcode = substr($postcode, 0, -3) . ' ' . substr($postcode, -3);
+        }
+
         // UK postcode regex
        $ukPostcodeRegex = '/^(GIR 0AA|[A-Z]{1,2}\d[A-Z\d]?\s?\d[A-Z]{2})$/';
 

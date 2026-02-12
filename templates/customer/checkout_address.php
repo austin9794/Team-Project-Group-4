@@ -196,6 +196,29 @@ textarea {
     font-size: 14px;
 }
 
+/* ADD CARD STYLE */
+.add-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,255,255,0.03);
+    border: 2px dashed rgba(255,255,255,0.2);
+}
+
+.add-card:hover {
+    border-color: #8f3dff;
+    background: rgba(143,61,255,0.08);
+}
+
+.add-content {
+    text-align: center;
+}
+
+.add-icon {
+    font-size: 48px;
+    margin-bottom: 10px;
+    opacity: 0.8;
+}
 </style>
 
 <h1>Select a delivery address</h1>

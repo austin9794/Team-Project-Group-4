@@ -194,7 +194,7 @@
 
                 <p><?= nl2br(htmlspecialchars($addr['full_address'])) ?></p>
 
-                <?php if ($addr['is_default']): ?>
+                <?php if (!empty($addr['is_default'])): ?>
                     <span style="color:#7cff9d; font-weight:600;">
                         ✓ Default Address
                     </span>
@@ -244,7 +244,7 @@
 
                 <p>Expires <?= (int)$p['expiry_month'] ?>/<?= (int)$p['expiry_year'] ?></p>
 
-                <?php if ($p['is_default']): ?>
+                <?php if (!empty($p['is_default'])): ?>
                     <span style="color:#7cff9d; font-weight:600;">✓ Default Payment</span>
                 <?php else: ?>
                     <a class="btn-purple"

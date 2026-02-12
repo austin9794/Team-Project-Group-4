@@ -211,7 +211,7 @@ class AccountController {
          $data['address_line2'],
          $data['city'],
          $data['county'],
-         $data['postcode'],
+         $postcode,
          $data['country']
        ]);
 
@@ -298,7 +298,7 @@ class AccountController {
         trim($_POST['address_line2'] ?? ''),
         trim($_POST['city']),
         trim($_POST['county'] ?? ''),
-        trim($_POST['postcode']),
+        $postcode,
         $id,
         $_SESSION['user_id']
     ]);

@@ -1,5 +1,21 @@
 <?php include __DIR__ . '/../header.php'; ?>
 
+<?php if (isset($_GET['error'])): ?>
+    <div style="background:#3a0d0d; color:#ff7c7c; padding:12px; border-radius:8px; margin-bottom:20px;">
+        <?php
+            $errors = [
+                'invalid_card' => 'Invalid card number.',
+                'unsupported_card' => 'Only Visa and Mastercard supported.',
+                'invalid_cvv' => 'CVV must be 3 or 4 digits.',
+                'invalid_expiry' => 'Invalid expiry format.',
+                'expired_card' => 'Card is expired.',
+                'year_too_old' => 'Expiry year must be 26 or later.'
+            ];
+            echo $errors[$_GET['error']] ?? 'Invalid payment details.';
+        ?>
+    </div>
+<?php endif; ?>
+
 <style>
 .payment-container {
     max-width: 600px;

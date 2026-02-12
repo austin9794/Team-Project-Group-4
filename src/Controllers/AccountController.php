@@ -396,10 +396,25 @@ class AccountController {
     }
 
      $expMonth = (int)$matches[1];
-     $expYear  = (int)$matches[2]; // only last 2 digits
+     $expYear  = (int)$matches[2]; 
 
      $currentYearShort  = (int)date("y");
      $currentMonth      = (int)date("m");
+
+     // Enforce minimum year 26+
+     if ($expYear < 26) {
+         header("Location: " . BASE_URL . "index.php?page=add-payment&error=year_too_old");
+          exit;
+        }
+
+     // Prevent expired cards
+      if (
+         $expYear < $currentYearShort ||
+         ($expYear == $currentYearShort && $expMonth < $currentMonth)
+        ) {
+           header("Location: " . BASE_URL . "index.php?page=add-payment&error=expired_card");
+            exit;
+       }
 
     $last4 = substr($cardNumber, -4);
 

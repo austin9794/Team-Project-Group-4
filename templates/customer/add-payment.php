@@ -142,6 +142,21 @@
            href="<?= BASE_URL ?>index.php?page=account#payment-methods">
             Cancel
         </a>
+
+<script>
+document.querySelector("form").addEventListener("submit", function (e) {
+
+    const expiryValid = /^(0[1-9]|1[0-2])\/\d{2}$/.test(expiryInput.value);
+    const cvvValid = /^\d{3,4}$/.test(cvvInput.value);
+    const cardValid = /^\d{16}$/.test(cardInput.value);
+
+    if (!expiryValid || !cvvValid || !cardValid || expiryError.style.display === "block") {
+        e.preventDefault();
+        alert("Please fix payment details before saving.");
+    }
+});
+</script>
+
     </form>
 </div>
 

@@ -124,7 +124,7 @@
 
             <div class="form-group" style="flex:1;">
                 <label>Security Code (CVV)</label>
-                <input type="text"
+                <input type="password"
                        name="cvv"
                        id="cvvInput"
                        inputmode="numeric"
@@ -134,7 +134,10 @@
             </div>
         </div>
 
-        <button type="submit" class="btn-purple">
+        <button type="submit" 
+                class="btn-purple"
+                id="saveCardBtn"
+                disabled>
             Save Payment Method
         </button>
 
@@ -162,23 +165,25 @@ document.querySelector("form").addEventListener("submit", function (e) {
 
 <script>
 const cardInput = document.getElementById("cardNumber");
-const brandDisplay = document.getElementById("cardBrandDisplay");
+const expiryInput = document.getElementById("expiryInput");
+const cvvInput = document.getElementById("cvvInput");
+const saveBtn = document.getElementById("saveCardBtn");
 
-cardInput.addEventListener("input", function() {
-    let value = this.value.replace(/\D/g, '');
-    this.value = value.substring(0,16);
+// ---------- FORMATTERS ----------
 
-    if (value.startsWith("4")) {
-        brandDisplay.textContent = "Detected: Visa";
-    } else if (value.startsWith("5")) {
-        brandDisplay.textContent = "Detected: Mastercard";
-    } else {
-        brandDisplay.textContent = "";
-    }
+// Card number: numbers only, max 16
+cardInput.addEventListener("input", function () {
+    this.value = this.value.replace(/\D/g, '').substring(0, 16);
+    validateForm();
 });
 
-const expiryInput = document.getElementById("expiryInput");
+// CVV: numbers only, 3–4 digits
+cvvInput.addEventListener("input", function () {
+    this.value = this.value.replace(/\D/g, '').substring(0, 4);
+    validateForm();
+});
 
+// Expiry formatter MM/YY
 expiryInput.addEventListener("input", function () {
 
     let value = this.value.replace(/\D/g, '');
@@ -186,51 +191,58 @@ expiryInput.addEventListener("input", function () {
     if (value.length >= 2) {
         let month = value.substring(0, 2);
 
-        if (parseInt(month) > 12) {
-            month = "12";
-        }
-
-        if (parseInt(month) < 1) {
-            month = "01";
-        }
+        if (parseInt(month) > 12) month = "12";
+        if (parseInt(month) < 1) month = "01";
 
         value = month + (value.length > 2 ? "/" + value.substring(2, 4) : "");
     }
 
     this.value = value.substring(0, 5);
+    validateForm();
 });
 
-const cvvInput = document.getElementById("cvvInput");
 
-cvvInput.addEventListener("input", function () {
-    this.value = this.value.replace(/\D/g, '').substring(0, 4);
-});
+// ---------- VALIDATION ENGINE ----------
 
-const expiryError = document.getElementById("expiryError");
+function validateForm() {
 
-expiryInput.addEventListener("blur", function () {
+    const cardValid = /^\d{16}$/.test(cardInput.value);
+    const cvvValid = /^\d{3,4}$/.test(cvvInput.value);
+    const expiryValid = validateExpiry(expiryInput.value);
 
-    const value = this.value;
+    if (cardValid && cvvValid && expiryValid) {
+        saveBtn.disabled = false;
+        saveBtn.style.opacity = "1";
+        saveBtn.style.cursor = "pointer";
+    } else {
+        saveBtn.disabled = true;
+        saveBtn.style.opacity = "0.6";
+        saveBtn.style.cursor = "not-allowed";
+    }
+}
+
+
+// Expiry validation logic
+function validateExpiry(value) {
 
     if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(value)) {
-        expiryError.style.display = "block";
-        return;
+        return false;
     }
 
     const parts = value.split("/");
     const month = parseInt(parts[0]);
     const year  = parseInt(parts[1]);
 
-    const currentYear = parseInt(new Date().getFullYear().toString().slice(-2));
-    const currentMonth = new Date().getMonth() + 1;
+    const now = new Date();
+    const currentYear = parseInt(now.getFullYear().toString().slice(-2));
+    const currentMonth = now.getMonth() + 1;
 
-    if (year < currentYear || (year === currentYear && month < currentMonth)) {
-        expiryError.style.display = "block";
-    } else {
-        expiryError.style.display = "none";
-    }
-});
+    if (year < currentYear) return false;
+    if (year === currentYear && month < currentMonth) return false;
 
+    return true;
+}
 </script>
+
 
 <?php include __DIR__ . '/../footer.php'; ?>

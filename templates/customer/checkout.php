@@ -258,12 +258,17 @@ textarea {
 
   </div>
 <?php else: ?>
-  <p>No saved payment methods.</p>
-<?php endif; ?>
+    <div class="option-card" style="border:2px dashed #5d3b8a;">
+        <div class="option-content">
+            <p>No saved payment methods.</p>
+        </div>
+    </div>
 
-<a href="<?= BASE_URL ?>index.php?page=add-payment&redirect=checkout" class="link-action">
-  + Add a new payment method
-</a>
+    <a href="<?= BASE_URL ?>index.php?page=add-payment&redirect=checkout"
+       class="link-action">
+        + Add payment method
+    </a>
+<?php endif; ?>
 
         <!-- ORDER SUMMARY -->
        <h2 class="section-title">Order Summary</h2>

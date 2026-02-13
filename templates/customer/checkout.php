@@ -1,6 +1,5 @@
 <?php 
 require_once __DIR__ . '/../../src/Controllers/AccountController.php';
-require_once __DIR__ . '/../Helpers/address.php';
 
 $accountController = new AccountController();
 $userData = $accountController->getUserData(); 

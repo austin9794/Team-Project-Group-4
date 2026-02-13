@@ -324,6 +324,19 @@ class AccountController {
     }
 
     $db = Database::getInstance()->getConnection();
+
+    // Check if address is used in orders
+    $check = $db->prepare(" SELECT COUNT(*) 
+        FROM orders 
+        WHERE address_id = ?
+    ");
+    $check->execute([$id]);
+    $used = $check->fetchColumn();
+
+    if ($used > 0) {
+        header("Location: index.php?page=account&error=address_in_use");
+        exit;
+    }
     
 
     // Default Adddress

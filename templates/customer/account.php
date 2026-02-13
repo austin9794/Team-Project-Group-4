@@ -1,6 +1,5 @@
 <?php include __DIR__ . '/../header.php'; ?>
 
-
 <style>
 /* LAYOUT */
 .account-container {
@@ -180,32 +179,53 @@
 
 
         <!-- SAVED ADDRESSES -->
-        <div id="addresses" class="section-card">
-        <h2>Saved Addresses</h2>
+<div id="addresses" class="section-card">
+    <h2>Saved Addresses</h2>
 
     <?php if (empty($addresses)): ?>
         <p>No saved addresses yet.</p>
     <?php else: ?>
         <?php foreach ($addresses as $addr): ?>
-            <div class="address-box" style="margin-bottom:15px;">
-                <p><strong><?= htmlspecialchars($addr['label']) ?>:</strong></p>
+            <div class="address-box" style="margin-bottom:20px;">
+
+                <p>
+                    <strong><?= htmlspecialchars($addr['label']) ?>:</strong>
+                </p>
+
                 <p><?= nl2br(htmlspecialchars($addr['full_address'])) ?></p>
 
-                <a class="btn-purple" href="/Team-Project-Group-4/public/index.php?page=edit-address&id=<?= $addr['address_id'] ?>">
+                <?php if (!empty($addr['is_default'])): ?>
+                    <span style="color:#7cff9d; font-weight:600;">
+                        ✓ Default Address
+                    </span>
+                <?php else: ?>
+                    <a class="btn-purple"
+                       href="<?= BASE_URL ?>index.php?page=set-default-address&id=<?= $addr['address_id'] ?>">
+                        Set as Default
+                    </a>
+                <?php endif; ?>
+
+                <br><br>
+
+                <a class="btn-purple"
+                   href="<?= BASE_URL ?>index.php?page=edit-address&id=<?= $addr['address_id'] ?>">
                     Edit
                 </a>
+
                 <a class="btn-purple" style="background:#ff4f4f;"
-                    href="/Team-Project-Group-4/public/index.php?page=delete-address&id=<?= $addr['address_id'] ?>">
+                   href="<?= BASE_URL ?>index.php?page=delete-address&id=<?= $addr['address_id'] ?>">
                     Delete
                 </a>
+
             </div>
         <?php endforeach; ?>
     <?php endif; ?>
 
-    <a class="btn-purple" href="/Team-Project-Group-4/public/index.php?page=add-address">
+    <a class="btn-purple" href="<?= BASE_URL ?>index.php?page=add-address">
         Add New Address
     </a>
 </div>
+
 
 <!-- PAYMENT METHODS -->
 <div id="payment-methods" class="section-card">
@@ -216,36 +236,83 @@
     <?php else: ?>
         <?php foreach ($payments as $p): ?>
             <div class="payment-box" style="margin-bottom:15px;">
-                <p><strong><?= htmlspecialchars($p['card_brand']) ?></strong>
-                ending in <strong><?= htmlspecialchars($p['card_last4']) ?></strong></p>
 
-                <p>Expires <?= $p['expiry_month'] ?>/<?= $p['expiry_year'] ?></p>
+                <p>
+                    <strong><?= htmlspecialchars($p['card_brand']) ?></strong>
+                    ending in <strong><?= htmlspecialchars($p['card_last4']) ?></strong>
+                </p>
+
+                <p>Expires <?= (int)$p['expiry_month'] ?>/<?= (int)$p['expiry_year'] ?></p>
+
+                <?php if (!empty($p['is_default'])): ?>
+                    <span style="color:#7cff9d; font-weight:600;">✓ Default Payment</span>
+                <?php else: ?>
+                    <a class="btn-purple"
+                       href="<?= BASE_URL ?>index.php?page=set-default-payment&id=<?= $p['payment_id'] ?>">
+                        Set as Default
+                    </a>
+                <?php endif; ?>
+
+                <br><br>
+
+                <a class="btn-purple"
+                   href="<?= BASE_URL ?>index.php?page=edit-payment&id=<?= $p['payment_id'] ?>">
+                    Edit
+                </a>
 
                 <a class="btn-purple" style="background:#ff4f4f;"
-                    href="/Team-Project-Group-4/public/index.php?page=delete-payment&id=<?= $p['payment_id'] ?>">
+                   href="<?= BASE_URL ?>index.php?page=delete-payment&id=<?= $p['payment_id'] ?>">
                     Remove
                 </a>
+
             </div>
-        <?php endforeach; ?>
+            <?php endforeach; ?>
+        <?php endif; ?>
+
+        <a class="btn-purple" href="<?= BASE_URL ?>index.php?page=add-payment">
+            Add Payment Method
+         </a>
+    </div>
+
+    <!-- DELETE ACCOUNT -->
+
+    <div id="delete" class="section-card">
+    <h2>Delete Account</h2>
+
+    <p style="color:#ff7777; font-weight:600;">
+        This action is permanent and cannot be undone.
+    </p>
+
+    <?php if (isset($_GET['error'])): ?>
+        <p style="color:#ff6b6b;">
+            <?php if ($_GET['error'] === 'password'): ?>
+                Incorrect password.
+            <?php elseif ($_GET['error'] === 'confirm'): ?>
+                You must type YES to confirm.
+            <?php endif; ?>
+        </p>
     <?php endif; ?>
 
-    <a class="btn-purple" href="/Team-Project-Group-4/public/index.php?page=add-payment">
-        Add Payment Method
-    </a>
+    <form method="POST" action="<?= BASE_URL ?>index.php?page=delete-account"
+          onsubmit="return confirm('This will permanently delete your account. Continue?');">
+
+        <label style="display:block;margin-top:15px;">
+            Confirm Password
+        </label>
+        <input type="password" name="password" required>
+
+        <label style="display:block;margin-top:15px;">
+            Type <strong>YES</strong> to confirm
+        </label>
+        <input type="text" name="confirm" placeholder="YES" required>
+
+        <button class="btn-purple"
+                style="background:#ff4f4f;margin-top:15px;"
+                type="submit">
+            Permanently Delete Account
+        </button>
+    </form>
 </div>
-
-
-
-        <!-- DELETE ACCOUNT -->
-        <div id="delete" class="section-card">
-            <h2>Delete Account</h2>
-
-            <p style="color:#ff7777;">This action cannot be undone.</p>
-
-            <a class="btn-purple" style="background:#ff4f4f;" href="#">
-                Request Deletion (Coming Soon)
-            </a>
-        </div>
 
     </div>
 </div>

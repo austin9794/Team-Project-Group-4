@@ -44,7 +44,10 @@ CREATE TABLE payment_methods (
     expiry_month INT,
     expiry_year INT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+    is_default BOOLEAN DEFAULT 0,
+
+    FOREIGN KEY (user_id) REFERENCES users(user_id) 
+    ON DELETE CASCADE
 );
 
 -- Categories Table --
@@ -124,6 +127,9 @@ CREATE TABLE orders (
 
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
+  shipping_address TEXT NOT NULL,
+  payment_summary VARCHAR(100) NOT NULL,
+
   FOREIGN KEY (user_id) REFERENCES users(user_id),
   FOREIGN KEY (address_id) REFERENCES addresses(address_id),
   FOREIGN KEY (payment_id) REFERENCES payment_methods(payment_id)
@@ -153,6 +159,7 @@ CREATE TABLE order_items (
     product_id INT NOT NULL,
     quantity INT NOT NULL,
     price_at_purchase DECIMAL(10,2) NOT NULL,
+    returned_quantity INT DEFAULT 0,
 
     FOREIGN KEY (order_id)
         REFERENCES orders(order_id)
@@ -197,16 +204,25 @@ CREATE INDEX idx_reviews_product
 
 CREATE TABLE returns (
     return_id INT AUTO_INCREMENT PRIMARY KEY,
-    order_item_id INT NOT NULL,
-    reason TEXT,
-    status ENUM('pending','approved','rejected') DEFAULT 'pending',
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
-    FOREIGN KEY (order_item_id)
-        REFERENCES order_items(order_item_id)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
+    order_id INT NOT NULL,
+    order_item_id INT NOT NULL,
+    user_id INT NOT NULL,
+
+    quantity INT NOT NULL,
+    reason VARCHAR(255),
+
+    status ENUM('pending', 'approved', 'rejected', 'refunded')
+           DEFAULT 'pending',
+
+    requested_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    processed_at DATETIME NULL,
+
+    FOREIGN KEY (order_id) REFERENCES orders(order_id),
+    FOREIGN KEY (order_item_id) REFERENCES order_items(order_item_id),
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
+
 
 -- Iventory Log Table (For Reports and Alerts) --
 
@@ -249,4 +265,4 @@ CREATE TABLE admin_actions (
   FOREIGN KEY (admin_id) REFERENCES users(user_id)
 );
 
-
+SET FOREIGN_KEY_CHECKS = 1;

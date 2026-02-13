@@ -1,4 +1,3 @@
-
 <?php 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -6,6 +5,16 @@ if (session_status() === PHP_SESSION_NONE) {
 
 require_once __DIR__ . '/../src/Helpers/session.php';
 require_once __DIR__ . '/../src/Config.php';
+?>
+
+<?php
+$basketCount = 0;
+
+if (!empty($_SESSION['basket']) && is_array($_SESSION['basket'])) {
+    foreach ($_SESSION['basket'] as $qty) {
+        $basketCount += (int)$qty;
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -23,6 +32,8 @@ require_once __DIR__ . '/../src/Config.php';
 
     <!-- Dynamic asset loading -->
     <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/style.css">
+
+    <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/admin.css">
 
     <style>
         /* === TOP HEADER BAR === */

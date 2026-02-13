@@ -24,8 +24,7 @@ class ContactController
 
         // Save messages to database 
         $db = Database::getInstance()->getConnection();
-        $stmt = $db->prepare("
-            INSERT INTO contact_messages (name, email, subject, message) 
+        $stmt = $db->prepare(" INSERT INTO contact_messages (name, email, subject, message) 
             VALUES (?, ?, ?, ?)
         ");
         $stmt->execute([$name, $email, $subject, $message]);

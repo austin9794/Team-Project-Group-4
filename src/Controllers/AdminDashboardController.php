@@ -46,8 +46,7 @@ class AdminDashboardController extends BaseAdminController {
     public function reports() {
         $db = Database::getInstance()->getConnection();
 
-        $stmt = $db->query("
-            SELECT 
+        $stmt = $db->query(" SELECT 
                 p.product_id,
                 p.name,
                 p.stock,
@@ -67,8 +66,7 @@ class AdminDashboardController extends BaseAdminController {
         ");
         $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        $summaryStmt = $db->query("
-            SELECT 
+        $summaryStmt = $db->query(" SELECT 
                 COUNT(*) as total_products,
                 SUM(stock) as total_stock_units,
                 SUM(stock * price) as total_stock_value,
@@ -78,8 +76,7 @@ class AdminDashboardController extends BaseAdminController {
         ");
         $summary = $summaryStmt->fetch(PDO::FETCH_ASSOC);
 
-        $orderStmt = $db->query("
-            SELECT 
+        $orderStmt = $db->query(" SELECT 
                 COUNT(CASE WHEN status = 'pending' THEN 1 END) as pending_orders,
                 COUNT(CASE WHEN status = 'processing' THEN 1 END) as processing_orders,
                 COUNT(CASE WHEN status = 'shipped' THEN 1 END) as shipped_orders,
@@ -125,8 +122,7 @@ class AdminDashboardController extends BaseAdminController {
         }
 
         // Build query with filters
-        $sql = "
-            SELECT 
+        $sql = " SELECT 
                 o.order_id,
                 o.total_price,
                 o.status,
@@ -182,6 +178,92 @@ class AdminDashboardController extends BaseAdminController {
         include __DIR__ . '/../../templates/admin/orders.php';
     }
 
+    public function adminView() {
+    $orderId = (int)($_GET['id'] ?? 0);
+    if ($orderId === 0) {
+        header("Location: index.php?page=admin-orders");
+        exit;
+    }
+
+    $db = Database::getInstance()->getConnection();
+
+    // Order info
+    $orderStmt = $db->prepare(" SELECT o.*, u.name, u.email
+        FROM orders o
+        JOIN users u ON o.user_id = u.user_id
+        WHERE o.order_id = ?
+    ");
+    $orderStmt->execute([$orderId]);
+    $order = $orderStmt->fetch();
+
+    if (!$order) {
+        header("Location: index.php?page=admin-orders");
+        exit;
+    }
+
+    // Order items
+    $itemsStmt = $db->prepare(" SELECT oi.*, p.name
+        FROM order_items oi
+        JOIN products p ON oi.product_id = p.product_id
+        WHERE oi.order_id = ?
+    ");
+    $itemsStmt->execute([$orderId]);
+    $items = $itemsStmt->fetchAll();
+
+    include __DIR__ . '/../../templates/admin/order_view.php';
+}
+
+    public function viewOrder()  {  
+    $db = Database::getInstance()->getConnection();
+    $orderId = (int)($_GET['id'] ?? 0);
+
+    if (!$orderId) {
+        header("Location: index.php?page=admin-orders");
+        exit;
+    }
+
+    // Fetch order + customer
+   $stmt = $db->prepare(" SELECT 
+        o.order_id,
+        o.status,
+        o.created_at,
+        o.total_price,
+        o.shipping_address,
+        o.payment_summary,
+
+        u.name AS customer_name,
+        u.email AS customer_email
+        
+    FROM orders o
+    JOIN users u ON o.user_id = u.user_id
+    WHERE o.order_id = ?
+    ");
+    $stmt->execute([$orderId]);
+    $order = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$order) {
+        header("Location: index.php?page=admin-orders");
+        exit;
+    }
+
+     // Fetch order items
+    $itemsStmt = $db->prepare("  SELECT 
+            oi.*,
+            p.name,
+            p.price,
+            pi.image_path
+        FROM order_items oi
+        JOIN products p ON oi.product_id = p.product_id
+        LEFT JOIN product_images pi 
+            ON p.product_id = pi.product_id AND pi.is_primary = 1
+        WHERE oi.order_id = ?
+    ");
+    $itemsStmt->execute([$orderId]);
+    $items = $itemsStmt->fetchAll(PDO::FETCH_ASSOC);
+
+    include __DIR__ . '/../../templates/admin/order_view.php';
+}
+
     public function products() {
         $db = Database::getInstance()->getConnection();
         
@@ -227,8 +309,7 @@ class AdminDashboardController extends BaseAdminController {
             $price = (float)$_POST['price'];
             $threshold = (int)$_POST['low_stock_threshold'];
 
-            $update = $db->prepare("
-                UPDATE products 
+            $update = $db->prepare(" UPDATE products 
                 SET stock = ?, price = ?, low_stock_threshold = ?
                 WHERE product_id = ?
             ");
@@ -239,8 +320,7 @@ class AdminDashboardController extends BaseAdminController {
         }
 
         // Build query with filters
-        $sql = "
-            SELECT 
+        $sql = "  SELECT 
                 p.product_id,
                 p.name,
                 p.slug,

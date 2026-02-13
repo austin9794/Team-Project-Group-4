@@ -491,6 +491,14 @@ class AccountController {
         exit;
     }
 
+    // Move to end of expiry month
+    $cardDate->modify('last day of this month');
+
+    if ($cardDate < $now) {
+        header("Location: " . BASE_URL . "index.php?page=edit-payment&id={$paymentId}&error=expired_card");
+        exit;
+    }
+
     // Delete Payment
       public function deletePayment() {
       requireLogin();

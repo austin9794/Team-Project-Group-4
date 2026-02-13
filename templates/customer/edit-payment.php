@@ -79,17 +79,22 @@
 
         <!-- EXPIRY -->
         <div class="form-group">
-            <label>Expiry (MM/YY)</label>
-            <input type="text"
-                   name="expiry"
-                   id="editExpiryInput"
-                   value="<?= str_pad($payment['expiry_month'], 2, '0', STR_PAD_LEFT) ?>/<?= substr($payment['expiry_year'], -2) ?>"
-                   maxlength="5"
-                   inputmode="numeric"
-                   required>
+          <label>Expiry (MM/YY)</label>
+          <input
+           type="text"
+           name="expiry"
+           id="expiryInput"
+           value="<?= str_pad($payment['expiry_month'], 2, '0', STR_PAD_LEFT) ?>/<?= substr($payment['expiry_year'], -2) ?>"
+           placeholder="MM/YY"
+           maxlength="5"
+           required
+             >
+          </div>
 
-            <div id="editExpiryError" class="error-message"></div>
-        </div>
+         <div id="expiryError"
+             style="color:#ff6b6b; font-size:14px; display:none;">
+             Please enter a valid date.
+         </div>
 
         <button type="submit" class="btn-purple" id="editSaveBtn" disabled>
             Update Payment Method

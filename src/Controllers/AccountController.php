@@ -459,16 +459,13 @@ class AccountController {
 }
 
     // Update Payment
-    public function updatePayment()
-{
+    public function updatePayment() {
     requireLogin();
 
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
         header("Location: " . BASE_URL . "index.php?page=account");
         exit;
     }
-
-    $db = Database::getInstance()->getConnection();
 
     $paymentId = (int)($_POST['payment_id'] ?? 0);
     $expiryRaw = trim($_POST['expiry'] ?? '');
@@ -478,20 +475,18 @@ class AccountController {
         exit;
     }
 
-    /*
-    |-----------------------------------------
-    | Expiry Must Be In Future
-    |-----------------------------------------
-    */
-    $now = new DateTime();
-    $cardDate = DateTime::createFromFormat('Y-m-d', "{$expiryYear}-{$expiryMonth}-01");
-
-    if (!$cardDate) {
+    // Validate MM/YY format
+    if (!preg_match('/^(0[1-9]|1[0-2])\/(\d{2})$/', $expiryRaw, $matches)) {
         header("Location: " . BASE_URL . "index.php?page=edit-payment&id={$paymentId}&error=invalid_expiry");
         exit;
     }
 
-    // Move to end of expiry month
+    $expiryMonth = (int)$matches[1];
+    $expiryYear  = 2000 + (int)$matches[2]; // Convert YY → YYYY
+
+    // Expiry must be future date
+    $now = new DateTime();
+    $cardDate = DateTime::createFromFormat('Y-m-d', "{$expiryYear}-{$expiryMonth}-01");
     $cardDate->modify('last day of this month');
 
     if ($cardDate < $now) {
@@ -499,33 +494,12 @@ class AccountController {
         exit;
     }
 
-    /*
-    |-----------------------------------------
-    | Verify Payment Belongs To User
-    |-----------------------------------------
-    */
-    $check = $db->prepare(" SELECT payment_id
-        FROM payment_methods
-        WHERE payment_id = ? AND user_id = ?
-    ");
-    $check->execute([$paymentId, $_SESSION['user_id']]);
-
-    if (!$check->fetch()) {
-        header("Location: " . BASE_URL . "index.php?page=account&error=unauthorized");
-        exit;
-    }
-
-    /*
-    |-----------------------------------------
-    | Update Expiry Only
-    |-----------------------------------------
-    */
-    $update = $db->prepare(" UPDATE payment_methods
+    $stmt = $this->db->prepare(" UPDATE payment_methods
         SET expiry_month = ?, expiry_year = ?
         WHERE payment_id = ? AND user_id = ?
     ");
 
-    $update->execute([
+    $stmt->execute([
         $expiryMonth,
         $expiryYear,
         $paymentId,

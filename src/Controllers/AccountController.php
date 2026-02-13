@@ -337,8 +337,17 @@ class AccountController {
         header("Location: index.php?page=account&error=address_in_use");
         exit;
     }
-    
 
+    // Safe to delete
+    $stmt = $db->prepare(" DELETE FROM addresses 
+        WHERE address_id = ? AND user_id = ?
+    ");
+    $stmt->execute([$id, $_SESSION['user_id']]);
+
+    header("Location: index.php?page=account#addresses");
+    exit;
+}
+    
     // Default Adddress
     public function setDefaultAddress() {
     requireLogin();

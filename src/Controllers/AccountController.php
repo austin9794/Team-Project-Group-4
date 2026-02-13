@@ -478,7 +478,18 @@ class AccountController {
         exit;
     }
 
-    
+    /*
+    |-----------------------------------------
+    | Expiry Must Be In Future
+    |-----------------------------------------
+    */
+    $now = new DateTime();
+    $cardDate = DateTime::createFromFormat('Y-m-d', "{$expiryYear}-{$expiryMonth}-01");
+
+    if (!$cardDate) {
+        header("Location: " . BASE_URL . "index.php?page=edit-payment&id={$paymentId}&error=invalid_expiry");
+        exit;
+    }
 
     // Delete Payment
       public function deletePayment() {

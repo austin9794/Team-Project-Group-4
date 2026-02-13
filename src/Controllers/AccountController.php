@@ -504,8 +504,7 @@ class AccountController {
     | Verify Payment Belongs To User
     |-----------------------------------------
     */
-    $check = $db->prepare("
-        SELECT payment_id
+    $check = $db->prepare(" SELECT payment_id
         FROM payment_methods
         WHERE payment_id = ? AND user_id = ?
     ");
@@ -515,6 +514,27 @@ class AccountController {
         header("Location: " . BASE_URL . "index.php?page=account&error=unauthorized");
         exit;
     }
+
+    /*
+    |-----------------------------------------
+    | Update Expiry Only
+    |-----------------------------------------
+    */
+    $update = $db->prepare(" UPDATE payment_methods
+        SET expiry_month = ?, expiry_year = ?
+        WHERE payment_id = ? AND user_id = ?
+    ");
+
+    $update->execute([
+        $expiryMonth,
+        $expiryYear,
+        $paymentId,
+        $_SESSION['user_id']
+    ]);
+
+    header("Location: " . BASE_URL . "index.php?page=account#payment-methods");
+    exit;
+}
 
     // Delete Payment
       public function deletePayment() {

@@ -99,6 +99,53 @@
             Cancel
         </a>
 
+<script>
+const expiryInput = document.getElementById("editExpiryInput");
+const expiryError = document.getElementById("editExpiryError");
+const saveBtn = document.getElementById("editSaveBtn");
+
+function validateExpiry() {
+    let value = expiryInput.value.replace(/\D/g, '');
+
+    if (value.length >= 2) {
+        value = value.slice(0,2) + '/' + value.slice(2,4);
+    }
+
+    expiryInput.value = value.slice(0,5);
+
+    if (value.length < 5) {
+        expiryError.textContent = "";
+        saveBtn.disabled = true;
+        return;
+    }
+
+    const [mm, yy] = value.split('/');
+    const month = parseInt(mm);
+    const year = parseInt("20" + yy);
+
+    const now = new Date();
+    const currentMonth = now.getMonth() + 1;
+    const currentYear = now.getFullYear();
+
+    if (
+        month < 1 || month > 12 ||
+        year < currentYear ||
+        (year === currentYear && month < currentMonth)
+    ) {
+        expiryError.textContent = "Card is expired.";
+        saveBtn.disabled = true;
+        return;
+    }
+
+    expiryError.textContent = "";
+    saveBtn.disabled = false;
+}
+
+expiryInput.addEventListener("input", validateExpiry);
+
+validateExpiry();
+</script>
+
     </form>
 </div>
 

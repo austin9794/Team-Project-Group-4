@@ -192,37 +192,40 @@ textarea {
 
       <h2 class="section-title">
         Delivering to <?= htmlspecialchars($userData['name']) ?>
-      </h2>
+     </h2>
 
-      <?php if ($selectedAddress): ?>
+<?php if ($selectedAddress): ?>
 
     <div class="option-card">
         <div class="option-content">
             <strong><?= htmlspecialchars($selectedAddress['label']) ?></strong>
             <p><?= nl2br(htmlspecialchars(formatAddress($selectedAddress))) ?></p>
 
-            <?php if ($selectedAddress['is_default']): ?>
+            <?php if (!empty($selectedAddress['is_default'])): ?>
                 <span class="badge-default">Default</span>
             <?php endif; ?>
         </div>
     </div>
 
+    <a href="<?= BASE_URL ?>index.php?page=checkout-address"
+       class="link-action">
+        Change delivery address
+    </a>
+
 <?php else: ?>
 
     <div class="option-card" style="border:2px dashed #5d3b8a;">
-        <p>No delivery address set.</p>
-        <a class="btn-purple"
-           href="<?= BASE_URL ?>index.php?page=add-address&redirect=checkout">
-           Add Address
-        </a>
+        <div class="option-content">
+            <p>No delivery address set.</p>
+        </div>
     </div>
 
+    <a href="<?= BASE_URL ?>index.php?page=add-address&redirect=checkout"
+       class="link-action">
+        + Add delivery address
+    </a>
+
 <?php endif; ?>
-
-
-     <a href="<?= BASE_URL ?>index.php?page=checkout-address" class="link-action">
-         Change delivery address
-     </a>
 
 
         <!-- PAYMENT METHOD -->

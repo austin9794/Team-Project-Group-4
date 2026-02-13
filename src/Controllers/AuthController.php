@@ -139,11 +139,12 @@ class AuthController {
     $hashed = password_hash($password, PASSWORD_BCRYPT);
 
     // 5. Insert user
-    $stmt = $this->db->prepare(" INSERT INTO users (name, email, password, role, phone, address)
-        VALUES (?, ?, ?, 'customer', ?, ?)
-    ");
+   $stmt = $this->db->prepare(" INSERT INTO users (name, email, password, role, phone)
+    VALUES (?, ?, ?, 'customer', ?)
+");
 
-    if ($stmt->execute([$name, $email, $hashed, $phone, $address])) {
+
+    if ($stmt->execute([$name, $email, $hashed, $phone])) {
         header("Location: index.php?page=login&success=Account+created,+please+login");
         exit;
     }

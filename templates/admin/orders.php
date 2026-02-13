@@ -50,7 +50,7 @@
 
     <!-- Results Summary -->
     <div class="results-summary">
-        <p>Showing <strong><?= count($orders) ?></strong> order(s)</p>
+        <p>Showing <strong><?= isset($orders) ? count($orders) : 0 ?></strong> order(s)</p>
     </div>
 
     <!-- Orders Table -->
@@ -88,6 +88,8 @@
                             </td>
                             <td><?= date('M d, Y H:i', strtotime($order['created_at'])) ?></td>
                             <td class="actions-cell">
+                                <a href="index.php?page=order&id=<?= (int)$order['order_id'] ?>" class="btn-action btn-view">👁️ View</a>
+                                
                                 <?php if ($order['status'] === 'pending'): ?>
                                     <form method="POST" style="display:inline;">
                                         <input type="hidden" name="order_id" value="<?= (int)$order['order_id'] ?>">

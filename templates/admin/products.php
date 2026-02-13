@@ -38,12 +38,14 @@
                     <label>📁 Category</label>
                     <select name="category">
                         <option value="">All Categories</option>
-                        <?php foreach ($categories as $cat): ?>
-                            <option value="<?= htmlspecialchars($cat) ?>" 
-                                    <?= (($_GET['category'] ?? '') === $cat) ? 'selected' : '' ?>>
-                                <?= htmlspecialchars($cat) ?>
-                            </option>
-                        <?php endforeach; ?>
+                        <?php if (!empty($categories)): ?>
+                            <?php foreach ($categories as $cat): ?>
+                                <option value="<?= htmlspecialchars($cat) ?>" 
+                                        <?= (($_GET['category'] ?? '') === $cat) ? 'selected' : '' ?>>
+                                    <?= htmlspecialchars($cat) ?>
+                                </option>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
                     </select>
                 </div>
 
@@ -67,7 +69,7 @@
 
     <!-- Results Summary -->
     <div class="results-summary">
-        <p>Showing <strong><?= count($products) ?></strong> product(s)</p>
+        <p>Showing <strong><?= isset($products) ? count($products) : 0 ?></strong> product(s)</p>
     </div>
 
     <!-- Products Table -->

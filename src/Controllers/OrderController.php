@@ -159,25 +159,35 @@ class OrderController {
     // Determine which address checkout should show
     $selectedAddress = null;
 
-    // Use address chosen during checkout
-    if (!empty($_SESSION['checkout_address_id'])) {
-        foreach ($addresses as $addr) {
-            if ($addr['address_id'] == $_SESSION['checkout_address_id']) {
-                $selectedAddress = $addr;
-                break;
-            }
-        }
-    }
+/*
+Priority:
+1. Address selected in checkout session
+2. Default address
+3. First available address (fallback)
+*/
 
-    // Fallback to default address
-    if (!$selectedAddress) {
-        foreach ($addresses as $addr) {
-            if ($addr['is_default']) {
-                $selectedAddress = $addr;
-                break;
-            }
+if (!empty($_SESSION['checkout_address_id'])) {
+    foreach ($addresses as $addr) {
+        if ($addr['address_id'] == $_SESSION['checkout_address_id']) {
+            $selectedAddress = $addr;
+            break;
         }
     }
+}
+
+if (!$selectedAddress) {
+    foreach ($addresses as $addr) {
+        if (!empty($addr['is_default'])) {
+            $selectedAddress = $addr;
+            break;
+        }
+    }
+}
+
+if (!$selectedAddress && !empty($addresses)) {
+    $selectedAddress = $addresses[0];
+}
+
 
     // Payments 
     $payStmt = $db->prepare(" SELECT *

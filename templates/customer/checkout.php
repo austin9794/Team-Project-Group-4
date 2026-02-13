@@ -273,24 +273,39 @@ textarea {
         <!-- ORDER SUMMARY -->
        <h2 class="section-title">Order Summary</h2>
 
-        <div class="summary-box">
-          <?php foreach ($basketItems as $item): ?>
-            <div class="summary-row">
-              <span>
+<div class="summary-box">
+    <?php foreach ($basketItems as $item): ?>
+        <div class="summary-row">
+            <span>
                 <?= htmlspecialchars($item['name']) ?> × <?= $item['quantity'] ?>
-              </span>
-              <span>£<?= number_format($item['total'], 2) ?></span>
-            </div>
-          <?php endforeach; ?>
+            </span>
+            <span>£<?= number_format($item['total'], 2) ?></span>
+        </div>
+    <?php endforeach; ?>
 
-          <div class="summary-total">
-           Total: £<?= number_format($basketTotal, 2) ?>
-          </div>
-       </div>
+    <div class="summary-total">
+        Total: £<?= number_format($basketTotal, 2) ?>
+    </div>
+</div>
 
         <?php
        $canCheckout = $selectedAddress && !empty($paymentMethods);
         ?>
+
+        <?php if (!$canCheckout): ?>
+    <div style="
+        margin-top:20px;
+        padding:14px;
+        border-radius:8px;
+        background: rgba(255,79,79,0.12);
+        border-left: 4px solid #ff4f4f;
+        color:#ff7b7b;
+        font-weight:500;
+    ">
+        ⚠ Please add a delivery address and payment method before placing your order.
+    </div>
+<?php endif; ?>
+
 
        <button type="submit"
             class="place-order-btn"

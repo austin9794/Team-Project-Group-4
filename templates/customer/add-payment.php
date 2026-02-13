@@ -121,8 +121,6 @@
             </div>
             </div>
 
-            
-
             <div class="form-group" style="flex:1;">
                 <label>Security Code (CVV)</label>
                 <input type="password"
@@ -146,6 +144,12 @@
            href="<?= BASE_URL ?>index.php?page=account#payment-methods">
             Cancel
         </a>
+
+        <?php $redirect = $_GET['redirect'] ?? null; ?>
+
+        <?php if ($redirect): ?>
+           <input type="hidden" name="redirect" value="<?= htmlspecialchars($redirect) ?>">
+       <?php endif; ?>
 
 <script>
 document.querySelector("form").addEventListener("submit", function (e) {

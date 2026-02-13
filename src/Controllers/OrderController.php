@@ -159,13 +159,7 @@ class OrderController {
     // Determine which address checkout should show
     $selectedAddress = null;
 
-/*
-Priority:
-1. Address selected in checkout session
-2. Default address
-3. First available address (fallback)
-*/
-
+   // Address selected in checkout session
 if (!empty($_SESSION['checkout_address_id'])) {
     foreach ($addresses as $addr) {
         if ($addr['address_id'] == $_SESSION['checkout_address_id']) {
@@ -175,6 +169,7 @@ if (!empty($_SESSION['checkout_address_id'])) {
     }
 }
 
+//Default address
 if (!$selectedAddress) {
     foreach ($addresses as $addr) {
         if (!empty($addr['is_default'])) {
@@ -184,6 +179,7 @@ if (!$selectedAddress) {
     }
 }
 
+// First available address (fallback)
 if (!$selectedAddress && !empty($addresses)) {
     $selectedAddress = $addresses[0];
 }

@@ -395,22 +395,22 @@ class AccountController {
         exit;
     }
 
-     $expMonth = (int)$matches[1];
-     $expYear  = (int)$matches[2]; 
+    $expMonth = (int)$matches[1];
+    $expYear  = (int)$matches[2]; 
 
-     $currentYearShort  = (int)date("y");
-     $currentMonth      = (int)date("m");
+    $currentYearShort  = (int)date("y");
+    $currentMonth      = (int)date("m");
 
-     // Enforce minimum year 26+
+    // Enforce minimum year 26+
      if ($expYear < 26) {
          header("Location: " . BASE_URL . "index.php?page=add-payment&error=year_too_old");
           exit;
         }
 
-     // Prevent expired cards
+    // Prevent expired cards
       if (
-         $expYear < $currentYearShort ||
-         ($expYear == $currentYearShort && $expMonth < $currentMonth)
+        $expYear < $currentYearShort ||
+        ($expYear == $currentYearShort && $expMonth < $currentMonth)
         ) {
            header("Location: " . BASE_URL . "index.php?page=add-payment&error=expired_card");
             exit;
@@ -433,8 +433,12 @@ class AccountController {
         $expYear
     ]);
 
+    if (isset($_POST['redirect']) && $_POST['redirect'] === 'checkout') {
+    header("Location: " . BASE_URL . "index.php?page=checkout");
+    } else {
     header("Location: " . BASE_URL . "index.php?page=account#payment-methods");
-    exit;
+    }
+exit;
 }
     // Edit Payment
     public function showEditPaymentForm() {

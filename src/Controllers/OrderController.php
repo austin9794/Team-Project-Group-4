@@ -26,6 +26,25 @@ class OrderController {
 
         $db = Database::getInstance()->getConnection();
 
+        // Ensure user has address
+        $addressCheck = $db->prepare(" SELECT COUNT(*) FROM addresses
+          WHERE user_id = ?
+        ");
+        $addressCheck->execute([$_SESSION['user_id']]);
+        $hasAddress = $addressCheck->fetchColumn() > 0;
+
+        // Ensure user has payment
+        $paymentCheck = $db->prepare(" SELECT COUNT(*) FROM payment_methods
+         WHERE user_id = ?
+        ");
+        $paymentCheck->execute([$_SESSION['user_id']]);
+        $hasPayment = $paymentCheck->fetchColumn() > 0;
+
+        if (!$hasAddress || !$hasPayment) {
+          header("Location: " . BASE_URL . "index.php?page=checkout&error=incomplete_checkout");
+        exit;
+}
+
         //Payment Validation
         if (empty($_POST['payment_id'])) {
         header("Location: /Team-Project-Group-4/public/index.php?page=checkout&error=no_payment");

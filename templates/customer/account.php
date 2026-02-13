@@ -312,49 +312,58 @@
 <!-- PAYMENT METHODS -->
 <div class="account-section">
     <h2 class="section-heading">Saved Payment Methods</h2>
+
     <div class="card-grid">
 
-    <?php if (empty($payments)): ?>
-        <p>No saved payment methods.</p>
-    <?php else: ?>
-        <?php foreach ($payments as $p): ?>
-            <div class="payment-box" style="margin-bottom:15px;">
+        <?php if (!empty($payments)): ?>
+            <?php foreach ($payments as $p): ?>
+                <div class="info-card <?= $p['is_default'] ? 'default-glow' : '' ?>">
 
-                <p>
-                    <strong><?= htmlspecialchars($p['card_brand']) ?></strong>
-                    ending in <strong><?= htmlspecialchars($p['card_last4']) ?></strong>
-                </p>
+                    <h3>
+                        <?= htmlspecialchars($p['card_brand']) ?>
+                        •••• <?= htmlspecialchars($p['card_last4']) ?>
+                    </h3>
 
-                <p>Expires <?= (int)$p['expiry_month'] ?>/<?= (int)$p['expiry_year'] ?></p>
+                    <p>
+                        Expires
+                        <?= str_pad($p['expiry_month'], 2, '0', STR_PAD_LEFT) ?>
+                        /<?= substr($p['expiry_year'], -2) ?>
+                    </p>
 
-                <?php if ($p['is_default']): ?>
-                    <span style="color:#7cff9d; font-weight:600;">✓ Default Payment</span>
-                <?php else: ?>
-                    <a class="btn-purple"
-                       href="<?= BASE_URL ?>index.php?page=set-default-payment&id=<?= $p['payment_id'] ?>">
-                        Set as Default
-                    </a>
-                <?php endif; ?>
+                    <?php if ($p['is_default']): ?>
+                        <span class="default-badge">✓ Default Payment</span>
+                    <?php endif; ?>
 
-                <br><br>
+                    <div class="card-actions">
 
-                <a class="btn-purple"
-                   href="<?= BASE_URL ?>index.php?page=edit-payment&id=<?= $p['payment_id'] ?>">
-                    Edit
-                </a>
+                        <?php if (!$p['is_default']): ?>
+                            <a class="btn-purple"
+                               href="<?= BASE_URL ?>index.php?page=set-default-payment&id=<?= $p['payment_id'] ?>">
+                                Set as Default
+                            </a>
+                        <?php endif; ?>
 
-                <a class="btn-purple" style="background:#ff4f4f;"
-                   href="<?= BASE_URL ?>index.php?page=delete-payment&id=<?= $p['payment_id'] ?>">
-                    Remove
-                </a>
+                        <a class="btn-purple"
+                           href="<?= BASE_URL ?>index.php?page=edit-payment&id=<?= $p['payment_id'] ?>">
+                            Edit
+                        </a>
 
-            </div>
+                        <a class="btn-purple" style="background:#ff4f4f;"
+                           href="<?= BASE_URL ?>index.php?page=delete-payment&id=<?= $p['payment_id'] ?>">
+                            Remove
+                        </a>
+
+                    </div>
+
+                </div>
             <?php endforeach; ?>
         <?php endif; ?>
 
-        <a class="btn-purple" href="<?= BASE_URL ?>index.php?page=add-payment">
-            Add Payment Method
-         </a>
+        <a class="add-card"
+           href="<?= BASE_URL ?>index.php?page=add-payment">
+            + Add Payment Method
+        </a>
+
     </div>
 </div>
 

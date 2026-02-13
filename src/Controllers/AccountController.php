@@ -499,6 +499,23 @@ class AccountController {
         exit;
     }
 
+    /*
+    |-----------------------------------------
+    | Verify Payment Belongs To User
+    |-----------------------------------------
+    */
+    $check = $db->prepare("
+        SELECT payment_id
+        FROM payment_methods
+        WHERE payment_id = ? AND user_id = ?
+    ");
+    $check->execute([$paymentId, $_SESSION['user_id']]);
+
+    if (!$check->fetch()) {
+        header("Location: " . BASE_URL . "index.php?page=account&error=unauthorized");
+        exit;
+    }
+
     // Delete Payment
       public function deletePayment() {
       requireLogin();

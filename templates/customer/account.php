@@ -173,6 +173,16 @@
     background: #b46cff;
 }
 
+.section-error {
+    margin: 15px 0 20px;
+    padding: 14px 16px;
+    border-radius: 10px;
+    background: rgba(255, 79, 79, 0.12);
+    border-left: 4px solid #ff4f4f;
+    color: #ff7b7b;
+    font-weight: 500;
+}
+
 </style>
 
 <div class="account-container">
@@ -260,6 +270,12 @@
         <!-- SAVED ADDRESSES -->
 <div class="account-section">
     <h2 class="section-heading">Saved Addresses</h2>
+
+    <?php if (isset($_GET['error']) && $_GET['error'] === 'address_in_use'): ?>
+       <div class="section-error">
+           ❌ This address cannot be deleted because it is linked to previous orders.
+       </div>
+   <?php endif; ?>
 
     <div class="card-grid">
 

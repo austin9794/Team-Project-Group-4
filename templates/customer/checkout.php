@@ -188,11 +188,11 @@ textarea {
 
     <form method="POST" action="/Team-Project-Group-4/public/index.php?page=place-order">
 
-        <!-- DELIVERY ADDRESS -->
+      <!-- DELIVERY ADDRESS -->
 
-        <h2 class="section-title">
+      <h2 class="section-title">
         Delivering to <?= htmlspecialchars($userData['name']) ?>
-       </h2>
+      </h2>
 
       <div class="option-card">
       <div class="option-content">
@@ -266,9 +266,15 @@ textarea {
           </div>
        </div>
 
-        <button type="submit" class="place-order-btn">
-          Place Order
-        </button>
+        <?php
+       $canCheckout = $selectedAddress && !empty($paymentMethods);
+        ?>
+
+       <button type="submit"
+            class="place-order-btn"
+            <?= !$canCheckout ? 'disabled style="opacity:0.5;cursor:not-allowed;"' : '' ?>>
+           Place Order
+       </button>
 
     </form>
 

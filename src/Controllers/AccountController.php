@@ -315,20 +315,16 @@ class AccountController {
 
      // Delete Address
      public function deleteAddress() {
-     requireLogin();
+    requireLogin();
 
-     $id = $_GET['id'] ?? null;
-
-     if (!$id) exit("Invalid address");
-
-     $db = Database::getInstance()->getConnection();
-
-     $stmt = $db->prepare("DELETE FROM addresses WHERE address_id = ? AND user_id = ?");
-     $stmt->execute([$id, $_SESSION['user_id']]);
-
-     header("Location: /Team-Project-Group-4/public/index.php?page=account#addresses");
-     exit;
+    $id = $_GET['id'] ?? null;
+    if (!$id) {
+        header("Location: index.php?page=account");
+        exit;
     }
+
+    $db = Database::getInstance()->getConnection();
+    
 
     // Default Adddress
     public function setDefaultAddress() {

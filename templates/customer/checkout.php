@@ -295,7 +295,8 @@ textarea {
     </div>
 </div>
 
-      <?php if (!$canCheckout): ?>
+<?php if (isset($_GET['error']) && $_GET['error'] === 'incomplete_checkout'): ?>
+
     <div style="
         margin-top:20px;
         padding:14px;
@@ -305,15 +306,22 @@ textarea {
         color:#ff7b7b;
         font-weight:500;
     ">
-        ⚠ Please add a delivery address and payment method before placing your order.
+        <?php if (!$hasAddress && !$hasPayment): ?>
+            ⚠ Please add a delivery address and payment method before placing your order.
+        <?php elseif (!$hasAddress): ?>
+            ⚠ Please add a delivery address before placing your order.
+        <?php elseif (!$hasPayment): ?>
+            ⚠ Please add a payment method before placing your order.
+        <?php endif; ?>
     </div>
+
 <?php endif; ?>
 
 
        <button type="submit"
-            class="place-order-btn"
-            <?= !$canCheckout ? 'disabled style="opacity:0.5;cursor:not-allowed;"' : '' ?>>
-           Place Order
+           class="place-order-btn"
+        <?= !$canCheckout ? 'disabled style="opacity:0.5;cursor:not-allowed;"' : '' ?>>
+            Place Order
        </button>
 
     </form>

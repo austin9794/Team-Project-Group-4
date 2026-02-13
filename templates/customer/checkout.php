@@ -244,7 +244,7 @@ textarea {
   <p>No saved payment methods.</p>
 <?php endif; ?>
 
-<a href="<?= BASE_URL ?>index.php?page=add-payment" class="link-action">
+<a href="<?= BASE_URL ?>index.php?page=add-payment&redirect=checkout" class="link-action">
   + Add a new payment method
 </a>
 

@@ -6,6 +6,25 @@ $userData = $accountController->getUserData();
 $addresses = $accountController->getAddresses();
 $paymentMethods = $accountController->getPaymentMethods();
 
+
+//pick which address to show in checkout
+$selectedAddress = null;
+
+//if user picked address during checkout
+if (!empty($_SESSION['checkout_address_id']) && !empty($addresses)) {
+    foreach ($addresses as $addr) {
+        if ((int)$addr['address_id'] === (int)$_SESSION['checkout_address_id']) {
+            $selectedAddress = $addr;
+            break;
+        }
+    }
+}
+
+// show most recent address
+if (!$selectedAddress && !empty($addresses)) {
+    $selectedAddress = $addresses[0];
+}
+
 include __DIR__ . '/../header.php'; 
 
 ?>
@@ -227,10 +246,19 @@ textarea {
 
 <?php endif; ?>
 
+  <a href="<?= BASE_URL ?>index.php?page=checkout-address" class="link-action">
+    Change delivery address
+  </a>
+<?php else: ?>
+  <p>No saved delivery address.</p>
+  <a href="<?= BASE_URL ?>index.php?page=checkout-address" class="link-action">
+    + Add/select delivery address
+  </a>
+<?php endif; ?>
 
-        <!-- PAYMENT METHOD -->
+<!-- PAYMENT METHOD -->
 
-        <h2 class="section-title">Payment Method</h2>
+  <h2 class="section-title">Payment Method</h2>
 
 <?php if (!empty($paymentMethods)): ?>
   <div class="option-grid">
@@ -241,7 +269,7 @@ textarea {
           type="radio"
           name="payment_id"
           value="<?= $p['payment_id'] ?>"
-          <?= $p['is_default'] ? 'checked' : '' ?>
+          <?= !empty($p['is_default']) ? 'checked' : '' ?>
           required
         >
 
@@ -249,7 +277,7 @@ textarea {
           <strong><?= htmlspecialchars($p['card_brand']) ?></strong>
           <p>Ending in <?= htmlspecialchars($p['card_last4']) ?></p>
 
-          <?php if ($p['is_default']): ?>
+          <?php if (!empty($p['is_default'])): ?>
             <span class="badge-default">Default</span>
           <?php endif; ?>
         </div>

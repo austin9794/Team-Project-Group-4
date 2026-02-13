@@ -8,6 +8,16 @@ require_once __DIR__ . '/../src/Helpers/address.php';
 require_once __DIR__ . '/../src/Config.php';
 ?>
 
+<?php
+$basketCount = 0;
+
+if (!empty($_SESSION['basket']) && is_array($_SESSION['basket'])) {
+    foreach ($_SESSION['basket'] as $qty) {
+        $basketCount += (int)$qty;
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -267,7 +277,14 @@ require_once __DIR__ . '/../src/Config.php';
                 <circle cx="20" cy="21" r="1"></circle>
                 <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
             </svg>
-            <span>Basket</span>
+            <?php 
+            $basketCount = getBasketItemCount();
+            if ($basketCount > 0): 
+            ?>
+                <span>Basket (<?= $basketCount ?>)</span>
+            <?php else: ?>
+                <span>Basket</span>
+            <?php endif; ?>
         </a>
     </div>
 

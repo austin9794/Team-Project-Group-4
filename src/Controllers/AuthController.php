@@ -113,7 +113,6 @@ class AuthController {
     $password = trim($_POST['password']);
     $confirm = trim($_POST['confirm']);
     $phone = trim($_POST['phone']);
-    $address = trim($_POST['address']);
 
     // 1. Validate passwords match
     if ($password !== $confirm) {

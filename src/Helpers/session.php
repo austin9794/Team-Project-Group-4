@@ -25,3 +25,11 @@ function requireAdmin() {
         exit;
     }
 }
+
+// Get the total number of items in the basket
+function getBasketItemCount() {
+    if (!isset($_SESSION['basket']) || empty($_SESSION['basket'])) {
+        return 0;
+    }
+    return array_sum($_SESSION['basket']);
+}

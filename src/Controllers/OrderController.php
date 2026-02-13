@@ -274,6 +274,7 @@ public function showOrder()
 
     $orderId = $_GET['id'];
     $userId = $_SESSION['user_id'];
+    $isAdmin = $_SESSION['is_admin'] ?? false;
 
     $db = Database::getInstance()->getConnection();
 

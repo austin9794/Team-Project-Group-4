@@ -79,24 +79,24 @@
 
         <!-- EXPIRY -->
         <div class="form-group">
-          <label>Expiry (MM/YY)</label>
-          <input
-           type="text"
-           name="expiry"
-           id="expiryInput"
-           value="<?= str_pad($payment['expiry_month'], 2, '0', STR_PAD_LEFT) ?>/<?= substr($payment['expiry_year'], -2) ?>"
-           placeholder="MM/YY"
-           maxlength="5"
-           required
-             >
-          </div>
+            <label>Expiry (MM/YY)</label>
+            <input
+                type="text"
+                name="expiry"
+                id="editExpiryInput"
+                value="<?= str_pad($payment['expiry_month'], 2, '0', STR_PAD_LEFT) ?>/<?= substr($payment['expiry_year'], -2) ?>"
+                placeholder="MM/YY"
+                maxlength="5"
+                inputmode="numeric"
+                required
+            >
+            <div id="editExpiryError"
+                 style="color:#ff6b6b; font-size:14px; display:none;">
+                Please enter a valid date.
+            </div>
+        </div>
 
-         <div id="expiryError"
-             style="color:#ff6b6b; font-size:14px; display:none;">
-             Please enter a valid date.
-         </div>
-
-        <button type="submit" class="btn-purple" id="editSaveBtn" disabled>
+        <button type="submit" class="btn-purple" id="editSaveBtn">
             Update Payment Method
         </button>
 
@@ -110,21 +110,23 @@ const expiryError = document.getElementById("editExpiryError");
 const saveBtn = document.getElementById("editSaveBtn");
 
 function validateExpiry() {
-    let value = expiryInput.value.replace(/\D/g, '');
 
-    if (value.length >= 2) {
-        value = value.slice(0,2) + '/' + value.slice(2,4);
+    let raw = expiryInput.value.replace(/\D/g, '');
+
+    // Auto insert slash
+    if (raw.length >= 2) {
+        raw = raw.slice(0,2) + '/' + raw.slice(2,4);
     }
 
-    expiryInput.value = value.slice(0,5);
+    expiryInput.value = raw.slice(0,5);
 
-    if (value.length < 5) {
-        expiryError.textContent = "";
+    if (expiryInput.value.length < 5) {
+        expiryError.style.display = "none";
         saveBtn.disabled = true;
         return;
     }
 
-    const [mm, yy] = value.split('/');
+    const [mm, yy] = expiryInput.value.split('/');
     const month = parseInt(mm);
     const year = parseInt("20" + yy);
 
@@ -137,22 +139,23 @@ function validateExpiry() {
         year < currentYear ||
         (year === currentYear && month < currentMonth)
     ) {
-        expiryError.textContent = "Card is expired.";
+        expiryError.textContent = "Card is expired or invalid.";
+        expiryError.style.display = "block";
         saveBtn.disabled = true;
         return;
     }
 
-    expiryError.textContent = "";
+    expiryError.style.display = "none";
     saveBtn.disabled = false;
 }
 
 expiryInput.addEventListener("input", validateExpiry);
 
+// Validate immediately on load
 validateExpiry();
 </script>
 
-    </form>
+</form>
 </div>
-
 
 <?php include __DIR__ . '/../footer.php'; ?>

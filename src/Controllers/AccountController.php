@@ -459,40 +459,26 @@ class AccountController {
 }
 
     // Update Payment
-    public function updatePayment() {
+    public function updatePayment()
+{
     requireLogin();
 
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-        header("Location: index.php?page=account");
+        header("Location: " . BASE_URL . "index.php?page=account");
         exit;
     }
 
-    $paymentId = $_POST['payment_id'];
-    $brand = trim($_POST['brand']);
-    $expiryMonth = (int)$_POST['expiry_month'];
-    $expiryYear = (int)$_POST['expiry_year'];
+    $db = Database::getInstance()->getConnection();
 
-    if (!$paymentId || !$brand || !$expiryMonth || !$expiryYear) {
-        header("Location: index.php?page=account&error=invalid_payment");
+    $paymentId = (int)($_POST['payment_id'] ?? 0);
+    $expiryRaw = trim($_POST['expiry'] ?? '');
+
+    if (!$paymentId || !$expiryRaw) {
+        header("Location: " . BASE_URL . "index.php?page=account&error=invalid_payment");
         exit;
     }
 
-    $stmt = $this->db->prepare(" UPDATE payment_methods
-        SET card_brand = ?, expiry_month = ?, expiry_year = ?
-        WHERE payment_id = ? AND user_id = ?
-    ");
-
-    $stmt->execute([
-        $brand,
-        $expiryMonth,
-        $expiryYear,
-        $paymentId,
-        $_SESSION['user_id']
-    ]);
-
-    header("Location: index.php?page=account#payment-methods");
-    exit;
-}
+    
 
     // Delete Payment
       public function deletePayment() {

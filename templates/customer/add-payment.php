@@ -140,10 +140,16 @@
             Save Payment Method
         </button>
 
-        <a class="cancel-link"
-           href="<?= BASE_URL ?>index.php?page=account#payment-methods">
-            Cancel
-        </a>
+        <?php
+        $redirect = $_GET['redirect'] ?? null;
+        $cancelUrl = $redirect === 'checkout'
+        ? BASE_URL . "index.php?page=checkout"
+        : BASE_URL . "index.php?page=account#payment-methods";
+        ?>
+
+        <a class="cancel-link" href="<?= $cancelUrl ?>">
+          Cancel
+       </a>
 
         <?php $redirect = $_GET['redirect'] ?? null; ?>
 

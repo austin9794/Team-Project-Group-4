@@ -135,3 +135,21 @@ document.addEventListener("DOMContentLoaded", () => {
     if (e.key === "Escape") closeModal();
   });
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+    const postcodeInput = document.querySelector("input[name='postcode']");
+
+    if (!postcodeInput) return;
+
+    postcodeInput.addEventListener("input", () => {
+        let value = postcodeInput.value.toUpperCase().replace(/\s+/g, '');
+
+        if (value.length > 3) {
+            value = value.slice(0, -3) + ' ' + value.slice(-3);
+        }
+
+        postcodeInput.value = value;
+    });
+});
+
+

@@ -1,4 +1,6 @@
-<?php include __DIR__ . '/../header.php'; ?>
+<?php include __DIR__ . '/../header.php'; 
+
+?> 
 
 <style>
 /* LAYOUT */
@@ -38,6 +40,82 @@
 .account-sidebar a:hover {
     background: #5b2b8f;
     color: white;
+}
+
+.account-section {
+    margin-bottom: 60px;
+}
+
+.section-heading {
+    color: #c9a7ff;
+    font-size: 26px;
+    margin-bottom: 25px;
+    letter-spacing: 0.5px;
+}
+
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+}
+
+.info-card {
+    background: linear-gradient(145deg, #1a0b2e, #140a26);
+    border-radius: 16px;
+    padding: 22px;
+    position: relative;
+    border: 1px solid rgba(143,61,255,0.2);
+    box-shadow: 0 0 20px rgba(132,0,255,0.15);
+    transition: all 0.25s ease;
+}
+
+.info-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 0 30px rgba(132,0,255,0.35);
+    border-color: rgba(143,61,255,0.6);
+}
+
+.default-glow {
+    border: 1px solid #7cff9d;
+    box-shadow: 0 0 25px rgba(124,255,157,0.35);
+}
+
+.default-badge {
+    display: inline-block;
+    margin-top: 10px;
+    background: #7cff9d;
+    color: #000;
+    padding: 5px 12px;
+    border-radius: 14px;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.card-actions {
+    margin-top: 18px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.add-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed rgba(143,61,255,0.5);
+    border-radius: 16px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #c9a7ff;
+    cursor: pointer;
+    transition: 0.25s ease;
+    text-decoration: none;
+}
+
+.add-card:hover {
+    background: rgba(143,61,255,0.08);
+    border-color: #8f3dff;
+    box-shadow: 0 0 20px rgba(143,61,255,0.3);
 }
 
 /* MAIN CONTENT */
@@ -94,6 +172,17 @@
 .btn-purple:hover {
     background: #b46cff;
 }
+
+.section-error {
+    margin: 15px 0 20px;
+    padding: 14px 16px;
+    border-radius: 10px;
+    background: rgba(255, 79, 79, 0.12);
+    border-left: 4px solid #ff4f4f;
+    color: #ff7b7b;
+    font-weight: 500;
+}
+
 </style>
 
 <div class="account-container">
@@ -179,100 +268,122 @@
 
 
         <!-- SAVED ADDRESSES -->
-<div id="addresses" class="section-card">
-    <h2>Saved Addresses</h2>
+<div class="account-section">
+    <h2 class="section-heading">Saved Addresses</h2>
 
-    <?php if (empty($addresses)): ?>
-        <p>No saved addresses yet.</p>
-    <?php else: ?>
-        <?php foreach ($addresses as $addr): ?>
-            <div class="address-box" style="margin-bottom:20px;">
+    <?php if (isset($_GET['error']) && $_GET['error'] === 'address_in_use'): ?>
+       <div class="section-error">
+           ❌ This address cannot be deleted because it is linked to previous orders.
+       </div>
+   <?php endif; ?>
 
-                <p>
-                    <strong><?= htmlspecialchars($addr['label']) ?>:</strong>
-                </p>
+    <div class="card-grid">
 
-                <p><?= nl2br(htmlspecialchars($addr['full_address'])) ?></p>
+        <?php if (!empty($addresses)): ?>
+            <?php foreach ($addresses as $addr): ?>
+                <div class="info-card <?= $addr['is_default'] ? 'default-glow' : '' ?>">
 
-                <?php if (!empty($addr['is_default'])): ?>
-                    <span style="color:#7cff9d; font-weight:600;">
-                        ✓ Default Address
-                    </span>
-                <?php else: ?>
-                    <a class="btn-purple"
-                       href="<?= BASE_URL ?>index.php?page=set-default-address&id=<?= $addr['address_id'] ?>">
-                        Set as Default
-                    </a>
-                <?php endif; ?>
+                    <h3><?= htmlspecialchars($addr['label']) ?></h3>
 
-                <br><br>
+                    <p><?= nl2br(htmlspecialchars(formatAddress($addr))) ?></p>
 
-                <a class="btn-purple"
-                   href="<?= BASE_URL ?>index.php?page=edit-address&id=<?= $addr['address_id'] ?>">
-                    Edit
-                </a>
+                    <?php if ($addr['is_default']): ?>
+                        <span class="default-badge">✓ Default Address</span>
+                    <?php endif; ?>
 
-                <a class="btn-purple" style="background:#ff4f4f;"
-                   href="<?= BASE_URL ?>index.php?page=delete-address&id=<?= $addr['address_id'] ?>">
-                    Delete
-                </a>
+                    <div class="card-actions">
 
-            </div>
-        <?php endforeach; ?>
-    <?php endif; ?>
+                        <?php if (!$addr['is_default']): ?>
+                            <a class="btn-purple"
+                               href="<?= BASE_URL ?>index.php?page=set-default-address&id=<?= $addr['address_id'] ?>">
+                                Set as Default
+                            </a>
+                        <?php endif; ?>
 
-    <a class="btn-purple" href="<?= BASE_URL ?>index.php?page=add-address">
-        Add New Address
-    </a>
+                        <a class="btn-purple"
+                           href="<?= BASE_URL ?>index.php?page=edit-address&id=<?= $addr['address_id'] ?>">
+                            Edit
+                        </a>
+
+                        <a class="btn-purple" style="background:#ff4f4f;"
+                           href="<?= BASE_URL ?>index.php?page=delete-address&id=<?= $addr['address_id'] ?>">
+                            Delete
+                        </a>
+                        
+
+                    </div>
+
+                </div>
+            <?php endforeach; ?>
+        <?php endif; ?>
+        
+
+        <a class="add-card"
+           href="<?= BASE_URL ?>index.php?page=add-address">
+            + Add New Address
+        </a>
+
+    </div>
 </div>
 
 
 <!-- PAYMENT METHODS -->
-<div id="payment-methods" class="section-card">
-    <h2>Saved Payment Methods</h2>
+<div class="account-section">
+    <h2 class="section-heading">Saved Payment Methods</h2>
 
-    <?php if (empty($payments)): ?>
-        <p>No saved payment methods.</p>
-    <?php else: ?>
-        <?php foreach ($payments as $p): ?>
-            <div class="payment-box" style="margin-bottom:15px;">
+    <div class="card-grid">
 
-                <p>
-                    <strong><?= htmlspecialchars($p['card_brand']) ?></strong>
-                    ending in <strong><?= htmlspecialchars($p['card_last4']) ?></strong>
-                </p>
+        <?php if (!empty($payments)): ?>
+            <?php foreach ($payments as $p): ?>
+                <div class="info-card <?= $p['is_default'] ? 'default-glow' : '' ?>">
 
-                <p>Expires <?= (int)$p['expiry_month'] ?>/<?= (int)$p['expiry_year'] ?></p>
+                    <h3>
+                        <?= htmlspecialchars($p['card_brand']) ?>
+                        •••• <?= htmlspecialchars($p['card_last4']) ?>
+                    </h3>
 
-                <?php if (!empty($p['is_default'])): ?>
-                    <span style="color:#7cff9d; font-weight:600;">✓ Default Payment</span>
-                <?php else: ?>
-                    <a class="btn-purple"
-                       href="<?= BASE_URL ?>index.php?page=set-default-payment&id=<?= $p['payment_id'] ?>">
-                        Set as Default
-                    </a>
-                <?php endif; ?>
+                    <p>
+                        Expires
+                        <?= str_pad($p['expiry_month'], 2, '0', STR_PAD_LEFT) ?>
+                        /<?= substr($p['expiry_year'], -2) ?>
+                    </p>
 
-                <br><br>
+                    <?php if ($p['is_default']): ?>
+                        <span class="default-badge">✓ Default Payment</span>
+                    <?php endif; ?>
 
-                <a class="btn-purple"
-                   href="<?= BASE_URL ?>index.php?page=edit-payment&id=<?= $p['payment_id'] ?>">
-                    Edit
-                </a>
+                    <div class="card-actions">
 
-                <a class="btn-purple" style="background:#ff4f4f;"
-                   href="<?= BASE_URL ?>index.php?page=delete-payment&id=<?= $p['payment_id'] ?>">
-                    Remove
-                </a>
+                        <?php if (!$p['is_default']): ?>
+                            <a class="btn-purple"
+                               href="<?= BASE_URL ?>index.php?page=set-default-payment&id=<?= $p['payment_id'] ?>">
+                                Set as Default
+                            </a>
+                        <?php endif; ?>
 
-            </div>
+                        <a class="btn-purple"
+                           href="<?= BASE_URL ?>index.php?page=edit-payment&id=<?= $p['payment_id'] ?>">
+                            Edit
+                        </a>
+
+                        <a class="btn-purple" style="background:#ff4f4f;"
+                           href="<?= BASE_URL ?>index.php?page=delete-payment&id=<?= $p['payment_id'] ?>">
+                            Remove
+                        </a>
+
+                    </div>
+
+                </div>
             <?php endforeach; ?>
         <?php endif; ?>
 
-        <a class="btn-purple" href="<?= BASE_URL ?>index.php?page=add-payment">
-            Add Payment Method
-         </a>
+        <a class="add-card"
+           href="<?= BASE_URL ?>index.php?page=add-payment">
+            + Add Payment Method
+        </a>
+
     </div>
+</div>
 
     <!-- DELETE ACCOUNT -->
 

@@ -1,5 +1,12 @@
 <?php include __DIR__ . '/../header.php'; ?>
 
+<?php if (isset($_GET['error']) && $_GET['error'] === 'invalid_postcode'): ?>
+    <div style="background:#330000;color:#ff6b6b;padding:10px;border-radius:6px;margin-bottom:15px;">
+        ❌ Please enter a valid UK postcode.
+    </div>
+<?php endif; ?>
+
+
 <style>
 .edit-container {
     max-width: 700px;
@@ -9,6 +16,7 @@
     border-radius: 12px;
     box-shadow: 0 0 20px rgba(132, 0, 255, 0.25);
 }
+
 
 .edit-container h2 {
     color: #d9a7ff;
@@ -62,10 +70,22 @@
 }
 </style>
 
+<?php
+$redirect = $_GET['redirect'] ?? null;
+
+$cancelUrl = ($redirect === 'checkout')
+    ? BASE_URL . "index.php?page=checkout-address"
+    : BASE_URL . "index.php?page=account#addresses";
+?>
+
 <div class="edit-container">
     <h2>Add New Address</h2>
 
     <form method="POST" action="<?= BASE_URL ?>index.php?page=save-address">
+
+        <?php if ($redirect): ?>
+            <input type="hidden" name="redirect" value="<?= htmlspecialchars($redirect) ?>">
+        <?php endif; ?>
 
         <div class="form-group">
             <label>Label (Home, Work, Uni)</label>
@@ -73,15 +93,48 @@
         </div>
 
         <div class="form-group">
-            <label>Full Address</label>
-            <textarea name="full_address" rows="4" required></textarea>
+            <label>Full name</label>
+            <input type="text" name="full_name" required>
         </div>
+
+        <div class="form-group">
+            <label>Address line 1</label>
+            <input type="text" name="address_line1" required>
+        </div>
+
+        <div class="form-group">
+            <label>Address line 2 (optional)</label>
+            <input type="text" name="address_line2">
+        </div>
+
+        <div class="form-group">
+            <label>Town / City</label>
+            <input type="text" name="city" required>
+        </div>
+
+        <div class="form-group">
+            <label>County (optional)</label>
+            <input type="text" name="county">
+        </div>
+
+        <div class="form-group">
+            <label>Postcode</label>
+            <input type="text" name="postcode" maxlength="8" required>
+        </div>
+
+        <div class="form-group">
+            <label>Country</label>
+            <input type="text" value="United Kingdom" disabled>
+        </div>
+
+        <input type="hidden" name="country" value="United Kingdom">
 
         <button type="submit" class="btn-purple">Save Address</button>
 
-        <a href="<?= BASE_URL ?>index.php?page=account#addresses" class="cancel-link">
+        <a class="cancel-link" href="<?= $cancelUrl ?>">
             Cancel
         </a>
+
     </form>
 </div>
 

@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../Database.php';
+require_once __DIR__ . '/../Helpers/address.php';
 
 class OrderController {
 
@@ -24,6 +25,25 @@ class OrderController {
         }
 
         $db = Database::getInstance()->getConnection();
+
+        // Ensure user has address
+        $addressCheck = $db->prepare(" SELECT COUNT(*) FROM addresses
+          WHERE user_id = ?
+        ");
+        $addressCheck->execute([$_SESSION['user_id']]);
+        $hasAddress = $addressCheck->fetchColumn() > 0;
+
+        // Ensure user has payment
+        $paymentCheck = $db->prepare(" SELECT COUNT(*) FROM payment_methods
+         WHERE user_id = ?
+        ");
+        $paymentCheck->execute([$_SESSION['user_id']]);
+        $hasPayment = $paymentCheck->fetchColumn() > 0;
+
+        if (!$hasAddress || !$hasPayment) {
+          header("Location: " . BASE_URL . "index.php?page=checkout&error=incomplete_checkout");
+        exit;
+}
 
         //Payment Validation
         if (empty($_POST['payment_id'])) {
@@ -53,7 +73,7 @@ class OrderController {
         if ($addressId) {
 
         // Fetch snapshot from selected address
-        $addrStmt = $db->prepare(" SELECT address_id, full_address
+        $addrStmt = $db->prepare(" SELECT *
             FROM addresses
             WHERE address_id = ? AND user_id = ?
         ");
@@ -63,7 +83,7 @@ class OrderController {
         } else {
 
          // Auto-select default address
-        $addrStmt = $db->prepare(" SELECT address_id, full_address
+        $addrStmt = $db->prepare(" SELECT *
             FROM addresses
             WHERE user_id = ? AND is_default = 1
             LIMIT 1
@@ -78,7 +98,7 @@ class OrderController {
         }
 
         $addressId        = $address['address_id'];
-        $shippingAddress  = $address['full_address'];
+        $shippingAddress  = formatAddress($address);
 
     // Recalculate total
     $total = 0;
@@ -158,25 +178,31 @@ class OrderController {
     // Determine which address checkout should show
     $selectedAddress = null;
 
-    // Use address chosen during checkout
-    if (!empty($_SESSION['checkout_address_id'])) {
-        foreach ($addresses as $addr) {
-            if ($addr['address_id'] == $_SESSION['checkout_address_id']) {
-                $selectedAddress = $addr;
-                break;
-            }
+   // Address selected in checkout session
+if (!empty($_SESSION['checkout_address_id'])) {
+    foreach ($addresses as $addr) {
+        if ($addr['address_id'] == $_SESSION['checkout_address_id']) {
+            $selectedAddress = $addr;
+            break;
         }
     }
+}
 
-    // Fallback to default address
-    if (!$selectedAddress) {
-        foreach ($addresses as $addr) {
-            if ($addr['is_default']) {
-                $selectedAddress = $addr;
-                break;
-            }
+//Default address
+if (!$selectedAddress) {
+    foreach ($addresses as $addr) {
+        if (!empty($addr['is_default'])) {
+            $selectedAddress = $addr;
+            break;
         }
     }
+}
+
+// First available address (fallback)
+if (!$selectedAddress && !empty($addresses)) {
+    $selectedAddress = $addresses[0];
+}
+
 
     // Payments 
     $payStmt = $db->prepare(" SELECT *
@@ -253,7 +279,7 @@ public function showOrder()
     $db = Database::getInstance()->getConnection();
 
     // Fetch order
-    $orderStmt = $db->prepare(" SELECT o.*, a.full_address
+    $orderStmt = $db->prepare(" SELECT o.*
         FROM orders o
         LEFT JOIN addresses a ON o.address_id = a.address_id
         LEFT JOIN payment_methods pm ON o.payment_id = pm.payment_id

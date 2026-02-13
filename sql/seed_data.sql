@@ -460,9 +460,33 @@ SELECT product_id, 'products/mice/mouse5/03.png', 0, 3
 FROM products WHERE slug = 'mouse5';
 
 -- ADDRESSES
-INSERT INTO addresses (user_id, full_address, is_default) VALUES
-(2, '12 High Street, Birmingham, B1 1AA', 1),
-(3, '45 Queen Road, London, E1 6AN', 1);
+
+INSERT INTO addresses 
+(user_id, label, full_name, address_line1, address_line2, city, county, postcode, country, is_default, created_at)
+VALUES
+
+-- User 2
+(2, 'Home', 'Ali Khan',
+ '12 High Street',
+ NULL,
+ 'Birmingham',
+ 'West Midlands',
+ 'B1 1AA',
+ 'United Kingdom',
+ 1,
+ NOW()),
+
+-- User 3
+(3, 'Home', 'Sarah Khan',
+ '45 Queen Road',
+ NULL,
+ 'London',
+ NULL,
+ 'E1 6AN',
+ 'United Kingdom',
+ 1,
+ NOW());
+
 
 -- EXAMPLE ORDER
 INSERT INTO orders

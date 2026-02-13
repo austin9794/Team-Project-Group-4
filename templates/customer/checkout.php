@@ -270,8 +270,15 @@ textarea {
     </a>
 <?php endif; ?>
 
-        <!-- ORDER SUMMARY -->
-       <h2 class="section-title">Order Summary</h2>
+    <?php
+     $hasAddress = !empty($selectedAddress);
+     $hasPayment = !empty($paymentMethods);
+
+     $canCheckout = $hasAddress && $hasPayment;
+    ?>
+
+    <!-- ORDER SUMMARY -->
+    <h2 class="section-title">Order Summary</h2>
 
 <div class="summary-box">
     <?php foreach ($basketItems as $item): ?>
@@ -288,11 +295,7 @@ textarea {
     </div>
 </div>
 
-        <?php
-       $canCheckout = $selectedAddress && !empty($paymentMethods);
-        ?>
-
-        <?php if (!$canCheckout): ?>
+      <?php if (!$canCheckout): ?>
     <div style="
         margin-top:20px;
         padding:14px;

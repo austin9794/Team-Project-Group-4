@@ -118,8 +118,7 @@ CREATE TABLE orders (
   user_id INT NOT NULL,
   total_price DECIMAL(10,2) NOT NULL,
 
-  status ENUM(
-    'pending',
+  status ENUM( 'pending',
     'processing',
     'shipped',
     'delivered',

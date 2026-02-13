@@ -293,12 +293,14 @@
                            href="<?= BASE_URL ?>index.php?page=delete-address&id=<?= $addr['address_id'] ?>">
                             Delete
                         </a>
+                        
 
                     </div>
 
                 </div>
             <?php endforeach; ?>
         <?php endif; ?>
+        
 
         <a class="add-card"
            href="<?= BASE_URL ?>index.php?page=add-address">

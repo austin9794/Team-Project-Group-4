@@ -260,50 +260,51 @@
         <!-- SAVED ADDRESSES -->
 <div class="account-section">
     <h2 class="section-heading">Saved Addresses</h2>
+
     <div class="card-grid">
 
-    <?php if (empty($addresses)): ?>
-        <p>No saved addresses yet.</p>
-    <?php else: ?>
-        <?php foreach ($addresses as $addr): ?>
-            <div class="address-box" style="margin-bottom:20px;">
+        <?php if (!empty($addresses)): ?>
+            <?php foreach ($addresses as $addr): ?>
+                <div class="info-card <?= $addr['is_default'] ? 'default-glow' : '' ?>">
 
-                <p>
-                    <strong><?= htmlspecialchars($addr['label']) ?>:</strong>
-                </p>
+                    <h3><?= htmlspecialchars($addr['label']) ?></h3>
 
-                <p><?= nl2br(htmlspecialchars(formatAddress($addr))) ?></p>
+                    <p><?= nl2br(htmlspecialchars(formatAddress($addr))) ?></p>
 
-                <?php if ($addr['is_default']): ?>
-                    <span style="color:#7cff9d; font-weight:600;">
-                        ✓ Default Address
-                    </span>
-                <?php else: ?>
-                    <a class="btn-purple"
-                       href="<?= BASE_URL ?>index.php?page=set-default-address&id=<?= $addr['address_id'] ?>">
-                        Set as Default
-                    </a>
-                <?php endif; ?>
+                    <?php if ($addr['is_default']): ?>
+                        <span class="default-badge">✓ Default Address</span>
+                    <?php endif; ?>
 
-                <br><br>
+                    <div class="card-actions">
 
-                <a class="btn-purple"
-                   href="<?= BASE_URL ?>index.php?page=edit-address&id=<?= $addr['address_id'] ?>">
-                    Edit
-                </a>
+                        <?php if (!$addr['is_default']): ?>
+                            <a class="btn-purple"
+                               href="<?= BASE_URL ?>index.php?page=set-default-address&id=<?= $addr['address_id'] ?>">
+                                Set as Default
+                            </a>
+                        <?php endif; ?>
 
-                <a class="btn-purple" style="background:#ff4f4f;"
-                   href="<?= BASE_URL ?>index.php?page=delete-address&id=<?= $addr['address_id'] ?>">
-                    Delete
-                </a>
+                        <a class="btn-purple"
+                           href="<?= BASE_URL ?>index.php?page=edit-address&id=<?= $addr['address_id'] ?>">
+                            Edit
+                        </a>
 
-            </div>
-        <?php endforeach; ?>
-    <?php endif; ?>
+                        <a class="btn-purple" style="background:#ff4f4f;"
+                           href="<?= BASE_URL ?>index.php?page=delete-address&id=<?= $addr['address_id'] ?>">
+                            Delete
+                        </a>
 
-       <a class="btn-purple" href="<?= BASE_URL ?>index.php?page=add-address">
-           Add New Address
+                    </div>
+
+                </div>
+            <?php endforeach; ?>
+        <?php endif; ?>
+
+        <a class="add-card"
+           href="<?= BASE_URL ?>index.php?page=add-address">
+            + Add New Address
         </a>
+
     </div>
 </div>
 

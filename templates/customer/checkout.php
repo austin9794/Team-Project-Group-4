@@ -246,16 +246,6 @@ textarea {
 
 <?php endif; ?>
 
-  <a href="<?= BASE_URL ?>index.php?page=checkout-address" class="link-action">
-    Change delivery address
-  </a>
-<?php else: ?>
-  <p>No saved delivery address.</p>
-  <a href="<?= BASE_URL ?>index.php?page=checkout-address" class="link-action">
-    + Add/select delivery address
-  </a>
-<?php endif; ?>
-
 <!-- PAYMENT METHOD -->
 
   <h2 class="section-title">Payment Method</h2>

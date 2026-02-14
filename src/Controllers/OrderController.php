@@ -314,8 +314,8 @@ public function showOrder()
     $itemsStmt->execute([$orderId]);
     $items = $itemsStmt->fetchAll();
 
-    foreach ($items as &$item) {
-    $item['image'] =
+    foreach ($items as $i => $item) {
+    $items[$i]['image'] =
         "products/"
         . strtolower($item['category']) . "/"
         . $item['slug'] . "/01.png";

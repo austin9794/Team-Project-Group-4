@@ -131,25 +131,32 @@
         <div style="margin-top:10px;">
 
         <?php
-           $returnStatus = $item['return_status'] ?? null;
-           $remaining = $item['quantity'] - $item['returned_qty'];
+         $returnStatus = $item['return_status'] ?? null;
+         $remaining = $item['quantity'] - $item['returned_qty'];
+
+         $isDelivered = strtolower($order['status']) === 'delivered';
+         $returnDeadline = strtotime($order['created_at'] . ' +7 days');
+         $withinWindow = time() <= $returnDeadline;
         ?>
 
        <?php if ($returnStatus === 'pending'): ?>
-         <span class="badge badge-pending">Return pending</span>
+          <span class="badge badge-pending">Return pending</span>
 
-         <?php elseif ($remaining <= 0): ?>
-            <span class="badge badge-approved">Returned</span>
+        <?php elseif ($remaining <= 0): ?>
+          <span class="badge badge-approved">Returned</span>
 
-        <?php elseif ($canReturnOrder): ?>
-            <a class="btn-purple"
-              href="<?= BASE_URL ?>index.php?page=request-return&item=<?= $item['order_item_id'] ?>">
-               Request return
-           </a>
+        <?php elseif (!$isDelivered): ?>
+         <span class="badge badge-info">Return available after delivery</span>
+
+        <?php elseif ($isDelivered && $withinWindow): ?>
+          <a class="btn-purple"
+             href="<?= BASE_URL ?>index.php?page=request-return&item=<?= $item['order_item_id'] ?>">
+             Request return
+          </a>
 
         <?php else: ?>
-           <span class="badge badge-expired">Return window expired</span>
-        <?php endif; ?>
+          <span class="badge badge-expired">Return window expired</span>
+         <?php endif; ?>
 
         </div>
     </div>

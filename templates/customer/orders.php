@@ -64,33 +64,49 @@
 }
 </style>
 
-<h1>Your Orders</h1>
+<h1 class="page-title">Your Orders</h1>
 
 <?php if (empty($orders)): ?>
-    <p>You have no orders yet. <a href="index.php?page=products">Shop here today.</a></p>
+
+    <div class="empty-state">
+        <p>You have no orders yet.</p>
+        <a href="<?= BASE_URL ?>index.php?page=products" class="btn-purple">
+            Browse Products
+        </a>
+    </div>
 
 <?php else: ?>
-    <?php foreach ($orders as $order): ?>
-        
-        <div class="order-card">
 
-            <div class="order-header">
-                <h3>Order #<?= $order['order_id'] ?></h3>
-                <span class="order-status <?= strtolower($order['status']) ?>">
-                    <?= htmlspecialchars($order['status']) ?>
-                </span>
+    <div class="orders-grid">
+        <?php foreach ($orders as $order): ?>
+
+            <div class="order-card">
+
+                <div class="order-left">
+                    <h3>Order #<?= $order['order_id'] ?></h3>
+
+                    <div class="order-meta">
+                        <span><strong>Total:</strong> £<?= number_format($order['total_price'], 2) ?></span>
+                        <span><strong>Date:</strong> <?= date('d M Y', strtotime($order['created_at'])) ?></span>
+                    </div>
+
+                    <span class="status-pill <?= strtolower($order['status']) ?>">
+                        <?= ucfirst($order['status']) ?>
+                    </span>
+                </div>
+
+                <div class="order-right">
+                    <a class="btn-purple"
+                       href="<?= BASE_URL ?>index.php?page=order&id=<?= $order['order_id'] ?>">
+                        View Details
+                    </a>
+                </div>
+
             </div>
 
-            <div class="order-detail"><strong>Total:</strong> £<?= number_format($order['total_price'], 2) ?></div>
-            <div class="order-detail"><strong>Date:</strong> <?= $order['created_at'] ?></div>
+        <?php endforeach; ?>
+    </div>
 
-            <a class="btn-view" href="/Team-Project-Group-4/public/index.php?page=order&id=<?= $order['order_id'] ?>">
-                View Order Details
-            </a>
-
-        </div>
-
-    <?php endforeach; ?>
 <?php endif; ?>
 
 <?php include __DIR__ . '/../footer.php'; ?>

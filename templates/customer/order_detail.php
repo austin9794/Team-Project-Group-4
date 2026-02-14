@@ -95,7 +95,9 @@
 
     <?php
     $returnDeadline = strtotime($order['created_at'] . ' +7 days');
-    $canReturnOrder = time() <= $returnDeadline;
+    $canReturnOrder =
+    strtolower($order['status']) === 'delivered'
+    && time() <= $returnDeadline;
     ?>
 
 

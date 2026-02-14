@@ -131,24 +131,24 @@
         <div style="margin-top:10px;">
 
         <?php
-        $remaining = $item['quantity'] - $item['returned_qty'];
+           $returnStatus = $item['return_status'] ?? null;
+           $remaining = $item['quantity'] - $item['returned_qty'];
         ?>
 
-        <?php if ($item['return_status'] === 'pending'): ?>
-            <span class="badge badge-pending">Return pending</span>
+       <?php if ($returnStatus === 'pending'): ?>
+         <span class="badge badge-pending">Return pending</span>
 
-        <?php elseif ($item['return_status'] === 'approved'): ?>
+         <?php elseif ($remaining <= 0): ?>
             <span class="badge badge-approved">Returned</span>
 
-        <?php elseif ($canReturnOrder && $remaining > 0): ?>
+        <?php elseif ($canReturnOrder): ?>
             <a class="btn-purple"
-               href="<?= BASE_URL ?>index.php?page=request-return&item=<?= $item['order_item_id'] ?>">
-                Request return
-            </a>
+              href="<?= BASE_URL ?>index.php?page=request-return&item=<?= $item['order_item_id'] ?>">
+               Request return
+           </a>
 
-        <?php elseif (!$canReturnOrder): ?>
-            <span class="badge badge-expired">Return window expired</span>
-
+        <?php else: ?>
+           <span class="badge badge-expired">Return window expired</span>
         <?php endif; ?>
 
         </div>

@@ -139,7 +139,7 @@ class AuthController {
     $hashed = password_hash($password, PASSWORD_BCRYPT);
 
     // 5. Insert user
-    $stmt = $this->db->prepare(" INSERT INTO users (name, email, password, role, phone, address)
+    $stmt = $this->db->prepare(" INSERT INTO users (name, email, password, role, phone)
         VALUES (?, ?, ?, 'customer', ?, ?)
     ");
 

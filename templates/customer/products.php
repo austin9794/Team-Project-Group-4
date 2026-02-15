@@ -21,7 +21,7 @@ try {
   // Check if database connection is available
   if ($db === null) {
     throw new Exception("Database connection unavailable");
-  }
+  } 
   
   // Get categories
   $catStmt = $db->query("SELECT name FROM categories ORDER BY name");
@@ -42,7 +42,9 @@ try {
   $selected_category = isset($_GET['category']) ? $_GET['category'] : null;
   if (!empty($selected_category)) {
     $sql .= " AND c.name = ? ";
-    $params[] = $selected_category;
+    $params[] = $selected_category;  
+
+
   }
 
   if (!empty($_GET['search'])) {
@@ -82,7 +84,7 @@ try {
   error_log("Error fetching products: " . $e->getMessage());
   $filtered_products = [];
   $categories = ['Keyboards', 'Mice', 'Headsets', 'Monitors', 'Microphones'];
-  
+}
   $filtered_products = array_map(function($product) use ($category_icons) {
     return array_merge($product, [
         'icon' => $category_icons[$product['category_name']] ?? '',
@@ -92,6 +94,9 @@ try {
 
   
   // Apply filters to fallback data
+  $filtered_products = $fallback_products; foreach ($filtered_products as &$product) {
+    $product['icon'] = $category_icons[$product['category_name']] ?? '';
+
   $selected_category = isset($_GET['category_name']) ? $_GET['category_name'] : null;
   $search_term = isset($_GET['search']) ? $_GET['search'] : null;
   $min_price = isset($_GET['min_price']) ? (float)$_GET['min_price'] : null;

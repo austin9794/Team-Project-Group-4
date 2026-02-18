@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../Database.php';
+require_once __DIR__ . '/../Helpers/address.php';
 
 class OrderController {
 
@@ -24,6 +25,25 @@ class OrderController {
         }
 
         $db = Database::getInstance()->getConnection();
+
+        // Ensure user has address
+        $addressCheck = $db->prepare(" SELECT COUNT(*) FROM addresses
+          WHERE user_id = ?
+        ");
+        $addressCheck->execute([$_SESSION['user_id']]);
+        $hasAddress = $addressCheck->fetchColumn() > 0;
+
+        // Ensure user has payment
+        $paymentCheck = $db->prepare(" SELECT COUNT(*) FROM payment_methods
+         WHERE user_id = ?
+        ");
+        $paymentCheck->execute([$_SESSION['user_id']]);
+        $hasPayment = $paymentCheck->fetchColumn() > 0;
+
+        if (!$hasAddress || !$hasPayment) {
+          header("Location: " . BASE_URL . "index.php?page=checkout&error=incomplete_checkout");
+        exit;
+}
 
         //Payment Validation
         if (empty($_POST['payment_id'])) {
@@ -53,7 +73,7 @@ class OrderController {
         if ($addressId) {
 
         // Fetch snapshot from selected address
-        $addrStmt = $db->prepare(" SELECT address_id, full_address
+        $addrStmt = $db->prepare(" SELECT *
             FROM addresses
             WHERE address_id = ? AND user_id = ?
         ");
@@ -63,7 +83,7 @@ class OrderController {
         } else {
 
          // Auto-select default address
-        $addrStmt = $db->prepare(" SELECT address_id, full_address
+        $addrStmt = $db->prepare(" SELECT *
             FROM addresses
             WHERE user_id = ? AND is_default = 1
             LIMIT 1
@@ -78,7 +98,7 @@ class OrderController {
         }
 
         $addressId        = $address['address_id'];
-        $shippingAddress  = $address['full_address'];
+        $shippingAddress  = formatAddress($address);
 
     // Recalculate total
     $total = 0;
@@ -148,9 +168,9 @@ class OrderController {
     $userData = $userStmt->fetch();
 
     $addrStmt = $db->prepare(" SELECT *
-    FROM addresses
-    WHERE user_id = ?
-    ORDER BY created_at DESC
+        FROM addresses
+        WHERE user_id = ?
+        ORDER BY is_default DESC, created_at DESC
     ");
     $addrStmt->execute([$_SESSION['user_id']]);
     $addresses = $addrStmt->fetchAll();
@@ -158,31 +178,37 @@ class OrderController {
     // Determine which address checkout should show
     $selectedAddress = null;
 
-    // Use address chosen during checkout
-    if (!empty($_SESSION['checkout_address_id'])) {
-        foreach ($addresses as $addr) {
-            if ($addr['address_id'] == $_SESSION['checkout_address_id']) {
-                $selectedAddress = $addr;
-                break;
-            }
+   // Address selected in checkout session
+if (!empty($_SESSION['checkout_address_id'])) {
+    foreach ($addresses as $addr) {
+        if ($addr['address_id'] == $_SESSION['checkout_address_id']) {
+            $selectedAddress = $addr;
+            break;
         }
     }
+}
 
-    // Fallback to default address
-    if (!$selectedAddress) {
-        foreach ($addresses as $addr) {
-            if ($addr['is_default']) {
-                $selectedAddress = $addr;
-                break;
-            }
+//Default address
+if (!$selectedAddress) {
+    foreach ($addresses as $addr) {
+        if (!empty($addr['is_default'])) {
+            $selectedAddress = $addr;
+            break;
         }
     }
+}
+
+// First available address (fallback)
+if (!$selectedAddress && !empty($addresses)) {
+    $selectedAddress = $addresses[0];
+}
+
 
     // Payments 
     $payStmt = $db->prepare(" SELECT *
-    FROM payment_methods
-    WHERE user_id = ?
-    ORDER BY created_at DESC
+        FROM payment_methods
+        WHERE user_id = ?
+        ORDER BY is_default DESC, created_at DESC
     ");
     $payStmt->execute([$_SESSION['user_id']]);
     $paymentMethods = $payStmt->fetchAll();
@@ -248,11 +274,12 @@ public function showOrder()
 
     $orderId = $_GET['id'];
     $userId = $_SESSION['user_id'];
+    $isAdmin = $_SESSION['is_admin'] ?? false;
 
     $db = Database::getInstance()->getConnection();
 
     // Fetch order
-    $orderStmt = $db->prepare(" SELECT o.*, a.full_address
+    $orderStmt = $db->prepare(" SELECT o.*
         FROM orders o
         LEFT JOIN addresses a ON o.address_id = a.address_id
         LEFT JOIN payment_methods pm ON o.payment_id = pm.payment_id
@@ -269,22 +296,26 @@ public function showOrder()
 
     // Fetch items
     $itemsStmt = $db->prepare(" SELECT 
-          oi.*,
-          pr.name,
-          pr.slug,
-          c.name AS category
-        FROM order_items oi
-        JOIN products pr ON oi.product_id = pr.product_id
-        JOIN categories c ON pr.category_id = c.category_id
-        WHERE oi.order_id = ?
+        oi.*,
+        pr.name,
+        pr.slug,
+        c.name AS category,
+        COALESCE(SUM(r.quantity), 0) AS returned_qty,
+        MAX(r.status) AS return_status
+    FROM order_items oi
+    JOIN products pr ON oi.product_id = pr.product_id
+    JOIN categories c ON pr.category_id = c.category_id
+    LEFT JOIN returns r ON r.order_item_id = oi.order_item_id
+    WHERE oi.order_id = ?
+    GROUP BY oi.order_item_id
+");
 
-    ");
 
     $itemsStmt->execute([$orderId]);
     $items = $itemsStmt->fetchAll();
 
-    foreach ($items as &$item) {
-    $item['image'] =
+    foreach ($items as $i => $item) {
+    $items[$i]['image'] =
         "products/"
         . strtolower($item['category']) . "/"
         . $item['slug'] . "/01.png";
@@ -334,9 +365,9 @@ public function checkoutAddressPage()
 
     // Fetch user's addresses
     $stmt = $db->prepare(" SELECT *
-    FROM addresses
-    WHERE user_id = ?
-    ORDER BY created_at DESC
+        FROM addresses
+        WHERE user_id = ?
+        ORDER BY is_default DESC, created_at DESC
     ");
     $stmt->execute([$_SESSION['user_id']]);
     $addresses = $stmt->fetchAll();
@@ -344,8 +375,7 @@ public function checkoutAddressPage()
     include __DIR__ . '/../../templates/customer/checkout_address.php';
 }
 
-public function adminProcessOrders()
-{
+public function adminProcessOrders() {
     if (!isset($_POST['order_id'])) {
         echo "Missing order ID";
         return;
@@ -423,6 +453,75 @@ public function adminProcessOrders()
     }
 
 }
+
+public function submitReturn() {
+    requireLogin();
+    $db = Database::getInstance()->getConnection();
+
+    $itemId  = (int)$_POST['order_item_id'];
+    $qty     = (int)$_POST['quantity'];
+    $reason  = trim($_POST['reason']);
+
+    // Fetch order item + order
+    $stmt = $db->prepare("  SELECT oi.*, o.created_at, o.user_id
+        FROM order_items oi
+        JOIN orders o ON oi.order_id = o.order_id
+        WHERE oi.order_item_id = ? AND o.user_id = ?
+    ");
+    $stmt->execute([$itemId, $_SESSION['user_id']]);
+    $item = $stmt->fetch();
+
+    if (!$item) exit("Invalid return request");
+
+    // 7-day rule
+    if (strtotime($item['created_at']) < strtotime('-7 days')) {
+        exit("Return window expired");
+    }
+
+    // Quantity validation
+    $available = $item['quantity'] - $item['returned_quantity'];
+    if ($qty < 1 || $qty > $available) {
+        exit("Invalid return quantity");
+    }
+
+    // Insert return
+    $insert = $db->prepare(" INSERT INTO returns (order_id, order_item_id, user_id, quantity, reason)
+        VALUES (?, ?, ?, ?, ?)
+    ");
+    $insert->execute([
+        $item['order_id'],
+        $itemId,
+        $_SESSION['user_id'],
+        $qty,
+        $reason
+    ]);
+
+    header("Location: " . BASE_URL . "index.php?page=orders");
+    exit;
+}
+
+public function showReturnForm()
+{
+    requireLogin();
+    $db = Database::getInstance()->getConnection();
+
+    $itemId = (int)($_GET['item'] ?? 0);
+
+    $stmt = $db->prepare(" SELECT oi.*, pr.name, o.created_at
+        FROM order_items oi
+        JOIN orders o ON oi.order_id = o.order_id
+        JOIN products pr ON oi.product_id = pr.product_id
+        WHERE oi.order_item_id = ? AND o.user_id = ?
+    ");
+    $stmt->execute([$itemId, $_SESSION['user_id']]);
+    $item = $stmt->fetch();
+
+    if (!$item) exit("Invalid item");
+
+    include __DIR__ . '/../../templates/customer/request_return.php';
+}
+
+
 }
 
 

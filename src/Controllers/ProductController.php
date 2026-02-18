@@ -23,8 +23,7 @@ class ProductController {
         ];
 
    // Base query
-        $sql = "
-      SELECT 
+        $sql = " SELECT 
       p.product_id,
       p.name,
       p.slug,
@@ -83,8 +82,7 @@ class ProductController {
             exit;
         }
 
-        $stmt = $this->db->prepare("
-            SELECT p.*, c.name AS category_name
+        $stmt = $this->db->prepare(" SELECT p.*, c.name AS category_name
             FROM products p
             JOIN categories c ON p.category_id = c.category_id
             WHERE p.product_id = ?
@@ -98,8 +96,7 @@ class ProductController {
         }
 
         // Fetch all images for product
-        $imgStmt = $this->db->prepare("
-           SELECT image_path, is_primary
+        $imgStmt = $this->db->prepare(" SELECT image_path, is_primary
            FROM product_images
            WHERE product_id = ?
            ORDER BY sort_order ASC

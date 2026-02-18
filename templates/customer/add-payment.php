@@ -1,18 +1,34 @@
 <?php include __DIR__ . '/../header.php'; ?>
 
+<?php if (isset($_GET['error'])): ?>
+    <div style="background:#3a0d0d; color:#ff7c7c; padding:12px; border-radius:8px; margin-bottom:20px;">
+        <?php
+            $errors = [
+                'invalid_card' => 'Invalid card number.',
+                'unsupported_card' => 'Only Visa and Mastercard supported.',
+                'invalid_cvv' => 'CVV must be 3 or 4 digits.',
+                'invalid_expiry' => 'Invalid expiry format.',
+                'expired_card' => 'Card is expired.',
+                'year_too_old' => 'Expiry year must be 26 or later.'
+            ];
+            echo $errors[$_GET['error']] ?? 'Invalid payment details.';
+        ?>
+    </div>
+<?php endif; ?>
+
 <style>
-.edit-container {
-    max-width: 700px;
+.payment-container {
+    max-width: 600px;
     margin: 40px auto;
     background: #1a0b2e;
     padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 0 20px rgba(132, 0, 255, 0.25);
+    border-radius: 16px;
+    box-shadow: 0 0 25px rgba(132, 0, 255, 0.3);
 }
 
-.edit-container h2 {
+.payment-container h2 {
     color: #d9a7ff;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
 }
 
 .form-group {
@@ -20,31 +36,43 @@
 }
 
 .form-group label {
-    color: #c9a7ff;
     display: block;
     margin-bottom: 6px;
-    font-weight: bold;
+    color: #c9a7ff;
+    font-weight: 600;
 }
 
-.form-group input, 
-.form-group textarea {
+.form-group input {
     width: 100%;
     padding: 12px;
     background: #2a0f47;
     border: 1px solid #5d3b8a;
-    border-radius: 6px;
-    color: #eee;
+    border-radius: 8px;
+    color: white;
+}
+
+.inline-row {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    align-items: flex-start;
+}
+
+.inline-row .form-group {
+    flex: 1;
+    display: flex;
+    min-width: 180px;
 }
 
 .btn-purple {
     background: #8f3dff;
     padding: 12px 20px;
-    border-radius: 6px;
+    border-radius: 8px;
     color: white;
     border: none;
-    cursor: pointer;
     font-weight: bold;
-    transition: 0.3s;
+    cursor: pointer;
+    transition: 0.2s;
 }
 
 .btn-purple:hover {
@@ -52,54 +80,180 @@
 }
 
 .cancel-link {
-    color: #c9a7ff;
     margin-left: 15px;
+    color: #c9a7ff;
     text-decoration: none;
-}
-
-.cancel-link:hover {
-    color: white;
 }
 </style>
 
-<div class="edit-container">
+<div class="payment-container">
     <h2>Add Payment Method</h2>
 
     <form method="POST" action="<?= BASE_URL ?>index.php?page=save-payment">
 
         <div class="form-group">
-            <label>Card Brand</label>
-            <select name="brand" required>
-                <option value="">Select Brand</option>
-                <option>Visa</option>
-                <option>Mastercard</option>
-                <option>Amex</option>
-                <option>Discover</option>
-            </select>
-        </div>
-
-        <div class="form-group">
             <label>Card Number</label>
-            <input type="text" name="card_number" placeholder="1234 5678 9012 3456" required>
+            <input type="text" 
+                   name="card_number" 
+                   id="cardNumber"
+                   inputmode="numeric"
+                   pattern="\d*"
+                   maxlength="16"
+                   placeholder="1234 5678 9012 3456"
+                   required>
+            <small id="cardBrandDisplay" style="color:#9f7cff;"></small>
         </div>
 
-        <div class="form-group">
-            <label>Expiry Month</label>
-            <input type="number" name="expiry_month" min="1" max="12" required>
+        <div class="inline-row">
+            <div class="form-group" style="flex:1;">
+                <label>Expiry (MM/YY)</label>
+                <input type="text" 
+                       name="expiry"
+                       id="expiryInput"
+                       placeholder="MM/YY"
+                       inputmode="numeric"
+                       maxlength="5"
+                       pattern="^(0[1-9]|1[0-2])\/\d{2}$"
+                       required>
+
+                        <div id="expiryError" style="color:#ff6b6b; font-size:14px; display:none;">
+               Please enter a valid date.
+            </div>
+            </div>
+
+            <div class="form-group" style="flex:1;">
+                <label>Security Code (CVV)</label>
+                <input type="password"
+                       name="cvv"
+                       id="cvvInput"
+                       inputmode="numeric"
+                       maxlength="4"
+                       pattern="\d{3,4}"
+                       required>
+            </div>
         </div>
 
-        <div class="form-group">
-            <label>Expiry Year</label>
-            <input type="number" name="expiry_year"
-                   min="<?= date('Y') ?>" max="<?= date('Y') + 10 ?>" required>
-        </div>
+        <button type="submit" 
+                class="btn-purple"
+                id="saveCardBtn"
+                disabled>
+            Save Payment Method
+        </button>
 
-        <button type="submit" class="btn-purple">Save Payment Method</button>
+        <?php
+        $redirect = $_GET['redirect'] ?? null;
+        $cancelUrl = $redirect === 'checkout'
+        ? BASE_URL . "index.php?page=checkout"
+        : BASE_URL . "index.php?page=account#payment-methods";
+        ?>
 
-        <a href="<?= BASE_URL ?>index.php?page=account#payment-methods" class="cancel-link">
-            Cancel
-        </a>
+        <a class="cancel-link" href="<?= $cancelUrl ?>">
+          Cancel
+       </a>
+
+        <?php $redirect = $_GET['redirect'] ?? null; ?>
+
+        <?php if ($redirect): ?>
+           <input type="hidden" name="redirect" value="<?= htmlspecialchars($redirect) ?>">
+       <?php endif; ?>
+
+<script>
+document.querySelector("form").addEventListener("submit", function (e) {
+
+    const expiryValid = /^(0[1-9]|1[0-2])\/\d{2}$/.test(expiryInput.value);
+    const cvvValid = /^\d{3,4}$/.test(cvvInput.value);
+    const cardValid = /^\d{16}$/.test(cardInput.value);
+
+    if (!expiryValid || !cvvValid || !cardValid || expiryError.style.display === "block") {
+        e.preventDefault();
+        alert("Please fix payment details before saving.");
+    }
+});
+</script>
+
     </form>
 </div>
+
+<script>
+const cardInput = document.getElementById("cardNumber");
+const expiryInput = document.getElementById("expiryInput");
+const cvvInput = document.getElementById("cvvInput");
+const saveBtn = document.getElementById("saveCardBtn");
+
+// ---------- FORMATTERS ----------
+
+// Card number: numbers only, max 16
+cardInput.addEventListener("input", function () {
+    this.value = this.value.replace(/\D/g, '').substring(0, 16);
+    validateForm();
+});
+
+// CVV: numbers only, 3–4 digits
+cvvInput.addEventListener("input", function () {
+    this.value = this.value.replace(/\D/g, '').substring(0, 4);
+    validateForm();
+});
+
+// Expiry formatter MM/YY
+expiryInput.addEventListener("input", function () {
+
+    let value = this.value.replace(/\D/g, '');
+
+    if (value.length >= 2) {
+        let month = value.substring(0, 2);
+
+        if (parseInt(month) > 12) month = "12";
+        if (parseInt(month) < 1) month = "01";
+
+        value = month + (value.length > 2 ? "/" + value.substring(2, 4) : "");
+    }
+
+    this.value = value.substring(0, 5);
+    validateForm();
+});
+
+
+// ---------- VALIDATION ENGINE ----------
+
+function validateForm() {
+
+    const cardValid = /^\d{16}$/.test(cardInput.value);
+    const cvvValid = /^\d{3,4}$/.test(cvvInput.value);
+    const expiryValid = validateExpiry(expiryInput.value);
+
+    if (cardValid && cvvValid && expiryValid) {
+        saveBtn.disabled = false;
+        saveBtn.style.opacity = "1";
+        saveBtn.style.cursor = "pointer";
+    } else {
+        saveBtn.disabled = true;
+        saveBtn.style.opacity = "0.6";
+        saveBtn.style.cursor = "not-allowed";
+    }
+}
+
+
+// Expiry validation logic
+function validateExpiry(value) {
+
+    if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(value)) {
+        return false;
+    }
+
+    const parts = value.split("/");
+    const month = parseInt(parts[0]);
+    const year  = parseInt(parts[1]);
+
+    const now = new Date();
+    const currentYear = parseInt(now.getFullYear().toString().slice(-2));
+    const currentMonth = now.getMonth() + 1;
+
+    if (year < currentYear) return false;
+    if (year === currentYear && month < currentMonth) return false;
+
+    return true;
+}
+</script>
+
 
 <?php include __DIR__ . '/../footer.php'; ?>

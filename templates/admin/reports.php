@@ -2,11 +2,31 @@
 define('ACCESS_ALLOWED', true);
 require_once __DIR__ . '/../../src/Controllers/AdminDashboardController.php';
 
+// Initialize variables if not set to prevent redirect loop
 if (!isset($products)) {
-    header('Location: /Team-Project-Group-4/public/index.php?page=admin-reports');
-    exit();
+    $products = [];
+}
+if (!isset($summary)) {
+    $summary = [
+        'total_products' => 0,
+        'total_stock_units' => 0,
+        'total_stock_value' => 0,
+        'low_stock_count' => 0,
+        'out_of_stock_count' => 0
+    ];
+}
+if (!isset($orderSummary)) {
+    $orderSummary = [
+        'pending_orders' => 0,
+        'processing_orders' => 0,
+        'shipped_orders' => 0,
+        'delivered_orders' => 0,
+        'pending_value' => 0,
+        'active_value' => 0
+    ];
 }
 ?>
+
 
 <?php include __DIR__ . '/../header.php'; ?>
 
@@ -177,262 +197,8 @@ if (!isset($products)) {
     </div>
 </div>
 
-<style>
-    .reports-container {
-        max-width: 1400px;
-        margin: 0 auto;
-        padding: 30px;
-    }
-
-    .reports-header {
-        margin-bottom: 30px;
-        text-align: center;
-    }
-
-    .reports-header h1 {
-        color: var(--text-primary);
-        margin-bottom: 10px;
-    }
-
-    .reports-header p {
-        color: var(--text-secondary);
-        font-size: 1.1rem;
-    }
-
-    .summary-cards {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-        gap: 20px;
-        margin-bottom: 40px;
-    }
-
-    .summary-card {
-        background: linear-gradient(135deg, rgba(188, 168, 230, 0.1), rgba(188, 168, 230, 0.05));
-        border: 2px solid var(--lavender);
-        border-radius: 12px;
-        padding: 25px;
-        display: flex;
-        align-items: center;
-        gap: 20px;
-        transition: transform 0.3s ease;
-    }
-
-    .summary-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 20px rgba(188, 168, 230, 0.3);
-    }
-
-    .card-icon {
-        font-size: 3rem;
-        line-height: 1;
-    }
-
-    .card-content h3 {
-        font-size: 2rem;
-        margin: 0 0 5px 0;
-        color: var(--highlight);
-    }
-
-    .card-content p {
-        margin: 0;
-        color: var(--text-secondary);
-        font-size: 0.95rem;
-    }
-
-    .order-summary-section {
-        margin-bottom: 40px;
-    }
-
-    .order-summary-section h2 {
-        color: var(--text-primary);
-        margin-bottom: 20px;
-    }
-
-    .order-status-cards {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 15px;
-    }
-
-    .order-card {
-        background: rgba(255, 255, 255, 0.05);
-        border: 2px solid rgba(255, 255, 255, 0.1);
-        border-radius: 10px;
-        padding: 20px;
-        display: flex;
-        align-items: center;
-        gap: 15px;
-    }
-
-    .order-icon {
-        font-size: 2.5rem;
-    }
-
-    .order-info h3 {
-        margin: 0 0 5px 0;
-        color: var(--text-primary);
-        font-size: 1.8rem;
-    }
-
-    .order-info p {
-        margin: 0;
-        color: var(--text-secondary);
-        font-size: 0.9rem;
-    }
-
-    .order-value {
-        display: block;
-        margin-top: 5px;
-        color: var(--highlight);
-        font-weight: 600;
-        font-size: 0.95rem;
-    }
-
-    .product-report-section {
-        margin-top: 40px;
-    }
-
-    .product-report-section h2 {
-        color: var(--text-primary);
-        margin-bottom: 20px;
-    }
-
-    .table-container {
-        overflow-x: auto;
-        background: rgba(255, 255, 255, 0.02);
-        border-radius: 12px;
-        padding: 20px;
-    }
-
-    .report-table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-
-    .report-table thead {
-        background: rgba(188, 168, 230, 0.2);
-    }
-
-    .report-table th {
-        padding: 15px;
-        text-align: left;
-        color: var(--text-primary);
-        font-weight: 600;
-        border-bottom: 2px solid var(--lavender);
-    }
-
-    .report-table td {
-        padding: 15px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        color: var(--text-primary);
-    }
-
-    .report-table tbody tr:hover {
-        background: rgba(188, 168, 230, 0.1);
-    }
-
-    .out-of-stock-row {
-        background: rgba(220, 53, 69, 0.1) !important;
-    }
-
-    .low-stock-row {
-        background: rgba(255, 193, 7, 0.05) !important;
-    }
-
-    .product-name strong {
-        color: var(--highlight);
-    }
-
-    .stock-cell {
-        text-align: center;
-        font-weight: bold;
-        font-size: 1.2rem;
-    }
-
-    .stock-number.critical {
-        color: #ff4444;
-    }
-
-    .stock-number.warning {
-        color: #ffc107;
-    }
-
-    .stock-number.normal {
-        color: #4caf50;
-    }
-
-    .status-badge {
-        padding: 6px 12px;
-        border-radius: 6px;
-        font-size: 0.85rem;
-        font-weight: 600;
-        white-space: nowrap;
-    }
-
-    .status-badge.critical {
-        background: rgba(220, 53, 69, 0.2);
-        color: #ff6b6b;
-        border: 1px solid #ff4444;
-    }
-
-    .status-badge.warning {
-        background: rgba(255, 193, 7, 0.2);
-        color: #ffc107;
-        border: 1px solid #ffc107;
-    }
-
-    .status-badge.success {
-        background: rgba(76, 175, 80, 0.2);
-        color: #4caf50;
-        border: 1px solid #4caf50;
-    }
-
-    .badge-incoming {
-        padding: 5px 10px;
-        background: rgba(33, 150, 243, 0.2);
-        color: #2196F3;
-        border-radius: 6px;
-        font-weight: 600;
-        font-size: 0.9rem;
-    }
-
-    .badge-outgoing {
-        padding: 5px 10px;
-        background: rgba(255, 152, 0, 0.2);
-        color: #ff9800;
-        border-radius: 6px;
-        font-weight: 600;
-        font-size: 0.9rem;
-    }
-
-    .badge-completed {
-        padding: 5px 10px;
-        background: rgba(76, 175, 80, 0.2);
-        color: #4caf50;
-        border-radius: 6px;
-        font-weight: 600;
-        font-size: 0.9rem;
-    }
-
-    .text-muted {
-        color: var(--text-secondary);
-        opacity: 0.5;
-    }
-
-    .price-cell, .value-cell {
-        font-weight: 600;
-        color: var(--highlight);
-    }
-
-    @media (max-width: 768px) {
-        .summary-cards {
-            grid-template-columns: 1fr;
-        }
-        
-        .order-status-cards {
-            grid-template-columns: 1fr;
-        }
-    }
-</style>
+<a href="index.php?page=dashboard" class="btn-secondary">
+   ← Back to Dashboard
+</a>
 
 <?php include __DIR__ . '/../footer.php'; ?>

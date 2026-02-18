@@ -1,63 +1,116 @@
 <?php include __DIR__ . '/../header.php'; ?>
 
-<h1>Customer Management</h1>
+<div class="admin-orders-container">
 
-<?php
-require_once __DIR__ . '/../../src/Database.php';
-$db = Database::getInstance()->getConnection();
+    <div class="admin-header">
+        <h1>👥 Customer Management</h1>
+        <p>Search, filter, and manage registered customers</p>
+    </div>
+
+    <!-- Filter Section -->
+   <div class="filter-section">
+    <form method="GET" action="index.php" class="filter-form">
+        <input type="hidden" name="page" value="admin-customers">
+
+        <div class="filter-row">
+            <div class="filter-group">
+                <label>🔍 Search Customer</label>
+                <input type="text"
+                       name="search"
+                       placeholder="Name or email..."
+                       value="<?= htmlspecialchars($_GET['search'] ?? '') ?>">
+            </div>
+
+            <div class="filter-group">
+                <label>📅 Joined From</label>
+                <input type="date"
+                       name="date_from"
+                       value="<?= htmlspecialchars($_GET['date_from'] ?? '') ?>">
+            </div>
+
+            <div class="filter-group">
+                <label>📅 Joined To</label>
+                <input type="date"
+                       name="date_to"
+                       value="<?= htmlspecialchars($_GET['date_to'] ?? '') ?>">
+            </div>
+        </div>
+
+        <div class="filter-actions">
+            <button type="submit" class="btn-filter">Apply Filters</button>
+            <a href="index.php?page=admin-customers" class="btn-clear">Clear All</a>
+        </div>
+    </form>
+</div>
 
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_customer'])) {
-    $userId = (int)$_POST['user_id'];
-    $delete = $db->prepare("DELETE FROM users WHERE user_id = ? AND role != 'admin'");
-    $delete->execute([$userId]);
-    header("Location: /Team-Project-Group-4/public/index.php?page=admin-customers");
-    exit;
-}
+    <!-- Results Summary -->
+    <div class="results-summary">
+        Showing <strong><?= count($customers) ?></strong> customer(s)
+    </div>
 
+    <!-- Customers Table -->
+    <div class="table-container">
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Orders</th>
+                    <th>Total Spent</th>
+                    <th>Last Order</th>
+                    <th>Joined</th>
+                </tr>
+            </thead>
+            <tbody>
 
-$stmt = $db->prepare("SELECT * FROM users WHERE role = 'customer' ORDER BY created_at DESC");
-$stmt->execute();
-$customers = $stmt->fetchAll();
-?>
+            <?php if (empty($customers)): ?>
+                <tr>
+                    <td colspan="7" class="no-results">
+                        No customers found matching your criteria
+                    </td>
+                </tr>
+            <?php else: ?>
+                <?php foreach ($customers as $c): ?>
+                    <tr class="clickable-row"
+                        data-href="index.php?page=admin-customer-view&id=<?= $c['user_id'] ?>">
 
-<h2>All Customers</h2>
+                        <td><strong>#<?= $c['user_id'] ?></strong></td>
+                        <td><?= htmlspecialchars($c['name']) ?></td>
+                        <td class="email-cell"><?= htmlspecialchars($c['email']) ?></td>
+                        <td><?= (int)$c['total_orders'] ?></td>
+                        <td class="price-cell">
+                            £<?= number_format($c['total_spent'] ?? 0, 2) ?>
+                        </td>
+                        <td>
+                            <?= $c['last_order_date']
+                                ? date('M d, Y', strtotime($c['last_order_date']))
+                                : '—'
+                            ?>
+                        </td>
+                        <td><?= date('M d, Y', strtotime($c['created_at'])) ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            <?php endif; ?>
 
-<table border="1" cellpadding="8" cellspacing="0" width="100%">
-  <tr>
-    <th>ID</th>
-    <th>Name</th>
-    <th>Email</th>
-    <th>Phone</th>
-    <th>Address</th>
-    <th>Joined</th>
-    <th>Actions</th>
-  </tr>
+            </tbody>
+        </table>
+    </div>
 
-  <?php if (empty($customers)): ?>
-    <tr>
-      <td colspan="7">No customers found.</td>
-    </tr>
-  <?php else: ?>
-    <?php foreach ($customers as $customer): ?>
-      <tr>
-        <td><?= (int)$customer['user_id'] ?></td>
-        <td><?= htmlspecialchars($customer['name']) ?></td>
-        <td><?= htmlspecialchars($customer['email']) ?></td>
-        <td><?= htmlspecialchars($customer['phone'] ?? '-') ?></td>
-        <td><?= htmlspecialchars($customer['address'] ?? '-') ?></td>
-        <td><?= htmlspecialchars($customer['created_at']) ?></td>
-        <td>
-          <a href="/Team-Project-Group-4/public/index.php?page=admin-customer-edit&id=<?= (int)$customer['user_id'] ?>">Edit</a>
-          
-          <form method="POST" style="display:inline;" onsubmit="return confirm('Delete this customer?');">
-            <input type="hidden" name="user_id" value="<?= (int)$customer['user_id'] ?>">
-            <button type="submit" name="delete_customer">Delete</button>
-          </form>
-        </td>
-      </tr>
-    <?php endforeach; ?>
-  <?php endif; ?>
-</table>
+</div>
+
+<script>
+document.querySelectorAll('.clickable-row').forEach(row => {
+    row.addEventListener('click', e => {
+        if (e.target.closest('a, button, form')) return;
+        window.location = row.dataset.href;
+    });
+});
+</script>
+
+<a href="index.php?page=dashboard" class="btn-secondary">
+   ← Back to Dashboard
+</a>
 
 <?php include __DIR__ . '/../footer.php'; ?>

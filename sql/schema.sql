@@ -18,20 +18,28 @@ CREATE TABLE users (
 );
 
 
-
 -- Adresses Table --
 
 CREATE TABLE addresses (
-    address_id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT NOT NULL,
-    label VARCHAR(50),   -- e.g. "Home", "Work", "Uni"
-    full_address TEXT NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    is_default BOOLEAN DEFAULT 0,
+  address_id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL,
 
-    FOREIGN KEY (user_id) REFERENCES users(user_id) 
-    ON DELETE CASCADE
+  label VARCHAR(50) NOT NULL,
+
+  full_name VARCHAR(100) NOT NULL,
+  address_line1 VARCHAR(150) NOT NULL,
+  address_line2 VARCHAR(150) NULL,
+  city VARCHAR(100) NOT NULL,
+  county VARCHAR(100) NULL,
+  postcode VARCHAR(20) NOT NULL,
+  country VARCHAR(50) NOT NULL DEFAULT 'United Kingdom',
+
+  is_default BOOLEAN DEFAULT 0,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+  FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
+
 
 
 -- Payment Table --
@@ -110,8 +118,7 @@ CREATE TABLE orders (
   user_id INT NOT NULL,
   total_price DECIMAL(10,2) NOT NULL,
 
-  status ENUM(
-    'pending',
+  status ENUM( 'pending',
     'processing',
     'shipped',
     'delivered',
@@ -159,6 +166,7 @@ CREATE TABLE order_items (
     product_id INT NOT NULL,
     quantity INT NOT NULL,
     price_at_purchase DECIMAL(10,2) NOT NULL,
+    returned_quantity INT DEFAULT 0,
 
     FOREIGN KEY (order_id)
         REFERENCES orders(order_id)
@@ -203,16 +211,25 @@ CREATE INDEX idx_reviews_product
 
 CREATE TABLE returns (
     return_id INT AUTO_INCREMENT PRIMARY KEY,
-    order_item_id INT NOT NULL,
-    reason TEXT,
-    status ENUM('pending','approved','rejected') DEFAULT 'pending',
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
-    FOREIGN KEY (order_item_id)
-        REFERENCES order_items(order_item_id)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
+    order_id INT NOT NULL,
+    order_item_id INT NOT NULL,
+    user_id INT NOT NULL,
+
+    quantity INT NOT NULL,
+    reason VARCHAR(255),
+
+    status ENUM('pending', 'approved', 'rejected', 'refunded')
+           DEFAULT 'pending',
+
+    requested_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    processed_at DATETIME NULL,
+
+    FOREIGN KEY (order_id) REFERENCES orders(order_id),
+    FOREIGN KEY (order_item_id) REFERENCES order_items(order_item_id),
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
+
 
 -- Iventory Log Table (For Reports and Alerts) --
 
@@ -255,4 +272,4 @@ CREATE TABLE admin_actions (
   FOREIGN KEY (admin_id) REFERENCES users(user_id)
 );
 
-
+SET FOREIGN_KEY_CHECKS = 1;

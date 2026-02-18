@@ -1,96 +1,132 @@
 <?php include __DIR__ . '/../header.php'; ?>
 
 <style>
-.order-card {
-    background: #1a0b2e;
-    border-radius: 12px;
-    padding: 20px;
-    margin-bottom: 20px;
-    box-shadow: 0 0 15px rgba(132, 0, 255, 0.25);
-    color: #eee;
-}
-
-.order-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.order-header h3 {
-    margin: 0;
+.page-title {
+    margin-bottom: 30px;
     color: #d9a7ff;
 }
 
-.order-detail {
-    margin: 8px 0;
-    font-size: 1rem;
+.orders-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
-.order-status {
-    font-weight: bold;
+.order-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #1a0b2e;
+    padding: 24px;
+    border-radius: 14px;
+    box-shadow: 0 0 20px rgba(132,0,255,0.2);
+    transition: 0.2s ease;
+}
+
+.order-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 25px rgba(132,0,255,0.35);
+}
+
+.order-left h3 {
+    margin: 0 0 8px;
+    color: #c9a7ff;
+}
+
+.order-meta {
+    display: flex;
+    gap: 20px;
+    font-size: 14px;
+    opacity: 0.9;
+    margin-bottom: 8px;
+}
+
+.status-pill {
     padding: 6px 12px;
-    border-radius: 8px;
-    display: inline-block;
-    margin-top: 5px;
-}
-
-.order-status.pending {
-    background: #ffc107;
-    color: #000;
-}
-
-.order-status.delivered {
-    background: #28a745;
-    color: white;
-}
-
-.order-status.cancelled {
-    background: #dc3545;
-    color: white;
-}
-
-.btn-view {
-    padding: 8px 14px;
-    background: #8f3dff;
-    color: white;
-    border-radius: 6px;
-    text-decoration: none;
+    border-radius: 20px;
+    font-size: 13px;
     font-weight: 600;
-    transition: 0.2s;
+    display: inline-block;
 }
 
-.btn-view:hover {
-    background: #b46cff;
+/* Status colors */
+
+.status-pill.pending {
+    background: rgba(255,193,7,0.2);
+    color: #ffc107;
 }
+
+.status-pill.processing {
+    background: rgba(0,123,255,0.2);
+    color: #4da3ff;
+}
+
+.status-pill.delivered {
+    background: rgba(40,167,69,0.2);
+    color: #7cff9d;
+}
+
+.status-pill.cancelled {
+    background: rgba(220,53,69,0.2);
+    color: #ff6b6b;
+}
+
+.order-right .btn-purple {
+    padding: 10px 20px;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 40px;
+    background: #140a26;
+    border-radius: 12px;
+}
+
 </style>
 
-<h1>Your Orders</h1>
+<h1 class="page-title">Your Orders</h1>
 
 <?php if (empty($orders)): ?>
-    <p>You have no orders yet. <a href="index.php?page=products">Shop here today.</a></p>
+
+    <div class="empty-state">
+        <p>You have no orders yet.</p>
+        <a href="<?= BASE_URL ?>index.php?page=products" class="btn-purple">
+            Browse Products
+        </a>
+    </div>
 
 <?php else: ?>
-    <?php foreach ($orders as $order): ?>
-        
-        <div class="order-card">
 
-            <div class="order-header">
-                <h3>Order #<?= $order['order_id'] ?></h3>
-                <span class="order-status <?= strtolower($order['status']) ?>">
-                    <?= htmlspecialchars($order['status']) ?>
-                </span>
+    <div class="orders-grid">
+        <?php foreach ($orders as $order): ?>
+
+            <div class="order-card">
+
+                <div class="order-left">
+                    <h3>Order #<?= $order['order_id'] ?></h3>
+
+                    <div class="order-meta">
+                        <span><strong>Total:</strong> £<?= number_format($order['total_price'], 2) ?></span>
+                        <span><strong>Date:</strong> <?= date('d M Y', strtotime($order['created_at'])) ?></span>
+                    </div>
+
+                    <span class="status-pill <?= strtolower($order['status']) ?>">
+                        <?= ucfirst($order['status']) ?>
+                    </span>
+                </div>
+
+                <div class="order-right">
+                    <a class="btn-purple"
+                       href="<?= BASE_URL ?>index.php?page=order&id=<?= $order['order_id'] ?>">
+                        View Details
+                    </a>
+                </div>
+
             </div>
 
-            <div class="order-detail"><strong>Total:</strong> £<?= number_format($order['total_price'], 2) ?></div>
-            <div class="order-detail"><strong>Date:</strong> <?= $order['created_at'] ?></div>
+        <?php endforeach; ?>
+    </div>
 
-            <a class="btn-view" href="/Team-Project-Group-4/public/index.php?page=order&id=<?= $order['order_id'] ?>">
-                View Order Details
-            </a>
-
-        </div>
-
-    <?php endforeach; ?>
 <?php endif; ?>
 
 <?php include __DIR__ . '/../footer.php'; ?>

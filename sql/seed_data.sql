@@ -93,11 +93,11 @@ INSERT INTO products (category_id, name, slug, description, price, stock, low_st
 -- MONITORS (category_id = 4)
 (4,'Philips 27E1N1100A 27"', 'monitor1',
  '27-inch Full HD IPS panel with wide viewing angles. Built-in speakers and Flicker-Free technology enhance multimedia and productivity use.',
- 94.99, 5, 10),
+ 94.99, 20, 10),
 
 (4,'ASUS TUF VG279QM1A 280Hz', 'monitor2',
  'Ultra-fast 280Hz refresh rate ideal for competitive gaming. ELMB Sync technology reduces ghosting for sharper, smoother visuals.',
- 129.99, 0, 10),
+ 129.99, 20, 10),
  
 (4,'Minifire 27" 180Hz Curved Monitor', 'monitor3',
  'Curved Full HD panel with 180Hz refresh rate for smooth gameplay. Frameless design provides an immersive viewing experience.',
@@ -460,9 +460,33 @@ SELECT product_id, 'products/mice/mouse5/03.png', 0, 3
 FROM products WHERE slug = 'mouse5';
 
 -- ADDRESSES
-INSERT INTO addresses (user_id, full_address, is_default) VALUES
-(2, '12 High Street, Birmingham, B1 1AA', 1),
-(3, '45 Queen Road, London, E1 6AN', 1);
+
+INSERT INTO addresses 
+(user_id, label, full_name, address_line1, address_line2, city, county, postcode, country, is_default, created_at)
+VALUES
+
+-- User 2
+(2, 'Home', 'Ali Khan',
+ '12 High Street',
+ NULL,
+ 'Birmingham',
+ 'West Midlands',
+ 'B1 1AA',
+ 'United Kingdom',
+ 1,
+ NOW()),
+
+-- User 3
+(3, 'Home', 'Sarah Khan',
+ '45 Queen Road',
+ NULL,
+ 'London',
+ NULL,
+ 'E1 6AN',
+ 'United Kingdom',
+ 1,
+ NOW());
+
 
 -- EXAMPLE ORDER
 INSERT INTO orders

@@ -65,62 +65,38 @@
 <div class="edit-container">
     <h2>Edit Payment Method</h2>
 
-    <form method="POST" action="<?= BASE_URL ?>index.php?page=update-payment">
+    <form method="POST" action="<?= BASE_URL ?>index.php?page=update-payment" id="editPaymentForm">
 
-        <!-- REQUIRED -->
         <input type="hidden" name="payment_id" value="<?= $payment['payment_id'] ?>">
 
-        <!-- CARD BRAND -->
+        <!-- MASKED CARD -->
         <div class="form-group">
-            <label>Card Brand</label>
-            <select name="brand" required>
-                <option value="Visa" <?= $payment['card_brand'] === 'Visa' ? 'selected' : '' ?>>Visa</option>
-                <option value="Mastercard" <?= $payment['card_brand'] === 'Mastercard' ? 'selected' : '' ?>>Mastercard</option>
-                <option value="Amex" <?= $payment['card_brand'] === 'Amex' ? 'selected' : '' ?>>Amex</option>
-                <option value="Discover" <?= $payment['card_brand'] === 'Discover' ? 'selected' : '' ?>>Discover</option>
-            </select>
-        </div>
-
-        <!-- MASKED CARD NUMBER (READ ONLY) -->
-        <div class="form-group">
-            <label>Card Number</label>
-            <input
-                type="text"
-                value="**** **** **** <?= htmlspecialchars($payment['card_last4']) ?>"
-                disabled
-            >
-            <small style="opacity:0.6;">
-                Card number cannot be edited for security reasons
-            </small>
+            <label>Card</label>
+            <input type="text"
+                   value="<?= htmlspecialchars($payment['card_brand']) ?> •••• <?= htmlspecialchars($payment['card_last4']) ?>"
+                   disabled>
         </div>
 
         <!-- EXPIRY -->
         <div class="form-group">
-            <label>Expiry Month</label>
+            <label>Expiry (MM/YY)</label>
             <input
-                type="number"
-                name="expiry_month"
-                min="1"
-                max="12"
-                value="<?= htmlspecialchars($payment['expiry_month']) ?>"
+                type="text"
+                name="expiry"
+                id="editExpiryInput"
+                value="<?= str_pad($payment['expiry_month'], 2, '0', STR_PAD_LEFT) ?>/<?= substr($payment['expiry_year'], -2) ?>"
+                placeholder="MM/YY"
+                maxlength="5"
+                inputmode="numeric"
                 required
             >
+            <div id="editExpiryError"
+                 style="color:#ff6b6b; font-size:14px; display:none;">
+                Please enter a valid date.
+            </div>
         </div>
 
-        <div class="form-group">
-            <label>Expiry Year</label>
-            <input
-                type="number"
-                name="expiry_year"
-                min="<?= date('Y') ?>"
-                max="<?= date('Y') + 10 ?>"
-                value="<?= htmlspecialchars($payment['expiry_year']) ?>"
-                required
-            >
-        </div>
-
-        <!-- ACTIONS -->
-        <button type="submit" class="btn-purple">
+        <button type="submit" class="btn-purple" id="editSaveBtn">
             Update Payment Method
         </button>
 
@@ -128,7 +104,58 @@
             Cancel
         </a>
 
-    </form>
+<script>
+const expiryInput = document.getElementById("editExpiryInput");
+const expiryError = document.getElementById("editExpiryError");
+const saveBtn = document.getElementById("editSaveBtn");
+
+function validateExpiry() {
+
+    let raw = expiryInput.value.replace(/\D/g, '');
+
+    // Auto insert slash
+    if (raw.length >= 2) {
+        raw = raw.slice(0,2) + '/' + raw.slice(2,4);
+    }
+
+    expiryInput.value = raw.slice(0,5);
+
+    if (expiryInput.value.length < 5) {
+        expiryError.style.display = "none";
+        saveBtn.disabled = true;
+        return;
+    }
+
+    const [mm, yy] = expiryInput.value.split('/');
+    const month = parseInt(mm);
+    const year = parseInt("20" + yy);
+
+    const now = new Date();
+    const currentMonth = now.getMonth() + 1;
+    const currentYear = now.getFullYear();
+
+    if (
+        month < 1 || month > 12 ||
+        year < currentYear ||
+        (year === currentYear && month < currentMonth)
+    ) {
+        expiryError.textContent = "Card is expired or invalid.";
+        expiryError.style.display = "block";
+        saveBtn.disabled = true;
+        return;
+    }
+
+    expiryError.style.display = "none";
+    saveBtn.disabled = false;
+}
+
+expiryInput.addEventListener("input", validateExpiry);
+
+// Validate immediately on load
+validateExpiry();
+</script>
+
+</form>
 </div>
 
 <?php include __DIR__ . '/../footer.php'; ?>

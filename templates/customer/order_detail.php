@@ -179,6 +179,11 @@
     </p>
 </div>
 
+<a href="index.php?page=orders" class="btn-secondary">
+      ← Back to Orders
+</a>
+
 </div>
+
 
 <?php include __DIR__ . '/../footer.php'; ?>

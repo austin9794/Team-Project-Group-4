@@ -29,7 +29,7 @@ try {
 
   // Build product query with filters
   $sql = "
-    SELECT p.product_id AS id, p.name, c.name AS category, p.price, p.description, p.stock, p.image,
+    SELECT p.product_id, p.name, p.slug, c.name AS category_name, p.price, p.description, p.stock,
            COUNT(r.review_id) AS review_count, COALESCE(AVG(r.rating), 0) AS avg_rating
     FROM products p
     JOIN categories c ON p.category_id = c.category_id
@@ -39,7 +39,7 @@ try {
   $params = [];
 
   // Apply filters
-  $selected_category = isset($_GET['category']) ? $_GET['category'] : null;
+  $selected_category = isset($_GET['category']) ? trim($_GET['category']) : null;
   if (!empty($selected_category)) {
     $sql .= " AND c.name = ? ";
     $params[] = $selected_category;  
@@ -48,19 +48,20 @@ try {
   }
 
   if (!empty($_GET['search'])) {
+    $searchTerm = trim($_GET['search']);
     $sql .= " AND (p.name LIKE ? OR c.name LIKE ?) ";
-    $params[] = "%" . $_GET['search'] . "%";
-    $params[] = "%" . $_GET['search'] . "%";
+    $params[] = "%" . $searchTerm . "%";
+    $params[] = "%" . $searchTerm . "%";
   }
 
-  if (!empty($_GET['min_price'])) {
+  if (!empty($_GET['min_price']) && is_numeric($_GET['min_price']) && $_GET['min_price'] > 0) {
     $sql .= " AND p.price >= ? ";
-    $params[] = $_GET['min_price'];
+    $params[] = (float)$_GET['min_price'];
   }
 
-  if (!empty($_GET['max_price'])) {
+  if (!empty($_GET['max_price']) && is_numeric($_GET['max_price']) && $_GET['max_price'] > 0) {
     $sql .= " AND p.price <= ? ";
-    $params[] = $_GET['max_price'];
+    $params[] = (float)$_GET['max_price'];
   }
 
   $sql .= " GROUP BY p.product_id ORDER BY p.price ASC";
@@ -72,7 +73,7 @@ try {
   // Format products with icons
   $filtered_products = array_map(function($product) use ($category_icons) {
     return array_merge($product, [
-      'icon' => $category_icons[$product['category']] ?? '',
+      'icon' => $category_icons[$product['category_name']] ?? '',
       'rating' => (int)$product['avg_rating'],
       'reviews' => (int)$product['review_count'],
       'original_price' => null,

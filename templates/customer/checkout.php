@@ -207,32 +207,43 @@ textarea {
 
     <form method="POST" action="/Team-Project-Group-4/public/index.php?page=place-order">
 
-        <!-- DELIVERY ADDRESS -->
+      <!-- DELIVERY ADDRESS -->
 
-        <h2 class="section-title">
+      <h2 class="section-title">
         Delivering to <?= htmlspecialchars($userData['name']) ?>
-       </h2>
+     </h2>
 
-      <?php if (!empty($selectedAddress)): ?>
-       <div class="option-card">
-         <div class="option-content">
-       <strong><?= htmlspecialchars($selectedAddress['label'] ?? 'Address') ?></strong>
-      <p><?= nl2br(htmlspecialchars($selectedAddress['full_address'] ?? '')) ?></p>
+<?php if ($selectedAddress): ?>
 
-      <?php if (!empty($selectedAddress['is_default'])): ?>
-        <span class="badge-default">Default</span>
-      <?php endif; ?>
+    <div class="option-card">
+        <div class="option-content">
+            <strong><?= htmlspecialchars($selectedAddress['label']) ?></strong>
+            <p><?= nl2br(htmlspecialchars(formatAddress($selectedAddress))) ?></p>
+
+            <?php if (!empty($selectedAddress['is_default'])): ?>
+                <span class="badge-default">Default</span>
+            <?php endif; ?>
+        </div>
     </div>
-  </div>
 
-  <a href="<?= BASE_URL ?>index.php?page=checkout-address" class="link-action">
-    Change delivery address
-  </a>
+    <a href="<?= BASE_URL ?>index.php?page=checkout-address"
+       class="link-action">
+        Change delivery address
+    </a>
+
 <?php else: ?>
-  <p>No saved delivery address.</p>
-  <a href="<?= BASE_URL ?>index.php?page=checkout-address" class="link-action">
-    + Add/select delivery address
-  </a>
+
+    <div class="option-card" style="border:2px dashed #5d3b8a;">
+        <div class="option-content">
+            <p>No delivery address set.</p>
+        </div>
+    </div>
+
+    <a href="<?= BASE_URL ?>index.php?page=add-address&redirect=checkout"
+       class="link-action">
+        + Add delivery address
+    </a>
+
 <?php endif; ?>
 
 <!-- PAYMENT METHOD -->
@@ -256,7 +267,7 @@ textarea {
           <strong><?= htmlspecialchars($p['card_brand']) ?></strong>
           <p>Ending in <?= htmlspecialchars($p['card_last4']) ?></p>
 
-          <?php if ($p['is_default']): ?>
+          <?php if (!empty($p['is_default'])): ?>
             <span class="badge-default">Default</span>
           <?php endif; ?>
         </div>
@@ -265,34 +276,71 @@ textarea {
 
   </div>
 <?php else: ?>
-  <p>No saved payment methods.</p>
+    <div class="option-card" style="border:2px dashed #5d3b8a;">
+        <div class="option-content">
+            <p>No saved payment methods.</p>
+        </div>
+    </div>
+
+    <a href="<?= BASE_URL ?>index.php?page=add-payment&redirect=checkout"
+       class="link-action">
+        + Add payment method
+    </a>
 <?php endif; ?>
 
-<a href="<?= BASE_URL ?>index.php?page=add-payment" class="link-action">
-  + Add a new payment method
-</a>
+    <?php
+     $hasAddress = !empty($selectedAddress);
+     $hasPayment = !empty($paymentMethods);
 
-        <!-- ORDER SUMMARY -->
-       <h2 class="section-title">Order Summary</h2>
+     $canCheckout = $hasAddress && $hasPayment;
+    ?>
 
-        <div class="summary-box">
-          <?php foreach ($basketItems as $item): ?>
-            <div class="summary-row">
-              <span>
+    <!-- ORDER SUMMARY -->
+    <h2 class="section-title">Order Summary</h2>
+
+<div class="summary-box">
+    <?php foreach ($basketItems as $item): ?>
+        <div class="summary-row">
+            <span>
                 <?= htmlspecialchars($item['name']) ?> × <?= $item['quantity'] ?>
-              </span>
-              <span>£<?= number_format($item['total'], 2) ?></span>
-            </div>
-          <?php endforeach; ?>
+            </span>
+            <span>£<?= number_format($item['total'], 2) ?></span>
+        </div>
+    <?php endforeach; ?>
 
-          <div class="summary-total">
-           Total: £<?= number_format($basketTotal, 2) ?>
-          </div>
-       </div>
+    <div class="summary-total">
+        Total: £<?= number_format($basketTotal, 2) ?>
+    </div>
+</div>
 
-        <button type="submit" class="place-order-btn">
-          Place Order
-        </button>
+<?php if (isset($_GET['error']) && $_GET['error'] === 'incomplete_checkout'): ?>
+
+    <div style="
+        margin-top:20px;
+        padding:14px;
+        border-radius:8px;
+        background: rgba(255,79,79,0.12);
+        border-left: 4px solid #ff4f4f;
+        color:#ff7b7b;
+        font-weight:500;
+    ">
+        <?php if (!$hasAddress && !$hasPayment): ?>
+            ⚠ Please add a delivery address and payment method before placing your order.
+        <?php elseif (!$hasAddress): ?>
+            ⚠ Please add a delivery address before placing your order.
+        <?php elseif (!$hasPayment): ?>
+            ⚠ Please add a payment method before placing your order.
+        <?php endif; ?>
+    </div>
+
+<?php endif; ?>
+
+
+       <button type="submit"
+           class="place-order-btn"
+        <?= !$canCheckout ? 'disabled style="opacity:0.5;cursor:not-allowed;"' : '' ?>>
+            Place Order
+       </button>
 
     </form>
 

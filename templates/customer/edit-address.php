@@ -67,26 +67,87 @@
 
     <form method="POST" action="<?= BASE_URL ?>index.php?page=update-address">
 
-        <input type="hidden" name="address_id" value="<?= $address['address_id'] ?>">
+        <input type="hidden" name="address_id"
+               value="<?= $address['address_id'] ?>">
 
+        <!-- LABEL -->
         <div class="form-group">
-            <label>Label</label>
-            <input type="text" name="label"
-                   value="<?= htmlspecialchars($address['label']) ?>" required>
+            <label>Label (Home, Work, Uni)</label>
+            <input type="text"
+                   name="label"
+                   value="<?= htmlspecialchars($address['label']) ?>"
+                   required>
         </div>
 
+        <!-- FULL NAME -->
         <div class="form-group">
-            <label>Full Address</label>
-            <textarea name="full_address" rows="4" required><?= htmlspecialchars($address['full_address']) ?></textarea>
+            <label>Full Name</label>
+            <input type="text"
+                   name="full_name"
+                   value="<?= htmlspecialchars($address['full_name']) ?>"
+                   required>
         </div>
 
-        <button type="submit" class="btn-purple">Update Address</button>
+        <!-- ADDRESS LINE 1 -->
+        <div class="form-group">
+            <label>Address Line 1</label>
+            <input type="text"
+                   name="address_line1"
+                   value="<?= htmlspecialchars($address['address_line1']) ?>"
+                   required>
+        </div>
 
-        <a href="<?= BASE_URL ?>index.php?page=account#addresses" class="cancel-link">
+        <!-- ADDRESS LINE 2 -->
+        <div class="form-group">
+            <label>Address Line 2 (optional)</label>
+            <input type="text"
+                   name="address_line2"
+                   value="<?= htmlspecialchars($address['address_line2']) ?>">
+        </div>
+
+        <!-- CITY -->
+        <div class="form-group">
+            <label>Town / City</label>
+            <input type="text"
+                   name="city"
+                   value="<?= htmlspecialchars($address['city']) ?>"
+                   required>
+        </div>
+
+        <!-- COUNTY -->
+        <div class="form-group">
+            <label>County (optional)</label>
+            <input type="text"
+                   name="county"
+                   value="<?= htmlspecialchars($address['county']) ?>">
+        </div>
+
+        <!-- POSTCODE -->
+        <div class="form-group">
+            <label>Postcode</label>
+            <input type="text"
+                   name="postcode"
+                   maxlength="8"
+                   pattern="[A-Za-z0-9 ]+"
+                   value="<?= htmlspecialchars($address['postcode']) ?>"
+                   required>
+        </div>
+
+        <!-- COUNTRY (UK ONLY) -->
+        <input type="hidden" name="country" value="United Kingdom">
+
+        <button type="submit" class="btn-purple">
+            Update Address
+        </button>
+
+        <a href="<?= BASE_URL ?>index.php?page=account#addresses"
+           class="cancel-link">
             Cancel
         </a>
+
     </form>
 </div>
+
 
 <?php include __DIR__ . '/../footer.php'; ?>
 

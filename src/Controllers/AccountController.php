@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../Database.php';
 require_once __DIR__ . '/../Helpers/session.php';
+require_once __DIR__ . '/../Helpers/address.php';
 
 class AccountController {
 
@@ -160,81 +161,193 @@ class AccountController {
         public function saveAddress() {
         requireLogin();
 
-        $label = trim($_POST['label']);
-        $full_address = trim($_POST['full_address']);
+       $data = [
+         'label' => trim($_POST['label']),
+         'full_name' => trim($_POST['full_name']),
+         'address_line1' => trim($_POST['address_line1']),
+         'address_line2' => trim($_POST['address_line2'] ?? ''),
+         'city' => trim($_POST['city']),
+         'county' => trim($_POST['county'] ?? ''),
+          'postcode' => trim($_POST['postcode']),
+         'country' => 'United Kingdom'
+        ];
 
-        if ($label === "" || $full_address === "") {
-            header("Location: /Team-Project-Group-4/public/index.php?page=add-address&error=1");
-            exit;
+       foreach (['label','full_name','address_line1','city','postcode'] as $field) {
+         if ($data[$field] === '') {
+             header("Location: index.php?page=add-address&error=missing");
+             exit;
+            }
+        }
+
+        $postcode = strtoupper(trim($_POST['postcode']));
+
+        // Remove all spaces
+        $postcode = preg_replace('/\s+/', '', $postcode);
+
+       // Reinsert single space before last 3 characters
+       if (strlen($postcode) > 3) {
+           $postcode = substr($postcode, 0, -3) . ' ' . substr($postcode, -3);
+        }
+
+        // UK postcode regex
+       $ukPostcodeRegex = '/^(GIR 0AA|[A-Z]{1,2}\d[A-Z\d]?\s?\d[A-Z]{2})$/';
+
+        if (!preg_match($ukPostcodeRegex, $postcode)) {
+            header("Location: " . BASE_URL . "index.php?page=add-address&error=invalid_postcode");
+           exit;
        }
 
-        $db = Database::getInstance()->getConnection();
+       $db = Database::getInstance()->getConnection();
 
-        $stmt = $db->prepare("INSERT INTO addresses (user_id, label, full_address) VALUES (?, ?, ?)");
-        $stmt->execute([$_SESSION['user_id'], $label, $full_address]);
+       $stmt = $db->prepare(" INSERT INTO addresses
+       (user_id, label, full_name, address_line1, address_line2, city, county, postcode, country)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+     ");
 
-        header("Location: /Team-Project-Group-4/public/index.php?page=account#addresses");
-         exit;
+      $stmt->execute([
+         $_SESSION['user_id'],
+         $data['label'],
+         $data['full_name'],
+         $data['address_line1'],
+         $data['address_line2'],
+         $data['city'],
+         $data['county'],
+         $postcode,
+         $data['country']
+       ]);
+
+    if (isset($_POST['redirect']) && $_POST['redirect'] === 'checkout') {
+      header("Location: " . BASE_URL . "index.php?page=checkout-address");
+    } else {
+       header("Location: " . BASE_URL . "index.php?page=account#addresses");
+    } exit;
+} 
+
+    // Edit Address
+    public function showEditAddressForm() {
+    requireLogin();
+
+    $id = $_GET['id'] ?? null;
+    if (!$id) {
+        header("Location: " . BASE_URL . "index.php?page=account");
+        exit;
     }
 
-
-      // Edit Address
-      public function showEditAddressForm() {
-     requireLogin();
-
-     $id = $_GET['id'] ?? null;
-     if (!$id) exit("Address not found");
-
-     $db = Database::getInstance()->getConnection();
-
-     $stmt = $db->prepare("SELECT * FROM addresses WHERE address_id = ? AND user_id = ?");
-     $stmt->execute([$id, $_SESSION['user_id']]);
-     $address = $stmt->fetch();
-
-     if (!$address) exit("Unauthorized");
-
-     include __DIR__ . '/../../templates/customer/edit-address.php';
-    }
-
-
-     // Update Address
-      public function updateAddress() {
-      requireLogin();
-
-      $id = $_POST['address_id'];
-      $label = trim($_POST['label']);
-      $full_address = trim($_POST['full_address']);
-
-      $db = Database::getInstance()->getConnection();
-
-       $stmt = $db->prepare(" UPDATE addresses
-        SET label = ?, full_address = ?
+    $stmt = $this->db->prepare("  SELECT 
+            address_id,
+            label,
+            full_name,
+            address_line1,
+            address_line2,
+            city,
+            county,
+            postcode,
+            country
+        FROM addresses
         WHERE address_id = ? AND user_id = ?
     ");
 
-       $stmt->execute([$label, $full_address, $id, $_SESSION['user_id']]);
+    $stmt->execute([$id, $_SESSION['user_id']]);
+    $address = $stmt->fetch();
 
-      header("Location: /Team-Project-Group-4/public/index.php?page=account#addresses");
-      exit;
+    if (!$address) {
+        header("Location: " . BASE_URL . "index.php?page=account");
+        exit;
     }
+
+    include __DIR__ . '/../../templates/customer/edit-address.php';
+}
+
+
+  // Update Address
+ public function updateAddress() {
+ requireLogin();
+
+    $id = $_POST['address_id'];
+
+    $stmt = $this->db->prepare(" UPDATE addresses
+        SET label = ?,
+            full_name = ?,
+            address_line1 = ?,
+            address_line2 = ?,
+            city = ?,
+            county = ?,
+            postcode = ?
+        WHERE address_id = ? AND user_id = ?
+    ");
+
+    $postcode = strtoupper(trim($_POST['postcode']));
+
+    // Remove all spaces
+    $postcode = preg_replace('/\s+/', '', $postcode);
+
+    // Reinsert single space before last 3 characters
+    if (strlen($postcode) > 3) {
+      $postcode = substr($postcode, 0, -3) . ' ' . substr($postcode, -3);
+    }
+
+    // UK postcode regex
+    $ukPostcodeRegex = '/^(GIR 0AA|[A-Z]{1,2}\d[A-Z\d]?\s?\d[A-Z]{2})$/';
+
+    if (!preg_match($ukPostcodeRegex, $postcode)) {
+        header("Location: " . BASE_URL . "index.php?page=add-address&error=invalid_postcode");
+        exit;
+   }
+
+    $stmt->execute([
+        trim($_POST['label']),
+        trim($_POST['full_name']),
+        trim($_POST['address_line1']),
+        trim($_POST['address_line2'] ?? ''),
+        trim($_POST['city']),
+        trim($_POST['county'] ?? ''),
+        $postcode,
+        $id,
+        $_SESSION['user_id']
+    ]);
+
+
+    header("Location: " . BASE_URL . "index.php?page=account#addresses");
+    exit;
+}
+
+      
 
      // Delete Address
      public function deleteAddress() {
-     requireLogin();
+    requireLogin();
 
-     $id = $_GET['id'] ?? null;
-
-     if (!$id) exit("Invalid address");
-
-     $db = Database::getInstance()->getConnection();
-
-     $stmt = $db->prepare("DELETE FROM addresses WHERE address_id = ? AND user_id = ?");
-     $stmt->execute([$id, $_SESSION['user_id']]);
-
-     header("Location: /Team-Project-Group-4/public/index.php?page=account#addresses");
-     exit;
+    $id = $_GET['id'] ?? null;
+    if (!$id) {
+        header("Location: index.php?page=account");
+        exit;
     }
 
+    $db = Database::getInstance()->getConnection();
+
+    // Check if address is used in orders
+    $check = $db->prepare(" SELECT COUNT(*) 
+        FROM orders 
+        WHERE address_id = ?
+    ");
+    $check->execute([$id]);
+    $used = $check->fetchColumn();
+
+    if ($used > 0) {
+        header("Location: index.php?page=account&error=address_in_use");
+        exit;
+    }
+
+    // Safe to delete
+    $stmt = $db->prepare(" DELETE FROM addresses 
+        WHERE address_id = ? AND user_id = ?
+    ");
+    $stmt->execute([$id, $_SESSION['user_id']]);
+
+    header("Location: index.php?page=account#addresses");
+    exit;
+}
+    
     // Default Adddress
     public function setDefaultAddress() {
     requireLogin();
@@ -265,33 +378,87 @@ class AccountController {
       include __DIR__ . '/../../templates/customer/add-payment.php';
       }
 
-      // Save Payment
-      public function savePayment() {
-      requireLogin();
+    // Save Payment
+    public function savePayment() {
+    requireLogin();
 
-     $brand = trim($_POST['brand']);
-     $card_number = trim($_POST['card_number']);
-     $expiry_month = $_POST['expiry_month'];
-     $expiry_year = $_POST['expiry_year'];
+    $cardNumber = preg_replace('/\D/', '', $_POST['card_number'] ?? '');
+    $expiry     = $_POST['expiry'] ?? '';
+    $cvv        = $_POST['cvv'] ?? '';
 
-     if (strlen($card_number) < 4) {
-        header("Location: /Team-Project-Group-4/public/index.php?page=add-payment&error=1");
+    // Card number validation
+    if (strlen($cardNumber) !== 16) {
+        header("Location: " . BASE_URL . "index.php?page=add-payment&error=invalid_card");
         exit;
     }
 
-      $last4 = substr($card_number, -4);
-
-     $db = Database::getInstance()->getConnection();
- 
-     $stmt = $db->prepare(" INSERT INTO payment_methods (user_id, card_brand, card_last4, expiry_month, expiry_year)
-        VALUES (?, ?, ?, ?, ?)
-    ");
-      $stmt->execute([$_SESSION['user_id'], $brand, $last4, $expiry_month, $expiry_year]);
-
-      header("Location: /Team-Project-Group-4/public/index.php?page=account#payment-methods");
-      exit;
+    // Auto detect brand
+    if (str_starts_with($cardNumber, '4')) {
+        $brand = 'Visa';
+    } elseif (str_starts_with($cardNumber, '5')) {
+        $brand = 'Mastercard';
+    } else {
+        header("Location: " . BASE_URL . "index.php?page=add-payment&error=unsupported_card");
+        exit;
     }
 
+    // CVV validation
+    if (!preg_match('/^\d{3,4}$/', $cvv)) {
+        header("Location: " . BASE_URL . "index.php?page=add-payment&error=invalid_cvv");
+        exit;
+    }
+
+    // Expiry validation
+    if (!preg_match('/^(0[1-9]|1[0-2])\/(\d{2})$/', $expiry, $matches)) {
+         header("Location: " . BASE_URL . "index.php?page=add-payment&error=invalid_expiry");
+        exit;
+    }
+
+    $expMonth = (int)$matches[1];
+    $expYear  = (int)$matches[2]; 
+
+    $currentYearShort  = (int)date("y");
+    $currentMonth      = (int)date("m");
+
+    // Enforce minimum year 26+
+     if ($expYear < 26) {
+         header("Location: " . BASE_URL . "index.php?page=add-payment&error=year_too_old");
+          exit;
+        }
+
+    // Prevent expired cards
+      if (
+        $expYear < $currentYearShort ||
+        ($expYear == $currentYearShort && $expMonth < $currentMonth)
+        ) {
+           header("Location: " . BASE_URL . "index.php?page=add-payment&error=expired_card");
+            exit;
+       }
+
+    $last4 = substr($cardNumber, -4);
+
+    $db = Database::getInstance()->getConnection();
+
+    $stmt = $db->prepare(" INSERT INTO payment_methods
+        (user_id, card_brand, card_last4, expiry_month, expiry_year)
+        VALUES (?, ?, ?, ?, ?)
+    ");
+
+    $stmt->execute([
+        $_SESSION['user_id'],
+        $brand,
+        $last4,
+        $expMonth,
+        $expYear
+    ]);
+
+    if (isset($_POST['redirect']) && $_POST['redirect'] === 'checkout') {
+    header("Location: " . BASE_URL . "index.php?page=checkout");
+    } else {
+    header("Location: " . BASE_URL . "index.php?page=account#payment-methods");
+    }
+exit;
+}
     // Edit Payment
     public function showEditPaymentForm() {
     requireLogin();
@@ -319,34 +486,50 @@ class AccountController {
     requireLogin();
 
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-        header("Location: index.php?page=account");
+        header("Location: " . BASE_URL . "index.php?page=account");
         exit;
     }
 
-    $paymentId = $_POST['payment_id'];
-    $brand = trim($_POST['brand']);
-    $expiryMonth = (int)$_POST['expiry_month'];
-    $expiryYear = (int)$_POST['expiry_year'];
+    $paymentId = (int)($_POST['payment_id'] ?? 0);
+    $expiryRaw = trim($_POST['expiry'] ?? '');
 
-    if (!$paymentId || !$brand || !$expiryMonth || !$expiryYear) {
-        header("Location: index.php?page=account&error=invalid_payment");
+    if (!$paymentId || !$expiryRaw) {
+        header("Location: " . BASE_URL . "index.php?page=account&error=invalid_payment");
+        exit;
+    }
+
+    // Validate MM/YY format
+    if (!preg_match('/^(0[1-9]|1[0-2])\/(\d{2})$/', $expiryRaw, $matches)) {
+        header("Location: " . BASE_URL . "index.php?page=edit-payment&id={$paymentId}&error=invalid_expiry");
+        exit;
+    }
+
+    $expiryMonth = (int)$matches[1];
+    $expiryYear  = 2000 + (int)$matches[2]; // Convert YY → YYYY
+
+    // Expiry must be future date
+    $now = new DateTime();
+    $cardDate = DateTime::createFromFormat('Y-m-d', "{$expiryYear}-{$expiryMonth}-01");
+    $cardDate->modify('last day of this month');
+
+    if ($cardDate < $now) {
+        header("Location: " . BASE_URL . "index.php?page=edit-payment&id={$paymentId}&error=expired_card");
         exit;
     }
 
     $stmt = $this->db->prepare(" UPDATE payment_methods
-        SET card_brand = ?, expiry_month = ?, expiry_year = ?
+        SET expiry_month = ?, expiry_year = ?
         WHERE payment_id = ? AND user_id = ?
     ");
 
     $stmt->execute([
-        $brand,
         $expiryMonth,
         $expiryYear,
         $paymentId,
         $_SESSION['user_id']
     ]);
 
-    header("Location: index.php?page=account#payment-methods");
+    header("Location: " . BASE_URL . "index.php?page=account#payment-methods");
     exit;
 }
 
@@ -449,7 +632,7 @@ try {
     }
 }
 
-       //User Data
+   //User Data
       public function getUserData() {
        $stmt = $this->db->prepare("SELECT * FROM users WHERE user_id = ?");
        $stmt->execute([$_SESSION['user_id']]);

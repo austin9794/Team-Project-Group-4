@@ -119,6 +119,7 @@ class AdminProductController extends BaseAdminController {
 
         include __DIR__ . '/../../templates/admin/products.php';
     }
+}
 
 
 

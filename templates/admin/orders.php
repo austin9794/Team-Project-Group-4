@@ -14,13 +14,13 @@
             
             <div class="filter-row">
                 <div class="filter-group">
-                    <label>🔍 Search Customer</label>
+                    <label> Search Customer</label>
                     <input type="text" name="search" placeholder="Name or email..." 
                            value="<?= htmlspecialchars($_GET['search'] ?? '') ?>">
                 </div>
 
                 <div class="filter-group">
-                    <label>📊 Status</label>
+                    <label> Status</label>
                     <select name="status">
                         <option value="">All Statuses</option>
                         <option value="pending" <?= (($_GET['status'] ?? '') === 'pending') ? 'selected' : '' ?>>Pending</option>
@@ -31,12 +31,12 @@
                 </div>
 
                 <div class="filter-group">
-                    <label>📅 From Date</label>
+                    <label> From Date</label>
                     <input type="date" name="date_from" value="<?= htmlspecialchars($_GET['date_from'] ?? '') ?>">
                 </div>
 
                 <div class="filter-group">
-                    <label>📅 To Date</label>
+                    <label> To Date</label>
                     <input type="date" name="date_to" value="<?= htmlspecialchars($_GET['date_to'] ?? '') ?>">
                 </div>
             </div>

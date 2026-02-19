@@ -449,6 +449,33 @@ public function submitReturn() {
     $quantity = (int)$_POST['quantity'];
     $reason = trim($_POST['reason']);
 
+    // Validate remaining quantity
+    $stmt = $db->prepare("SELECT quantity, returned_quantity
+        FROM order_items
+        WHERE order_item_id = ?
+    ");
+    $stmt->execute([$itemId]);
+    $item = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$item) exit("Invalid item");
+
+    $remaining = $item['quantity'] - $item['returned_quantity'];
+
+    if ($quantity <= 0 || $quantity > $remaining) {
+        exit("Invalid return quantity");
+    }
+
+    $db->prepare(" INSERT INTO returns (order_id, order_item_id, user_id, quantity, reason)
+        VALUES (
+            (SELECT order_id FROM order_items WHERE order_item_id = ?),
+            ?, ?, ?, ?
+        )
+    ")->execute([$itemId, $itemId, $_SESSION['user_id'], $quantity, $reason]);
+
+    header("Location: index.php?page=orders");
+    exit;
+}
+
 
 }
 

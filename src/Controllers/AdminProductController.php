@@ -47,6 +47,23 @@ class AdminProductController extends BaseAdminController {
             exit;
         }
 
+        // Handle product updates
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_product'])) {
+            $productId = (int)$_POST['product_id'];
+            $stock = (int)$_POST['stock'];
+            $price = (float)$_POST['price'];
+            $threshold = (int)$_POST['low_stock_threshold'];
+
+            $update = $db->prepare(" UPDATE products 
+                SET stock = ?, price = ?, low_stock_threshold = ?
+                WHERE product_id = ?
+            ");
+            $update->execute([$stock, $price, $threshold, $productId]);
+
+            header("Location: /Team-Project-Group-4/public/index.php?page=admin-products&updated=1");
+            exit;
+        }
+
 
 
     

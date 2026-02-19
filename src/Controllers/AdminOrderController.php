@@ -19,8 +19,7 @@ class AdminOrderController extends BaseAdminController {
 
         // If admin clicked Process Order (deduct stock + set processing)
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['process_order'], $_POST['order_id'])) {
-            $orderController = new OrderController();
-            $orderController->adminProcessOrders();
+            $this->processOrder((int)$_POST['order_id']);
             exit;
         }
 

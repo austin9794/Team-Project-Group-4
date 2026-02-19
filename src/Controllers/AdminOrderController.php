@@ -69,3 +69,32 @@ class AdminOrderController extends BaseAdminController {
             $params[] = $searchTerm;
         }
 
+        // Filter by date range
+        if (!empty($_GET['date_from'])) {
+            $sql .= " AND DATE(o.created_at) >= ?";
+            $params[] = $_GET['date_from'];
+        }
+        if (!empty($_GET['date_to'])) {
+            $sql .= " AND DATE(o.created_at) <= ?";
+            $params[] = $_GET['date_to'];
+        }
+
+        $sql .= " ORDER BY o.created_at DESC";
+
+        try {
+            $stmt = $db->prepare($sql);
+            $stmt->execute($params);
+            $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+        // Debug: log the query for troubleshooting
+            error_log("Orders Query: " . $sql);
+            error_log("Orders Params: " . print_r($params, true));
+            error_log("Orders Found: " . count($orders));
+        } catch (PDOException $e) {
+            error_log("Orders query error: " . $e->getMessage());
+            $orders = [];
+        }
+
+        include __DIR__ . '/../../templates/admin/orders.php';
+    }
+

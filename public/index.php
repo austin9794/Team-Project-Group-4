@@ -241,7 +241,6 @@ switch ($page) {
        $controller = new AdminCustomerController();
        $controller->view();
     break;
-
     case 'admin-customer-edit':
        requireAdmin();
        $controller = new AdminCustomerController();
@@ -257,7 +256,16 @@ switch ($page) {
        $controller = new AdminReportController();
        $controller->index();
     break;
-
+    case 'admin-returns':
+        requireAdmin();
+        $controller = new AdminReturnController();
+        $controller->index();
+    break;
+    case 'admin-return-process':
+        requireAdmin();
+        $controller = new AdminReturnController();
+        $controller->process();
+    break;
 
     // ---- Default ----
     default:

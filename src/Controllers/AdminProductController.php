@@ -9,6 +9,13 @@ class AdminProductController extends BaseAdminController {
         parent::__construct();
     }
 
-    
+    public function products() {
+        $db = Database::getInstance()->getConnection();
+        
+        // Initialize variables
+        $products = [];
+        $categories = [];
+
+
 
     

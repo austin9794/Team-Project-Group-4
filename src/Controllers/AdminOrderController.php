@@ -16,3 +16,10 @@ class AdminOrderController extends BaseAdminController {
         // Initialize orders array
         $orders = [];
 
+        // If admin clicked Process Order (deduct stock + set processing)
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['process_order'], $_POST['order_id'])) {
+            $orderController = new OrderController();
+            $orderController->adminProcessOrders();
+            exit;
+        }
+

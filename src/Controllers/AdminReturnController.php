@@ -8,11 +8,26 @@ class AdminReturnController extends BaseAdminController {
     public function index() {
         $db = Database::getInstance()->getConnection();
 
-        $stmt = $db->query("SELECT r.*, u.name AS customer_name, p.name AS product_name
+        $stmt = $db->query(" SELECT 
+                r.return_id,
+                r.quantity,
+                r.reason,
+                r.status,
+                r.requested_at,
+                r.processed_at,
+
+                u.name AS customer_name,
+                u.email,
+
+                p.name AS product_name,
+
+                o.order_id
+
             FROM returns r
             JOIN users u ON r.user_id = u.user_id
             JOIN order_items oi ON r.order_item_id = oi.order_item_id
             JOIN products p ON oi.product_id = p.product_id
+            JOIN orders o ON r.order_id = o.order_id
             ORDER BY r.requested_at DESC
         ");
 
@@ -31,13 +46,13 @@ class AdminReturnController extends BaseAdminController {
         $action = $_POST['action'];
 
         if ($action === 'approve') {
-            $this->approveReturn($returnId);
+            $this->approve($returnId);
         } else {
-            $this->rejectReturn($returnId);
+            $this->reject($returnId);
         }
     }
 
-    private function approveReturn($returnId) {
+    private function approve($returnId) {
         $db = Database::getInstance()->getConnection();
 
         try {
@@ -56,20 +71,20 @@ class AdminReturnController extends BaseAdminController {
                 throw new Exception("Invalid return.");
             }
 
-            // Update return status
+            // Update return
             $db->prepare(" UPDATE returns
                 SET status = 'approved', processed_at = NOW()
                 WHERE return_id = ?
             ")->execute([$returnId]);
 
-            // Update order_items returned quantity
-            $db->prepare(" UPDATE order_items
+            // Update returned qty
+            $db->prepare("UPDATE order_items
                 SET returned_quantity = returned_quantity + ?
                 WHERE order_item_id = ?
             ")->execute([$return['quantity'], $return['order_item_id']]);
 
             // Restore stock
-            $db->prepare(" UPDATE products
+            $db->prepare("UPDATE products
                 SET stock = stock + ?
                 WHERE product_id = ?
             ")->execute([$return['quantity'], $return['product_id']]);
@@ -89,7 +104,7 @@ class AdminReturnController extends BaseAdminController {
         exit;
     }
 
-    private function rejectReturn($returnId) {
+    private function reject($returnId) {
         $db = Database::getInstance()->getConnection();
 
         $db->prepare(" UPDATE returns
@@ -101,3 +116,4 @@ class AdminReturnController extends BaseAdminController {
         exit;
     }
 }
+?>

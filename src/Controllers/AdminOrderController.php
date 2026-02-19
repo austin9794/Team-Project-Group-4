@@ -2,6 +2,7 @@
 
 require_once __DIR__ . '/BaseAdminController.php';
 require_once __DIR__ . '/../Database.php';
+require_once __DIR__ . '/OrderController.php';
 
 class AdminOrderController extends BaseAdminController {
 
@@ -37,7 +38,7 @@ class AdminOrderController extends BaseAdminController {
             $update = $db->prepare("UPDATE orders SET status = ? WHERE order_id = ?");
             $update->execute([$newStatus, $orderId]);
 
-            header("Location: /Team-Project-Group-4/public/index.php?page=admin-orders");
+            header("Location: index.php?page=admin-orders");
             exit;
         }
 
@@ -107,8 +108,7 @@ class AdminOrderController extends BaseAdminController {
             exit;
         }
 
-        $stmt = $db->prepare("
-            SELECT o.*, u.name AS customer_name, u.email AS customer_email
+        $stmt = $db->prepare(" SELECT o.*, u.name AS customer_name, u.email AS customer_email
             FROM orders o
             JOIN users u ON o.user_id = u.user_id
             WHERE o.order_id = ?
@@ -121,8 +121,7 @@ class AdminOrderController extends BaseAdminController {
             exit;
         }
 
-        $itemsStmt = $db->prepare("
-            SELECT oi.*, p.name, p.price
+        $itemsStmt = $db->prepare(" SELECT oi.*, p.name, p.price
             FROM order_items oi
             JOIN products p ON oi.product_id = p.product_id
             WHERE oi.order_id = ?

@@ -13,8 +13,7 @@ class AdminDashboardController extends BaseAdminController {
         $db = Database::getInstance()->getConnection();
         
         // Get inventory alerts for dashboard
-        $alertStmt = $db->query("
-            SELECT 
+        $alertStmt = $db->query(" SELECT 
                 product_id,
                 name,
                 stock,
@@ -31,8 +30,7 @@ class AdminDashboardController extends BaseAdminController {
         $alerts = $alertStmt->fetchAll(PDO::FETCH_ASSOC);
         
         // Get order summary
-        $orderStmt = $db->query("
-            SELECT 
+        $orderStmt = $db->query(" SELECT 
                 COUNT(CASE WHEN status = 'pending' THEN 1 END) as pending_count,
                 COUNT(CASE WHEN status = 'processing' THEN 1 END) as processing_count,
                 COUNT(CASE WHEN status = 'shipped' THEN 1 END) as shipped_count

@@ -98,3 +98,7 @@ class AdminOrderController extends BaseAdminController {
         include __DIR__ . '/../../templates/admin/orders.php';
     }
 
+     public function view() {
+        $db = Database::getInstance()->getConnection();
+        $orderId = (int)($_GET['id'] ?? 0);
+

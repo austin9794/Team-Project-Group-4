@@ -55,3 +55,9 @@ class AdminOrderController extends BaseAdminController {
         ";
         $params = [];
 
+        // Filter by status
+        if (!empty($_GET['status']) && $_GET['status'] !== 'all') {
+            $sql .= " AND o.status = ?";
+            $params[] = $_GET['status'];
+        }
+

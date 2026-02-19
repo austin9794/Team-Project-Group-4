@@ -88,24 +88,23 @@
                             </td>
                             <td><?= date('M d, Y H:i', strtotime($order['created_at'])) ?></td>
                             <td class="actions-cell">
-                                <a href="index.php?page=order&id=<?= (int)$order['order_id'] ?>" class="btn-action btn-view">👁️ View</a>
                                 
                                 <?php if ($order['status'] === 'pending'): ?>
                                     <form method="POST" style="display:inline;">
                                         <input type="hidden" name="order_id" value="<?= (int)$order['order_id'] ?>">
-                                        <button type="submit" name="process_order" class="btn-action btn-process">✓ Process</button>
+                                        <button type="submit" name="process_order" class="btn-action btn-process"> Process</button>
                                     </form>
                                 <?php elseif ($order['status'] === 'processing'): ?>
                                     <form method="POST" style="display:inline;">
                                         <input type="hidden" name="order_id" value="<?= (int)$order['order_id'] ?>">
                                         <input type="hidden" name="new_status" value="shipped">
-                                        <button type="submit" name="update_status" class="btn-action btn-ship">🚚 Ship</button>
+                                        <button type="submit" name="update_status" class="btn-action btn-ship"> Ship</button>
                                     </form>
                                 <?php elseif ($order['status'] === 'shipped'): ?>
                                     <form method="POST" style="display:inline;">
                                         <input type="hidden" name="order_id" value="<?= (int)$order['order_id'] ?>">
                                         <input type="hidden" name="new_status" value="delivered">
-                                        <button type="submit" name="update_status" class="btn-action btn-deliver">✅ Deliver</button>
+                                        <button type="submit" name="update_status" class="btn-action btn-deliver"> Deliver</button>
                                     </form>
                                 <?php else: ?>
                                     <span class="text-muted">Completed</span>

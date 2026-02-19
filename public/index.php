@@ -215,13 +215,13 @@ switch ($page) {
     // ---- Admin Pages ----
     case 'admin-orders':
        requireAdmin();
-       $controller = new AdminDashboardController();
-       $controller->orders();
+       $controller = new AdminOrderController();
+       $controller->index();
     break;
     case 'admin-order-view':
         requireAdmin();
-        $controller = new AdminDashboardController();
-        $controller->viewOrder();
+        $controller = new AdminOrderController();
+        $controller->view();
     break;
     case 'admin-products':
        requireAdmin();

@@ -132,4 +132,6 @@ class AdminOrderController extends BaseAdminController {
 
         include __DIR__ . '/../../templates/admin/order_view.php';
     }
+}
+?>
 

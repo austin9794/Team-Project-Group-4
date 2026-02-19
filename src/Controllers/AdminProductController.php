@@ -86,6 +86,29 @@ class AdminProductController extends BaseAdminController {
             $params[] = '%' . $_GET['search'] . '%';
         }
 
+        // Filter by stock status
+        if (isset($_GET['stock_status']) && !empty($_GET['stock_status']) && $_GET['stock_status'] !== 'all') {
+            if ($_GET['stock_status'] === 'out') {
+                $sql .= " AND p.stock = 0";
+            } elseif ($_GET['stock_status'] === 'low') {
+                $sql .= " AND p.stock > 0 AND p.stock <= p.low_stock_threshold";
+            } elseif ($_GET['stock_status'] === 'in_stock') {
+                $sql .= " AND p.stock > p.low_stock_threshold";
+            }
+        }
+
+        $sql .= " ORDER BY p.name ASC";
+
+        try {
+            $stmt = $db->prepare($sql);
+            $stmt->execute($params);
+            $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Product query error: " . $e->getMessage());
+            $products = [];
+        }
+
+
 
 
 

@@ -251,8 +251,8 @@ switch ($page) {
     break;
     case 'admin-reports':
        requireAdmin();
-       $controller = new AdminDashboardController();
-       $controller->reports();
+       $controller = new AdminReportController();
+       $controller->index();
     break;
 
 

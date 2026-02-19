@@ -41,3 +41,17 @@ class AdminOrderController extends BaseAdminController {
             exit;
         }
 
+        // Build query with filters
+        $sql = " SELECT 
+                o.order_id,
+                o.total_price,
+                o.status,
+                o.created_at,
+                u.name AS customer_name,
+                u.email AS customer_email
+            FROM orders o
+            LEFT JOIN users u ON o.user_id = u.user_id
+            WHERE 1=1
+        ";
+        $params = [];
+

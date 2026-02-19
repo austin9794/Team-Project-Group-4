@@ -134,11 +134,16 @@ class AdminOrderController extends BaseAdminController {
             $productId = (int)$item['product_id'];
             $quantity = (int)$item['quantity'];
 
-            $update = $db->prepare(" UPDATE products
-                SET stock = stock - ?
-                WHERE product_id = ?
+            $update = $db->prepare("UPDATE products
+             SET stock = stock - ?
+             WHERE product_id = ?
+             AND stock >= ?
             ");
-            $update->execute([$quantity, $productId]);
+            $update->execute([$quantity, $productId, $quantity]);
+
+        if ($update->rowCount() === 0) {
+            throw new Exception("Insufficient stock for product ID $productId");
+        }
 
             $log = $db->prepare(" INSERT INTO inventory_logs (product_id, change_amount, action)
                 VALUES (?, ?, 'purchase')

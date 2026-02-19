@@ -88,3 +88,16 @@ class AdminReturnController extends BaseAdminController {
         header("Location: index.php?page=admin-returns");
         exit;
     }
+
+    private function rejectReturn($returnId) {
+        $db = Database::getInstance()->getConnection();
+
+        $db->prepare(" UPDATE returns
+            SET status = 'rejected', processed_at = NOW()
+            WHERE return_id = ?
+        ")->execute([$returnId]);
+
+        header("Location: index.php?page=admin-returns");
+        exit;
+    }
+}

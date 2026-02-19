@@ -36,3 +36,22 @@ class AdminReturnController extends BaseAdminController {
             $this->rejectReturn($returnId);
         }
     }
+
+    private function approveReturn($returnId) {
+        $db = Database::getInstance()->getConnection();
+
+        try {
+            $db->beginTransaction();
+
+            $stmt = $db->prepare(" SELECT r.*, oi.product_id
+                FROM returns r
+                JOIN order_items oi ON r.order_item_id = oi.order_item_id
+                WHERE r.return_id = ?
+                FOR UPDATE
+            ");
+            $stmt->execute([$returnId]);
+            $return = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if (!$return || $return['status'] !== 'pending') {
+                throw new Exception("Invalid return.");
+            }

@@ -67,3 +67,9 @@ class AdminReturnController extends BaseAdminController {
                 SET returned_quantity = returned_quantity + ?
                 WHERE order_item_id = ?
             ")->execute([$return['quantity'], $return['order_item_id']]);
+
+            // Restore stock
+            $db->prepare(" UPDATE products
+                SET stock = stock + ?
+                WHERE product_id = ?
+            ")->execute([$return['quantity'], $return['product_id']]);

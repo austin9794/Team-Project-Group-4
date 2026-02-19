@@ -73,3 +73,18 @@ class AdminReturnController extends BaseAdminController {
                 SET stock = stock + ?
                 WHERE product_id = ?
             ")->execute([$return['quantity'], $return['product_id']]);
+
+            // Log inventory
+            $db->prepare(" INSERT INTO inventory_logs (product_id, change_amount, action)
+                VALUES (?, ?, 'return')
+            ")->execute([$return['product_id'], $return['quantity']]);
+
+            $db->commit();
+
+        } catch (Exception $e) {
+            $db->rollBack();
+        }
+
+        header("Location: index.php?page=admin-returns");
+        exit;
+    }

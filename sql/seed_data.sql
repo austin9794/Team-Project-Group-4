@@ -29,7 +29,11 @@ INSERT INTO products (category_id, name, slug, description, price, stock, low_st
 
 -- KEYBOARDS (category_id = 1)
 (1,'TECKNET RGB Gaming Keyboard', 'keyboard1',
- 'Mechanical-feel keyboard with vibrant RGB lighting zones. Features stepped keycaps for ergonomic typing and durable construction ideal for gaming and daily use.',
+ 'Ergonomic Design & Gaming Comfort: Experience mechanical feel hand comfort with TECKNET RGB gaming keyboard scientific stepped keycap design and ergonomic typing angle (7°). The silent keys coupled with a wrist rest ensure hours of comfortable gaming or typing sessions. |
+  Vivid Dynamic Backlit RGB Lighting: Immerse in the vibrant hues of 15 RGB color modes on TECKNET wired gaming keyboard English QWERTY layout. Each key is individually backlit, setting the perfect ambiance for your gaming station. |
+  Sturdy All-Metal Panel Construction Keyboard: Constructed with a robust all-metal panel, UK layout, the TECKNET RGB gaming keyboard is engineered for endurance. |
+  Pro-Level RGB Gaming Keyboard: Featuring 12 multimedia keys and 25 anti-ghosting keys, TECKNET gaming keyboard UK layout guarantees an uninterrupted gaming experience. |
+  Energy Saving & Lighting Control: The TECKNET wired USB keyboard is powered directly from your computer — no batteries or charging needed. The backlight stays on by default to create a vibrant gaming atmosphere, and you can easily toggle the lights on or off  ',
  32.99, 30, 10),
 
 (1,'CORSAIR K55 RGB PRO', 'keyboard2',

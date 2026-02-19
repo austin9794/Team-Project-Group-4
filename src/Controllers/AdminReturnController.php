@@ -55,3 +55,9 @@ class AdminReturnController extends BaseAdminController {
             if (!$return || $return['status'] !== 'pending') {
                 throw new Exception("Invalid return.");
             }
+
+            // Update return status
+            $db->prepare(" UPDATE returns
+                SET status = 'approved', processed_at = NOW()
+                WHERE return_id = ?
+            ")->execute([$returnId]);

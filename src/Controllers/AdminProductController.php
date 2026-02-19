@@ -80,6 +80,12 @@ class AdminProductController extends BaseAdminController {
         ";
         $params = [];
 
+        // Search by product name
+        if (!empty($_GET['search'])) {
+            $sql .= " AND p.name LIKE ?";
+            $params[] = '%' . $_GET['search'] . '%';
+        }
+
 
 
 

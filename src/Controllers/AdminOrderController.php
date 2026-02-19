@@ -61,3 +61,11 @@ class AdminOrderController extends BaseAdminController {
             $params[] = $_GET['status'];
         }
 
+        // Search by customer name or email
+        if (!empty($_GET['search'])) {
+            $sql .= " AND (u.name LIKE ? OR u.email LIKE ?)";
+            $searchTerm = '%' . trim($_GET['search']) . '%';
+            $params[] = $searchTerm;
+            $params[] = $searchTerm;
+        }
+

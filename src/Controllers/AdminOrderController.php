@@ -99,6 +99,71 @@ class AdminOrderController extends BaseAdminController {
         include __DIR__ . '/../../templates/admin/orders.php';
     }
 
+    private function processOrder($orderId)  {
+    $db = Database::getInstance()->getConnection();
+
+    try {
+        $db->beginTransaction();
+
+        $check = $db->prepare("SELECT status
+            FROM orders
+            WHERE order_id = ?
+            FOR UPDATE
+        ");
+        $check->execute([$orderId]);
+        $order = $check->fetch(PDO::FETCH_ASSOC);
+
+        if (!$order) {
+            $db->rollBack();
+            throw new Exception("Order not found.");
+        }
+
+        if ($order['status'] !== 'pending') {
+            $db->commit();
+            header("Location: index.php?page=admin-orders");
+            exit;
+        }
+
+        $items = $db->prepare(" SELECT product_id, quantity
+            FROM order_items
+            WHERE order_id = ?
+        ");
+        $items->execute([$orderId]);
+        $rows = $items->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($rows as $item) {
+            $productId = (int)$item['product_id'];
+            $quantity = (int)$item['quantity'];
+
+            $update = $db->prepare(" UPDATE products
+                SET stock = stock - ?
+                WHERE product_id = ?
+            ");
+            $update->execute([$quantity, $productId]);
+
+            $log = $db->prepare(" INSERT INTO inventory_logs (product_id, change_amount, action)
+                VALUES (?, ?, 'purchase')
+            ");
+            $log->execute([$productId, $quantity]);
+        }
+
+        $final = $db->prepare(" UPDATE orders
+            SET status = 'processing'
+            WHERE order_id = ?
+        ");
+        $final->execute([$orderId]);
+
+        $db->commit();
+
+        header("Location: index.php?page=admin-orders");
+        exit;
+
+    } catch (Exception $e) {
+        $db->rollBack();
+        die("Processing failed.");
+    }
+}
+
     public function view() {
         $db = Database::getInstance()->getConnection();
         $orderId = (int)($_GET['id'] ?? 0);

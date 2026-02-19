@@ -23,3 +23,21 @@ class AdminOrderController extends BaseAdminController {
             exit;
         }
 
+        // Update order status (shipped / delivered) - NO stock changes
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_status'], $_POST['order_id'], $_POST['new_status'])) {
+
+            $orderId = (int)$_POST['order_id'];
+            $newStatus = $_POST['new_status'];
+
+            $allowed = ['shipped', 'delivered'];
+            if (!in_array($newStatus, $allowed)) {
+                die("Invalid status");
+            }
+
+            $update = $db->prepare("UPDATE orders SET status = ? WHERE order_id = ?");
+            $update->execute([$newStatus, $orderId]);
+
+            header("Location: /Team-Project-Group-4/public/index.php?page=admin-orders");
+            exit;
+        }
+

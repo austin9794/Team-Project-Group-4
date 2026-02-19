@@ -102,3 +102,34 @@ class AdminOrderController extends BaseAdminController {
         $db = Database::getInstance()->getConnection();
         $orderId = (int)($_GET['id'] ?? 0);
 
+        if (!$orderId) {
+            header("Location: index.php?page=admin-orders");
+            exit;
+        }
+
+        $stmt = $db->prepare("
+            SELECT o.*, u.name AS customer_name, u.email AS customer_email
+            FROM orders o
+            JOIN users u ON o.user_id = u.user_id
+            WHERE o.order_id = ?
+        ");
+        $stmt->execute([$orderId]);
+        $order = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$order) {
+            header("Location: index.php?page=admin-orders");
+            exit;
+        }
+
+        $itemsStmt = $db->prepare("
+            SELECT oi.*, p.name, p.price
+            FROM order_items oi
+            JOIN products p ON oi.product_id = p.product_id
+            WHERE oi.order_id = ?
+        ");
+        $itemsStmt->execute([$orderId]);
+        $items = $itemsStmt->fetchAll(PDO::FETCH_ASSOC);
+
+        include __DIR__ . '/../../templates/admin/order_view.php';
+    }
+

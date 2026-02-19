@@ -61,3 +61,9 @@ class AdminReturnController extends BaseAdminController {
                 SET status = 'approved', processed_at = NOW()
                 WHERE return_id = ?
             ")->execute([$returnId]);
+
+            // Update order_items returned quantity
+            $db->prepare(" UPDATE order_items
+                SET returned_quantity = returned_quantity + ?
+                WHERE order_item_id = ?
+            ")->execute([$return['quantity'], $return['order_item_id']]);

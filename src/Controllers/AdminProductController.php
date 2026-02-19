@@ -108,6 +108,18 @@ class AdminProductController extends BaseAdminController {
             $products = [];
         }
 
+        // Get categories for filter
+        try {
+            $catStmt = $db->query("SELECT DISTINCT name FROM categories ORDER BY name");
+            $categories = $catStmt->fetchAll(PDO::FETCH_COLUMN);
+        } catch (PDOException $e) {
+            error_log("Category query error: " . $e->getMessage());
+            $categories = [];
+        }
+
+        include __DIR__ . '/../../templates/admin/products.php';
+    }
+
 
 
 

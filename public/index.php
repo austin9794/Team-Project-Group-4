@@ -225,8 +225,8 @@ switch ($page) {
     break;
     case 'admin-products':
        requireAdmin();
-       $controller = new AdminDashboardController();
-       $controller->products();
+       $controller = new AdminProductController();
+       $controller->index();
     break;
     case 'admin-customers':
        requireAdmin();

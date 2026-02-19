@@ -99,7 +99,7 @@ class AdminOrderController extends BaseAdminController {
         include __DIR__ . '/../../templates/admin/orders.php';
     }
 
-     public function view() {
+    public function view() {
         $db = Database::getInstance()->getConnection();
         $orderId = (int)($_GET['id'] ?? 0);
 
@@ -121,11 +121,19 @@ class AdminOrderController extends BaseAdminController {
             exit;
         }
 
-        $itemsStmt = $db->prepare(" SELECT oi.*, p.name, p.price
-            FROM order_items oi
-            JOIN products p ON oi.product_id = p.product_id
-            WHERE oi.order_id = ?
-        ");
+        $itemsStmt = $db->prepare("SELECT 
+              oi.*,
+              p.name,
+              p.price,
+              pi.image_path
+              FROM order_items oi
+              JOIN products p ON oi.product_id = p.product_id
+              LEFT JOIN product_images pi 
+              ON p.product_id = pi.product_id 
+              AND pi.is_primary = 1
+               WHERE oi.order_id = ?
+           ");
+
         $itemsStmt->execute([$orderId]);
         $items = $itemsStmt->fetchAll(PDO::FETCH_ASSOC);
 

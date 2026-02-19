@@ -36,6 +36,17 @@ class AdminProductController extends BaseAdminController {
             exit;
         }
 
+        // Handle delete product
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_product'])) {
+            $productId = (int)$_POST['product_id'];
+            
+            $delete = $db->prepare("DELETE FROM products WHERE product_id = ?");
+            $delete->execute([$productId]);
+
+            header("Location: /Team-Project-Group-4/public/index.php?page=admin-products&deleted=1");
+            exit;
+        }
+
 
 
     

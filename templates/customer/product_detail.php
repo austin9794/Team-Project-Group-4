@@ -377,9 +377,18 @@ if (!empty($images) && isset($images[0]['image_path'])) {
 
       <div class="product-about">
         <h3 class="about-title">About this item</h3>
-        <p class="product-description">
-          <?= nl2br(htmlspecialchars($product['description'])) ?>
-        </p>
+        <?php
+          $features = array_filter(
+          array_map('trim', explode('|', $product['description']))
+          );
+        ?>
+
+      <ul class="product-features">
+       <?php foreach ($features as $feature): ?>
+           <li><?= htmlspecialchars($feature) ?></li>
+        <?php endforeach; ?>
+      </ul>
+
       </div>
 
       <?php if ($product['stock'] > 0): ?>

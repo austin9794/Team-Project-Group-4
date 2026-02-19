@@ -421,8 +421,7 @@ public function submitReturn() {
     exit;
 }
 
-public function showReturnForm()
-{
+public function showReturnForm() {
     requireLogin();
     $db = Database::getInstance()->getConnection();
 
@@ -441,6 +440,14 @@ public function showReturnForm()
 
     include __DIR__ . '/../../templates/customer/request_return.php';
 }
+
+public function submitReturn() {
+    requireLogin();
+    $db = Database::getInstance()->getConnection();
+
+    $itemId = (int)$_POST['order_item_id'];
+    $quantity = (int)$_POST['quantity'];
+    $reason = trim($_POST['reason']);
 
 
 }

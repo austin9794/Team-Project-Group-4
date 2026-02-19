@@ -64,6 +64,23 @@ class AdminProductController extends BaseAdminController {
             exit;
         }
 
+        // Build query with filters
+        $sql = "  SELECT 
+                p.product_id,
+                p.name,
+                p.slug,
+                p.price,
+                p.stock,
+                p.low_stock_threshold,
+                p.is_active,
+                c.name AS category_name
+            FROM products p
+            LEFT JOIN categories c ON p.category_id = c.category_id
+            WHERE 1=1
+        ";
+        $params = [];
+
+
 
 
     

@@ -20,3 +20,19 @@ class AdminReturnController extends BaseAdminController {
 
         include __DIR__ . '/../../templates/admin/returns.php';
     }
+
+    public function process() {
+        if (!isset($_POST['return_id'], $_POST['action'])) {
+            header("Location: index.php?page=admin-returns");
+            exit;
+        }
+
+        $returnId = (int)$_POST['return_id'];
+        $action = $_POST['action'];
+
+        if ($action === 'approve') {
+            $this->approveReturn($returnId);
+        } else {
+            $this->rejectReturn($returnId);
+        }
+    }

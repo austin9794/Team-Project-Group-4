@@ -10,3 +10,9 @@ class AdminOrderController extends BaseAdminController {
     }
 
     public function index() {
+
+    $db = Database::getInstance()->getConnection();
+        
+        // Initialize orders array
+        $orders = [];
+

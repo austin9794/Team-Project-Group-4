@@ -1,7 +1,5 @@
 <?php
 define('ACCESS_ALLOWED', true);
-
-
 ?>
 
 <?php include __DIR__ . '/../header.php'; ?>
@@ -9,7 +7,7 @@ define('ACCESS_ALLOWED', true);
 <div class="dashboard-container">
     <div class="dashboard-header">
         <h1>🎮 Admin Dashboard</h1>
-        <p>Welcome back, <?php echo htmlspecialchars($controller->getAdminName()); ?>!</p>
+        <p>Welcome back, <?php echo htmlspecialchars($adminName); ?>!</p>
     </div>
 
     <!-- Inventory Alert System -->

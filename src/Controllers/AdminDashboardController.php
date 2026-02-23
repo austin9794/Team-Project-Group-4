@@ -60,6 +60,8 @@ class AdminDashboardController extends BaseAdminController {
         LIMIT 5
         ");
         $pendingReturns = $pendingReturnsStmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $adminName = $this->getAdminName();
         
         include __DIR__ . '/../../templates/admin/dashboard.php';
     }

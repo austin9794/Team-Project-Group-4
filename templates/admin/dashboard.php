@@ -6,9 +6,17 @@ define('ACCESS_ALLOWED', true);
 
 <div class="dashboard-container">
     <div class="dashboard-header">
+    <div class="header-left">
         <h1>🎮 Admin Dashboard</h1>
-        <p>Welcome back, <?php echo htmlspecialchars($adminName); ?>!</p>
+        <p>Welcome back, <?= htmlspecialchars($adminName); ?>!</p>
     </div>
+
+    <div class="header-right">
+        <a href="index.php?page=switch-role" class="btn-switch-role">
+            Switch to Customer View
+        </a>
+    </div>
+</div>
 
     <!-- Inventory Alert System -->
     <?php if (!empty($alerts)): ?>

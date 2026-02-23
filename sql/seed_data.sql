@@ -153,23 +153,42 @@ INSERT INTO products (category_id, name, slug, description, price, stock, low_st
 
 -- MONITORS (category_id = 4)
 (4,'Philips 27E1N1100A 27"', 'monitor1',
- '27-inch Full HD IPS panel with wide viewing angles. Built-in speakers and Flicker-Free technology enhance multimedia and productivity use.',
+ 'Built-in stereo speakers for multimedia.|
+ HDMI ensures universal digital connectivity.|
+ LowBlue mode and Flicker-free easy-on-the eyes viewing.|
+ Cable management reduces cable clutter for neat workspace.|
+ Cable management reduces cable clutter for neat workspace.|
+ EasySelect menu toggle key for quick on-screen menu access.',
  94.99, 20, 10),
 
 (4,'ASUS TUF VG279QM1A 280Hz', 'monitor2',
- 'Ultra-fast 280Hz refresh rate ideal for competitive gaming. ELMB Sync technology reduces ghosting for sharper, smoother visuals.',
+ '27-inch Full HD(1920x1080) gaming monitor with overclock to 280Hz refresh rate designed for professional gamers and immersive gameplay.|
+ ASUS Extreme Low Motion Blur Sync (ELMB Sync) technology enables ELMB and variable-refresh-rate technologies to work simultaneously to eliminate ghosting and tearing for sharp gaming visuals with high frame rates.|
+ FreeSync Premium and G-Sync compatible delivers a seamless, tear-free gaming experience by enabling VRR (variable refresh rate) by default.|
+ High Dynamic Range (HDR) technology supports HDR-10 format to enhance bright and dark areas.',
  129.99, 20, 10),
  
 (4,'Minifire 27" 180Hz Curved Monitor', 'monitor3',
- 'Curved Full HD panel with 180Hz refresh rate for smooth gameplay. Frameless design provides an immersive viewing experience.',
+ 'Massive 27" Curved VA Display：Immerse yourself in FHD 1080P clarity with a 200Hz refresh rate, delivering buttery-smooth gameplay and cinematic visuals. Perfect for competitive gaming and multitasking.|
+ 1ms Response + FreeSync Premium：Zero ghosting or screen tearing in fast-paced games like Apex Legends or Forza. Adaptive sync ensures fluid frame rates across PC/console setups.|
+ Vivid Colors & HDR：130% sRGB + HDR compatibility brings lifelike detail to games, movies, and creative work. 300cd/m² brightness ensures sharp contrast in dark scenes.|
+ Built-in Speakers + Frameless Design：Save space with integrated audio, while the sleek edge-to-edge design adds modern style to your desk. Curved ergonomics reduce eye strain during long sessions.|
+ Flexible Ports + Free HDMI Cable：HDMI 1.4/DP 1.2 ports connect to PS5/Xbox/PC. Includes a free MFG27C1 HDMI cable for instant plug-and-play.',
  144.99, 25, 10),
 
 (4,'MSI PRO MP275', 'monitor4',
- '27-inch IPS display with 100Hz refresh rate for everyday work. Delivers crisp colours and wide viewing angles for office and study environments.',
+ '27-INCH FHD PANEL - The PRO MP275 features a large 27-inch IPS panel with Full-HD (1920x1080) resolution; A high 100Hz refresh rate improves the day-to-day visual experience with smoother, faster frame rates.|
+ IMAGE QUALITY - The PRO MP275 supports a 93% sRGB Colour Gamut (6-bit+FRC, 16.7M colours), 300 nits brightness & superior 1000:1 Contrast Ratio; MSI Display Kit App unlocks extra display, productivity & colour settings.|
+ EYE COMFORT ORIENTED - MSI EyesErgo solution includes TÜV Rheinland Eye Comfort certified Less Blue Light & Anti-Flicker technology as well as Eye-Q Check software to prevent strain during extended periods of use; Anti-glare surface treatment.|
+ SIMPLE YET FLEXIBLE - The monitor comes with 100mm VESA brackets for wall or arm mounting (e.g., MSI VESA Arm MT81), while the stand is Tilt Adjustable & includes a Handy Cable Management clip; Built-in 2W Speakers are convenient for conference calls.|
+ MODERN & LEGACY CONNECTIVITY - Supports Multi-System Control & display with HDMI 1.4b and D-Sub (VGA) ports; Includes a headphones-out jack and line-in port.',
  109.99, 20, 10),
  
 (4,'LG 27U411A-B', 'monitor5',
- '27-inch IPS display with HDR10 and VRR support. Produces vivid colours and fast response times for entertainment and casual gaming.',
+ '120Hz REFRESH RATE - A fast 120Hz provides a smooth frame loading in various programs.|
+ Brilliant Image Quality in Full HD IPS Display – The 27-inch Full HD (1920x1080) IPS Display with sRGB 99% colour gamut & HDR10 that reproduces vivd colours and detailed images.|
+ Reader Mode adjusts colour temperature and luminance, supporting a suitable viewing experience for reading on a monitor. Flicker Safe reduces invisible flickering on the screen.|
+ This display has a slim bezel on three sides, allowing you to create a suitable work environment through convenient tilt adjustment.',
  89.99, 25, 10),
 
 -- MICROPHONES (category_id = 5)

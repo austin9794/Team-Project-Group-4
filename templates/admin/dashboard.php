@@ -85,6 +85,13 @@ $controller = new AdminDashboardController();
                 <div class="stat-label">Shipped</div>
             </div>
         </div>
+        <div class="stat-card <?= $returnSummary['pending_returns'] > 0 ? 'highlight-warning' : '' ?>">
+        <div class="stat-icon">↩️</div>
+        <div class="stat-content">
+            <div class="stat-number"><?= $returnSummary['pending_returns'] ?></div>
+            <div class="stat-label">Pending Returns</div>
+        </div>
+       </div>
     </div>
 
     <!-- Quick Links -->

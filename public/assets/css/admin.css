@@ -1111,3 +1111,63 @@
     .btn-cancel:hover {
         background: rgba(255, 255, 255, 0.2);
     }
+
+    .dashboard-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .dashboard-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+        padding: 20px;
+        background: rgba(188, 168, 230, 0.05);
+        border-left: 4px solid var(--lavender);
+        border-radius: 4px;
+    }
+
+    .dashboard-header h1 {
+        margin: 0;
+        color: var(--text-primary);
+    }
+
+    .dashboard-user-info {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .dashboard-user-info span {
+        color: var(--text-primary);
+    }
+
+    .role-badge {
+        background: var(--lavender);
+        color: #0a0a0a;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 12px;
+    }
+
+    .btn-switch-role {
+        background: var(--highlight);
+        color: white;
+        padding: 8px 16px;
+        border-radius: 4px;
+        text-decoration: none;
+        font-size: 14px;
+        transition: 0.3s ease;
+        border: none;
+        cursor: pointer;
+    }
+
+    .btn-switch-role:hover {
+        background: var(--highlight-dark);
+        text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+    }
+
+    

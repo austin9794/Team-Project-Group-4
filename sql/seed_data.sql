@@ -111,23 +111,44 @@ INSERT INTO products (category_id, name, slug, description, price, stock, low_st
 
 -- HEADSETS (category_id = 3)
 (3,'HyperX Cloud Alpha', 'head1',
- 'Dual-chamber drivers provide cleaner audio with reduced distortion. Comfortable memory-foam ear cushions and multi-platform compatibility.',
+ 'HyperX Dual Chamber Drivers for more distinction and less distortion.|
+ Signature award-winning HyperX comfort. Sound pressure level:98dBSPL/mW at 1kHz.|
+ Durable aluminium frame with expanded headband.|
+ Detachable braided cable with convenient in-line audio control.|
+ Detachable noise-cancellation microphone.|
+ Multi-platform compatibility (on PC, PS4, PS5, Xbox One, Xbox Series X|S).',
  34.99, 25, 10),
 
 (3,'Vakedy Wireless Gaming Headset', 'head2',
- 'Supports Bluetooth and 2.4GHz low-latency wireless modes. Deep bass sound profile and long battery life designed for immersive gaming.',
+ '【50mm Driver Surround Stereo】Equipped with high-powered 50mm drivers, this gaming headset delivers premium stereo sound that’s clear, balanced, and rich in detail. Paired with lower latency (≤20ms) making gamer easy and quickly to pick up in game details in games for a better immersive gaming experience.|
+ 【Noise Canceling Microphone】HW20 Wireless gaming headphones feature a detachable and omnidirectional microphone with high-end noise cancellation while the flexible microphone provides clear communication with teammates when you are in a game or chat, it effectively reduces background noise to keep you focused. And the sturdy closed earcups fully enclose your ears to enhance sound isolation making the bluetooth headset is the ideal choice for multiplayer gaming and streaming.|
+ 【Up to 50H Battery Life】Wireless PC gaming headset boasts an impressive 50-hour continuous gameplay runtime with a voice alert for low power, and charging the over ear headphone fully takes only 3 hours. The battery life varies by usage, you might need to charge it every 3-4 days on light use or charge it every 1-2 days heavy use. Whether you’re gaming, chatting, or listening to music, it keeps up with your rhythm.|
+ 【Lightweight and Comfortable Ergonomic Design】Gaming headset features an adjustable headband that eases pressure on the head and ears—perfectly fitting various head shapes from children to adults. Its comfortable, breathable mesh ear cushions and lightweight design (just 8.8 ounces) ensure all day comfort, even during extended gaming marathons. And the microphone is accented with LED lights, adding a unique flair to the headset while amplifying the immersive gaming atmosphere, making it an ideal gift for girls and boys, teens and adults.',
  149.99, 40, 10),
  
 (3,'Jabra Evolve 20', 'head3',
- 'Noise-isolating ear cushions for clearer calls and online meetings. Inline controls for easy volume and mute adjustments during classes or work.',
+ 'Passive noise cancellation for ideal concentration: Keeps high-frequency noise such as human voices out for better work collaboration and listening experience in any environment.|
+ Easy call management: External sound controller allows for making, taking and muting calls – Stay connected and available at all times.|
+ This Evolve 20 headset is Microsoft Certified and built for style and comfort with soft foam ear cushions – Adjustable headband lets you find the perfect fit.|
+ Plug-and-play setup: The headset works out of the box with all leading systems – Installation is as easy as simply plugging it in.|
+ Scope of delivery: Jabra Evolve 20 stereo on-ear headset, USB cable with control unit – Weight: 171g – Colour: black.',
  34.99, 70, 10),
 
 (3,'beyerdynamic DT 990 PRO',  'head4',
- 'Professional open-back studio headphones with wide soundstage. Ideal for music production, mixing, and immersive listening sessions.',
+ 'Open backed over-ear headphones, ideal for professional mixing, mastering and editing.|
+ Perfect for studio applications thanks to their transparent, spacious, strong bass and treble sound.|
+ The soft, circumaural and replaceable velour ear pads ensure high wearing comfort.|
+ Robust, comfortably padded and adjustable spring steel frame construction.|
+ Coiled connection cable with a 3.5 mm jack plug and 6.35 mm adapter included with a headphone frequency response of 5 -35000 Hz.|
+ Compatible with HEADPHONE LAB – the virtual reference studio takes your beyerdynamic headphones to the next level: Mix with the free studio plug-in as if you were in a professional recording studio.',
  138.99, 15, 10),
  
 (3,'JLab Go Work 2nd Gen', 'head5',
- 'Wireless headset that connects to two devices simultaneously. Clear-voice microphone with noise reduction and lightweight comfort for long use.',
+ 'DUAL CONNECTIVITY WITH BLUETOOTH MULTIPOINT: Connect the wireless headset via USB-C dongle or Bluetooth 5.3 to your PC, Mac, office computer, mobile and more. Or plug-in the included Type-C to Type-C cable for wired laptop headphones with microphone. Connect to 2 devices simultaneously with Multipoint.|
+ CLEAR CALLS WITH NOISE CANCELLING MIC: C3 Calling uses dual mics on each Bluetooth headset with microphone - one captures your voice while the other eliminates environmental noise, talking and background sound for crystal clear calls anytime, anywhere.|
+ IMPROVED ALL-WEEK PLAYTIME AND COMFORT: Get 55+ hours of playtime on one charge with your overhead bluetooth headset with mic for work - and all-day comfort with Cloud Foam earcups. Rotate the boom microphone for listening only – and down to take a teams call or video conference meeting.|
+ TOTAL CONTROL AND QUICK MUTE INDICATOR: Play/pause, answer/reject, volume, mute and track control with the multi-functional buttons located on the computer headsets. Choose between 2 EQ settings: Work or Music mode. Quickly toggle the mute function via the controls on the office headset with microphone for laptop. A red LED at the end of the boom mic indicates whether mute is on.|
+ PC HEADSET INCLUDES: GO Work 2nd Gen on-ear office or gaming laptop headset with microphone, USB-C dongle, Type-C to Type-C cable for wired use, JLab Two Year Warranty. Perfect for everyday office life! Enjoy clear calls and Zoom video calls and never forget to un-mute with the mute-indicator-light.',
  49.99, 50, 10),
 
 -- MONITORS (category_id = 4)

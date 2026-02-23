@@ -9,29 +9,6 @@ $controller = new AdminDashboardController();
 <?php include __DIR__ . '/../header.php'; ?>
 
 <style>
-.dashboard-container {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 30px;
-}
-
-.dashboard-header {
-    margin-bottom: 35px;
-    border-bottom: 2px solid rgba(188, 168, 230, 0.2);
-    padding-bottom: 20px;
-}
-
-.dashboard-header h1 {
-    color: var(--text-primary);
-    margin-bottom: 8px;
-    font-size: 2rem;
-}
-
-.dashboard-header p {
-    color: var(--text-secondary);
-    font-size: 1rem;
-}
-
 /* Inventory Alert System */
 .alert-section {
     margin-bottom: 30px;

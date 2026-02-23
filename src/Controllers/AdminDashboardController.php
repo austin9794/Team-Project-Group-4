@@ -47,6 +47,20 @@ class AdminDashboardController extends BaseAdminController {
         FROM returns
         ");
         $returnSummary = $returnStmt->fetch(PDO::FETCH_ASSOC);
+
+        // Get latest pending returns
+        $pendingReturnsStmt = $db->query(" SELECT r.return_id, r.quantity, r.requested_at,
+           u.name AS customer_name,
+           p.name AS product_name
+        FROM returns r
+        JOIN users u ON r.user_id = u.user_id
+        JOIN order_items oi ON r.order_item_id = oi.order_item_id
+        JOIN products p ON oi.product_id = p.product_id
+        WHERE r.status = 'pending'
+        ORDER BY r.requested_at DESC
+        LIMIT 5
+        ");
+        $pendingReturns = $pendingReturnsStmt->fetchAll(PDO::FETCH_ASSOC);
         
         include __DIR__ . '/../../templates/admin/dashboard.php';
     }

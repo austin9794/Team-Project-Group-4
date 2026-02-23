@@ -224,7 +224,7 @@ INSERT INTO products (category_id, name, slug, description, price, stock, low_st
  STURDY & FLEXIBLE ARM STAND - The easy-to-position metal arm stand adjusts to support a variety of setups, You can quickly pull the podcast microphone near your mouth when in use, or fold it away to save more space. The shock mount can further reduce game-induced machine noise and vibration, and the removable pop filter can reduce noise without blocking the gaming computer screen.',
  52.99, 18, 10),
 
-(5,'HyperX QuadCast', 'mic5',
+(5,'HyperX QuadCast 2 S – USB Microphone', 'mic5',
  'FUTURE READY AUDIO: The QuadCast 2 S features best-in-class audio recording resolution on a consumer USB gaming microphone.on a consumer USB gaming microphone.|
  DYNAMIC LIGHTING DISPLAY: QuadCast 2 S has over 100+ individually customizable aRGB LEDs allowing users to display over 16M+ color options to complement their streams and creations.|
  TAP-TO-MUTE SENSOR: The Tap-to-Mute sensor allows users to quickly mute/unmute the mic to manage what is heard.|

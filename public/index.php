@@ -54,10 +54,19 @@ switch ($page) {
         $controller->login();
         break;
     case 'dashboard':
-        $controller = new DashboardController();
-        $controller->index();
+    $controller = new DashboardController();
+    if (!$controller->isLoggedIn()) {
+        header('Location: index.php?page=login');
+        exit;
+    }
+    if ($controller->isAdmin()) {
+        require_once __DIR__ . '/../src/Controllers/AdminDashboardController.php';
+        $adminController = new AdminDashboardController();
+        $adminController->index();
+    } else {
         include __DIR__ . '/../templates/customer/dashboard.php';
-        break;
+    }
+    break;
     case 'switch-role':
         $controller = new DashboardController();
         $controller->switchRole();

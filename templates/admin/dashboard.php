@@ -82,7 +82,7 @@ define('ACCESS_ALLOWED', true);
             </div>
         </div>
         <div class="stat-card <?= $returnSummary['pending_returns'] > 0 ? 'highlight-warning' : '' ?>">
-        <div class="stat-icon">↩️</div>
+        <div class="stat-icon">↩</div>
         <div class="stat-content">
             <div class="stat-number"><?= $returnSummary['pending_returns'] ?></div>
             <div class="stat-label">Pending Returns</div>
@@ -107,7 +107,7 @@ define('ACCESS_ALLOWED', true);
                 📊 View Reports
             </a>
             <a href="index.php?page=admin-returns" class="quick-link">
-                ↩️ Manage Returns
+                ↩ Manage Returns
             </a>
         </div>
     </div>

@@ -193,23 +193,44 @@ INSERT INTO products (category_id, name, slug, description, price, stock, low_st
 
 -- MICROPHONES (category_id = 5)
 (5,'TONOR RGB USB Microphone', 'mic1',
- 'High-clarity microphone with built-in noise reduction. RGB lighting adds style and enhances gaming or streaming setups.',
+ 'Unrivaled Audio Quality: The TC310+ gaming mic equiped premium chips and core, coupled with expert tuning by engineers, resulting in ultra-low noise levels and a pure, clean sound. It delivers crystal-clear clarity and full-bodied sound, providing high-fidelity reproduction that brings your recordings to life. Whether youre a gamer, podcaster, or YouTuber, the TC310+ ensures that your voice will be heard loud and clear.|
+ Vibrant RGB lighting: Here are 4 RGB modes to choose from, including six solid color static, single-color gradient, single-color breathing, and mix-color gradient. Simply touch the lighting icon on the device, select your favorite lighting effect, and create a stunning visual experience!Of course, you can also turn off the RGB lights by long-tapping the lighting icon.|
+ Brightness Control: Adjust the brightness of the RGB lights by simply rotating the bottom of the usb microphone, creating the perfect lighting atmosphere to suit your needs.|
+ Convenient Sound Control: Easily mute it by tapping the top of the gaming mic, allowing you to turn off the microphones sound during live streaming or gaming. Rotating the top of the microphone makes it easy to adjust the microphones gain, ensuring that you maintain an appropriate volume at all times. All of these operations are simple and convenient, and can be completed in an instant, giving you complete control.|
+ Enhanced Boom Arm Kit: The gaming mic is equipped with a boom arm mounting kit. The metal-made boom arm is sturdy enough and the clamp perfectly fits most desks with a thickness not exceeding 2.36''. Both the boom arm and the microphone are adjustable, allowing you to easily adjust the microphone to the appropriate angle or height to showcase your perfect sound.',
  49.99, 30, 10),
 
 (5,'FIFINE XLR/USB Dynamic Microphone', 'mic2',
- 'Dual USB and XLR compatibility for flexible studio or gaming use. Warm vocal tone with low noise floor for cleaner recordings.',
+ '[XLR Connection for Upgraded Audio] Featured with high accuracy and decent transmission performance, the XLR dynamic microphone worked with frequency response range of 50Hz-16KHz presents transparent, open and authentic vocal voice. Due to studio recording mic with S/N Ratio more than 80dB, even if you record in a sub-optimal space, your voice will not be drown out by ambient noise. The dynamic cardioid podcast microphone creates audio near enough as close to real life.|
+ [USB Connection Featured RGB] The USB gaming microphone gives a directly easy running with, meeting your daily game voice needs. The USB podcast microphone provides the key to live streaming with clear and balanced voice.When you stream media recording, the RGB microphone lighting is eye-catching enough to enrich your program. RGB lighting can also be customized with controls, switches, color switching, and color change modes to meet your different needs for daily gaming or work recording.|
+ [Mute Button and Gain Knob] Function keys are located easy to access quickly for you adjust the vocal volume. The computer microphone allows you to continue to type on keyboards without disturbing. Tap-to-mute button avoids distractions in the background and makes people hear you again shortly. Dial mic gain instead of calling too loud or low when gaming, streaming or podcasting.|
+ [Headphones Monitoring and Adjustment] The desktop gaming microphone has monitoring headphones jack with discrete volume adjustment to let you hear mic input with the audio. It is convenient to do microphone tests before going live. You can hear how loud you are being, especially when setting up the gain you need. The PC gaming microphone improves your rhythm gaming experience or podcast.|
+ [Compatibility and Use] XLR/USB microphone is a one stop shop for audio content, suitable for beginner. Thanks to hybrid connection, you can start using USB connection, and when youre ready to get into XLR gear. You can use the USB port directly with the desktop/laptop to play game voice on Twitch or Discord (compatible with PS4/PS5). Or, use XLR port with audio interface or mixer to upgrade studio recording.',
  56.99, 75, 10),
  
 (5,'UGREEN 24bit/96KHz Condenser Microphone', 'mic3',
- 'High-resolution audio capture with crisp detail. Noise-cancelling mode reduces background distractions for clear communication.',
+ 'Crystal Clear Sound Quality: This condenser microphone operates at a high resolution up to 24bit/96kHz. This USB streaming mic captures voice with a rich tone, natural, ensuring your vocals sound full and detailed without compressed. In addition, the noise-cancelling mode can effectively reduces background noise such as keyboard clacking, mouse clicks, or general room hum, ensuring that your voice remains the focus. Ideal for professional gaming, recording, podcasting, and live streaming.|
+ One-Touch DSP Noise Cancellation: Press and hold the top button for 2 seconds to instantly activate advanced DSP noise reduction—silencing background distractions so your voice stays clear and professional.|
+ 7 RGB Lighting Effects: This gaming mic integrated appealing phantom light effect + 5 monochrome lights + colourful breathing light to enhance the visual appeal of your setup. Perfect to improve audio/visual quality during streaming. The RGB lights also turn off when the pc microphone is muted, making it easy to see when you are being recorded.|
+ Practical and Convenient: This gaming microphone also has a mode indicator, so you can clearly see the microphones status. There is also a continuously adjustable knob for easily adjustingmicrophone volume. There is a 3.5mm headphone jack in the middle so you can connect the headphones for real-time monitoring and make adjustments for better audio quality.|
+ Desktop-Friendly Design: This PC microphone features a solid base and an adjustable stand to help minimise vibrations and unwanted noise, ensuring clean and clear recordings. With a standard 3/8 threaded connector on the underside of the stand, you can connect it to a cantilever bracket to suit your needs.',
  36.99, 50, 10),
  
 (5,'MAONO USB Noise-Cancellation Mic', 'mic4',
- 'One-tap noise cancellation removes ambient sounds. Balanced, clean audio suited for meetings, streaming, and gaming.',
+ 'MORE FOCUS AND CLARITY - This gaming microphone with one-click noise cancellation technology, which can effectively eliminate background noise. Whether its multiplayer online games, cooperative games, or competitive games, the USB microphone can capture game players voices clearly, thereby enhancing the collaboration and competitiveness of the game. Cardioid pickup focuses more on capturing sound from the mic front, providing better sound quality and accuracy for gaming streaming or voice.|
+ CONTROLLABLE RGB LIGHTING - You can change the color of RGB lights to match your game streaming aesthetic. The computer microphone has 9 personalized RGB lighting modes, Soft and coordinated lighting effects make your gaming video or gaming live broadcast stand out from the crowd. Long-pressing the RGB button turns off the RGB lights, while a short press turn on the lights and adjusts the light color.|
+ EASIER MULTIFUNCTION USE - One-click the mute button on top of the PC microphone to turn on mute mode, and you can easily control your game audio. Take control of your on-stream sound with the mic gain knob, you can check if your voice level is too high or too low and adjust accordingly. The zero-latency monitoring allows you to easily maintain professional sound quality with a gaming mic.|
+ PLUG AND PLAY - The game streaming microphone is compatible with Windows PC computer laptop, Mac, and PS4/5. The gaming USB microphone is ready to capture it when inspiration strikes. Just plug the mic straight into your computer or laptop with the included USB and USB C cable, and youre all set to record or stream, right away, No drivers are required. (Note: Not compatible with XBOX).|
+ STURDY & FLEXIBLE ARM STAND - The easy-to-position metal arm stand adjusts to support a variety of setups, You can quickly pull the podcast microphone near your mouth when in use, or fold it away to save more space. The shock mount can further reduce game-induced machine noise and vibration, and the removable pop filter can reduce noise without blocking the gaming computer screen.',
  52.99, 18, 10),
 
 (5,'HyperX QuadCast', 'mic5',
- 'Premium USB microphone with tap-to-mute, pop filter, and shock mount. Multiple pickup patterns for versatile recording environments.',
+ 'FUTURE READY AUDIO: The QuadCast 2 S features best-in-class audio recording resolution on a consumer USB gaming microphone.on a consumer USB gaming microphone.|
+ DYNAMIC LIGHTING DISPLAY: QuadCast 2 S has over 100+ individually customizable aRGB LEDs allowing users to display over 16M+ color options to complement their streams and creations.|
+ TAP-TO-MUTE SENSOR: The Tap-to-Mute sensor allows users to quickly mute/unmute the mic to manage what is heard.|
+ REDESIGNED DETACHABLE SHOCK MOUNT: The pre-attached vibration-dampening shock mount is easily detachable thanks to the spring-loaded pins. The shock mount joint is also compatible with 3/8” and 5/8” threading, for easy setups.|
+ VERSATILE MULTIFUNCTION KNOB: The multifunction knob allows users to easily select and adjust microphone gain, headphone volume, monitor mix, and the desired polar pattern.|
+ FOUR SELECTABLE POLAR PATTERNS: QuadCast 2 S offers four polar patterns (cardioid, omnidirectional, bi-directional, or stereo) to fit a wide variety of recording needs.',
  94.99, 60, 10);
 
 -- Product Images

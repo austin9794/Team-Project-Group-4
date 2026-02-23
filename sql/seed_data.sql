@@ -36,20 +36,36 @@ INSERT INTO products (category_id, name, slug, description, price, stock, low_st
   Energy Saving & Lighting Control: The TECKNET wired USB keyboard is powered directly from your computer — no batteries or charging needed. The backlight stays on by default to create a vibrant gaming atmosphere, and you can easily toggle the lights on or off  ',
  32.99, 30, 10),
 
-(1,'CORSAIR K55 RGB PRO', 'keyboard2',
- 'Six customisable lighting zones with quiet membrane keys for productivity and gaming. Includes dedicated media controls and spill-resistant design.',
+(1,'CORSAIR K55 RGB PRO Wired Gaming keyboard', 'keyboard2',
+ 'Dynamic RGB Backlighting: Light up your desktop with six onboard lighting effects, assign a colour to each lighting zone, or program your own vibrant lighting effects with CORSAIR iCUE software. |
+ Six Dedicated Macro Keys: Activate functions, shortcuts, or keypresses in just one stroke with six dedicated macro keys, easily set up through CORSAIR iCUE software or use Elgato Stream Deck software. |
+ Dust and Spill-Resistant Design: IP42-rated protection guards against accidents so your gameplay never has to stop. |
+ Detachable Palm Rest: A soft rubber palm rest reduces stress on your hands so you can play longer in comfort, with a textured surface to keep your hands from slipping. |
+ Quiet and Responsive Keys: For comfortable typing during both work and play, with a tactile bump for responsive gaming performance.',
  59.99, 50, 10),
 
 (1,'AULA F75 Wireless Mechanical Keyboard', 'keyboard3',
- 'Tri-mode connectivity with Bluetooth, 2.4GHz, and USB-C wired options. Hot-swappable switches and compact 75% layout with enhanced sound dampening.',
+ 'Tri-mode Connection Keyboard:AULA F75 wireless mechanical keyboard supports suitable for Bluetooth, 2.4GHz wireless and USB wired connection, can connect up to five devices at the same time, and easily switch by shortcut keys or side button.|
+ Advanced Structure and PCB Single Key Slotting:This thock heavy mechanical keyboard features a advanced structure, extended integrated silicone pad, and PCB single key slotting, better optimizes resilience and stability, making the hand feel softer and more elastic.|
+ Side Engraved Gaming Keyboard:No matter the outlook, the construction, or the function, F75 mechanical keyboard is definitely a professional gaming keyboard.This 81-key 75% layout compact keyboard can save more desktop space while retaining the necessary arrow keys for gaming.|
+ Hot-swap Custom Keyboard:This custom mechanical keyboard with hot-swappable base supports 3-pin or 5-pin switches replacement. Even keyboard beginners can easily DIY there own keyboards without soldering issue.|
+ 16.8 Million RGB Backlit Keyboard:F75 light up led keyboard features 16.8 million RGB lighting color. With 16 pre-set lighting effects to add a great atmosphere to the game. And supports 10 cool music rhythm lighting effects with driver. Lighting brightness and speed can be adjusted by the knob or the key combination. You can select the single color effect as wish. And if you can turn the backlight off if you do not need it.|',
  82.99, 40, 10),
 
-(1,'UGREEN Wireless Keyboard', 'keyboard4',
- 'Ultra-slim low-profile keyboard supporting Bluetooth and 2.4GHz connections. Can pair with up to three devices, making it perfect for laptops, tablets, and desktops.',
+(1,'UGREEN Wireless Bluetooth Keyboard', 'keyboard4',
+ 'Two Connection Modes: UGREEN wireless keyboard supports bluetooth and 2.4GHz USB connection. You can easily switch modes and connect the keyboard to up to 3 devices at the same time, such as laptop, PC and tablet.|
+ Fast-Rechargeable and Long Battery Life: The keyboard comes with a charging cable, no additional batteries are required, and a full charge takes only 2 hours, allowing for 90 days of continuous use. This saves you money on batteries and is more environmentally friendly.|
+ Ultra-Portable Mini Keyboard: This mini keyboard is only L36.5cm*W12.3cm*H2.07cm, which saves desk space when used indoors and is also easy to carry for outdoor travel and business trips.|
+ Wide Compatibility: The wireless keyboard is compatible with Windows/MacOS/IpadOS/Linux/Chrome OS/Android, Ipad/PC/Laptop, etc. You can easily use it on multiple devices without worrying about compatibility issues.|
+ Driver-free Use: No need to install additional drivers or software, it can be used after connection, meeting your emergency use needs, and supports a control distance of up to 10 meters.',
  27.99, 35, 10),
 
 (1,'SteelSeries Apex Pro TKL Gen 3', 'keyboard5',
- 'Hall-effect adjustable switches deliver extreme speed and precision. Strong aluminium body and esports-grade performance with deep customization.',
+ 'THE WORLDS FASTEST KEYBOARD — More than just fast, our newly redesigned Hall Effect Switch have 20x faster actuation and 11x quicker response time, with 40 levels of adjustable actuation.|
+ OMNIPOINT 3.0 — Push the boundaries with cutting-edge OmniPoint 3.0 switches with Rapid Trigger, Protection Mode, Rapid Tap and full adjustability.|
+ GAME-READY PRESETS — Gain a competitive edge in your favorite game with just a few clicks using GG QuickSets game-ready keyboard settings.|
+ REUCED LATENCY — Rapid Trigger and Rapid Tap register keypresses faster for more responsive game play and improved aim.|
+ PROTECTION MODE — A SteelSeries exclusive feature — protect your keypresses by reducing the sensitivity of surrounding keys when the intended key is pressed, preventing accidental inputs.',
  209.99, 60, 10),
 
 -- MICE (category_id = 2)

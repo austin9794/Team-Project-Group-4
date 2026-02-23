@@ -110,6 +110,9 @@ $controller = new AdminDashboardController();
             <a href="index.php?page=admin-reports" class="quick-link">
                 📊 View Reports
             </a>
+            <a href="index.php?page=admin-returns" class="quick-link">
+                ↩️ Manage Returns
+            </a>
         </div>
     </div>
 </div>

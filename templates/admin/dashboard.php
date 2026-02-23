@@ -1,9 +1,7 @@
 <?php
 define('ACCESS_ALLOWED', true);
 
-require_once __DIR__ . '/../../src/Controllers/AdminDashboardController.php';
 
-$controller = new AdminDashboardController();
 ?>
 
 <?php include __DIR__ . '/../header.php'; ?>

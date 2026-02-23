@@ -5,6 +5,10 @@ require_once __DIR__ . '/../Database.php';
 
 class AdminReturnController extends BaseAdminController {
 
+   public function __construct() {
+        parent::__construct();
+    }
+
     public function index() {
         $db = Database::getInstance()->getConnection();
 

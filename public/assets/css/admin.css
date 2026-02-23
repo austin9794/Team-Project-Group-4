@@ -1392,30 +1392,29 @@
 
 .quick-link {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    padding: 30px 20px;
-    min-height: 120px;
+    gap: 20px;
+    padding: 25px 20px;
     background: rgba(188, 168, 230, 0.05);
-    border: 2px solid rgba(188, 168, 230, 0.3);
-    border-radius: 10px;
+    border: 2px solid rgba(188, 168, 230, 0.2);
+    border-radius: 8px;
     color: var(--text-primary);
     text-decoration: none;
-    transition: all 0.25s ease;
-    font-weight: 600;
-    font-size: 1.05rem;
-    gap: 12px;
-}
-
-.quick-link span:first-child {
-    font-size: 2rem;
+    transition: all 0.2s ease;
+    min-height: 120px;
 }
 
 .quick-link:hover {
-    background: var(--highlight);
-    border-color: var(--highlight);
-    color: white;
-    transform: translateY(-4px);
-    box-shadow: 0 0 20px rgba(140, 82, 255, 0.4);
+    border-color: var(--lavender);
+    transform: translateY(-2px);
+    background: rgba(188, 168, 230, 0.08);
+}
+
+.quick-link .icon {
+    font-size: 2rem;
+    opacity: 0.9;
+}
+
+.quick-link span:last-child {
+    font-weight: 600;
 }

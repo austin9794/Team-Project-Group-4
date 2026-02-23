@@ -110,7 +110,7 @@ INSERT INTO products (category_id, name, slug, description, price, stock, low_st
  28.99, 90, 10),
 
 -- HEADSETS (category_id = 3)
-(3,'HyperX Cloud Alpha', 'head1',
+(3,'HyperX Cloud Alpha Gaming Headset', 'head1',
  'HyperX Dual Chamber Drivers for more distinction and less distortion.|
  Signature award-winning HyperX comfort. Sound pressure level:98dBSPL/mW at 1kHz.|
  Durable aluminium frame with expanded headband.|
@@ -126,7 +126,7 @@ INSERT INTO products (category_id, name, slug, description, price, stock, low_st
  【Lightweight and Comfortable Ergonomic Design】Gaming headset features an adjustable headband that eases pressure on the head and ears—perfectly fitting various head shapes from children to adults. Its comfortable, breathable mesh ear cushions and lightweight design (just 8.8 ounces) ensure all day comfort, even during extended gaming marathons. And the microphone is accented with LED lights, adding a unique flair to the headset while amplifying the immersive gaming atmosphere, making it an ideal gift for girls and boys, teens and adults.',
  149.99, 40, 10),
  
-(3,'Jabra Evolve 20', 'head3',
+(3,'Jabra Evolve 20 Stereo Headset', 'head3',
  'Passive noise cancellation for ideal concentration: Keeps high-frequency noise such as human voices out for better work collaboration and listening experience in any environment.|
  Easy call management: External sound controller allows for making, taking and muting calls – Stay connected and available at all times.|
  This Evolve 20 headset is Microsoft Certified and built for style and comfort with soft foam ear cushions – Adjustable headband lets you find the perfect fit.|
@@ -134,7 +134,7 @@ INSERT INTO products (category_id, name, slug, description, price, stock, low_st
  Scope of delivery: Jabra Evolve 20 stereo on-ear headset, USB cable with control unit – Weight: 171g – Colour: black.',
  34.99, 70, 10),
 
-(3,'beyerdynamic DT 990 PRO',  'head4',
+(3,'beyerdynamic DT 990 PRO 250 Ohm Open Dynamic Studio Headphones',  'head4',
  'Open backed over-ear headphones, ideal for professional mixing, mastering and editing.|
  Perfect for studio applications thanks to their transparent, spacious, strong bass and treble sound.|
  The soft, circumaural and replaceable velour ear pads ensure high wearing comfort.|
@@ -143,7 +143,7 @@ INSERT INTO products (category_id, name, slug, description, price, stock, low_st
  Compatible with HEADPHONE LAB – the virtual reference studio takes your beyerdynamic headphones to the next level: Mix with the free studio plug-in as if you were in a professional recording studio.',
  138.99, 15, 10),
  
-(3,'JLab Go Work 2nd Gen', 'head5',
+(3,'JLab Go Work 2nd Gen Wireless Headset', 'head5',
  'DUAL CONNECTIVITY WITH BLUETOOTH MULTIPOINT: Connect the wireless headset via USB-C dongle or Bluetooth 5.3 to your PC, Mac, office computer, mobile and more. Or plug-in the included Type-C to Type-C cable for wired laptop headphones with microphone. Connect to 2 devices simultaneously with Multipoint.|
  CLEAR CALLS WITH NOISE CANCELLING MIC: C3 Calling uses dual mics on each Bluetooth headset with microphone - one captures your voice while the other eliminates environmental noise, talking and background sound for crystal clear calls anytime, anywhere.|
  IMPROVED ALL-WEEK PLAYTIME AND COMFORT: Get 55+ hours of playtime on one charge with your overhead bluetooth headset with mic for work - and all-day comfort with Cloud Foam earcups. Rotate the boom microphone for listening only – and down to take a teams call or video conference meeting.|

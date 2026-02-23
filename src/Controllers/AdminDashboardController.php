@@ -1,7 +1,6 @@
 <?php
 require_once __DIR__ . '/BaseAdminController.php';
 require_once __DIR__ . '/../Database.php';
-require_once __DIR__ . '/OrderController.php';
 
 class AdminDashboardController extends BaseAdminController {
 

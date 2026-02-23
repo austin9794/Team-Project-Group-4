@@ -1386,28 +1386,36 @@
 
 .links-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 15px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
 }
 
 .quick-link {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 18px 20px;
+    padding: 30px 20px;
+    min-height: 120px;
     background: rgba(188, 168, 230, 0.05);
     border: 2px solid rgba(188, 168, 230, 0.3);
-    border-radius: 6px;
+    border-radius: 10px;
     color: var(--text-primary);
     text-decoration: none;
-    text-align: center;
-    transition: all 0.2s ease;
-    font-weight: 500;
+    transition: all 0.25s ease;
+    font-weight: 600;
+    font-size: 1.05rem;
+    gap: 12px;
+}
+
+.quick-link span:first-child {
+    font-size: 2rem;
 }
 
 .quick-link:hover {
     background: var(--highlight);
     border-color: var(--highlight);
     color: white;
-    transform: translateY(-2px);
+    transform: translateY(-4px);
+    box-shadow: 0 0 20px rgba(140, 82, 255, 0.4);
 }

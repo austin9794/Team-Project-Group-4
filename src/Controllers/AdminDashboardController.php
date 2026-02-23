@@ -37,6 +37,16 @@ class AdminDashboardController extends BaseAdminController {
             FROM orders
         ");
         $orderSummary = $orderStmt->fetch(PDO::FETCH_ASSOC);
+
+        // Get return summary
+        $returnStmt = $db->query(" SELECT
+            COUNT(CASE WHEN status = 'pending' THEN 1 END) AS pending_returns,
+            COUNT(CASE WHEN status = 'approved' THEN 1 END) AS approved_returns,
+            COUNT(CASE WHEN status = 'rejected' THEN 1 END) AS rejected_returns,
+            COUNT(CASE WHEN status = 'refunded' THEN 1 END) AS refunded_returns
+        FROM returns
+        ");
+        $returnSummary = $returnStmt->fetch(PDO::FETCH_ASSOC);
         
         include __DIR__ . '/../../templates/admin/dashboard.php';
     }

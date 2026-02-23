@@ -61,7 +61,7 @@ class AdminDashboardController extends BaseAdminController {
         ");
         $pendingReturns = $pendingReturnsStmt->fetchAll(PDO::FETCH_ASSOC);
 
-        $adminName = $this->getAdminName();
+        $adminName = $_SESSION['user_name'] ?? 'Admin';
         
         include __DIR__ . '/../../templates/admin/dashboard.php';
     }

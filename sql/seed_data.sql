@@ -69,24 +69,44 @@ INSERT INTO products (category_id, name, slug, description, price, stock, low_st
  209.99, 60, 10),
 
 -- MICE (category_id = 2)
-(2,'Logitech G305 LIGHTSPEED', 'mouse1',
- 'High-accuracy HERO sensor with up to 12,000 DPI. LIGHTSPEED wireless provides low-latency performance and long battery life for gaming and work.',
+(2,'Logitech G305 LIGHTSPEED Wireless Gaming Mouse', 'mouse1',
+ 'HERO Gaming Sensor : Next-gen Hero mouse sensor delivers up to 10x the power efficiency over other gaming mice with exceptional accuracy and responsiveness thanks to 400 IPS precision and up to 12000 DPI sensitivity.|
+ LIGHTSPEED Wireless : Ultra-fast Lightspeed Wireless technology gives you a lag-free gaming experience. The G305 wireless gaming mouse delivers incredible responsiveness and reliability with a super-fast 1ms report rate for competition-level performance.|
+ Ultra-Long Battery Life : The G305 wireless Logitech mouse boasts an incredible 250 hours of continuous gameplay on a single AA battery so you can play at peak performance without worrying about running out of power.|
+ Lightweight design : Thanks to an efficient mechanical design, the G305 gaming mouse weighs in at only 99 grams for high manoeuvrability.|
+ Portable Convenience : The durable, compact design with built-in nano receiver storage makes the G305 not just a great computer mouse, but also an excellent laptop mouse.',
  59.99, 45, 10),
 
 (2,'Apple Magic Mouse', 'mouse2',
- 'Rechargeable Bluetooth mouse with multi-touch surface for intuitive gestures. Sleek, minimal design that glides smoothly across your desk.',
+ 'Magic Mouse is wireless and rechargeable, with an optimised foot design that lets it glide smoothly across your desk.|
+ The Multi-Touch surface allows you to perform simple gestures such as swiping between web pages and scrolling through documents.|
+ The rechargeable battery will power your Magic Mouse for about a month or more between charges.|
+ It’s ready to go straight out of the box and pairs automatically with your Mac, and it includes a woven USB-C Charge Cable that lets you pair and charge by connecting to a USB-C port on your Mac.',
  79.99, 80, 10),
  
-(2,'Logitech G502 HERO', 'mouse3',
- '25K DPI sensor for precise tracking and customizable weight tuning. Features 11 programmable buttons for gaming macros or workflow shortcuts.',
+(2,'Logitech G502 High Performance Wired Gaming Mouse', 'mouse3',
+ 'HERO 25K Sensor: The next generation of the HERO optical sensor brings new precision to your mouse at up to 25,600 DPI while generating no smoothing, filtering or acceleration. USB report rate: 1000 Hz (1 ms).|
+ 11 Programmable Buttons and Ultra-Fast Dual-Mode Scroll Wheel: The Logitech G wired gaming mouse gives you full customization of your gaming settings.|
+ Adjustable Weight: Adjust the glide of your mouse. five 3.6g weights come with the G502 HERO wired mouse to find the perfect setup and optimize your gaming performance.|
+ LIGHTSYNC RGB: LIGHTSYNC technology gives you fully customizable RGB lighting, synchronize animations and lighting effects with your other Logitech G devices. Maximum acceleration: > 40 G.|
+ Mechanical Button Tension System: Every click is crisper and more reliable thanks to a mechanical tension system with springs and pivots in the left and right buttons.|
+ Next Generation Sensor: Capable of detecting sub-micron motion and tracking motion to less than a millionth of a meter with exceptional accuracy.',
  34.99, 55, 10),
 
-(2,'Anker Vertical Ergonomic Mouse', 'mouse4',
- 'Ergonomic vertical design that reduces wrist strain during long sessions. Smooth tracking and comfortable grip ideal for work and browsing.',
+(2,'Anker 2.4G Vertical Ergonomic Mouse', 'mouse4',
+ 'Scientific ergonomic design encourages healthy neutral "handshake" wrist and arm positions for smoother movement and less overall strain.|
+ 800 / 1200 / 1600 DPI Resolution Optical Tracking Technology provides more sensitivity than standard optical mice for smooth and precise tracking on a wide range of surfaces.|
+ Added next/previous buttons provide convenience when webpage browsing; the superior choice for internet surfers, gamers and people who work at length at the computer.|
+ Enters power saving mode (power is cut off completely) after 8 minutes idle, press right or left button for it to wake. Product dimensions: 120*62.8*74.8 mm; product weight: 3.4 oz.|
+ Package includes: 1 Anker Wireless Vertical Ergonomic Optical Mouse (2 AAA batteries not included), 1 2.4G USB receiver (in the bottom of the mouse), 1 instruction manual. 18-month hassle-free warranty.',
  23.99, 30, 10),
  
 (2,'TECKNET Bluetooth Mouse', 'mouse5',
- 'Dual-mode wireless connection via Bluetooth or USB dongle. Side scroll wheel and navigation buttons enhance productivity and web browsing.',
+ '【Multi-Device Connectivity】TECKNETs rechargeable bluetooth wireless mouse allows seamlessly connects to multi devices, laptops, desktops or tablets. Easily switch between devices with a single click of the wireless mouse. Offers 2.4G and Bluetooth 5.0 / 3.0 connection.|
+【Rechargeable and Energy-Efficient Design】This Type-C mouse comes with a 700mAh battery that lasts up to 3 months and can be used while charging. Rechargeable wireless mouse is more eco-friendly than computer mouse that require battery replacement. It also features an auto-sleep mode and low battery indicator.|
+【Ultra Precise Tracking】This bluetooth mouse for laptop offers 6 adjustable DPI levels: 4800 3200/2400/1600/1200/800, which allows you to easily adjust the mouse cursor sensitivity according to your work task or gaming preference. Additionally, TECKNET TruWave optical tracking technology ensures the smoothest and most precise cursor control on most surfaces.|
+【Silent Click】TECKNETs bluetooth wireless mouse with a mute design that reduce the noise level by up to 90%, this mouse is the ideal mouse for office, home and leisure use. Silent mouse with a durable build tested to endure over 6 million clicks.|
+【Designed for Comfort & Productivity】Ergonomic mouse provides a natural fit for your hand, cutting down muscle strain by up to 30%—a real boon for intensive users. This wireless mouse for laptop with forward and backward buttons offer swift navigation, boosting your efficiency by as much as 150%, so you can breeze through tasks in no time. (Side buttons are not supported on MAC OS).',
  28.99, 90, 10),
 
 -- HEADSETS (category_id = 3)

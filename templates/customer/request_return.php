@@ -175,7 +175,7 @@ textarea {
            max="<?= $item['quantity'] - $item['returned_quantity'] ?>"
            required>
 
-    <label>Reason</label>
+    <label>Why are you returning this item? (Required)</label>
     <textarea name="reason" required></textarea>
 
     <button class="btn-purple">Submit Return</button>

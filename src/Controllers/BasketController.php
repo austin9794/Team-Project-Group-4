@@ -75,7 +75,9 @@ class BasketController
         $_SESSION['basket'][$productId] =
             ($_SESSION['basket'][$productId] ?? 0) + 1;
 
-        header("Location: index.php?page=basket");
+        // redirect back to page user came from
+        $back = $_SERVER['HTTP_REFERER'] ?? 'index.php?page=products';
+        header("Location: " . $back);
         exit;
     }
 

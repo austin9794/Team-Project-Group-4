@@ -227,13 +227,25 @@ if (!empty($_SESSION['basket']) && is_array($_SESSION['basket'])) {
                     <a href="index.php?page=account">Profile</a>
                     <a href="index.php?page=orders">My Orders</a>
 
-                    <?php if (isAdmin()): ?>
-                        <hr style="margin: 5px 0; border: 0; border-top: 1px solid rgba(255,255,255,0.2);">
-                        <a href="index.php?page=dashboard">Admin Dashboard</a>
-                        <a href="index.php?page=admin-orders">Admin - Orders</a>
-                        <a href="index.php?page=admin-products">Admin - Products</a>
-                        <a href="index.php?page=admin-customers">Admin - Customers</a>
-                        <a href="index.php?page=switch-role">Switch to Customer</a>
+                    <?php
+                      $actualRole = $_SESSION['actual_role'] ?? $_SESSION['user_role'] ?? 'customer';
+                      $isAdmin = $_SESSION['is_admin'] ?? false;
+                    ?>
+
+                    <?php if ($actualRole === 'admin'): ?>
+                      <hr style="margin: 5px 0; border: 0; border-top: 1px solid rgba(255,255,255,0.2);">
+
+                      <?php if ($isAdmin): ?>
+                         <!-- Currently in Admin Mode -->
+                         <a href="index.php?page=dashboard">Admin Dashboard</a>
+                         <a href="index.php?page=admin-orders">Admin - Orders</a>
+                         <a href="index.php?page=admin-products">Admin - Products</a>
+                         <a href="index.php?page=admin-customers">Admin - Customers</a>
+                         <a href="index.php?page=switch-role">Switch to Customer View</a>
+                        <?php else: ?>
+                          <!-- Currently in Customer Mode but is actually Admin -->
+                         <a href="index.php?page=switch-role">Switch Back to Admin View</a>
+                        <?php endif; ?>
                     <?php endif; ?>
 
                     <hr style="margin: 5px 0; border: 0; border-top: 1px solid rgba(255,255,255,0.2);">

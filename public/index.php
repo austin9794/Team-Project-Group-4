@@ -222,8 +222,34 @@ switch ($page) {
     case 'delete-account':
     (new AccountController())->deleteAccount();
     break;
+    case 'add-review':
+    require_once __DIR__ . '/../src/Controllers/ReviewController.php';
 
+    if (!isset($_SESSION['user_id'])) {
+        header("Location: index.php?page=login");
+        exit;
+    }
 
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+        $userId    = $_SESSION['user_id'];
+        $productId = $_POST['product_id'] ?? null;
+        $rating    = $_POST['rating'] ?? null;
+        $comment   = trim($_POST['comment'] ?? '');
+
+        try {
+            $controller = new ReviewController();
+            $controller->addReview($userId, $productId, $rating, $comment);
+
+            $_SESSION['review_success'] = "Review submitted successfully!";
+        } catch (Exception $e) {
+            $_SESSION['review_error'] = $e->getMessage();
+        }
+
+        header("Location: index.php?page=product-detail&id=" . $productId);
+        exit;
+    }
+    break;
         
     // ---- Admin Pages ----
     case 'admin-orders':

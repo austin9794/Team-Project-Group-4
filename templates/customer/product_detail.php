@@ -450,16 +450,18 @@ if (!empty($images) && isset($images[0]['image_path'])) {
   <?php endif; ?>
 </section>
 
-<?php if (isset($_SESSION['review_success'])): ?>
-    <p style="color:green;">
-        <?= $_SESSION['review_success']; unset($_SESSION['review_success']); ?>
+<?php if (!empty($_SESSION['review_success'][$product['product_id']])): ?>
+    <p class="review-success">
+        <?= $_SESSION['review_success'][$product['product_id']] ?>
     </p>
+    <?php unset($_SESSION['review_success'][$product['product_id']]); ?>
 <?php endif; ?>
 
-<?php if (isset($_SESSION['review_error'])): ?>
-    <p style="color:red;">
-        <?= $_SESSION['review_error']; unset($_SESSION['review_error']); ?>
+<?php if (!empty($_SESSION['review_error'][$product['product_id']])): ?>
+    <p class="review-error">
+        <?= $_SESSION['review_error'][$product['product_id']] ?>
     </p>
+    <?php unset($_SESSION['review_error'][$product['product_id']]); ?>
 <?php endif; ?>
 
 <?php if (isset($_SESSION['user_id'])): ?>

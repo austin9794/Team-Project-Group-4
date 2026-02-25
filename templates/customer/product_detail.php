@@ -474,6 +474,34 @@ if (!empty($images) && isset($images[0]['image_path'])) {
     <p>Please log in to leave a review.</p>
 <?php endif; ?>
 
+<!-- REVIEW MODAL -->
+<div id="reviewModal" class="review-modal">
+  <div class="review-modal-content">
+
+    <span class="review-close" onclick="closeReviewModal()">&times;</span>
+
+    <h2>Review this product</h2>
+
+    <form method="POST" action="<?= BASE_URL ?>index.php?page=add-review">
+      <input type="hidden" name="product_id" value="<?= $product['product_id'] ?>">
+
+      <label>Rating</label>
+      <div class="star-input">
+        <?php for ($i=1;$i<=5;$i++): ?>
+          <input type="radio" name="rating" value="<?= $i ?>" id="star<?= $i ?>" required>
+          <label for="star<?= $i ?>">★</label>
+        <?php endfor; ?>
+      </div>
+
+      <label>Write a review</label>
+      <textarea name="comment" required></textarea>
+
+      <button type="submit" class="submit-review-btn">Submit</button>
+    </form>
+
+  </div>
+</div>
+
 <!-- FULLSCREEN MODAL -->
   <div id="imageModal" class="image-modal" aria-hidden="true">
     <span class="modal-close">&times;</span>

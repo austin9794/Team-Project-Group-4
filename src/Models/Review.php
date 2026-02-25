@@ -35,13 +35,16 @@ class Review {
     }
 
     public static function userHasPurchased($userId, $productId) {
-        $db = Database::getInstance()->getConnection();
-        $stmt = $db->prepare("SELECT COUNT(*) as count 
-                              FROM order_items oi 
-                          JOIN orders o ON oi.order_id = o.order_id 
-                           WHERE o.user_id = ? AND oi.product_id = ?");
-        $stmt->execute([$userId, $productId]);
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    $db = Database::getInstance()->getConnection();
+    $stmt = $db->prepare(" SELECT COUNT(*) as count
+        FROM order_items oi
+        JOIN orders o ON oi.order_id = o.order_id
+        WHERE o.user_id = ?
+          AND oi.product_id = ?
+          AND o.status = 'delivered'
+    ");
+         $stmt->execute([$userId, $productId]);
+         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         return $result['count'] > 0;
     }
 

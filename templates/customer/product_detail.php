@@ -282,6 +282,39 @@ if (!empty($images) && isset($images[0]['image_path'])) {
     color: var(--text-secondary);
   }
 
+  .review-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.8);
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.review-modal-content {
+    background: #111;
+    padding: 30px;
+    border-radius: 12px;
+    width: 500px;
+}
+
+.star-input input {
+    display: none;
+}
+
+.star-input label {
+    font-size: 28px;
+    cursor: pointer;
+    color: #555;
+}
+
+.star-input input:checked ~ label,
+.star-input label:hover,
+.star-input label:hover ~ label {
+  color: gold;
+}
+
   @media (max-width: 768px) {
     .product-detail-grid {
       grid-template-columns: 1fr;

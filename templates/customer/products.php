@@ -28,8 +28,7 @@ try {
   $categories = $catStmt->fetchAll(PDO::FETCH_COLUMN);
 
   // Build product query with filters
-  $sql = "
-    SELECT p.product_id, p.name, p.slug, c.name AS category_name, p.price, p.description, p.stock,
+  $sql = " SELECT p.product_id, p.name, p.slug, c.name AS category_name, p.price, p.description, p.stock,
            COUNT(r.review_id) AS review_count, COALESCE(AVG(r.rating), 0) AS avg_rating
     FROM products p
     JOIN categories c ON p.category_id = c.category_id

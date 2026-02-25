@@ -519,6 +519,14 @@ if (!empty($images) && isset($images[0]['image_path'])) {
       $images ?? []
     )
   ) ?>;
+
+function openReviewModal() {
+    document.getElementById("reviewModal").style.display = "flex";
+}
+
+function closeReviewModal() {
+    document.getElementById("reviewModal").style.display = "none";
+}
 </script>
 
 

@@ -216,6 +216,13 @@ require_once __DIR__ . '/../header.php';
     </p>
 <?php endif; ?>
 
+<?php if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    $_SESSION['contact_error'] = "Invalid email format.";
+    header("Location: index.php?page=contact");
+    exit;
+}
+?>
+
 <!-- Contact Hero -->
 <section class="contact-hero">
   <video autoplay loop muted playsinline>

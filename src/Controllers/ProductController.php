@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../Database.php';
+require_once __DIR__ . '/../Controllers/ReviewController.php';  
 
 class ProductController {
 
@@ -104,6 +105,15 @@ class ProductController {
         $imgStmt->execute([$id]);
         $images = $imgStmt->fetchAll();
 
+        $reviewController = new ReviewController();
+
+        $reviews = $reviewController->showReviews($id);
+        $averageData = $reviewController->getAverage($id);
+
+        $canReview = false;
+         if (isset($_SESSION['user_id'])) {
+          $canReview = $reviewController->canUserReview($_SESSION['user_id'], $id);
+      }
 
         include __DIR__ . '/../../templates/customer/product_detail.php';
     }

@@ -241,9 +241,9 @@ switch ($page) {
             $controller = new ReviewController();
             $controller->addReview($userId, $productId, $rating, $comment);
 
-            $_SESSION['review_success'] = "Review submitted successfully!";
+            $_SESSION['review_success'][$productId] = "Review submitted successfully!";
         } catch (Exception $e) {
-            $_SESSION['review_error'] = $e->getMessage();
+            $_SESSION['review_error'][$productId] = $e->getMessage();
         }
 
         header("Location: index.php?page=product-detail&id=" . $productId);

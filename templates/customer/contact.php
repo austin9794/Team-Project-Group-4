@@ -239,7 +239,7 @@ require_once __DIR__ . '/../header.php';
   <div class="contact-text-section">
     <div class="contact-form">
       <h2>Send Us a Message</h2>
-      <form method="POST" action="/Team-Project-Group-4/public/index.php?page=contact-submit">
+      <form method="POST" action="<?= BASE_URL ?>index.php?page=contact-submit">
         <div class="form-group">
           <label for="name">Name</label>
           <input type="text" id="name" name="name" required>

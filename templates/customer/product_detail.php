@@ -450,7 +450,48 @@ if (!empty($images) && isset($images[0]['image_path'])) {
   <?php endif; ?>
 </section>
 
-  <!-- FULLSCREEN MODAL -->
+<?php if (isset($_SESSION['review_success'])): ?>
+    <p style="color:green;">
+        <?= $_SESSION['review_success']; unset($_SESSION['review_success']); ?>
+    </p>
+<?php endif; ?>
+
+<?php if (isset($_SESSION['review_error'])): ?>
+    <p style="color:red;">
+        <?= $_SESSION['review_error']; unset($_SESSION['review_error']); ?>
+    </p>
+<?php endif; ?>
+
+<?php if (isset($_SESSION['user_id'])): ?>
+
+    <?php if ($canReview): ?>
+
+        <form method="POST" action="<?= BASE_URL ?>index.php?page=add-review">
+            <input type="hidden" name="product_id" value="<?= $product['product_id'] ?>">
+
+            <label>Rating</label>
+            <select name="rating" required>
+                <option value="">Select</option>
+                <?php for ($i=1;$i<=5;$i++): ?>
+                    <option value="<?= $i ?>"><?= $i ?></option>
+                <?php endfor; ?>
+            </select>
+
+            <label>Comment</label>
+            <textarea name="comment" required></textarea>
+
+            <button type="submit">Submit Review</button>
+        </form>
+
+    <?php else: ?>
+        <p>You can only review products after they have been delivered.</p>
+    <?php endif; ?>
+
+<?php else: ?>
+    <p>Please log in to leave a review.</p>
+<?php endif; ?>
+
+<!-- FULLSCREEN MODAL -->
   <div id="imageModal" class="image-modal" aria-hidden="true">
     <span class="modal-close">&times;</span>
     <button class="modal-nav prev">&#10094;</button>

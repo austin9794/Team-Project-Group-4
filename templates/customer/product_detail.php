@@ -416,27 +416,33 @@ if (!empty($images) && isset($images[0]['image_path'])) {
   </div>
 
   <!-- REVIEWS -->
-  <section class="reviews-section full-width">
-    <h2 class="reviews-title">Customer Reviews</h2>
+   <section class="reviews-section full-width">
+  <h2 class="reviews-title">Customer Reviews</h2>
 
-    <?php if (!empty($reviews)): ?>
-      <div class="review-list">
-        <?php foreach ($reviews as $review): ?>
-          <div class="review-item">
-            <div class="review-header">
-              <strong><?= htmlspecialchars($review['author']) ?></strong>
-              <span class="review-date">
-                <?= date('M d, Y', strtotime($review['date'])) ?>
-              </span>
-            </div>
-            <p><?= htmlspecialchars($review['text']) ?></p>
+  <?php if (!empty($reviews)): ?>
+    <div class="review-list">
+      <?php foreach ($reviews as $review): ?>
+        <div class="review-item">
+          <div class="review-header">
+            <strong><?= htmlspecialchars($review['name']) ?></strong>
+            <span class="review-date">
+              <?= date('M d, Y', strtotime($review['created_at'])) ?>
+            </span>
           </div>
-        <?php endforeach; ?>
-      </div>
-    <?php else: ?>
-      <p class="no-reviews">No reviews yet — be the first!</p>
-    <?php endif; ?>
-  </section>
+
+          <div class="review-rating">
+            <?= str_repeat('★', $review['rating']) ?>
+            <?= str_repeat('☆', 5 - $review['rating']) ?>
+          </div>
+
+          <p><?= htmlspecialchars($review['comment']) ?></p>
+        </div>
+      <?php endforeach; ?>
+    </div>
+  <?php else: ?>
+    <p class="no-reviews">No reviews yet — be the first!</p>
+  <?php endif; ?>
+</section>
 
   <!-- FULLSCREEN MODAL -->
   <div id="imageModal" class="image-modal" aria-hidden="true">

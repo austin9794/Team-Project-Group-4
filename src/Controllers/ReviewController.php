@@ -11,10 +11,6 @@ class ReviewController {
             throw new Exception("You can only review products you've purchased.");
         }
 
-        if (Review::userHasReviewed($userId, $productId)) {
-            throw new Exception("You have already reviewed this product.");
-        }
-
         if ($rating < 1 || $rating > 5) {
             throw new Exception("Rating must be in the range of 1 and 5.");
         }

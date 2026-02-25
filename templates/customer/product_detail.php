@@ -363,8 +363,14 @@ if (!empty($images) && isset($images[0]['image_path'])) {
 
       <div class="product-price">£<?= number_format($product['price'], 2) ?></div>
 
+      <?php
+       $avg = round($averageData['avg_rating'] ?? 0);
+      ?>
+
       <div class="product-rating">
-        ☆☆☆☆☆ <span>(<?= $product['review_count'] ?? 0 ?> reviews)</span>
+        <?= str_repeat('★', $avg) ?>
+        <?= str_repeat('☆', 5 - $avg) ?>
+        <span>(<?= $averageData['count'] ?? 0 ?> reviews)</span>
       </div>
 
       <?php if ($product['stock'] > 10): ?>

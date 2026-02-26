@@ -191,11 +191,17 @@ CREATE TABLE reviews (
     rating TINYINT NOT NULL,
     comment TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    order_item_id INT NOT NULL AFTER product_id,
 
     FOREIGN KEY (product_id)
         REFERENCES products(product_id)
         ON DELETE CASCADE
         ON UPDATE CASCADE,
+
+    FOREIGN KEY (order_item_id)
+       REFERENCES order_items(order_item_id)
+       ON DELETE CASCADE
+       ON UPDATE CASCADE, 
 
     FOREIGN KEY (user_id)
         REFERENCES users(user_id)

@@ -34,19 +34,24 @@ class Review {
         return $result;
     }
 
-    public static function userHasPurchased($userId, $productId) {
+    public static function getDeliverableOrderItem($userId, $productId) {
     $db = Database::getInstance()->getConnection();
-    $stmt = $db->prepare(" SELECT COUNT(*) as count
+
+    $stmt = $db->prepare(" SELECT oi.order_item_id
         FROM order_items oi
         JOIN orders o ON oi.order_id = o.order_id
         WHERE o.user_id = ?
           AND oi.product_id = ?
           AND o.status = 'delivered'
+          AND oi.order_item_id NOT IN (
+              SELECT order_item_id FROM reviews
+          )
+        LIMIT 1
     ");
-         $stmt->execute([$userId, $productId]);
-         $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $result['count'] > 0;
-    }
+
+    $stmt->execute([$userId, $productId]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
 
     public static function userHasReviewed($userId, $productId) {
         $db = Database::getInstance()->getConnection();

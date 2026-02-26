@@ -6,17 +6,35 @@ class ReviewController {
         return Review::getByProduct($productId);
     }
 
-    public function addReview($userId, $productId, $rating, $comment) {
-        if (!Review::userHasPurchased($userId, $productId)) {
-            throw new Exception("You can only review products you've purchased.");
-        }
+   public function addReview($userId, $productId, $rating, $comment, $title) {
 
-        if ($rating < 1 || $rating > 5) {
-            throw new Exception("Rating must be in the range of 1 and 5.");
-        }
-
-        return Review::add($userId, $productId, $rating, $comment);
+    if ($rating < 1 || $rating > 5) {
+        throw new Exception("Rating must be between 1 and 5.");
     }
+
+    if (empty($title)) {
+        throw new Exception("Review title is required.");
+    }
+
+    if (empty($comment)) {
+        throw new Exception("Review comment cannot be empty.");
+    }
+
+    $orderItem = Review::getDeliverableOrderItem($userId, $productId);
+
+    if (!$orderItem) {
+        throw new Exception("You can only review delivered items once per order.");
+    }
+
+    return Review::add(
+        $userId,
+        $productId,
+        $orderItem['order_item_id'],
+        $rating,
+        $comment,
+        $title
+    );
+}
 
     public function getAverage($productId) {
         return Review::averageRating($productId);

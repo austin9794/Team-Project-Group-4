@@ -54,9 +54,11 @@ class Review {
         WHERE o.user_id = ?
           AND oi.product_id = ?
           AND o.status = 'delivered'
-          AND oi.order_item_id NOT IN (
-              SELECT order_item_id FROM reviews
-          )
+          AND NOT EXISTS (
+            SELECT 1
+            FROM reviews r
+            WHERE r.order_item_id = oi.order_item_id
+        )
         LIMIT 1
     ");
 

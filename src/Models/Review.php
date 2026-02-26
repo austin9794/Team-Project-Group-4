@@ -64,16 +64,6 @@ class Review {
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
-    public static function userHasReviewed($userId, $productId) {
-        $db = Database::getInstance()->getConnection();
-        $stmt = $db->prepare("SELECT COUNT(*) as count 
-                              FROM reviews 
-                              WHERE user_id = ? AND product_id = ?");
-        $stmt->execute([$userId, $productId]);
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $result['count'] > 0;
-    }
-
     public static function getUserReview($userId, $productId) {
       $db = Database::getInstance()->getConnection();
         $stmt = $db->prepare("SELECT * FROM reviews WHERE user_id = ? AND product_id = ?");

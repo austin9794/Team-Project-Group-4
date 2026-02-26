@@ -282,11 +282,11 @@ if (!empty($images) && isset($images[0]['image_path'])) {
     color: var(--text-secondary);
   }
 
-  .review-modal {
+.review-modal {
     display: none;
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.8);
+    background: rgba(0,0,0,0.85);
     justify-content: center;
     align-items: center;
     z-index: 9999;
@@ -294,9 +294,45 @@ if (!empty($images) && isset($images[0]['image_path'])) {
 
 .review-modal-content {
     background: #111;
-    padding: 30px;
-    border-radius: 12px;
-    width: 500px;
+    padding: 40px;
+    border-radius: 14px;
+    width: 600px;
+    max-width: 90%;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border-radius: 6px;
+    border: 1px solid #333;
+    background: #1b1b1b;
+    color: white;
+}
+
+.form-group textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.submit-review-btn {
+    width: 100%;
+    padding: 14px;
+    border-radius: 8px;
+    background: #7c3aed;
+    border: none;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
 }
 
 .star-input input {
@@ -304,7 +340,7 @@ if (!empty($images) && isset($images[0]['image_path'])) {
 }
 
 .star-input label {
-    font-size: 28px;
+    font-size: 30px;
     cursor: pointer;
     color: #555;
 }
@@ -312,7 +348,7 @@ if (!empty($images) && isset($images[0]['image_path'])) {
 .star-input input:checked ~ label,
 .star-input label:hover,
 .star-input label:hover ~ label {
-  color: gold;
+    color: gold;
 }
 
   @media (max-width: 768px) {

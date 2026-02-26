@@ -425,7 +425,7 @@ if (!empty($images) && isset($images[0]['image_path'])) {
 </div>
 
 
-    <!-- RIGHT: PRODUCT INFO -->
+  <!-- RIGHT: PRODUCT INFO -->
     <div class="product-info-panel">
 
       <h1 class="product-title"><?= htmlspecialchars($product['name']) ?></h1>
@@ -568,6 +568,7 @@ if (!empty($images) && isset($images[0]['image_path'])) {
       <div class="form-group">
         <label>Review title (required)</label>
         <input type="text" name="title" required>
+        <h4><?= htmlspecialchars($review['title']) ?></h4>
       </div>
 
       <div class="form-group">

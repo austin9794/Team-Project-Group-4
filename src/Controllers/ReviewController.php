@@ -41,9 +41,8 @@ class ReviewController {
     }
 
     public function canUserReview($userId, $productId) {
-        return Review::userHasPurchased($userId, $productId) && 
-               !Review::userHasReviewed($userId, $productId);
-    }
+    return Review::getDeliverableOrderItem($userId, $productId) !== false;
+}
 
     public function getUserReview($userId, $productId) {
         return Review::getUserReview($userId, $productId);

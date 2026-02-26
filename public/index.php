@@ -236,10 +236,11 @@ switch ($page) {
         $productId = $_POST['product_id'] ?? null;
         $rating    = $_POST['rating'] ?? null;
         $comment   = trim($_POST['comment'] ?? '');
+        $title     = trim($_POST['title'] ?? '');
 
         try {
             $controller = new ReviewController();
-            $controller->addReview($userId, $productId, $rating, $comment);
+            $controller->addReview($userId, $productId, $rating, $comment, $title);
 
             $_SESSION['review_success'][$productId] = "Review submitted successfully!";
         } catch (Exception $e) {

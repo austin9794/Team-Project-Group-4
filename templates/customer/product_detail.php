@@ -516,20 +516,33 @@ if (!empty($images) && isset($images[0]['image_path'])) {
     <h2>Review this product</h2>
 
     <form method="POST" action="<?= BASE_URL ?>index.php?page=add-review">
+
       <input type="hidden" name="product_id" value="<?= $product['product_id'] ?>">
 
-      <label>Rating</label>
-      <div class="star-input">
-        <?php for ($i=1;$i<=5;$i++): ?>
-          <input type="radio" name="rating" value="<?= $i ?>" id="star<?= $i ?>" required>
-          <label for="star<?= $i ?>">★</label>
-        <?php endfor; ?>
+      <div class="form-group">
+        <label>Rating</label>
+        <div class="star-input">
+          <?php for ($i=1;$i<=5;$i++): ?>
+            <input type="radio" name="rating" value="<?= $i ?>" id="star<?= $i ?>" required>
+            <label for="star<?= $i ?>">★</label>
+          <?php endfor; ?>
+        </div>
       </div>
 
-      <label>Write a review</label>
-      <textarea name="comment" required></textarea>
+      <div class="form-group">
+        <label>Review title (required)</label>
+        <input type="text" name="title" required>
+      </div>
 
-      <button type="submit" class="submit-review-btn">Submit</button>
+      <div class="form-group">
+        <label>Write your review</label>
+        <textarea name="comment" required></textarea>
+      </div>
+
+      <button type="submit" class="submit-review-btn">
+        Submit Review
+      </button>
+
     </form>
 
   </div>

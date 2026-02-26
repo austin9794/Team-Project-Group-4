@@ -13,11 +13,22 @@ class Review {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public static function add($userId, $productId, $rating, $comment) {
-       $db = Database::getInstance()->getConnection();
-        $stmt = $db->prepare("INSERT INTO reviews (user_id, product_id, rating, comment, created_at) 
-                              VALUES (?, ?, ?, ?, NOW())");
-        return $stmt->execute([$userId, $productId, $rating, $comment]);
+    public static function add($userId, $productId, $orderItemId, $rating, $comment, $title) {
+    $db = Database::getInstance()->getConnection();
+
+       $stmt = $db->prepare(" INSERT INTO reviews
+           (user_id, product_id, order_item_id, rating, title, comment, created_at)
+           VALUES (?, ?, ?, ?, ?, ?, NOW())
+       ");
+
+        return $stmt->execute([
+            $userId,
+            $productId,
+            $orderItemId,
+            $rating,
+            $title,
+            $comment
+        ]);
     }
 
     public static function averageRating($productId) {

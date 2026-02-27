@@ -82,28 +82,82 @@
 
 <div class="order-container">
 
+<?php
+$statusSteps = [
+    'pending'    => 1,
+    'processing' => 2,
+    'shipped'    => 3,
+    'delivered'  => 4
+];
+
+$currentStatus = strtolower($order['status']);
+$currentStep = $statusSteps[$currentStatus] ?? 1;
+$isReturned = ($currentStatus === 'returned');
+
+if ($isReturned) {
+    $currentStep = 4;
+}
+?>
+
+    <!-- ORDER HEADER -->
     <div class="order-header">
         <h1>Order #<?= $order['order_id'] ?></h1>
-        <span class="order-status <?= strtolower($order['status']) ?>">
-            <?= htmlspecialchars($order['status']) ?>
+        <span class="order-status <?= $currentStatus ?>">
+            <?= ucfirst(htmlspecialchars($currentStatus)) ?>
         </span>
     </div>
 
-    <p><strong>Date:</strong> <?= $order['created_at'] ?></p>
+    <p><strong>Date:</strong> <?= date("d M Y", strtotime($order['created_at'])) ?></p>
+
+    <!-- ORDER TRACKER -->
+    <div class="order-tracker">
+
+        <div class="tracker-step <?= $currentStep >= 1 ? 'active' : '' ?>">
+            <div class="circle">1</div>
+            <span>Order Placed</span>
+        </div>
+
+        <div class="tracker-line <?= $currentStep >= 2 ? 'active' : '' ?>"></div>
+
+        <div class="tracker-step <?= $currentStep >= 2 ? 'active' : '' ?>">
+            <div class="circle">2</div>
+            <span>Processing</span>
+        </div>
+
+        <div class="tracker-line <?= $currentStep >= 3 ? 'active' : '' ?>"></div>
+
+        <div class="tracker-step <?= $currentStep >= 3 ? 'active' : '' ?>">
+            <div class="circle">3</div>
+            <span>Shipped</span>
+        </div>
+
+        <div class="tracker-line <?= $currentStep >= 4 ? 'active' : '' ?>"></div>
+
+        <div class="tracker-step <?= $currentStep >= 4 ? 'active' : '' ?>">
+            <div class="circle">4</div>
+            <span>Delivered</span>
+        </div>
+
+    </div>
+
+    <?php if ($isReturned): ?>
+        <div class="order-returned-notice">
+            This order has been returned.
+        </div>
+    <?php endif; ?>
 
     <h2>Items</h2>
 
-    <?php
-    $returnDeadline = strtotime($order['created_at'] . ' +7 days');
-    $canReturnOrder =
-    strtolower($order['status']) === 'delivered'
+<?php
+$returnDeadline = strtotime($order['created_at'] . ' +7 days');
+$canReturnOrder =
+    $currentStatus === 'delivered'
     && time() <= $returnDeadline;
-    ?>
+?>
 
+<?php foreach ($items as $item): ?>
 
-    <?php foreach ($items as $item): ?>
-
-   <div class="item-card">
+<div class="item-card">
 
     <img src="<?= BASE_URL ?>assets/images/<?= htmlspecialchars($item['image']) ?>" alt="">
 
@@ -126,64 +180,6 @@
             <strong>Line Total:</strong>
             £<?= number_format($item['price_at_purchase'] * $item['quantity'], 2) ?>
         </p>
-
-        <!-- RETURN STATUS / ACTION -->
-        <div style="margin-top:10px;">
-
-        <?php
-         $returnStatus = $item['return_status'] ?? null;
-         $remaining = $item['quantity'] - $item['returned_qty'];
-
-         $isDelivered = strtolower($order['status']) === 'delivered';
-         $returnDeadline = strtotime($order['created_at'] . ' +7 days');
-         $withinWindow = time() <= $returnDeadline;
-        ?>
-
-       <?php if ($returnStatus === 'pending'): ?>
-          <span class="badge badge-pending">Return pending</span>
-
-        <?php elseif ($remaining <= 0): ?>
-          <span class="badge badge-approved">Returned</span>
-
-        <?php elseif (!$isDelivered): ?>
-         <span class="badge badge-info">Return available after delivery</span>
-
-        <?php elseif ($isDelivered && $withinWindow): ?>
-          <a class="btn-purple"
-             href="<?= BASE_URL ?>index.php?page=request-return&item=<?= $item['order_item_id'] ?>">
-             Request return
-          </a>
-
-        <?php else: ?>
-          <span class="badge badge-expired">Return window expired</span>
-         <?php endif; ?>
-
-        </div>
-    </div>
-
-</div>
-
-<?php endforeach; ?>
-
-    <div class="summary-box">
-    <h2>Order Summary</h2>
-
-    <p><strong>Total:</strong> £<?= number_format($order['total_price'], 2) ?></p>
-
-    <p><strong>Delivery Address:</strong><br>
-        <?= nl2br(htmlspecialchars($order['shipping_address'])) ?>
-    </p>
-
-    <p><strong>Payment:</strong>
-        <?= htmlspecialchars($order['payment_summary']) ?>
-    </p>
-</div>
-
-<a href="index.php?page=orders" class="btn-secondary">
-      ← Back to Orders
-</a>
-
-</div>
 
 
 <?php include __DIR__ . '/../footer.php'; ?>

@@ -181,5 +181,62 @@ $canReturnOrder =
             £<?= number_format($item['price_at_purchase'] * $item['quantity'], 2) ?>
         </p>
 
+        <!-- RETURN STATUS / ACTION -->
+        <div style="margin-top:10px;">
+
+        <?php
+         $returnStatus = $item['return_status'] ?? null;
+         $remaining = $item['quantity'] - $item['returned_qty'];
+
+         $isDelivered = $currentStatus === 'delivered';
+         $withinWindow = time() <= $returnDeadline;
+        ?>
+
+       <?php if ($returnStatus === 'pending'): ?>
+          <span class="badge badge-pending">Return pending</span>
+
+        <?php elseif ($remaining <= 0): ?>
+          <span class="badge badge-approved">Returned</span>
+
+        <?php elseif (!$isDelivered): ?>
+         <span class="badge badge-info">Return available after delivery</span>
+
+        <?php elseif ($isDelivered && $withinWindow): ?>
+          <a class="btn-purple"
+             href="<?= BASE_URL ?>index.php?page=request-return&item=<?= $item['order_item_id'] ?>">
+             Request return
+          </a>
+
+        <?php else: ?>
+          <span class="badge badge-expired">Return window expired</span>
+         <?php endif; ?>
+
+        </div>
+    </div>
+
+</div>
+
+<?php endforeach; ?>
+
+<!-- SUMMARY -->
+    <div class="summary-box">
+        <h2>Order Summary</h2>
+
+        <p><strong>Total:</strong> £<?= number_format($order['total_price'], 2) ?></p>
+
+        <p><strong>Delivery Address:</strong><br>
+            <?= nl2br(htmlspecialchars($order['shipping_address'])) ?>
+        </p>
+
+        <p><strong>Payment:</strong>
+            <?= htmlspecialchars($order['payment_summary']) ?>
+        </p>
+    </div>
+
+    <a href="<?= BASE_URL ?>index.php?page=orders" class="btn-secondary">
+        ← Back to Orders
+    </a>
+
+</div>
 
 <?php include __DIR__ . '/../footer.php'; ?>

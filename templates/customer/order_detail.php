@@ -93,6 +93,15 @@
 .order-status.delivered { background: #28a745; color: #fff; }
 .order-status.cancelled { background: #dc3545; color: #fff; }
 
+.estimated-delivery {
+    margin-top: 15px;
+    padding: 12px;
+    background: #1c1c1c;
+    border-radius: 8px;
+    font-size: 15px;
+    color: #ddd;
+}
+
 .badge {
     display: inline-block;
     padding: 4px 10px;

@@ -17,7 +17,7 @@ class AccountController {
     public function showAccount() {
     requireLogin();
 
-    $db = Database::getInstance()->getConnection();
+    $db = $this->db;
 
     // Fetch user info
     $stmt = $db->prepare("SELECT * FROM users WHERE user_id = ?");
@@ -59,7 +59,7 @@ class AccountController {
     requireLogin();
 
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-        header("Location: /Team-Project-Group-4/public/index.php?page=account");
+        header("Location: " . BASE_URL . "index.php?page=account");
         exit;
     }
 

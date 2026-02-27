@@ -148,6 +148,13 @@
     background: #2a0f47;
     border-radius: 10px;
 }
+
+.delivery-highlight {
+    margin-top: 8px;
+    font-weight: bold;
+    font-size: 16px;
+    color: #7c3aed;
+}
 </style>
 
 <div class="order-container">

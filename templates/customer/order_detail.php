@@ -160,6 +160,38 @@ if ($isReturned) {
 }
 ?>
 
+<?php
+$estimatedDelivery = null;
+
+switch ($currentStatus) {
+    case 'pending':
+        $estimatedDelivery = strtotime($order['created_at'] . ' +5 days');
+        break;
+
+    case 'processing':
+        $estimatedDelivery = strtotime($order['created_at'] . ' +4 days');
+        break;
+
+    case 'shipped':
+        if (!empty($order['shipped_at'])) {
+            $estimatedDelivery = strtotime($order['shipped_at'] . ' +2 days');
+        }
+        break;
+
+    case 'delivered':
+        if (!empty($order['delivered_at'])) {
+            $estimatedDelivery = strtotime($order['delivered_at']);
+        }
+        break;
+
+    case 'returned':
+        if (!empty($order['delivered_at'])) {
+            $estimatedDelivery = strtotime($order['delivered_at']);
+        }
+        break;
+}
+?>
+
     <!-- ORDER HEADER -->
     <div class="order-header">
         <h1>Order #<?= $order['order_id'] ?></h1>

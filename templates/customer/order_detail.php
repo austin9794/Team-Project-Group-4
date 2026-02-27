@@ -188,16 +188,42 @@ switch ($currentStatus) {
         break;
 
     case 'delivered':
-        if (!empty($order['delivered_at'])) {
-            $estimatedDelivery = strtotime($order['delivered_at']);
-        }
-        break;
-
     case 'returned':
         if (!empty($order['delivered_at'])) {
             $estimatedDelivery = strtotime($order['delivered_at']);
         }
         break;
+}
+
+$today = strtotime(date("Y-m-d"));
+$deliveryMessage = null;
+
+if ($estimatedDelivery) {
+
+    $diffDays = floor(($estimatedDelivery - $today) / (60 * 60 * 24));
+
+    if ($currentStatus === 'delivered' || $currentStatus === 'returned') {
+        $pastDays = floor(($today - $estimatedDelivery) / (60 * 60 * 24));
+
+        if ($pastDays === 0) {
+            $deliveryMessage = "Delivered today";
+        } elseif ($pastDays === 1) {
+            $deliveryMessage = "Delivered yesterday";
+        } elseif ($pastDays > 1) {
+            $deliveryMessage = "Delivered {$pastDays} days ago";
+        }
+
+    } else {
+        if ($diffDays > 1) {
+            $deliveryMessage = "Arriving in {$diffDays} days";
+        } elseif ($diffDays === 1) {
+            $deliveryMessage = "Arriving tomorrow";
+        } elseif ($diffDays === 0) {
+            $deliveryMessage = "Out for delivery";
+        } else {
+            $deliveryMessage = "Delayed";
+        }
+    }
 }
 ?>
 

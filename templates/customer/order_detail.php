@@ -274,6 +274,18 @@ $canReturnOrder =
             £<?= number_format($item['price_at_purchase'] * $item['quantity'], 2) ?>
         </p>
 
+        <?php if ($estimatedDelivery): ?>
+           <div class="estimated-delivery">
+             <?php if ($currentStatus === 'delivered' || $currentStatus === 'returned'): ?>
+                <strong>Delivered on:</strong>
+                <?= date("l, d M Y", $estimatedDelivery) ?>
+              <?php else: ?>
+            <strong>Estimated delivery:</strong>
+               <?= date("l, d M Y", $estimatedDelivery) ?>
+           <?php endif; ?>
+          </div>
+        <?php endif; ?>
+
         <!-- RETURN STATUS / ACTION -->
         <div style="margin-top:10px;">
 

@@ -207,20 +207,25 @@
         <div id="personal" class="section-card">
             <h2>Personal Details</h2>
 
-            <div class="profile-header">
-                <div class="profile-pic" style="background-image: url('/Team-Project-Group-4/public/assets/images/avatar.png');"></div>
-                <div class="profile-details">
-                    <p><strong>Name:</strong> <?= htmlspecialchars($user['name']) ?></p>
-                    <p><strong>Email:</strong> <?= htmlspecialchars($user['email']) ?></p>
-                    <p><strong>Phone:</strong> <?= htmlspecialchars($user['phone']) ?></p>
-                    <p><strong>Member Since:</strong> <?= htmlspecialchars(date("F Y", strtotime($user['created_at']))) ?></p>
-                </div>
-            </div>
+            <?php if ($user): ?>
+           <div class="profile-header">
+             <div class="profile-pic" style="background-image: url('/Team-Project-Group-4/public/assets/images/avatar.png');"></div>
+             <div class="profile-details">
+                  <p><strong>Name:</strong> <?= htmlspecialchars($user['name']) ?></p>
+                  <p><strong>Email:</strong> <?= htmlspecialchars($user['email']) ?></p>
+                  <p><strong>Phone:</strong> <?= htmlspecialchars($user['phone'] ?? 'N/A') ?></p>
+                  <p><strong>Member Since:</strong>
+                    <?= htmlspecialchars(date("F Y", strtotime($user['created_at']))) ?>
+                   </p>
+               </div>
+           </div>
+            <?php else: ?>
+             <p>User details could not be loaded.</p>
+            <?php endif; ?>
 
             <br>
             <a class="btn-purple" href="/Team-Project-Group-4/public/index.php?page=account-edit">Edit Details</a>
         </div>
-
 
         <!-- RECENT ORDERS -->
         <div id="orders" class="section-card">

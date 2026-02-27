@@ -22,7 +22,13 @@ class AccountController {
     // Fetch user info
     $stmt = $db->prepare("SELECT * FROM users WHERE user_id = ?");
     $stmt->execute([$_SESSION['user_id']]);
-    $user = $stmt->fetch();
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$user) {
+        session_destroy();
+        header("Location: " . BASE_URL . "index.php?page=login");
+        exit;
+    }
 
     // Fetch saved addresses
     $addrStmt = $this->db->prepare("SELECT * FROM addresses WHERE user_id = ?");

@@ -37,7 +37,9 @@ CREATE TABLE addresses (
   is_default BOOLEAN DEFAULT 0,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
-  FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+  FOREIGN KEY (user_id) 
+     REFERENCES users(user_id) 
+     ON DELETE CASCADE
 );
 
 
@@ -54,8 +56,9 @@ CREATE TABLE payment_methods (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     is_default BOOLEAN DEFAULT 0,
 
-    FOREIGN KEY (user_id) REFERENCES users(user_id) 
-    ON DELETE CASCADE
+    FOREIGN KEY (user_id) 
+       REFERENCES users(user_id) 
+       ON DELETE CASCADE
 );
 
 -- Categories Table --
@@ -187,12 +190,12 @@ CREATE TABLE order_items (
 CREATE TABLE reviews (
     review_id INT AUTO_INCREMENT PRIMARY KEY,
     product_id INT NOT NULL,
+    order_item_id INT NOT NULL,
     user_id INT NOT NULL,
-    title VARCHAR(255) NOT NULL AFTER rating,
     rating TINYINT NOT NULL,
+    title VARCHAR(255) NOT NULL,
     comment TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    order_item_id INT NOT NULL AFTER product_id,
 
     FOREIGN KEY (product_id)
         REFERENCES products(product_id)
@@ -200,9 +203,9 @@ CREATE TABLE reviews (
         ON UPDATE CASCADE,
 
     FOREIGN KEY (order_item_id)
-       REFERENCES order_items(order_item_id)
-       ON DELETE CASCADE
-       ON UPDATE CASCADE, 
+        REFERENCES order_items(order_item_id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
 
     FOREIGN KEY (user_id)
         REFERENCES users(user_id)

@@ -9,6 +9,10 @@ require_once __DIR__ . '/../src/Database.php';
 require_once __DIR__ . '/../src/Controllers/AccountController.php';
 require_once __DIR__ . '/../src/Controllers/AdminDashboardController.php';
 require_once __DIR__ . '/../src/Controllers/AdminLoginController.php';
+require_once __DIR__ . '/../src/Controllers/AdminOrderController.php';
+require_once __DIR__ . '/../src/Controllers/AdminProductController.php';
+require_once __DIR__ . '/../src/Controllers/AdminReportController.php'; 
+require_once __DIR__ . '/../src/Controllers/AdminReturnController.php';        
 require_once __DIR__ . '/../src/Controllers/AdminCustomerController.php';
 require_once __DIR__ . '/../src/Controllers/BaseAdminController.php';
 require_once __DIR__ . '/../src/Controllers/DashboardController.php';
@@ -50,10 +54,19 @@ switch ($page) {
         $controller->login();
         break;
     case 'dashboard':
-        $controller = new DashboardController();
-        $controller->index();
+    $controller = new DashboardController();
+    if (!$controller->isLoggedIn()) {
+        header('Location: index.php?page=login');
+        exit;
+    }
+    if ($controller->isAdmin()) {
+        require_once __DIR__ . '/../src/Controllers/AdminDashboardController.php';
+        $adminController = new AdminDashboardController();
+        $adminController->index();
+    } else {
         include __DIR__ . '/../templates/customer/dashboard.php';
-        break;
+    }
+    break;
     case 'switch-role':
         $controller = new DashboardController();
         $controller->switchRole();
@@ -209,24 +222,51 @@ switch ($page) {
     case 'delete-account':
     (new AccountController())->deleteAccount();
     break;
+    case 'add-review':
+    require_once __DIR__ . '/../src/Controllers/ReviewController.php';
 
+    if (!isset($_SESSION['user_id'])) {
+        header("Location: index.php?page=login");
+        exit;
+    }
 
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+        $userId    = $_SESSION['user_id'];
+        $productId = $_POST['product_id'] ?? null;
+        $rating    = $_POST['rating'] ?? null;
+        $comment   = trim($_POST['comment'] ?? '');
+        $title     = trim($_POST['title'] ?? '');
+
+        try {
+            $controller = new ReviewController();
+            $controller->addReview($userId, $productId, $rating, $comment, $title);
+
+            $_SESSION['review_success'][$productId] = "Review submitted successfully!";
+        } catch (Exception $e) {
+            $_SESSION['review_error'][$productId] = $e->getMessage();
+        }
+
+        header("Location: index.php?page=product-detail&id=" . $productId);
+        exit;
+    }
+    break;
         
     // ---- Admin Pages ----
     case 'admin-orders':
        requireAdmin();
-       $controller = new AdminDashboardController();
-       $controller->orders();
+       $controller = new AdminOrderController();
+       $controller->index();
     break;
     case 'admin-order-view':
         requireAdmin();
-        $controller = new AdminDashboardController();
-        $controller->viewOrder();
+        $controller = new AdminOrderController();
+        $controller->view();
     break;
     case 'admin-products':
        requireAdmin();
-       $controller = new AdminDashboardController();
-       $controller->products();
+       $controller = new AdminProductController();
+       $controller->index();
     break;
     case 'admin-customers':
        requireAdmin();
@@ -238,7 +278,6 @@ switch ($page) {
        $controller = new AdminCustomerController();
        $controller->view();
     break;
-
     case 'admin-customer-edit':
        requireAdmin();
        $controller = new AdminCustomerController();
@@ -251,10 +290,19 @@ switch ($page) {
     break;
     case 'admin-reports':
        requireAdmin();
-       $controller = new AdminDashboardController();
-       $controller->reports();
+       $controller = new AdminReportController();
+       $controller->index();
     break;
-
+    case 'admin-returns':
+        requireAdmin();
+        $controller = new AdminReturnController();
+        $controller->index();
+    break;
+    case 'admin-return-process':
+        requireAdmin();
+        $controller = new AdminReturnController();
+        $controller->process();
+    break;
 
     // ---- Default ----
     default:

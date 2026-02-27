@@ -282,6 +282,75 @@ if (!empty($images) && isset($images[0]['image_path'])) {
     color: var(--text-secondary);
   }
 
+.review-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.review-modal-content {
+    background: #111;
+    padding: 40px;
+    border-radius: 14px;
+    width: 600px;
+    max-width: 90%;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border-radius: 6px;
+    border: 1px solid #333;
+    background: #1b1b1b;
+    color: white;
+}
+
+.form-group textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.submit-review-btn {
+    width: 100%;
+    padding: 14px;
+    border-radius: 8px;
+    background: #7c3aed;
+    border: none;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.star-input input {
+    display: none;
+}
+
+.star-input label {
+    font-size: 30px;
+    cursor: pointer;
+    color: #555;
+}
+
+.star-input input:checked ~ label,
+.star-input label:hover,
+.star-input label:hover ~ label {
+    color: gold;
+}
+
   @media (max-width: 768px) {
     .product-detail-grid {
       grid-template-columns: 1fr;
@@ -356,15 +425,21 @@ if (!empty($images) && isset($images[0]['image_path'])) {
 </div>
 
 
-    <!-- RIGHT: PRODUCT INFO -->
+  <!-- RIGHT: PRODUCT INFO -->
     <div class="product-info-panel">
 
       <h1 class="product-title"><?= htmlspecialchars($product['name']) ?></h1>
 
       <div class="product-price">£<?= number_format($product['price'], 2) ?></div>
 
+      <?php
+       $avg = round($averageData['avg_rating'] ?? 0);
+      ?>
+
       <div class="product-rating">
-        ☆☆☆☆☆ <span>(<?= $product['review_count'] ?? 0 ?> reviews)</span>
+        <?= str_repeat('★', $avg) ?>
+        <?= str_repeat('☆', 5 - $avg) ?>
+        <span>(<?= $averageData['count'] ?? 0 ?> reviews)</span>
       </div>
 
       <?php if ($product['stock'] > 10): ?>
@@ -377,9 +452,18 @@ if (!empty($images) && isset($images[0]['image_path'])) {
 
       <div class="product-about">
         <h3 class="about-title">About this item</h3>
-        <p class="product-description">
-          <?= nl2br(htmlspecialchars($product['description'])) ?>
-        </p>
+        <?php
+          $features = array_filter(
+          array_map('trim', explode('|', $product['description']))
+          );
+        ?>
+
+      <ul class="product-features">
+       <?php foreach ($features as $feature): ?>
+           <li><?= htmlspecialchars($feature) ?></li>
+        <?php endforeach; ?>
+      </ul>
+
       </div>
 
       <?php if ($product['stock'] > 0): ?>
@@ -407,29 +491,101 @@ if (!empty($images) && isset($images[0]['image_path'])) {
   </div>
 
   <!-- REVIEWS -->
-  <section class="reviews-section full-width">
-    <h2 class="reviews-title">Customer Reviews</h2>
+   <section class="reviews-section full-width">
+  <h2 class="reviews-title">Customer Reviews</h2>
 
-    <?php if (!empty($reviews)): ?>
-      <div class="review-list">
-        <?php foreach ($reviews as $review): ?>
-          <div class="review-item">
-            <div class="review-header">
-              <strong><?= htmlspecialchars($review['author']) ?></strong>
-              <span class="review-date">
-                <?= date('M d, Y', strtotime($review['date'])) ?>
-              </span>
-            </div>
-            <p><?= htmlspecialchars($review['text']) ?></p>
+  <?php if (!empty($reviews)): ?>
+    <div class="review-list">
+      <?php foreach ($reviews as $review): ?>
+        <div class="review-item">
+          <div class="review-header">
+            <strong><?= htmlspecialchars($review['name']) ?></strong>
+            <span class="review-date">
+              <?= date('M d, Y', strtotime($review['created_at'])) ?>
+            </span>
           </div>
-        <?php endforeach; ?>
-      </div>
-    <?php else: ?>
-      <p class="no-reviews">No reviews yet — be the first!</p>
-    <?php endif; ?>
-  </section>
 
-  <!-- FULLSCREEN MODAL -->
+          <div class="review-rating">
+            <?= str_repeat('★', $review['rating']) ?>
+            <?= str_repeat('☆', 5 - $review['rating']) ?>
+          </div>
+
+          <p><?= htmlspecialchars($review['comment']) ?></p>
+        </div>
+      <?php endforeach; ?>
+    </div>
+  <?php else: ?>
+    <p class="no-reviews">No reviews yet — be the first!</p>
+  <?php endif; ?>
+</section>
+
+<?php if (!empty($_SESSION['review_success'][$product['product_id']])): ?>
+    <p class="review-success">
+        <?= $_SESSION['review_success'][$product['product_id']] ?>
+    </p>
+    <?php unset($_SESSION['review_success'][$product['product_id']]); ?>
+<?php endif; ?>
+
+<?php if (!empty($_SESSION['review_error'][$product['product_id']])): ?>
+    <p class="review-error">
+        <?= $_SESSION['review_error'][$product['product_id']] ?>
+    </p>
+    <?php unset($_SESSION['review_error'][$product['product_id']]); ?>
+<?php endif; ?>
+
+<?php if (isset($_SESSION['user_id']) && $canReview): ?>
+    <button class="btn-review" onclick="openReviewModal()">
+        Write a customer review
+    </button>
+<?php elseif (isset($_SESSION['user_id'])): ?>
+    <p>You can only review products after they have been delivered.</p>
+<?php else: ?>
+    <p>Please log in to leave a review.</p>
+<?php endif; ?>
+
+<!-- REVIEW MODAL -->
+<div id="reviewModal" class="review-modal">
+  <div class="review-modal-content">
+
+    <span class="review-close" onclick="closeReviewModal()">&times;</span>
+
+    <h2>Review this product</h2>
+
+    <form method="POST" action="<?= BASE_URL ?>index.php?page=add-review">
+
+      <input type="hidden" name="product_id" value="<?= $product['product_id'] ?>">
+
+      <div class="form-group">
+        <label>Rating</label>
+        <div class="star-input">
+          <?php for ($i=1;$i<=5;$i++): ?>
+            <input type="radio" name="rating" value="<?= $i ?>" id="star<?= $i ?>" required>
+            <label for="star<?= $i ?>">★</label>
+          <?php endfor; ?>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Review title (required)</label>
+        <input type="text" name="title" required>
+        <h4><?= htmlspecialchars($review['title']) ?></h4>
+      </div>
+
+      <div class="form-group">
+        <label>Write your review</label>
+        <textarea name="comment" required></textarea>
+      </div>
+
+      <button type="submit" class="submit-review-btn">
+        Submit Review
+      </button>
+
+    </form>
+
+  </div>
+</div>
+
+<!-- FULLSCREEN MODAL -->
   <div id="imageModal" class="image-modal" aria-hidden="true">
     <span class="modal-close">&times;</span>
     <button class="modal-nav prev">&#10094;</button>
@@ -446,6 +602,14 @@ if (!empty($images) && isset($images[0]['image_path'])) {
       $images ?? []
     )
   ) ?>;
+
+function openReviewModal() {
+    document.getElementById("reviewModal").style.display = "flex";
+}
+
+function closeReviewModal() {
+    document.getElementById("reviewModal").style.display = "none";
+}
 </script>
 
 

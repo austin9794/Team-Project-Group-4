@@ -14,7 +14,7 @@
 
         <div class="filter-row">
             <div class="filter-group">
-                <label>🔍 Search Customer</label>
+                <label> Search Customer</label>
                 <input type="text"
                        name="search"
                        placeholder="Name or email..."
@@ -22,14 +22,14 @@
             </div>
 
             <div class="filter-group">
-                <label>📅 Joined From</label>
+                <label> Joined From</label>
                 <input type="date"
                        name="date_from"
                        value="<?= htmlspecialchars($_GET['date_from'] ?? '') ?>">
             </div>
 
             <div class="filter-group">
-                <label>📅 Joined To</label>
+                <label> Joined To</label>
                 <input type="date"
                        name="date_to"
                        value="<?= htmlspecialchars($_GET['date_to'] ?? '') ?>">

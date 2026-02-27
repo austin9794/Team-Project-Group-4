@@ -606,10 +606,10 @@ VALUES
 
 
 -- REVIEWS
-INSERT INTO reviews (product_id, user_id, rating, comment)
+INSERT INTO reviews (product_id, order_item_id, user_id, rating, comment)
 VALUES
-(1, 2, 5, 'Excellent feel and nice to use!'),
-(3, 1, 4, 'Good sound quality.');
+(1, 1, 2, 5, 'Excellent feel and nice to use!'),
+(3, 2, 3, 4, 'Good sound quality.');
 
 -- INVENTORY LOGS
 INSERT INTO inventory_logs

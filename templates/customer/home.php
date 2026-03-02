@@ -259,6 +259,51 @@ require_once __DIR__ . '/../header.php';
   </div>
 </section>
 
+<?php if (!empty($recentProducts)): ?>
+<section class="features-section">
+  <h2 class="section-title">Recently Viewed</h2>
+
+  <div class="product-grid" style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px;">
+
+    <?php foreach ($recentProducts as $product): ?>
+
+      <?php
+        $imagePath = "products/"
+          . strtolower($product['category_name']) . "/"
+          . $product['slug'] . "/01.png";
+      ?>
+
+      <div class="product-card" style="background: white; border-radius: 12px; overflow: hidden; box-shadow: var(--shadow);">
+
+        <div class="product-image" style="width: 100%; height: 200px; background: white; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+          <img src="<?= BASE_URL ?>assets/images/<?= $imagePath ?>" alt="<?= htmlspecialchars($product['name']) ?>" style="width: 100%; height: 100%; object-fit: contain; padding: 10px;">
+        </div>
+
+        <div class="product-info" style="padding: 1.25rem;">
+          <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem; color: #1a1a2e;">
+            <?= htmlspecialchars($product['name']) ?>
+          </h3>
+
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 1.5rem; font-weight: bold; color: var(--highlight-color);">
+              £<?= number_format($product['price'], 2) ?>
+            </span>
+
+            <a href="<?= BASE_URL ?>index.php?page=product-detail&id=<?= $product['product_id'] ?>"
+               style="padding: 0.6rem 1.25rem; background: var(--highlight-color); color: white; border-radius: 6px; text-decoration: none; font-weight: 600;">
+               View
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+    <?php endforeach; ?>
+
+  </div>
+</section>
+<?php endif; ?>
+
 <!-- CTA Section -->
 <section style="position: relative; overflow: hidden; color: white; padding: 4rem 2rem; text-align: center;">
   <video autoplay loop muted playsinline style="position: absolute; top: 50%; left: 50%; min-width: 100%; min-height: 100%; width: auto; height: auto; transform: translate(-50%, -50%); z-index: 0; object-fit: cover;">

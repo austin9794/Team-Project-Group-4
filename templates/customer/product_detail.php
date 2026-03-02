@@ -361,8 +361,9 @@ if (!empty($images) && isset($images[0]['image_path'])) {
 
 .star-input {
     display: flex;
-    gap: 10px;
-    align-items: center;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    gap: 8px;
 }
 
 .star-input input {
@@ -371,14 +372,19 @@ if (!empty($images) && isset($images[0]['image_path'])) {
 
 .star-input label {
     font-size: 32px;
-    cursor: pointer;
     color: #555;
+    cursor: pointer;
     transition: color 0.2s ease;
 }
 
-.star-input input:checked ~ label,
+/* Hover effect */
 .star-input label:hover,
 .star-input label:hover ~ label {
+    color: gold;
+}
+
+/* Selected effect */
+.star-input input:checked ~ label {
     color: gold;
 }
 
@@ -595,7 +601,7 @@ if (!empty($images) && isset($images[0]['image_path'])) {
       <div class="form-group">
         <label>Rating</label>
         <div class="star-input">
-          <?php for ($i=1;$i<=5;$i++): ?>
+          <?php for ($i=5;$i>=1;$i--): ?>
             <input type="radio" name="rating" value="<?= $i ?>" id="star<?= $i ?>" required>
             <label for="star<?= $i ?>">★</label>
           <?php endfor; ?>

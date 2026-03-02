@@ -223,20 +223,26 @@ switch ($page) {
     (new AccountController())->deleteAccount();
     break;
     case 'add-review':
+
     require_once __DIR__ . '/../src/Controllers/ReviewController.php';
 
     if (!isset($_SESSION['user_id'])) {
-        header("Location: index.php?page=login");
+        header("Location: " . BASE_URL . "index.php?page=login");
         exit;
     }
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $userId    = $_SESSION['user_id'];
-        $productId = $_POST['product_id'] ?? null;
-        $rating    = $_POST['rating'] ?? null;
+        $productId = isset($_POST['product_id']) ? (int)$_POST['product_id'] : 0;
+        $rating    = isset($_POST['rating']) ? (int)$_POST['rating'] : 0;
         $comment   = trim($_POST['comment'] ?? '');
         $title     = trim($_POST['title'] ?? '');
+
+        if ($productId <= 0) {
+            header("Location: " . BASE_URL . "index.php?page=products");
+            exit;
+        }
 
         try {
             $controller = new ReviewController();
@@ -247,7 +253,7 @@ switch ($page) {
             $_SESSION['review_error'][$productId] = $e->getMessage();
         }
 
-        header("Location: index.php?page=product-detail&id=" . $productId);
+        header("Location: " . BASE_URL . "index.php?page=product-detail&id=" . $productId);
         exit;
     }
     break;

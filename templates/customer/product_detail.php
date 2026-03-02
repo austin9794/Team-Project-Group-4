@@ -282,6 +282,20 @@ if (!empty($images) && isset($images[0]['image_path'])) {
     line-height: 1.6;
   }
 
+  .review-close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 22px;
+    color: #aaa;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.review-close:hover {
+    color: white;
+}
+
   .no-reviews {
     text-align: center;
     padding: 2rem;
@@ -306,6 +320,7 @@ if (!empty($images) && isset($images[0]['image_path'])) {
     width: 600px;
     max-width: 95%;
     max-height: 90vh;
+    position: relative;
     overflow-y: auto;
 }
 

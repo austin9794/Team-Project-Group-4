@@ -576,12 +576,18 @@ if (!empty($images) && isset($images[0]['image_path'])) {
     <?php unset($_SESSION['review_error'][$product['product_id']]); ?>
 <?php endif; ?>
 
-<?php if (isset($_SESSION['user_id']) && $canReview): ?>
-    <button class="btn-review" onclick="openReviewModal()">
-        Write a customer review
-    </button>
-<?php elseif (isset($_SESSION['user_id'])): ?>
-    <p>You can only review products after they have been delivered.</p>
+<?php if (isset($_SESSION['user_id'])): ?>
+
+    <?php if ($canReview): ?>
+        <button class="btn-review" onclick="openReviewModal()">
+            Write a customer review
+        </button>
+    <?php endif; ?>
+
+    <?php if (!$canReview && !empty($reviews)): ?>
+    <p class="review-note">You have already reviewed this item.</p>
+    <?php endif; ?>
+
 <?php else: ?>
     <p>Please log in to leave a review.</p>
 <?php endif; ?>

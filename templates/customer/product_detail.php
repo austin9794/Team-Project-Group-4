@@ -251,6 +251,12 @@ if (!empty($images) && isset($images[0]['image_path'])) {
     margin-bottom: 1rem;
   }
 
+  .review-title {
+    margin: 8px 0 6px;
+    font-size: 16px;
+    font-weight: bold;
+  }
+
   .review-header {
     display: flex;
     justify-content: space-between;
@@ -290,6 +296,7 @@ if (!empty($images) && isset($images[0]['image_path'])) {
     justify-content: center;
     align-items: center;
     z-index: 9999;
+    padding: 20px;
 }
 
 .review-modal-content {
@@ -297,7 +304,9 @@ if (!empty($images) && isset($images[0]['image_path'])) {
     padding: 40px;
     border-radius: 14px;
     width: 600px;
-    max-width: 90%;
+    max-width: 95%;
+    max-height: 90vh;
+    overflow-y: auto;
 }
 
 .form-group {
@@ -335,14 +344,21 @@ if (!empty($images) && isset($images[0]['image_path'])) {
     cursor: pointer;
 }
 
+.star-input {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
 .star-input input {
     display: none;
 }
 
 .star-input label {
-    font-size: 30px;
+    font-size: 32px;
     cursor: pointer;
     color: #555;
+    transition: color 0.2s ease;
 }
 
 .star-input input:checked ~ label,
@@ -496,23 +512,29 @@ if (!empty($images) && isset($images[0]['image_path'])) {
 
   <?php if (!empty($reviews)): ?>
     <div class="review-list">
-      <?php foreach ($reviews as $review): ?>
-        <div class="review-item">
-          <div class="review-header">
+    <?php foreach ($reviews as $review): ?>
+    <div class="review-item">
+
+        <div class="review-header">
             <strong><?= htmlspecialchars($review['name']) ?></strong>
             <span class="review-date">
-              <?= date('M d, Y', strtotime($review['created_at'])) ?>
+                <?= date('M d, Y', strtotime($review['created_at'])) ?>
             </span>
-          </div>
+        </div>
 
-          <div class="review-rating">
+        <div class="review-rating">
             <?= str_repeat('★', $review['rating']) ?>
             <?= str_repeat('☆', 5 - $review['rating']) ?>
-          </div>
-
-          <p><?= htmlspecialchars($review['comment']) ?></p>
         </div>
-      <?php endforeach; ?>
+
+        <h4 class="review-title">
+            <?= htmlspecialchars($review['title']) ?>
+        </h4>
+
+        <p><?= htmlspecialchars($review['comment']) ?></p>
+
+    </div>
+   <?php endforeach; ?>
     </div>
   <?php else: ?>
     <p class="no-reviews">No reviews yet — be the first!</p>
@@ -568,7 +590,6 @@ if (!empty($images) && isset($images[0]['image_path'])) {
       <div class="form-group">
         <label>Review title (required)</label>
         <input type="text" name="title" required>
-        <h4><?= htmlspecialchars($review['title']) ?></h4>
       </div>
 
       <div class="form-group">

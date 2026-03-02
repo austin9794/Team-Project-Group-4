@@ -35,8 +35,40 @@ $page = $_GET['page'] ?? 'home';
 switch ($page) {
     // ---- Public Pages ----
     case 'home':
-        include __DIR__ . '/../templates/customer/home.php';
-        break;
+
+    $recentProducts = [];
+
+    if (!empty($_SESSION['recently_viewed'])) {
+
+        require_once __DIR__ . '/../src/Database.php';
+
+        $db = Database::getInstance()->getConnection();
+
+        $ids = $_SESSION['recently_viewed'];
+
+        // Safety: ensure all values are integers
+        $ids = array_map('intval', $ids);
+
+        $placeholders = implode(',', array_fill(0, count($ids), '?'));
+
+        $stmt = $db->prepare(" SELECT p.product_id, p.name, p.slug, p.price, c.name AS category_name
+            FROM products p
+            JOIN categories c ON p.category_id = c.category_id
+            WHERE p.product_id IN ($placeholders)
+        ");
+
+        $stmt->execute($ids);
+        $recentProducts = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // Preserve viewing order
+        usort($recentProducts, function($a, $b) use ($ids) {
+            return array_search($a['product_id'], $ids)
+                 - array_search($b['product_id'], $ids);
+        });
+    }
+
+    include __DIR__ . '/../templates/customer/home.php';
+    break;
     case 'about':
         include __DIR__ . '/../templates/customer/about.php';
         break;

@@ -191,7 +191,7 @@ require_once __DIR__ . '/../header.php';
         <p style="color: #6b6b80; font-size: 0.9rem; margin-bottom: 1rem;">Mechanical-feel keyboard with vibrant RGB lighting zones</p>
         <div style="display: flex; justify-content: space-between; align-items: center;">
           <span style="font-size: 1.5rem; font-weight: bold; color: var(--highlight-color);">£32.99</span>
-          <a href="/Team-Project-Group-4/public/index.php?page=products" style="padding: 0.6rem 1.25rem; background: var(--highlight-color); color: white; border-radius: 6px; text-decoration: none; font-weight: 600;">View</a>
+          <a href="<?= BASE_URL ?>index.php?page=product&id=1" style="padding: 0.6rem 1.25rem; background: var(--highlight-color); color: white; border-radius: 6px; text-decoration: none; font-weight: 600;">View</a>
         </div>
       </div>
     </div>
@@ -206,7 +206,7 @@ require_once __DIR__ . '/../header.php';
         <p style="color: #6b6b80; font-size: 0.9rem; margin-bottom: 1rem;">High-accuracy HERO sensor with up to 12,000 DPI</p>
         <div style="display: flex; justify-content: space-between; align-items: center;">
           <span style="font-size: 1.5rem; font-weight: bold; color: var(--highlight-color);">£59.99</span>
-          <a href="/Team-Project-Group-4/public/index.php?page=products" style="padding: 0.6rem 1.25rem; background: var(--highlight-color); color: white; border-radius: 6px; text-decoration: none; font-weight: 600;">View</a>
+          <a href="<?= BASE_URL ?>index.php?page=product&id=6" style="padding: 0.6rem 1.25rem; background: var(--highlight-color); color: white; border-radius: 6px; text-decoration: none; font-weight: 600;">View</a>
         </div>
       </div>
     </div>
@@ -221,7 +221,7 @@ require_once __DIR__ . '/../header.php';
         <p style="color: #6b6b80; font-size: 0.9rem; margin-bottom: 1rem;">Dual-chamber drivers provide cleaner audio</p>
         <div style="display: flex; justify-content: space-between; align-items: center;">
           <span style="font-size: 1.5rem; font-weight: bold; color: var(--highlight-color);">£34.99</span>
-          <a href="/Team-Project-Group-4/public/index.php?page=products" style="padding: 0.6rem 1.25rem; background: var(--highlight-color); color: white; border-radius: 6px; text-decoration: none; font-weight: 600;">View</a>
+          <a href="<?= BASE_URL ?>index.php?page=product&id=11" style="padding: 0.6rem 1.25rem; background: var(--highlight-color); color: white; border-radius: 6px; text-decoration: none; font-weight: 600;">View</a>
         </div>
       </div>
     </div>
@@ -236,7 +236,7 @@ require_once __DIR__ . '/../header.php';
         <p style="color: #6b6b80; font-size: 0.9rem; margin-bottom: 1rem;">27-inch Full HD IPS panel with wide viewing angles</p>
         <div style="display: flex; justify-content: space-between; align-items: center;">
           <span style="font-size: 1.5rem; font-weight: bold; color: var(--highlight-color);">£94.99</span>
-          <a href="/Team-Project-Group-4/public/index.php?page=products" style="padding: 0.6rem 1.25rem; background: var(--highlight-color); color: white; border-radius: 6px; text-decoration: none; font-weight: 600;">View</a>
+          <a href="<?= BASE_URL ?>index.php?page=product&id=16" style="padding: 0.6rem 1.25rem; background: var(--highlight-color); color: white; border-radius: 6px; text-decoration: none; font-weight: 600;">View</a>
         </div>
       </div>
     </div>
@@ -251,7 +251,7 @@ require_once __DIR__ . '/../header.php';
         <p style="color: #6b6b80; font-size: 0.9rem; margin-bottom: 1rem;">High-clarity microphone with built-in noise reduction</p>
         <div style="display: flex; justify-content: space-between; align-items: center;">
           <span style="font-size: 1.5rem; font-weight: bold; color: var(--highlight-color);">£49.99</span>
-          <a href="/Team-Project-Group-4/public/index.php?page=products" style="padding: 0.6rem 1.25rem; background: var(--highlight-color); color: white; border-radius: 6px; text-decoration: none; font-weight: 600;">View</a>
+          <a href="<?= BASE_URL ?>index.php?page=product&id=21" style="padding: 0.6rem 1.25rem; background: var(--highlight-color); color: white; border-radius: 6px; text-decoration: none; font-weight: 600;">View</a>
         </div>
       </div>
     </div>
@@ -289,7 +289,7 @@ require_once __DIR__ . '/../header.php';
               £<?= number_format($product['price'], 2) ?>
             </span>
 
-            <a href="<?= BASE_URL ?>index.php?page=product-detail&id=<?= $product['product_id'] ?>"
+            <a href="<?= BASE_URL ?>index.php?page=product&id=<?= $product['product_id'] ?>"
                style="padding: 0.6rem 1.25rem; background: var(--highlight-color); color: white; border-radius: 6px; text-decoration: none; font-weight: 600;">
                View
             </a>

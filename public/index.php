@@ -115,6 +115,36 @@ switch ($page) {
         $baseCategories = $stmt->fetchAll(PDO::FETCH_COLUMN);
     }
 
+    // ---- Fetch Recommendations ----
+
+
+    if (!empty($baseCategories)) {
+
+        $baseCategories = array_unique($baseCategories);
+        $excludeIds = array_unique($excludeIds);
+
+        $catPlaceholders = implode(',', array_fill(0, count($baseCategories), '?'));
+
+        $query = " SELECT p.product_id, p.name, p.slug, p.price, c.name AS category_name
+            FROM products p
+            JOIN categories c ON p.category_id = c.category_id
+            WHERE p.category_id IN ($catPlaceholders)
+        ";
+
+        $params = $baseCategories;
+
+        if (!empty($excludeIds)) {
+            $excludePlaceholders = implode(',', array_fill(0, count($excludeIds), '?'));
+            $query .= " AND p.product_id NOT IN ($excludePlaceholders)";
+            $params = array_merge($params, $excludeIds);
+        }
+
+        $query .= " ORDER BY RAND() LIMIT 4";
+
+        $stmt = $db->prepare($query);
+        $stmt->execute($params);
+        $recommendedProducts = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
     include __DIR__ . '/../templates/customer/home.php';
     break;

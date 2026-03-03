@@ -304,6 +304,49 @@ require_once __DIR__ . '/../header.php';
 </section>
 <?php endif; ?>
 
+<?php if (!empty($recommendedProducts)): ?>
+<section class="features-section">
+  <h2 class="section-title">Recommended For You</h2>
+
+  <div class="product-grid" style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px;">
+
+    <?php foreach ($recommendedProducts as $product): ?>
+
+      <?php
+        $imagePath = "products/"
+          . strtolower($product['category_name']) . "/"
+          . $product['slug'] . "/01.png";
+      ?>
+
+      <div class="product-card">
+
+        <div class="product-image">
+          <img src="<?= BASE_URL ?>assets/images/<?= $imagePath ?>" alt="<?= htmlspecialchars($product['name']) ?>">
+        </div>
+
+        <div class="product-info">
+          <h3><?= htmlspecialchars($product['name']) ?></h3>
+
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-weight:bold; color:var(--highlight-color);">
+              £<?= number_format($product['price'], 2) ?>
+            </span>
+
+            <a href="<?= BASE_URL ?>index.php?page=product&id=<?= $product['product_id'] ?>"
+               class="btn-purple">
+               View
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+    <?php endforeach; ?>
+
+  </div>
+</section>
+<?php endif; ?>
+
 <!-- CTA Section -->
 <section style="position: relative; overflow: hidden; color: white; padding: 4rem 2rem; text-align: center;">
   <video autoplay loop muted playsinline style="position: absolute; top: 50%; left: 50%; min-width: 100%; min-height: 100%; width: auto; height: auto; transform: translate(-50%, -50%); z-index: 0; object-fit: cover;">

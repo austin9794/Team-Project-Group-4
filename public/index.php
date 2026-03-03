@@ -67,6 +67,36 @@ switch ($page) {
         });
     }
 
+    $recommendedProducts = [];
+
+$baseCategories = [];
+$excludeIds = [];
+
+//----- If logged in and Use purchased categories -----
+
+if (isset($_SESSION['user_id'])) {
+
+    $userId = $_SESSION['user_id'];
+
+    // Get categories from delivered orders
+    $stmt = $db->prepare(" SELECT DISTINCT p.category_id, p.product_id
+        FROM order_items oi
+        JOIN orders o ON oi.order_id = o.order_id
+        JOIN products p ON oi.product_id = p.product_id
+        WHERE o.user_id = ?
+        AND o.status = 'delivered'
+    ");
+
+    $stmt->execute([$userId]);
+    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach ($rows as $row) {
+        $baseCategories[] = $row['category_id'];
+        $excludeIds[] = $row['product_id'];
+    }
+}
+
+
     include __DIR__ . '/../templates/customer/home.php';
     break;
     case 'about':

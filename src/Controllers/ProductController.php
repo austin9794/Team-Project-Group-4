@@ -114,7 +114,7 @@ class ProductController {
         $_SESSION['recently_viewed'] = array_slice(
            $_SESSION['recently_viewed'],
            0,
-           5
+           4
         );
 
         // Fetch all images for product

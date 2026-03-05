@@ -189,6 +189,39 @@ if (!empty($_SESSION['basket']) && is_array($_SESSION['basket'])) {
             display: flex;
             gap: 20px;
         }
+
+        .basket-wrapper{
+          position:relative;
+          display:flex;
+          align-items:center;
+        } 
+
+.basket-svg{
+    width:26px;
+    height:26px;
+}
+
+/* smaller badge inside icon */
+.basket-badge{
+    position:absolute;
+    top:-4px;
+    right:-6px;
+
+    background:#ff4d6d;
+    color:white;
+
+    font-size:10px;
+    font-weight:600;
+
+    min-width:16px;
+    height:16px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:50%;
+}
     </style>
 </head>
 <body>
@@ -283,21 +316,34 @@ if (!empty($_SESSION['basket']) && is_array($_SESSION['basket'])) {
         </a>
 
         <!-- Basket -->
-         <a href="index.php?page=basket" class="basket-icon">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <circle cx="9" cy="21" r="1"></circle>
-        <circle cx="20" cy="21" r="1"></circle>
-        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-    </svg>
+    <a href="index.php?page=basket" class="basket-icon">
 
-      <?php $basketCount = getBasketItemCount(); ?>
+    <div class="basket-wrapper">
 
-       <span>
-         Basket
-       <span id="basket-count">
-       <?= $basketCount > 0 ? "($basketCount)" : "" ?>
-     </span>
-   </span>
+        <svg class="basket-svg"
+             viewBox="0 0 24 24"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="2">
+
+            <circle cx="9" cy="21" r="1"></circle>
+            <circle cx="20" cy="21" r="1"></circle>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+
+        </svg>
+
+        <?php $basketCount = getBasketItemCount(); ?>
+
+        <?php if ($basketCount > 0): ?>
+            <span id="basket-count" class="basket-badge">
+                <?= $basketCount ?>
+            </span>
+        <?php endif; ?>
+
+    </div>
+
+    <span class="basket-text">Basket</span>
+
 </a>
         
     </div>

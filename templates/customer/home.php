@@ -273,30 +273,28 @@ require_once __DIR__ . '/../header.php';
           . $product['slug'] . "/01.png";
       ?>
 
-      <div class="product-card" style="background: white; border-radius: 12px; overflow: hidden; box-shadow: var(--shadow);">
-
-        <div class="product-image" style="width: 100%; height: 200px; background: white; display: flex; align-items: center; justify-content: center; overflow: hidden;">
-          <img src="<?= BASE_URL ?>assets/images/<?= $imagePath ?>" alt="<?= htmlspecialchars($product['name']) ?>" style="width: 100%; height: 100%; object-fit: contain; padding: 10px;">
+     <div class="product-card">
+       <div class="product-image">
+           <img src="<?= BASE_URL ?>assets/images/<?= $imagePath ?>"
+                alt="<?= htmlspecialchars($product['name']) ?>">
         </div>
 
-        <div class="product-info" style="padding: 1.25rem;">
-          <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem; color: #1a1a2e;">
-            <?= htmlspecialchars($product['name']) ?>
-          </h3>
+    <div class="product-info">
+        <h3><?= htmlspecialchars($product['name']) ?></h3>
 
-          <div style="display: flex; justify-content: space-between; align-items: center;">
-            <span style="font-size: 1.5rem; font-weight: bold; color: var(--highlight-color);">
-              £<?= number_format($product['price'], 2) ?>
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span class="product-price">
+                £<?= number_format($product['price'], 2) ?>
             </span>
 
             <a href="<?= BASE_URL ?>index.php?page=product&id=<?= $product['product_id'] ?>"
-               style="padding: 0.6rem 1.25rem; background: var(--highlight-color); color: white; border-radius: 6px; text-decoration: none; font-weight: 600;">
+               class="product-button">
                View
             </a>
-          </div>
         </div>
+    </div>
 
-      </div>
+</div>
 
     <?php endforeach; ?>
 
@@ -318,28 +316,27 @@ require_once __DIR__ . '/../header.php';
           . $product['slug'] . "/01.png";
       ?>
 
-      <div class="product-card">
+    <div class="product-card">
+    <div class="product-image">
+        <img src="<?= BASE_URL ?>assets/images/<?= $imagePath ?>"
+             alt="<?= htmlspecialchars($product['name']) ?>">
+    </div>
 
-        <div class="product-image">
-          <img src="<?= BASE_URL ?>assets/images/<?= $imagePath ?>" alt="<?= htmlspecialchars($product['name']) ?>">
-        </div>
+    <div class="product-info">
+        <h3><?= htmlspecialchars($product['name']) ?></h3>
 
-        <div class="product-info">
-          <h3><?= htmlspecialchars($product['name']) ?></h3>
-
-          <div style="display:flex; justify-content:space-between; align-items:center;">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
             <span style="font-weight:bold; color:var(--highlight-color);">
-              £<?= number_format($product['price'], 2) ?>
+                £<?= number_format($product['price'], 2) ?>
             </span>
 
             <a href="<?= BASE_URL ?>index.php?page=product&id=<?= $product['product_id'] ?>"
-               class="btn-purple">
+               class="product-button">
                View
             </a>
-          </div>
         </div>
-
-      </div>
+    </div>
+</div>
 
     <?php endforeach; ?>
 

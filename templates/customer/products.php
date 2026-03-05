@@ -135,7 +135,7 @@ $filters = [
 
         <!-- Logo positioned behind filters -->
         <img src="<?= BASE_URL ?>assets/images/logo_no_text.png" style=" position:absolute; right:20px; top:50%; transform:translateY(-50%);
-        height:320px; opacity:0.15; pointer-events:none; z-index:-1; max-width:40%; ">
+        height:320px; opacity:0.12; pointer-events:none; z-index:-1; max-width:40%; ">
 
         <!-- Other Filters Section -->
         <div class="filters">

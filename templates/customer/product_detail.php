@@ -107,25 +107,44 @@ if (!empty($images) && isset($images[0]['image_path'])) {
       </div>
 
       <?php if ($product['stock'] > 0): ?>
-        <form method="POST" action="<?= BASE_URL ?>index.php?page=add-to-basket" class="add-to-cart-form">
-          <input type="hidden" name="product_id" value="<?= $product['product_id'] ?>">
+    <form method="POST"
+      action="<?= BASE_URL ?>index.php?page=add-to-basket"
+      class="add-to-cart-form">
 
-          <div class="quantity-row">
-            <label for="quantity">Quantity</label>
+    <input type="hidden" name="product_id" value="<?= $product['product_id'] ?>">
+
+    <div class="quantity-row">
+
+        <span class="quantity-label">Quantity</span>
+
+        <div class="qty-controls">
+
+            <button type="button" class="qty-btn" onclick="decreaseQty()">−</button>
+
             <input
-              type="number"
-              id="quantity"
-              name="quantity"
-              value="1"
-              min="1"
-              max="<?= $product['stock'] ?>"
+                type="number"
+                id="quantity"
+                name="quantity"
+                value="1"
+                min="1"
+                max="<?= $product['stock'] ?>"
+                class="qty-input"
             >
-            <button type="submit" class="btn-add-cart">Add to Cart</button>
-          </div>
-        </form>
-      <?php else: ?>
-        <button class="btn-add-cart" disabled>Out of Stock</button>
-      <?php endif; ?>
+
+            <button type="button" class="qty-btn" onclick="increaseQty()">+</button>
+
+        </div>
+
+        <button type="submit" class="btn-add-cart">
+            Add to Cart
+        </button>
+
+    </div>
+
+</form>
+<?php else: ?>
+<button class="btn-add-cart" disabled>Out of Stock</button>
+<?php endif; ?>
 
     </div>
   </div>
@@ -260,6 +279,23 @@ function openReviewModal() {
 
 function closeReviewModal() {
     document.getElementById("reviewModal").style.display = "none";
+}
+
+function increaseQty() {
+    const input = document.getElementById("quantity");
+    const max = parseInt(input.max);
+
+    if (parseInt(input.value) < max) {
+        input.value = parseInt(input.value) + 1;
+    }
+}
+
+function decreaseQty() {
+    const input = document.getElementById("quantity");
+
+    if (parseInt(input.value) > 1) {
+        input.value = parseInt(input.value) - 1;
+    }
 }
 </script>
 

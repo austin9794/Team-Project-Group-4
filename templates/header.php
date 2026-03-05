@@ -283,21 +283,23 @@ if (!empty($_SESSION['basket']) && is_array($_SESSION['basket'])) {
         </a>
 
         <!-- Basket -->
-        <a href="index.php?page=basket" class="basket-icon">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="9" cy="21" r="1"></circle>
-                <circle cx="20" cy="21" r="1"></circle>
-                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-            </svg>
-            <?php 
-            $basketCount = getBasketItemCount();
-            if ($basketCount > 0): 
-            ?>
-                <span>Basket (<?= $basketCount ?>)</span>
-            <?php else: ?>
-                <span>Basket</span>
-            <?php endif; ?>
-        </a>
+         <a href="index.php?page=basket" class="basket-icon">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="9" cy="21" r="1"></circle>
+        <circle cx="20" cy="21" r="1"></circle>
+        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+    </svg>
+
+      <?php $basketCount = getBasketItemCount(); ?>
+
+       <span>
+         Basket
+       <span id="basket-count">
+       <?= $basketCount > 0 ? "($basketCount)" : "" ?>
+     </span>
+   </span>
+</a>
+        
     </div>
 
 </div>

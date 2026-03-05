@@ -109,7 +109,8 @@ if (!empty($images) && isset($images[0]['image_path'])) {
       <?php if ($product['stock'] > 0): ?>
     <form method="POST"
       action="<?= BASE_URL ?>index.php?page=add-to-basket"
-      class="add-to-cart-form">
+      class="add-to-cart-form"
+      id="addCartForm">
 
     <input type="hidden" name="product_id" value="<?= $product['product_id'] ?>">
 
@@ -298,13 +299,44 @@ function decreaseQty() {
     }
 }
 
-const form = document.querySelector(".add-to-cart-form");
-const btn = document.getElementById("addCartBtn");
+document.getElementById("addCartForm").addEventListener("submit", function(e){
 
-form.addEventListener("submit", function(e){
+    e.preventDefault();
+
+    const form = this;
+    const btn = document.getElementById("addCartBtn");
+
+    const formData = new FormData(form);
+
+    fetch(form.action, {
+        method: "POST",
+        body: formData
+    })
+    .then(data => {
 
     btn.innerHTML = "✓ Added";
     btn.style.background = "#22c55e";
+
+    const basket = document.getElementById("basket-count");
+
+    if(basket){
+
+        let current = basket.textContent.replace(/[()]/g,"");
+
+        current = current ? parseInt(current) : 0;
+
+        basket.textContent = "(" + (current + parseInt(formData.get("quantity"))) + ")";
+    }
+
+    setTimeout(() => {
+        btn.innerHTML = "Add to Cart";
+        btn.style.background = "";
+    },1500);
+
+})
+    .catch(() => {
+        btn.innerHTML = "Error";
+    });
 
 });
 </script>

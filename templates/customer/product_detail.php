@@ -319,14 +319,25 @@ document.getElementById("addCartForm").addEventListener("submit", function(e){
 
     const basket = document.getElementById("basket-count");
 
-    if(basket){
+if(basket){
 
-        let current = basket.textContent.replace(/[()]/g,"");
+    let current = parseInt(basket.textContent);
 
-        current = current ? parseInt(current) : 0;
+    basket.textContent = current + parseInt(formData.get("quantity"));
 
-        basket.textContent = "(" + (current + parseInt(formData.get("quantity"))) + ")";
-    }
+}else{
+
+    const wrapper = document.querySelector(".basket-wrapper");
+
+    const badge = document.createElement("span");
+
+    badge.id = "basket-count";
+    badge.className = "basket-badge";
+    badge.textContent = formData.get("quantity");
+
+    wrapper.appendChild(badge);
+
+}
 
     setTimeout(() => {
         btn.innerHTML = "Add to Cart";

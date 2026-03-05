@@ -263,8 +263,8 @@ require_once __DIR__ . '/../header.php';
 <section class="features-section">
   <h2 class="section-title">Recently Viewed</h2>
 
-  <div class="product-grid" style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px;">
-
+  <div class="product-grid"
+  style=" max-width:1200px; margin:0 auto; display:grid; grid-template-columns:repeat(auto-fill, minmax(250px,250px)); gap:25px; justify-content:center;">
     <?php foreach ($recentProducts as $product): ?>
 
       <?php

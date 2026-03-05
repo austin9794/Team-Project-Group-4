@@ -219,17 +219,6 @@ $filters = [
                     £<?php echo number_format($product['price'], 2); ?>
                 </p>
 
-                <!-- Stock Level Information -->
-                <div class="product-stock-info">
-                    <?php if ($product['stock'] > 10): ?>
-                        <span class="stock-units">✓ In Stock (<?= $product['stock'] ?> available)</span>
-                    <?php elseif ($product['stock'] > 0): ?>
-                        <span class="stock-units">⚠ Low Stock (<?= $product['stock'] ?> left)</span>
-                    <?php else: ?>
-                        <span class="stock-units">✗ Out of Stock</span>
-                    <?php endif; ?>
-                </div>
-
                 <div class="product-actions">
                     <a href="index.php?page=product&id=<?= $product['product_id'] ?>"
                         class="btn-view">View Details</a>

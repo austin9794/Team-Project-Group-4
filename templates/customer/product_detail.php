@@ -135,7 +135,7 @@ if (!empty($images) && isset($images[0]['image_path'])) {
 
         </div>
 
-        <button type="submit" class="btn-add-cart">
+        <button type="submit" class="btn-add-cart" id="addCartBtn">
             Add to Cart
         </button>
 
@@ -297,6 +297,16 @@ function decreaseQty() {
         input.value = parseInt(input.value) - 1;
     }
 }
+
+const form = document.querySelector(".add-to-cart-form");
+const btn = document.getElementById("addCartBtn");
+
+form.addEventListener("submit", function(e){
+
+    btn.innerHTML = "✓ Added";
+    btn.style.background = "#22c55e";
+
+});
 </script>
 
 

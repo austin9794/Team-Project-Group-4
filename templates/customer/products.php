@@ -127,141 +127,6 @@ $filters = [
 ];
 ?>
 
-<style>
-.filters {
-    border: 2px solid var(--highlight-color);
-    padding: 20px;
-    border-radius: 8px;
-    margin-bottom: 30px;
-    max-width: 70%;
-}
-
-.filters form {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    align-items: center;
-}
-
-.filter-group {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-}
-
-.filter-group label {
-    color: var(--text-primary);
-    font-size: 14px;
-    font-weight: 500;
-    white-space: nowrap;
-}
-
-.filters input[type="text"],
-.filters input[type="number"],
-.filters select {
-    padding: 10px 14px;
-    border: 2px solid var(--lavender);
-    border-radius: 6px;
-    background-color: #0a0a0a;
-    color: var(--white);
-    outline: none;
-    font-size: 14px;
-    min-width: 150px;
-}
-
-.filters input[type="text"]::placeholder,
-.filters input[type="number"]::placeholder {
-    color: #bca8e6;
-}
-
-.filters select {
-    cursor: pointer;
-    width: 330px;
-}
-
-.filters select option {
-    background-color: #0a0a0a;
-    color: var(--white);
-}
-
-.filters .btn {
-    padding: 10px 20px;
-    background-color: var(--highlight-color);
-    border: 2px solid var(--lavender);
-    border-radius: 6px;
-    color: var(--white);
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 500;
-    transition: 0.2s;
-    text-decoration: none;
-    display: inline-block;
-}
-
-.filters .btn:hover {
-    background-color: var(--lavender);
-    color: #0a0a0a;
-    text-shadow: 0 0 10px white;
-}
-
-.filters .btn-secondary {
-    background-color: transparent;
-    border-color: var(--lavender);
-    color: var(--text-primary);
-}
-
-.filters .btn-secondary:hover {
-    background-color: var(--lavender);
-    color: #0a0a0a;
-}
-
-/* Product card styles */
-.product-card {
-    position: relative;
-}
-
-.stock-badge {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    padding: 6px 12px;
-    border-radius: 6px;
-    font-size: 12px;
-    font-weight: 600;
-    z-index: 10;
-    text-align: center;
-    max-width: 90%;
-}
-
-.stock-badge.in-stock {
-    background-color: rgba(50, 255, 120, 0.2);
-    color: #6bff8f;
-    border: 1px solid #6bff8f;
-}
-
-.stock-badge.low-stock {
-    background-color: rgba(255, 193, 7, 0.2);
-    color: #ffc107;
-    border: 1px solid #ffc107;
-}
-
-.stock-badge.out-of-stock {
-    background-color: rgba(255, 79, 79, 0.2);
-    color: #ff4f4f;
-    border: 1px solid #ff4f4f;
-}
-
-.product-stock-info {
-    font-size: 12px;
-    margin: 8px 0;
-    min-height: 20px;
-}
-
-.stock-units {
-    color: var(--text-secondary);
-}
-</style>
-
 <div class="container">
     <h1>Gaming Products</h1>
 
@@ -269,9 +134,8 @@ $filters = [
         <input type="hidden" name="page" value="products">
 
         <!-- Logo positioned behind filters -->
-        <img src="<?= BASE_URL ?>assets/images/logo_no_text.png" alt="Level Up Gaming" style="position: absolute; right: 0;
-         transform: translateX(50%); top: 45%; transform: translateY(-50%); height: 400px; width: auto; opacity: 0.7; z-index: -1;">
-
+        <img src="<?= BASE_URL ?>assets/images/logo_no_text.png" style=" position:absolute; right:20px; top:50%; transform:translateY(-50%);
+        height:320px; opacity:0.15; pointer-events:none; z-index:-1; max-width:40%; ">
 
         <!-- Other Filters Section -->
         <div class="filters">
@@ -317,7 +181,7 @@ $filters = [
     <?php foreach ($filtered_products as $product): ?>
         <div class="product-card">
 
-            <div class="product-img">
+            <div class="product-image">
                 <?php
                $imagePath = "products/"
               . strtolower($product['category_name']) . "/"

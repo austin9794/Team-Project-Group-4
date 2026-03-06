@@ -84,8 +84,8 @@ class BasketController
     // =========================
     // ADD TO BASKET
     // =========================
-    public function add()
-{
+    public function add() {
+
     $productId = $_POST['product_id'] ?? null;
     $quantity  = (int)($_POST['quantity'] ?? 1);
 
@@ -98,22 +98,46 @@ class BasketController
         $quantity = 1;
     }
 
-    // Add quantity to basket
-    $_SESSION['basket'][$productId] =
-        ($_SESSION['basket'][$productId] ?? 0) + $quantity;
+    // Get stock level
+    $stmt = $this->db->prepare("SELECT stock FROM products WHERE product_id = ?");
+    $stmt->execute([$productId]);
+    $stock = (int)$stmt->fetchColumn();
 
-    // Handle AJAX request
+    if ($stock <= 0) {
+
+        if(isset($_SERVER['HTTP_X_REQUESTED_WITH'])){
+            echo json_encode([
+                "success" => false,
+                "message" => "Product is out of stock"
+            ]);
+            exit;
+        }
+
+        header("Location: " . ($_SERVER['HTTP_REFERER'] ?? 'index.php?page=products'));
+        exit;
+    }
+
+    // Current basket quantity
+    $currentQty = $_SESSION['basket'][$productId] ?? 0;
+
+    // Clamp quantity to available stock
+    $newQty = min($currentQty + $quantity, $stock);
+
+    $_SESSION['basket'][$productId] = $newQty;
+
+    // AJAX response
     if(isset($_SERVER['HTTP_X_REQUESTED_WITH'])){
 
         echo json_encode([
             "success" => true,
-            "basketCount" => array_sum($_SESSION['basket'])
+            "basketCount" => array_sum($_SESSION['basket']),
+            "clamped" => ($newQty < $currentQty + $quantity)
         ]);
 
         exit;
     }
 
-    // redirect back to page user came from
+    // redirect back
     $back = $_SERVER['HTTP_REFERER'] ?? 'index.php?page=products';
     header("Location: " . $back);
     exit;

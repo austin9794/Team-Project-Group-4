@@ -85,7 +85,8 @@ class BasketController
     // ADD TO BASKET
     // =========================
     public function add()
-    { $productId = $_POST['product_id'] ?? null;
+{
+    $productId = $_POST['product_id'] ?? null;
     $quantity  = (int)($_POST['quantity'] ?? 1);
 
     if (!$productId) {
@@ -100,6 +101,17 @@ class BasketController
     // Add quantity to basket
     $_SESSION['basket'][$productId] =
         ($_SESSION['basket'][$productId] ?? 0) + $quantity;
+
+    // Handle AJAX request
+    if(isset($_SERVER['HTTP_X_REQUESTED_WITH'])){
+
+        echo json_encode([
+            "success" => true,
+            "basketCount" => array_sum($_SESSION['basket'])
+        ]);
+
+        exit;
+    }
 
     // redirect back to page user came from
     $back = $_SERVER['HTTP_REFERER'] ?? 'index.php?page=products';

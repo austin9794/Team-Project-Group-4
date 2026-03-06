@@ -65,21 +65,27 @@ class BasketController
     // ADD TO BASKET
     // =========================
     public function add()
-    {
-        $productId = $_POST['product_id'] ?? null;
-        if (!$productId) {
-            header("Location: index.php?page=products");
-            exit;
-        }
+    { $productId = $_POST['product_id'] ?? null;
+    $quantity  = (int)($_POST['quantity'] ?? 1);
 
-        $_SESSION['basket'][$productId] =
-            ($_SESSION['basket'][$productId] ?? 0) + 1;
-
-        // redirect back to page user came from
-        $back = $_SERVER['HTTP_REFERER'] ?? 'index.php?page=products';
-        header("Location: " . $back);
+    if (!$productId) {
+        header("Location: index.php?page=products");
         exit;
     }
+
+    if ($quantity < 1) {
+        $quantity = 1;
+    }
+
+    // Add quantity to basket
+    $_SESSION['basket'][$productId] =
+        ($_SESSION['basket'][$productId] ?? 0) + $quantity;
+
+    // redirect back to page user came from
+    $back = $_SERVER['HTTP_REFERER'] ?? 'index.php?page=products';
+    header("Location: " . $back);
+    exit;
+}
 
     // =========================
     // UPDATE QUANTITY

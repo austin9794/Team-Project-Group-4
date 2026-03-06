@@ -19,41 +19,34 @@ class BasketController
         $total = 0;
 
         if (!empty($_SESSION['basket'])) {
-            foreach ($_SESSION['basket'] as $productId => $qty) {
 
-                $stmt = $this->db->prepare(" SELECT 
-                        p.product_id,
-                        p.name,
-                        p.price,
-                        p.slug,
-                        c.name AS category
-                    FROM products p
-                    JOIN categories c ON p.category_id = c.category_id
-                    WHERE p.product_id = ?
-                ");
-                $stmt->execute([$productId]);
-                $product = $stmt->fetch();
+    $productIds = array_keys($_SESSION['basket']);
+    $products = $this->getProductsByIds($productIds);
 
-                if (!$product) continue;
+    foreach ($_SESSION['basket'] as $productId => $qty) {
 
-                $lineTotal = $product['price'] * $qty;
+        if (!isset($products[$productId])) continue;
 
-                $imagePath = "products/"
-                    . strtolower($product['category']) . "/"
-                    . $product['slug'] . "/01.png";
+        $product = $products[$productId];
 
-                $items[] = [
-                    'id'       => $product['product_id'],
-                    'name'     => $product['name'],
-                    'price'    => $product['price'],
-                    'image'    => $imagePath,
-                    'quantity' => $qty,
-                    'total'    => $lineTotal
-                ];
+        $lineTotal = $product['price'] * $qty;
 
-                $total += $lineTotal;
-            }
-        }
+        $imagePath = "products/"
+            . strtolower($product['category']) . "/"
+            . $product['slug'] . "/01.png";
+
+        $items[] = [
+            'id'       => $product['product_id'],
+            'name'     => $product['name'],
+            'price'    => $product['price'],
+            'image'    => $imagePath,
+            'quantity' => $qty,
+            'total'    => $lineTotal
+        ];
+
+        $total += $lineTotal;
+    }
+}
 
         $basketItems = $items;
         $basketTotal = $total;

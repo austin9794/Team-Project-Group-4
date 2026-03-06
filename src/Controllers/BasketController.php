@@ -10,6 +10,33 @@ class BasketController
         $this->db = Database::getInstance()->getConnection();
     }
 
+    private function getProductsByIds($ids)
+{
+    if (empty($ids)) return [];
+
+    $placeholders = implode(',', array_fill(0, count($ids), '?'));
+
+    $stmt = $this->db->prepare(" SELECT 
+            p.product_id,
+            p.name,
+            p.price,
+            p.slug,
+            c.name AS category
+        FROM products p
+        JOIN categories c ON p.category_id = c.category_id
+        WHERE p.product_id IN ($placeholders)
+    ");
+
+    $stmt->execute($ids);
+
+    $products = [];
+    foreach ($stmt->fetchAll() as $row) {
+        $products[$row['product_id']] = $row;
+    }
+
+    return $products;
+}
+
     // =========================
     // SHOW BASKET
     // =========================

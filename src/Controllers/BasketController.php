@@ -128,39 +128,31 @@ class BasketController
         $items = [];
         $total = 0;
 
-        foreach ($_SESSION['basket'] as $productId => $qty) {
+        $productIds = array_keys($_SESSION['basket']);
+$products = $this->getProductsByIds($productIds);
 
-            $stmt = $this->db->prepare("  SELECT 
-                    p.product_id,
-                    p.name,
-                    p.price,
-                    p.slug,
-                    c.name AS category
-                FROM products p
-                JOIN categories c ON p.category_id = c.category_id
-                WHERE p.product_id = ?
-            ");
-            $stmt->execute([$productId]);
-            $product = $stmt->fetch();
+foreach ($_SESSION['basket'] as $productId => $qty) {
 
-            if (!$product) continue;
+    if (!isset($products[$productId])) continue;
 
-            $line = $product['price'] * $qty;
+    $product = $products[$productId];
 
-            $imagePath = "products/"
-                . strtolower($product['category']) . "/"
-                . $product['slug'] . "/01.png";
+    $line = $product['price'] * $qty;
 
-            $items[] = [
-                'id'       => $productId,
-                'name'     => $product['name'],
-                'quantity' => $qty,
-                'total'    => $line,
-                'image'    => $imagePath
-            ];
+    $imagePath = "products/"
+        . strtolower($product['category']) . "/"
+        . $product['slug'] . "/01.png";
 
-            $total += $line;
-        }
+    $items[] = [
+        'id'       => $productId,
+        'name'     => $product['name'],
+        'quantity' => $qty,
+        'total'    => $line,
+        'image'    => $imagePath
+    ];
+
+    $total += $line;
+}
 
         $basketItems = $items;
         $basketTotal = $total;

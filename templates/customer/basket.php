@@ -111,7 +111,6 @@
 }
 </style>
 
-
 <div class="basket-container">
 
     <h1>Shopping Basket</h1>

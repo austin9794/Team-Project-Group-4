@@ -11,366 +11,6 @@ if (!empty($images) && isset($images[0]['image_path'])) {
 }
 ?>
 
-<style>
-  .product-detail-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 3rem 2rem;
-  }
-
-  .product-breadcrumb {
-    display: flex;
-    gap: 0.5rem;
-    margin-bottom: 2rem;
-    color: var(--text-secondary);
-    font-size: 0.9rem;
-  }
-
-  .product-breadcrumb a {
-    color: var(--highlight-color);
-    text-decoration: none;
-  }
-
-  .product-detail-grid {
-    display: block;
-    margin-bottom: 3rem;
-  }
-
-  .product-main-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 3rem;
-    align-items: start;
-  }
-
-  .product-info-panel {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-
-  .product-image-section {
-    background: var(--bg-secondary);
-    padding: 2rem;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 400px;
-  }
-
-  .product-image-section img {
-    max-width: 100%;
-    max-height: 400px;
-    object-fit: contain;
-  }
-
-  .product-info-section {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .product-category {
-    color: var(--highlight-color);
-    font-size: 0.85rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    margin-bottom: 0.5rem;
-  }
-
-  .product-title {
-    font-size: 2rem;
-    color: var(--text-primary);
-    margin-bottom: 1rem;
-    font-weight: 700;
-  }
-
-  .product-rating {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-bottom: 1rem;
-    font-size: 0.95rem;
-  }
-
-  .product-rating span:first-child {
-    font-size: 1.5rem;
-  }
-
-  .product-price {
-    font-size: 1.8rem;
-    font-weight: 700;
-    color: var(--highlight-color);
-    margin-bottom: 0.5rem;
-  }
-
-  .product-description {
-    color: var(--text-secondary);
-    line-height: 1.8;
-    margin-bottom: 1.5rem;
-    font-size: 1rem;
-  }
-
-  .stock-status {
-    display: inline-block;
-    padding: 0.5rem 1rem;
-    border-radius: 6px;
-    font-weight: 600;
-    font-size: 0.9rem;
-    margin-bottom: 1.5rem;
-  }
-
-  .in-stock {
-    background: #d4edda;
-    color: #155724;
-  }
-
-  .low-stock {
-    background: #fff3cd;
-    color: #856404;
-  }
-
-  .out-of-stock {
-    background: #f8d7da;
-    color: #721c24;
-  }
-
-  .product-specs {
-    background: var(--bg-secondary);
-    padding: 1.5rem;
-    border-radius: 8px;
-    margin-bottom: 2rem;
-  }
-
-  .spec-item {
-    display: flex;
-    justify-content: space-between;
-    padding: 0.75rem 0;
-    border-bottom: 1px solid var(--bg-primary);
-  }
-
-  .spec-item:last-child {
-    border-bottom: none;
-  }
-
-  .spec-label {
-    color: var(--text-secondary);
-    font-weight: 600;
-  }
-
-  .spec-value {
-    color: var(--text-primary);
-  }
-
-  .quantity-selector {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-  }
-
-  .quantity-selector label {
-    font-weight: 600;
-    color: var(--text-primary);
-  }
-
-  .quantity-selector input {
-    width: 80px;
-    padding: 0.5rem;
-    border: 1px solid var(--highlight-color);
-    border-radius: 6px;
-    text-align: center;
-  }
-
-  .quantity-row {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
-
-  .product-actions {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 2rem;
-  }
-
-  .btn-add-cart {
-    padding: 0.75rem 2rem;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 1rem;
-    transition: all 0.3s;
-    background: var(--highlight-color);
-    color: var(--white);
-  }
-
-  .btn-add-cart:hover {
-    background: var(--highlight-dark);
-  }
-
-  .btn-add-cart:disabled {
-    background: #6c757d;
-    cursor: not-allowed;
-  }
-
-  .reviews-section {
-    background: var(--bg-secondary);
-    padding: 2rem;
-    border-radius: 12px;
-  }
-
-  .reviews-section.full-width {
-    margin-top: 4rem;
-    padding-top: 2rem;
-    border-top: 1px solid rgba(255,255,255,0.1);
-  }
-
-
-  .details-reviews-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
-    margin-top: 2rem;
-  }
-
-  .reviews-title {
-    font-size: 1.5rem;
-    color: var(--text-primary);
-    margin-bottom: 1.5rem;
-    border-bottom: 2px solid var(--highlight-color);
-    padding-bottom: 0.5rem;
-  }
-
-  .review-item {
-    background: var(--bg-primary);
-    padding: 1.5rem;
-    border-radius: 8px;
-    margin-bottom: 1rem;
-  }
-
-  .review-header {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 0.5rem;
-  }
-
-  .review-author {
-    font-weight: 600;
-    color: var(--text-primary);
-  }
-
-  .review-rating {
-    color: white;
-  }
-
-  .review-date {
-    color: var(--text-secondary);
-    font-size: 0.85rem;
-  }
-
-  .review-text {
-    color: var(--text-secondary);
-    line-height: 1.6;
-  }
-
-  .no-reviews {
-    text-align: center;
-    padding: 2rem;
-    color: var(--text-secondary);
-  }
-
-.review-modal {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.85);
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-}
-
-.review-modal-content {
-    background: #111;
-    padding: 40px;
-    border-radius: 14px;
-    width: 600px;
-    max-width: 90%;
-}
-
-.form-group {
-    margin-bottom: 20px;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 8px;
-}
-
-.form-group input,
-.form-group textarea {
-    width: 100%;
-    padding: 12px;
-    border-radius: 6px;
-    border: 1px solid #333;
-    background: #1b1b1b;
-    color: white;
-}
-
-.form-group textarea {
-    min-height: 120px;
-    resize: vertical;
-}
-
-.submit-review-btn {
-    width: 100%;
-    padding: 14px;
-    border-radius: 8px;
-    background: #7c3aed;
-    border: none;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.star-input input {
-    display: none;
-}
-
-.star-input label {
-    font-size: 30px;
-    cursor: pointer;
-    color: #555;
-}
-
-.star-input input:checked ~ label,
-.star-input label:hover,
-.star-input label:hover ~ label {
-    color: gold;
-}
-
-  @media (max-width: 768px) {
-    .product-detail-grid {
-      grid-template-columns: 1fr;
-      gap: 2rem;
-    }
-
-    .product-title {
-      font-size: 1.5rem;
-    }
-
-    .product-price {
-      font-size: 1.5rem;
-    }
-
-    .product-actions {
-      flex-direction: column;
-    }
-  }
-</style>
-
 <div class="product-detail-container">
 
   <!-- Breadcrumb -->
@@ -467,25 +107,45 @@ if (!empty($images) && isset($images[0]['image_path'])) {
       </div>
 
       <?php if ($product['stock'] > 0): ?>
-        <form method="POST" action="<?= BASE_URL ?>index.php?page=add-to-basket" class="add-to-cart-form">
-          <input type="hidden" name="product_id" value="<?= $product['product_id'] ?>">
+    <form method="POST"
+      action="<?= BASE_URL ?>index.php?page=add-to-basket"
+      class="add-to-cart-form"
+      id="addCartForm">
 
-          <div class="quantity-row">
-            <label for="quantity">Quantity</label>
+    <input type="hidden" name="product_id" value="<?= $product['product_id'] ?>">
+
+    <div class="quantity-row">
+
+        <span class="quantity-label">Quantity</span>
+
+        <div class="qty-controls">
+
+            <button type="button" class="qty-btn" onclick="decreaseQty()">−</button>
+
             <input
-              type="number"
-              id="quantity"
-              name="quantity"
-              value="1"
-              min="1"
-              max="<?= $product['stock'] ?>"
+                type="number"
+                id="quantity"
+                name="quantity"
+                value="1"
+                min="1"
+                max="<?= $product['stock'] ?>"
+                class="qty-input"
             >
-            <button type="submit" class="btn-add-cart">Add to Cart</button>
-          </div>
-        </form>
-      <?php else: ?>
-        <button class="btn-add-cart" disabled>Out of Stock</button>
-      <?php endif; ?>
+
+            <button type="button" class="qty-btn" onclick="increaseQty()">+</button>
+
+        </div>
+
+        <button type="submit" class="btn-add-cart" id="addCartBtn">
+            Add to Cart
+        </button>
+
+    </div>
+
+</form>
+<?php else: ?>
+<button class="btn-add-cart" disabled>Out of Stock</button>
+<?php endif; ?>
 
     </div>
   </div>
@@ -496,23 +156,29 @@ if (!empty($images) && isset($images[0]['image_path'])) {
 
   <?php if (!empty($reviews)): ?>
     <div class="review-list">
-      <?php foreach ($reviews as $review): ?>
-        <div class="review-item">
-          <div class="review-header">
+    <?php foreach ($reviews as $review): ?>
+    <div class="review-item">
+
+        <div class="review-header">
             <strong><?= htmlspecialchars($review['name']) ?></strong>
             <span class="review-date">
-              <?= date('M d, Y', strtotime($review['created_at'])) ?>
+                <?= date('M d, Y', strtotime($review['created_at'])) ?>
             </span>
-          </div>
+        </div>
 
-          <div class="review-rating">
+        <div class="review-rating">
             <?= str_repeat('★', $review['rating']) ?>
             <?= str_repeat('☆', 5 - $review['rating']) ?>
-          </div>
-
-          <p><?= htmlspecialchars($review['comment']) ?></p>
         </div>
-      <?php endforeach; ?>
+
+        <h4 class="review-title">
+            <?= htmlspecialchars($review['title']) ?>
+        </h4>
+
+        <p><?= htmlspecialchars($review['comment']) ?></p>
+
+    </div>
+   <?php endforeach; ?>
     </div>
   <?php else: ?>
     <p class="no-reviews">No reviews yet — be the first!</p>
@@ -533,12 +199,18 @@ if (!empty($images) && isset($images[0]['image_path'])) {
     <?php unset($_SESSION['review_error'][$product['product_id']]); ?>
 <?php endif; ?>
 
-<?php if (isset($_SESSION['user_id']) && $canReview): ?>
-    <button class="btn-review" onclick="openReviewModal()">
-        Write a customer review
-    </button>
-<?php elseif (isset($_SESSION['user_id'])): ?>
-    <p>You can only review products after they have been delivered.</p>
+<?php if (isset($_SESSION['user_id'])): ?>
+
+    <?php if ($canReview): ?>
+        <button class="btn-review" onclick="openReviewModal()">
+            Write a customer review
+        </button>
+    <?php endif; ?>
+
+    <?php if (!$canReview && !empty($reviews)): ?>
+    <p class="review-note">You have already reviewed this item.</p>
+    <?php endif; ?>
+
 <?php else: ?>
     <p>Please log in to leave a review.</p>
 <?php endif; ?>
@@ -558,7 +230,7 @@ if (!empty($images) && isset($images[0]['image_path'])) {
       <div class="form-group">
         <label>Rating</label>
         <div class="star-input">
-          <?php for ($i=1;$i<=5;$i++): ?>
+          <?php for ($i=5;$i>=1;$i--): ?>
             <input type="radio" name="rating" value="<?= $i ?>" id="star<?= $i ?>" required>
             <label for="star<?= $i ?>">★</label>
           <?php endfor; ?>
@@ -568,7 +240,6 @@ if (!empty($images) && isset($images[0]['image_path'])) {
       <div class="form-group">
         <label>Review title (required)</label>
         <input type="text" name="title" required>
-        <h4><?= htmlspecialchars($review['title']) ?></h4>
       </div>
 
       <div class="form-group">
@@ -610,6 +281,75 @@ function openReviewModal() {
 function closeReviewModal() {
     document.getElementById("reviewModal").style.display = "none";
 }
+
+function increaseQty() {
+    const input = document.getElementById("quantity");
+    const max = parseInt(input.max);
+
+    if (parseInt(input.value) < max) {
+        input.value = parseInt(input.value) + 1;
+    }
+}
+
+function decreaseQty() {
+    const input = document.getElementById("quantity");
+
+    if (parseInt(input.value) > 1) {
+        input.value = parseInt(input.value) - 1;
+    }
+}
+
+document.getElementById("addCartForm").addEventListener("submit", function(e){
+
+    e.preventDefault();
+
+    const form = this;
+    const btn = document.getElementById("addCartBtn");
+
+    const formData = new FormData(form);
+
+    fetch(form.action, {
+        method: "POST",
+        body: formData
+    })
+    .then(data => {
+
+    btn.innerHTML = "✓ Added";
+    btn.style.background = "#22c55e";
+
+    const basket = document.getElementById("basket-count");
+
+if(basket){
+
+    let current = parseInt(basket.textContent);
+
+    basket.textContent = current + parseInt(formData.get("quantity"));
+
+}else{
+
+    const wrapper = document.querySelector(".basket-wrapper");
+
+    const badge = document.createElement("span");
+
+    badge.id = "basket-count";
+    badge.className = "basket-badge";
+    badge.textContent = formData.get("quantity");
+
+    wrapper.appendChild(badge);
+
+}
+
+    setTimeout(() => {
+        btn.innerHTML = "Add to Cart";
+        btn.style.background = "";
+    },1500);
+
+})
+    .catch(() => {
+        btn.innerHTML = "Error";
+    });
+
+});
 </script>
 
 

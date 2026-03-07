@@ -128,7 +128,7 @@ include __DIR__ . '/../header.php';
         <button type="submit">Create Account</button>
     </form>
 
-    <a href="/Team-Project-Group-4/public/index.php?page=login">Already have an account?</a>
+    <a href="/Team-Project-Group-4/public/index.php?page=login">Already have an account? Login</a>
 
 </div>
 

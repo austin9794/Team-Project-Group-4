@@ -10,6 +10,33 @@ class BasketController
         $this->db = Database::getInstance()->getConnection();
     }
 
+    private function getProductsByIds($ids)
+{
+    if (empty($ids)) return [];
+
+    $placeholders = implode(',', array_fill(0, count($ids), '?'));
+
+    $stmt = $this->db->prepare(" SELECT 
+            p.product_id,
+            p.name,
+            p.price,
+            p.slug,
+            c.name AS category
+        FROM products p
+        JOIN categories c ON p.category_id = c.category_id
+        WHERE p.product_id IN ($placeholders)
+    ");
+
+    $stmt->execute($ids);
+
+    $products = [];
+    foreach ($stmt->fetchAll() as $row) {
+        $products[$row['product_id']] = $row;
+    }
+
+    return $products;
+}
+
     // =========================
     // SHOW BASKET
     // =========================
@@ -19,41 +46,34 @@ class BasketController
         $total = 0;
 
         if (!empty($_SESSION['basket'])) {
-            foreach ($_SESSION['basket'] as $productId => $qty) {
 
-                $stmt = $this->db->prepare(" SELECT 
-                        p.product_id,
-                        p.name,
-                        p.price,
-                        p.slug,
-                        c.name AS category
-                    FROM products p
-                    JOIN categories c ON p.category_id = c.category_id
-                    WHERE p.product_id = ?
-                ");
-                $stmt->execute([$productId]);
-                $product = $stmt->fetch();
+    $productIds = array_keys($_SESSION['basket']);
+    $products = $this->getProductsByIds($productIds);
 
-                if (!$product) continue;
+    foreach ($_SESSION['basket'] as $productId => $qty) {
 
-                $lineTotal = $product['price'] * $qty;
+        if (!isset($products[$productId])) continue;
 
-                $imagePath = "products/"
-                    . strtolower($product['category']) . "/"
-                    . $product['slug'] . "/01.png";
+        $product = $products[$productId];
 
-                $items[] = [
-                    'id'       => $product['product_id'],
-                    'name'     => $product['name'],
-                    'price'    => $product['price'],
-                    'image'    => $imagePath,
-                    'quantity' => $qty,
-                    'total'    => $lineTotal
-                ];
+        $lineTotal = $product['price'] * $qty;
 
-                $total += $lineTotal;
-            }
-        }
+        $imagePath = "products/"
+            . strtolower($product['category']) . "/"
+            . $product['slug'] . "/01.png";
+
+        $items[] = [
+            'id'       => $product['product_id'],
+            'name'     => $product['name'],
+            'price'    => $product['price'],
+            'image'    => $imagePath,
+            'quantity' => $qty,
+            'total'    => $lineTotal
+        ];
+
+        $total += $lineTotal;
+    }
+}
 
         $basketItems = $items;
         $basketTotal = $total;
@@ -64,22 +84,64 @@ class BasketController
     // =========================
     // ADD TO BASKET
     // =========================
-    public function add()
-    {
-        $productId = $_POST['product_id'] ?? null;
-        if (!$productId) {
-            header("Location: index.php?page=products");
+    public function add() {
+
+    $productId = $_POST['product_id'] ?? null;
+    $quantity  = (int)($_POST['quantity'] ?? 1);
+
+    if (!$productId) {
+        header("Location: index.php?page=products");
+        exit;
+    }
+
+    if ($quantity < 1) {
+        $quantity = 1;
+    }
+
+    // Get stock level
+    $stmt = $this->db->prepare("SELECT stock FROM products WHERE product_id = ?");
+    $stmt->execute([$productId]);
+    $stock = (int)$stmt->fetchColumn();
+
+    if ($stock <= 0) {
+
+        if(isset($_SERVER['HTTP_X_REQUESTED_WITH'])){
+            echo json_encode([
+                "success" => false,
+                "message" => "Product is out of stock"
+            ]);
             exit;
         }
 
-        $_SESSION['basket'][$productId] =
-            ($_SESSION['basket'][$productId] ?? 0) + 1;
-
-        // redirect back to page user came from
-        $back = $_SERVER['HTTP_REFERER'] ?? 'index.php?page=products';
-        header("Location: " . $back);
+        header("Location: " . ($_SERVER['HTTP_REFERER'] ?? 'index.php?page=products'));
         exit;
     }
+
+    // Current basket quantity
+    $currentQty = $_SESSION['basket'][$productId] ?? 0;
+
+    // Clamp quantity to available stock
+    $newQty = min($currentQty + $quantity, $stock);
+
+    $_SESSION['basket'][$productId] = $newQty;
+
+    // AJAX response
+    if(isset($_SERVER['HTTP_X_REQUESTED_WITH'])){
+
+        echo json_encode([
+            "success" => true,
+            "basketCount" => array_sum($_SESSION['basket']),
+            "clamped" => ($newQty < $currentQty + $quantity)
+        ]);
+
+        exit;
+    }
+
+    // redirect back
+    $back = $_SERVER['HTTP_REFERER'] ?? 'index.php?page=products';
+    header("Location: " . $back);
+    exit;
+}
 
     // =========================
     // UPDATE QUANTITY
@@ -129,39 +191,31 @@ class BasketController
         $items = [];
         $total = 0;
 
-        foreach ($_SESSION['basket'] as $productId => $qty) {
+        $productIds = array_keys($_SESSION['basket']);
+$products = $this->getProductsByIds($productIds);
 
-            $stmt = $this->db->prepare("  SELECT 
-                    p.product_id,
-                    p.name,
-                    p.price,
-                    p.slug,
-                    c.name AS category
-                FROM products p
-                JOIN categories c ON p.category_id = c.category_id
-                WHERE p.product_id = ?
-            ");
-            $stmt->execute([$productId]);
-            $product = $stmt->fetch();
+foreach ($_SESSION['basket'] as $productId => $qty) {
 
-            if (!$product) continue;
+    if (!isset($products[$productId])) continue;
 
-            $line = $product['price'] * $qty;
+    $product = $products[$productId];
 
-            $imagePath = "products/"
-                . strtolower($product['category']) . "/"
-                . $product['slug'] . "/01.png";
+    $line = $product['price'] * $qty;
 
-            $items[] = [
-                'id'       => $productId,
-                'name'     => $product['name'],
-                'quantity' => $qty,
-                'total'    => $line,
-                'image'    => $imagePath
-            ];
+    $imagePath = "products/"
+        . strtolower($product['category']) . "/"
+        . $product['slug'] . "/01.png";
 
-            $total += $line;
-        }
+    $items[] = [
+        'id'       => $productId,
+        'name'     => $product['name'],
+        'quantity' => $qty,
+        'total'    => $line,
+        'image'    => $imagePath
+    ];
+
+    $total += $line;
+}
 
         $basketItems = $items;
         $basketTotal = $total;

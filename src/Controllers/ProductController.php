@@ -96,6 +96,27 @@ class ProductController {
             return;
         }
 
+        // Track recently viewed products
+        if (!isset($_SESSION['recently_viewed'])) {
+            $_SESSION['recently_viewed'] = [];
+        }
+
+        // Remove if already exists (avoid duplicates)
+        $_SESSION['recently_viewed'] = array_diff(
+           $_SESSION['recently_viewed'],
+          [$id]
+       );
+
+        // Add to beginning
+        array_unshift($_SESSION['recently_viewed'], $id);
+
+        // Keep only last 5
+        $_SESSION['recently_viewed'] = array_slice(
+           $_SESSION['recently_viewed'],
+           0,
+           4
+        );
+
         // Fetch all images for product
         $imgStmt = $this->db->prepare(" SELECT image_path, is_primary
            FROM product_images

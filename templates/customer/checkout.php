@@ -387,6 +387,19 @@ class="link-action">
 <?php endif; ?>
 </div>
 
+<?php
+$subtotal = $basketTotal;
+
+// Standard shipping
+$shipping = ($subtotal >= 50) ? 0 : 4.99;
+
+// VAT (20% UK)
+$vat = $subtotal * 0.20;
+
+// Final total
+$orderTotal = $subtotal + $shipping + $vat;
+?>
+
 <!-- RIGHT SIDE -->
 <div class="checkout-right">
 

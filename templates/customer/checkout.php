@@ -219,174 +219,138 @@ textarea {
 
 <div class="checkout-container">
 
-    <h1>Checkout</h1>
+<h1>Checkout</h1>
 
-    <?php if (isset($_GET['error'])): ?>
-        <div style="background: rgba(255, 79, 79, 0.15); border-left: 4px solid #ff4f4f; padding: 12px; margin-bottom: 20px; border-radius: 4px; color: #ff6b6b;">
-            <?php 
-                $errors = [
-                    'no_payment' => '❌ Please select a payment method to continue.',
-                    'no_address' => '❌ Please select or enter a delivery address.',
-                    'invalid_payment' => '❌ Invalid payment method. Please select a valid card.'
-                ];
-                echo $errors[$_GET['error']] ?? '❌ An error occurred. Please try again.';
-            ?>
-        </div>
-    <?php endif; ?>
+<?php if (isset($_GET['error'])): ?>
+<div style="background: rgba(255, 79, 79, 0.15); border-left: 4px solid #ff4f4f; padding: 12px; margin-bottom: 20px; border-radius: 4px; color: #ff6b6b;">
+<?php 
+$errors = [
+   'no_payment' => '❌ Please select a payment method to continue.',
+   'no_address' => '❌ Please select or enter a delivery address.',
+   'invalid_payment' => '❌ Invalid payment method. Please select a valid card.'
+];
+echo $errors[$_GET['error']] ?? '❌ An error occurred. Please try again.';
+?>
+</div>
+<?php endif; ?>
 
-    <form method="POST" action="/Team-Project-Group-4/public/index.php?page=place-order">
+<form method="POST" action="/Team-Project-Group-4/public/index.php?page=place-order">
 
-      <!-- DELIVERY ADDRESS -->
+<div class="checkout-grid">
 
-      <h2 class="section-title">
-        Delivering to <?= htmlspecialchars($userData['name']) ?>
-     </h2>
+<!-- LEFT SIDE -->
+<div class="checkout-left">
 
-      <div class="delivery-eta">
-       <strong>Estimated delivery:</strong>
-       <?= $minDelivery ?> – <?= $maxDelivery ?>
-    </div>
+<!-- DELIVERY ADDRESS -->
+
+<h2 class="section-title">
+Delivering to <?= htmlspecialchars($userData['name']) ?>
+</h2>
 
 <?php if ($selectedAddress): ?>
 
-    <div class="option-card">
-        <div class="option-content">
-            <strong><?= htmlspecialchars($selectedAddress['label']) ?></strong>
-            <p><?= nl2br(htmlspecialchars(formatAddress($selectedAddress))) ?></p>
+<div class="option-card">
+<div class="option-content">
+<strong><?= htmlspecialchars($selectedAddress['label']) ?></strong>
+<p><?= nl2br(htmlspecialchars(formatAddress($selectedAddress))) ?></p>
 
-            <?php if (!empty($selectedAddress['is_default'])): ?>
-                <span class="badge-default">Default</span>
-            <?php endif; ?>
-        </div>
-    </div>
+<?php if (!empty($selectedAddress['is_default'])): ?>
+<span class="badge-default">Default</span>
+<?php endif; ?>
+</div>
+</div>
 
-    <a href="<?= BASE_URL ?>index.php?page=checkout-address"
-       class="link-action">
-        Change delivery address
-    </a>
+<div class="delivery-eta">
+<strong>Estimated delivery:</strong>
+<?= $minDelivery ?> – <?= $maxDelivery ?>
+</div>
+
+<a href="<?= BASE_URL ?>index.php?page=checkout-address" class="link-action">
+Change delivery address
+</a>
 
 <?php else: ?>
 
-    <div class="option-card" style="border:2px dashed #5d3b8a;">
-        <div class="option-content">
-            <p>No delivery address set.</p>
-        </div>
-    </div>
+<div class="option-card" style="border:2px dashed #5d3b8a;">
+<div class="option-content">
+<p>No delivery address set.</p>
+</div>
+</div>
 
-    <a href="<?= BASE_URL ?>index.php?page=add-address&redirect=checkout"
-       class="link-action">
-        + Add delivery address
-    </a>
+<a href="<?= BASE_URL ?>index.php?page=add-address&redirect=checkout" class="link-action">
++ Add delivery address
+</a>
 
 <?php endif; ?>
+
 
 <!-- PAYMENT METHOD -->
 
-  <h2 class="section-title">Payment Method</h2>
+<h2 class="section-title">Payment Method</h2>
 
 <?php if (!empty($paymentMethods)): ?>
-  <div class="option-grid">
 
-   <?php 
-   $first = true;
-   foreach ($paymentMethods as $p): 
-    ?>
+<div class="option-grid">
 
-   <label class="option-card">
+<?php 
+$first = true;
+foreach ($paymentMethods as $p):
+?>
 
-    <input
-        type="radio"
-        name="payment_id"
-        value="<?= $p['payment_id'] ?>"
-        <?= (!empty($p['is_default']) || $first) ? 'checked' : '' ?>
-        required
-    >
+<label class="option-card">
 
-    <div class="option-content">
-       <strong><?= htmlspecialchars($p['card_brand']) ?></strong>
-       <p>Ending in <?= htmlspecialchars($p['card_last4']) ?></p>
+<input
+type="radio"
+name="payment_id"
+value="<?= $p['payment_id'] ?>"
+<?= (!empty($p['is_default']) || $first) ? 'checked' : '' ?>
+required
+>
 
-        <?php if (!empty($p['is_default'])): ?>
-           <span class="badge-default">Default</span>
-       <?php endif; ?>
-   </div>
-   </label>
+<div class="option-content">
+<strong><?= htmlspecialchars($p['card_brand']) ?></strong>
+<p>Ending in <?= htmlspecialchars($p['card_last4']) ?></p>
 
-   <?php 
-    $first = false;
-    endforeach; 
-    ?>
+<?php if (!empty($p['is_default'])): ?>
+<span class="badge-default">Default</span>
+<?php endif; ?>
+</div>
 
-  </div>
+</label>
+
+<?php
+$first = false;
+endforeach;
+?>
+
+<!-- ADD PAYMENT CARD -->
+
+<a href="<?= BASE_URL ?>index.php?page=add-payment&redirect=checkout"
+class="option-card add-card">
+<div class="option-content add-content">
+<div class="add-icon">+</div>
+<p>Add New Payment Method</p>
+</div>
+</a>
+
+</div>
+
 <?php else: ?>
-    <div class="option-card" style="border:2px dashed #5d3b8a;">
-        <div class="option-content">
-            <p>No saved payment methods.</p>
-        </div>
-    </div>
 
-    <a href="<?= BASE_URL ?>index.php?page=add-payment&redirect=checkout"
-       class="link-action">
-        + Add payment method
-    </a>
-<?php endif; ?>
-
-    <?php
-     $hasAddress = !empty($selectedAddress);
-     $hasPayment = !empty($paymentMethods);
-
-     $canCheckout = $hasAddress && $hasPayment;
-    ?>
-
-    <!-- ORDER SUMMARY -->
-    <h2 class="section-title">Order Summary</h2>
-
-<div class="summary-box">
-    <?php foreach ($basketItems as $item): ?>
-        <div class="summary-row">
-            <span>
-                <?= htmlspecialchars($item['name']) ?> × <?= $item['quantity'] ?>
-            </span>
-            <span>£<?= number_format($item['total'], 2) ?></span>
-        </div>
-    <?php endforeach; ?>
-
-    <div class="summary-total">
-        Total: £<?= number_format($basketTotal, 2) ?>
-    </div>
+<div class="option-card" style="border:2px dashed #5d3b8a;">
+<div class="option-content">
+<p>No saved payment methods.</p>
+</div>
 </div>
 
-<?php if (isset($_GET['error']) && $_GET['error'] === 'incomplete_checkout'): ?>
-
-    <div style="
-        margin-top:20px;
-        padding:14px;
-        border-radius:8px;
-        background: rgba(255,79,79,0.12);
-        border-left: 4px solid #ff4f4f;
-        color:#ff7b7b;
-        font-weight:500;
-    ">
-        <?php if (!$hasAddress && !$hasPayment): ?>
-            ⚠ Please add a delivery address and payment method before placing your order.
-        <?php elseif (!$hasAddress): ?>
-            ⚠ Please add a delivery address before placing your order.
-        <?php elseif (!$hasPayment): ?>
-            ⚠ Please add a payment method before placing your order.
-        <?php endif; ?>
-    </div>
+<a href="<?= BASE_URL ?>index.php?page=add-payment&redirect=checkout"
+class="link-action">
++ Add payment method
+</a>
 
 <?php endif; ?>
 
-
-       <button type="submit"
-           class="place-order-btn"
-        <?= !$canCheckout ? 'disabled style="opacity:0.5;cursor:not-allowed;"' : '' ?>>
-            Place Order
-       </button>
-
-    </form>
-
 </div>
+
 
 <?php include __DIR__ . '/../footer.php'; ?>

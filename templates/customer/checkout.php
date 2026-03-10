@@ -304,8 +304,8 @@ textarea {
     $first = false;
     endforeach; 
     ?>
-
   </div>
+
 <?php else: ?>
     <div class="option-card" style="border:2px dashed #5d3b8a;">
         <div class="option-content">
@@ -314,8 +314,11 @@ textarea {
     </div>
 
     <a href="<?= BASE_URL ?>index.php?page=add-payment&redirect=checkout"
-       class="link-action">
-        + Add payment method
+        class="option-card add-card">
+         <div class="option-content add-content">
+            <div class="add-icon">+</div>
+            <p>Add New Payment Method</p>
+        </div>
     </a>
 <?php endif; ?>
 

@@ -265,6 +265,10 @@ textarea {
   Use this address
 </button>
 
-</form>
+<a href="index.php?page=checkout" class="btn-secondary">
+   Cancel
+</a>
+
+</form> 
 
 <?php include __DIR__ . '/../footer.php'; ?>

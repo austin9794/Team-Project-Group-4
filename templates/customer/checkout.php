@@ -20,9 +20,16 @@ if (!empty($_SESSION['checkout_address_id']) && !empty($addresses)) {
     }
 }
 
-// show most recent address
-if (!$selectedAddress && !empty($addresses)) {
-    $selectedAddress = $addresses[0];
+$selectedAddress = null;
+
+// user manually selected address during checkout
+if (!empty($_SESSION['checkout_address_id'])) {
+    foreach ($addresses as $addr) {
+        if ($addr['address_id'] == $_SESSION['checkout_address_id']) {
+            $selectedAddress = $addr;
+            break;
+        }
+    }
 }
 
 include __DIR__ . '/../header.php'; 

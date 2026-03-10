@@ -32,6 +32,15 @@ if (!empty($_SESSION['checkout_address_id'])) {
     }
 }
 
+// otherwise choose default address
+if (!$selectedAddress) {
+    foreach ($addresses as $addr) {
+        if (!empty($addr['is_default'])) {
+            $selectedAddress = $addr;
+            break;
+        }
+    }
+}
 include __DIR__ . '/../header.php'; 
 
 ?>

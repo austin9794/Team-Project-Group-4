@@ -409,15 +409,38 @@ $orderTotal = $subtotal + $shipping + $vat;
 
 <?php foreach ($basketItems as $item): ?>
 <div class="summary-row">
-<span><?= htmlspecialchars($item['name']) ?> × <?= $item['quantity'] ?></span>
-<span>£<?= number_format($item['total'], 2) ?></span>
+    <span><?= htmlspecialchars($item['name']) ?> × <?= $item['quantity'] ?></span>
+    <span>£<?= number_format($item['total'], 2) ?></span>
 </div>
 <?php endforeach; ?>
 
-<div class="summary-total">
-Total: £<?= number_format($basketTotal, 2) ?>
+<hr class="summary-divider">
+
+<div class="summary-row">
+    <span>Items</span>
+    <span>£<?= number_format($subtotal, 2) ?></span>
 </div>
 
+<div class="summary-row">
+    <span>Shipping</span>
+    <span>
+        <?= $shipping == 0 ? 'Free' : '£' . number_format($shipping,2) ?>
+    </span>
+</div>
+
+<div class="summary-row">
+    <span>VAT (20%)</span>
+    <span>£<?= number_format($vat, 2) ?></span>
+</div>
+
+<hr class="summary-divider">
+
+<div class="summary-total">
+    <span>Order Total</span>
+    <span>£<?= number_format($orderTotal, 2) ?></span>
+</div>
+
+</div>
 </div>
 
 <?php

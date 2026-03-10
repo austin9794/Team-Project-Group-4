@@ -349,8 +349,64 @@ class="link-action">
 </a>
 
 <?php endif; ?>
+</div>
+
+<!-- RIGHT SIDE -->
+<div class="checkout-right">
+
+<h2 class="section-title">Order Summary</h2>
+
+<div class="summary-box">
+
+<?php foreach ($basketItems as $item): ?>
+<div class="summary-row">
+<span><?= htmlspecialchars($item['name']) ?> × <?= $item['quantity'] ?></span>
+<span>£<?= number_format($item['total'], 2) ?></span>
+</div>
+<?php endforeach; ?>
+
+<div class="summary-total">
+Total: £<?= number_format($basketTotal, 2) ?>
+</div>
 
 </div>
 
+<?php
+$hasAddress = !empty($selectedAddress);
+$hasPayment = !empty($paymentMethods);
+$canCheckout = $hasAddress && $hasPayment;
+?>
+
+<?php if (isset($_GET['error']) && $_GET['error'] === 'incomplete_checkout'): ?>
+
+<div style="margin-top:20px;padding:14px;border-radius:8px;background:rgba(255,79,79,0.12);border-left:4px solid #ff4f4f;color:#ff7b7b;font-weight:500;">
+
+<?php if (!$hasAddress && !$hasPayment): ?>
+⚠ Please add a delivery address and payment method before placing your order.
+<?php elseif (!$hasAddress): ?>
+⚠ Please add a delivery address before placing your order.
+<?php elseif (!$hasPayment): ?>
+⚠ Please add a payment method before placing your order.
+<?php endif; ?>
+
+</div>
+
+<?php endif; ?>
+
+<button
+type="submit"
+class="place-order-btn"
+<?= !$canCheckout ? 'disabled style="opacity:0.5;cursor:not-allowed;"' : '' ?>
+>
+Place Order
+</button>
+
+</div>
+
+</div>
+
+</form>
+
+</div>
 
 <?php include __DIR__ . '/../footer.php'; ?>

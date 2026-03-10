@@ -6,6 +6,8 @@ $userData = $accountController->getUserData();
 $addresses = $accountController->getAddresses();
 $paymentMethods = $accountController->getPaymentMethods();
 
+$minDelivery = date("D j M", strtotime("+3 days"));
+$maxDelivery = date("D j M", strtotime("+5 days"));
 
 //pick which address to show in checkout
 $selectedAddress = null;
@@ -304,8 +306,8 @@ textarea {
     $first = false;
     endforeach; 
     ?>
-  </div>
 
+  </div>
 <?php else: ?>
     <div class="option-card" style="border:2px dashed #5d3b8a;">
         <div class="option-content">
@@ -314,11 +316,8 @@ textarea {
     </div>
 
     <a href="<?= BASE_URL ?>index.php?page=add-payment&redirect=checkout"
-        class="option-card add-card">
-         <div class="option-content add-content">
-            <div class="add-icon">+</div>
-            <p>Add New Payment Method</p>
-        </div>
+       class="link-action">
+        + Add payment method
     </a>
 <?php endif; ?>
 

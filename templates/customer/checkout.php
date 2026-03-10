@@ -161,6 +161,12 @@ textarea {
   margin-bottom: 8px;
 }
 
+.summary-divider{
+border:none;
+border-top:1px solid rgba(255,255,255,0.15);
+margin:14px 0;
+}
+
 .summary-total {
   border-top: 1px solid #5d3b8a;
   padding-top: 10px;
@@ -440,7 +446,6 @@ $orderTotal = $subtotal + $shipping + $vat;
     <span>£<?= number_format($orderTotal, 2) ?></span>
 </div>
 
-</div>
 </div>
 
 <?php

@@ -215,6 +215,42 @@ textarea {
     font-size:14px;
     color:#9bb6ff;
 }
+
+.checkout-grid{
+display:grid;
+grid-template-columns:2fr 1fr;
+gap:40px;
+align-items:start;
+}
+
+.checkout-right{
+position:sticky;
+top:120px;
+}
+
+.summary-box{
+background:#020b18;
+padding:20px;
+border-radius:12px;
+}
+
+.place-order-btn{
+width:100%;
+margin-top:20px;
+}
+
+@media (max-width:900px){
+
+.checkout-grid{
+grid-template-columns:1fr;
+}
+
+.checkout-right{
+position:relative;
+top:0;
+}
+
+}
 </style>
 
 <div class="checkout-container">

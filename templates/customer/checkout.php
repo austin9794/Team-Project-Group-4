@@ -275,26 +275,35 @@ textarea {
 <?php if (!empty($paymentMethods)): ?>
   <div class="option-grid">
 
-    <?php foreach ($paymentMethods as $p): ?>
-      <label class="option-card">
-        <input
-          type="radio"
-          name="payment_id"
-          value="<?= $p['payment_id'] ?>"
-          <?= !empty($p['is_default']) ? 'checked' : '' ?>
-          required
-        >
+   <?php 
+   $first = true;
+   foreach ($paymentMethods as $p): 
+    ?>
 
-        <div class="option-content">
-          <strong><?= htmlspecialchars($p['card_brand']) ?></strong>
-          <p>Ending in <?= htmlspecialchars($p['card_last4']) ?></p>
+   <label class="option-card">
 
-          <?php if (!empty($p['is_default'])): ?>
-            <span class="badge-default">Default</span>
-          <?php endif; ?>
-        </div>
-      </label>
-    <?php endforeach; ?>
+    <input
+        type="radio"
+        name="payment_id"
+        value="<?= $p['payment_id'] ?>"
+        <?= (!empty($p['is_default']) || $first) ? 'checked' : '' ?>
+        required
+    >
+
+    <div class="option-content">
+       <strong><?= htmlspecialchars($p['card_brand']) ?></strong>
+       <p>Ending in <?= htmlspecialchars($p['card_last4']) ?></p>
+
+        <?php if (!empty($p['is_default'])): ?>
+           <span class="badge-default">Default</span>
+       <?php endif; ?>
+   </div>
+   </label>
+
+   <?php 
+    $first = false;
+    endforeach; 
+    ?>
 
   </div>
 <?php else: ?>

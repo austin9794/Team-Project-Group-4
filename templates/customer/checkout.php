@@ -210,6 +210,11 @@ textarea {
   font-size: 0.75rem;
 }
 
+.delivery-eta{
+    margin-top:12px;
+    font-size:14px;
+    color:#9bb6ff;
+}
 </style>
 
 <div class="checkout-container">
@@ -236,6 +241,11 @@ textarea {
       <h2 class="section-title">
         Delivering to <?= htmlspecialchars($userData['name']) ?>
      </h2>
+
+      <div class="delivery-eta">
+       <strong>Estimated delivery:</strong>
+       <?= $minDelivery ?> – <?= $maxDelivery ?>
+    </div>
 
 <?php if ($selectedAddress): ?>
 

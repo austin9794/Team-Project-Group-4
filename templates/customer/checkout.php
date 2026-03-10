@@ -41,6 +41,12 @@ if (!$selectedAddress) {
         }
     }
 }
+
+// fallback: first address
+if (!$selectedAddress && !empty($addresses)) {
+    $selectedAddress = $addresses[0];
+}
+
 include __DIR__ . '/../header.php'; 
 
 ?>

@@ -13,11 +13,22 @@ class Review {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public static function add($userId, $productId, $rating, $comment) {
-       $db = Database::getInstance()->getConnection();
-        $stmt = $db->prepare("INSERT INTO reviews (user_id, product_id, rating, comment, created_at) 
-                              VALUES (?, ?, ?, ?, NOW())");
-        return $stmt->execute([$userId, $productId, $rating, $comment]);
+    public static function add($userId, $productId, $orderItemId, $rating, $comment, $title) {
+    $db = Database::getInstance()->getConnection();
+
+       $stmt = $db->prepare(" INSERT INTO reviews
+           (user_id, product_id, order_item_id, rating, title, comment, created_at)
+           VALUES (?, ?, ?, ?, ?, ?, NOW())
+       ");
+
+        return $stmt->execute([
+            $userId,
+            $productId,
+            $orderItemId,
+            $rating,
+            $title,
+            $comment
+        ]);
     }
 
     public static function averageRating($productId) {
@@ -34,26 +45,26 @@ class Review {
         return $result;
     }
 
-    public static function userHasPurchased($userId, $productId) {
-        $db = Database::getInstance()->getConnection();
-        $stmt = $db->prepare("SELECT COUNT(*) as count 
-                              FROM order_items oi 
-                          JOIN orders o ON oi.order_id = o.order_id 
-                           WHERE o.user_id = ? AND oi.product_id = ?");
-        $stmt->execute([$userId, $productId]);
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $result['count'] > 0;
-    }
+    public static function getDeliverableOrderItem($userId, $productId) {
+    $db = Database::getInstance()->getConnection();
 
-    public static function userHasReviewed($userId, $productId) {
-        $db = Database::getInstance()->getConnection();
-        $stmt = $db->prepare("SELECT COUNT(*) as count 
-                              FROM reviews 
-                              WHERE user_id = ? AND product_id = ?");
-        $stmt->execute([$userId, $productId]);
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $result['count'] > 0;
-    }
+    $stmt = $db->prepare(" SELECT oi.order_item_id
+        FROM order_items oi
+        JOIN orders o ON oi.order_id = o.order_id
+        WHERE o.user_id = ?
+          AND oi.product_id = ?
+          AND o.status = 'delivered'
+          AND NOT EXISTS (
+            SELECT 1
+            FROM reviews r
+            WHERE r.order_item_id = oi.order_item_id
+        )
+        LIMIT 1
+    ");
+
+    $stmt->execute([$userId, $productId]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
 
     public static function getUserReview($userId, $productId) {
       $db = Database::getInstance()->getConnection();

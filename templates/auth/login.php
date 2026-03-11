@@ -163,9 +163,7 @@ include __DIR__ . '/../header.php';
         <button type="submit">Sign In</button>
     </form>
 
-    <a class="signup-link" href="/Team-Project-Group-4/public/index.php?page=signup">
-        Create a customer account
-    </a>
+    <a href="<?= BASE_URL ?>index.php?page=signup">Don't have an account? Sign up</a>
 
 </div>
 

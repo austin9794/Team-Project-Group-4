@@ -9,6 +9,10 @@ require_once __DIR__ . '/../src/Database.php';
 require_once __DIR__ . '/../src/Controllers/AccountController.php';
 require_once __DIR__ . '/../src/Controllers/AdminDashboardController.php';
 require_once __DIR__ . '/../src/Controllers/AdminLoginController.php';
+require_once __DIR__ . '/../src/Controllers/AdminOrderController.php';
+require_once __DIR__ . '/../src/Controllers/AdminProductController.php';
+require_once __DIR__ . '/../src/Controllers/AdminReportController.php'; 
+require_once __DIR__ . '/../src/Controllers/AdminReturnController.php';        
 require_once __DIR__ . '/../src/Controllers/AdminCustomerController.php';
 require_once __DIR__ . '/../src/Controllers/BaseAdminController.php';
 require_once __DIR__ . '/../src/Controllers/DashboardController.php';
@@ -31,8 +35,119 @@ $page = $_GET['page'] ?? 'home';
 switch ($page) {
     // ---- Public Pages ----
     case 'home':
-        include __DIR__ . '/../templates/customer/home.php';
-        break;
+
+    $recentProducts = [];
+
+    if (!empty($_SESSION['recently_viewed'])) {
+
+        require_once __DIR__ . '/../src/Database.php';
+
+        $db = Database::getInstance()->getConnection();
+
+        $ids = $_SESSION['recently_viewed'];
+
+        // Safety: ensure all values are integers
+        $ids = array_map('intval', $ids);
+
+        $placeholders = implode(',', array_fill(0, count($ids), '?'));
+
+        $stmt = $db->prepare(" SELECT p.product_id, p.name, p.slug, p.price, c.name AS category_name
+            FROM products p
+            JOIN categories c ON p.category_id = c.category_id
+            WHERE p.product_id IN ($placeholders)
+        ");
+
+        $stmt->execute($ids);
+        $recentProducts = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // Preserve viewing order
+        usort($recentProducts, function($a, $b) use ($ids) {
+            return array_search($a['product_id'], $ids)
+                 - array_search($b['product_id'], $ids);
+        });
+    }
+
+    $recommendedProducts = [];
+
+    $baseCategories = [];
+    $excludeIds = [];
+
+    //----- If logged in and Use purchased categories -----
+
+    if (isset($_SESSION['user_id'])) {
+
+        $userId = $_SESSION['user_id'];
+
+        // Get categories from delivered orders
+        $stmt = $db->prepare(" SELECT DISTINCT p.category_id, p.product_id
+            FROM order_items oi
+            JOIN orders o ON oi.order_id = o.order_id
+            JOIN products p ON oi.product_id = p.product_id
+            WHERE o.user_id = ?
+            AND o.status = 'delivered'
+        ");
+
+        $stmt->execute([$userId]);
+        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($rows as $row) {
+            $baseCategories[] = $row['category_id'];
+            $excludeIds[] = $row['product_id'];
+        }
+    }
+
+    // ---- If no purchase categories then fallback to recently viewed ----
+
+
+    if (empty($baseCategories) && !empty($_SESSION['recently_viewed'])) {
+
+        $viewedIds = array_map('intval', $_SESSION['recently_viewed']);
+        $excludeIds = array_merge($excludeIds, $viewedIds);
+
+        $placeholders = implode(',', array_fill(0, count($viewedIds), '?'));
+
+        $stmt = $db->prepare(" SELECT DISTINCT category_id
+            FROM products
+            WHERE product_id IN ($placeholders)
+        ");
+
+        $stmt->execute($viewedIds);
+        $baseCategories = $stmt->fetchAll(PDO::FETCH_COLUMN);
+    }
+
+    // ---- Fetch Recommendations ----
+
+
+    if (!empty($baseCategories)) {
+
+        $baseCategories = array_unique($baseCategories);
+        $excludeIds = array_unique($excludeIds);
+
+        $catPlaceholders = implode(',', array_fill(0, count($baseCategories), '?'));
+
+        $query = " SELECT p.product_id, p.name, p.slug, p.price, c.name AS category_name
+            FROM products p
+            JOIN categories c ON p.category_id = c.category_id
+            WHERE p.category_id IN ($catPlaceholders)
+        ";
+
+        $params = $baseCategories;
+
+        if (!empty($excludeIds)) {
+            $excludePlaceholders = implode(',', array_fill(0, count($excludeIds), '?'));
+            $query .= " AND p.product_id NOT IN ($excludePlaceholders)";
+            $params = array_merge($params, $excludeIds);
+        }
+
+        $query .= " ORDER BY RAND() LIMIT 4";
+
+        $stmt = $db->prepare($query);
+        $stmt->execute($params);
+        $recommendedProducts = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    include __DIR__ . '/../templates/customer/home.php';
+    break;
     case 'about':
         include __DIR__ . '/../templates/customer/about.php';
         break;
@@ -50,10 +165,19 @@ switch ($page) {
         $controller->login();
         break;
     case 'dashboard':
-        $controller = new DashboardController();
-        $controller->index();
+    $controller = new DashboardController();
+    if (!$controller->isLoggedIn()) {
+        header('Location: index.php?page=login');
+        exit;
+    }
+    if ($controller->isAdmin()) {
+        require_once __DIR__ . '/../src/Controllers/AdminDashboardController.php';
+        $adminController = new AdminDashboardController();
+        $adminController->index();
+    } else {
         include __DIR__ . '/../templates/customer/dashboard.php';
-        break;
+    }
+    break;
     case 'switch-role':
         $controller = new DashboardController();
         $controller->switchRole();
@@ -222,24 +346,57 @@ switch ($page) {
     case 'delete-account':
     (new AccountController())->deleteAccount();
     break;
+    case 'add-review':
 
+    require_once __DIR__ . '/../src/Controllers/ReviewController.php';
 
+    if (!isset($_SESSION['user_id'])) {
+        header("Location: " . BASE_URL . "index.php?page=login");
+        exit;
+    }
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+        $userId    = $_SESSION['user_id'];
+        $productId = isset($_POST['product_id']) ? (int)$_POST['product_id'] : 0;
+        $rating    = isset($_POST['rating']) ? (int)$_POST['rating'] : 0;
+        $comment   = trim($_POST['comment'] ?? '');
+        $title     = trim($_POST['title'] ?? '');
+
+        if ($productId <= 0) {
+            header("Location: " . BASE_URL . "index.php?page=products");
+            exit;
+        }
+
+        try {
+            $controller = new ReviewController();
+            $controller->addReview($userId, $productId, $rating, $comment, $title);
+
+            $_SESSION['review_success'][$productId] = "Review submitted successfully!";
+        } catch (Exception $e) {
+            $_SESSION['review_error'][$productId] = $e->getMessage();
+        }
+
+        header("Location: " . BASE_URL . "index.php?page=product-detail&id=" . $productId);
+        exit;
+    }
+    break;
         
     // ---- Admin Pages ----
     case 'admin-orders':
        requireAdmin();
-       $controller = new AdminDashboardController();
-       $controller->orders();
+       $controller = new AdminOrderController();
+       $controller->index();
     break;
     case 'admin-order-view':
         requireAdmin();
-        $controller = new AdminDashboardController();
-        $controller->viewOrder();
+        $controller = new AdminOrderController();
+        $controller->view();
     break;
     case 'admin-products':
        requireAdmin();
-       $controller = new AdminDashboardController();
-       $controller->products();
+       $controller = new AdminProductController();
+       $controller->index();
     break;
     case 'admin-customers':
        requireAdmin();
@@ -251,7 +408,6 @@ switch ($page) {
        $controller = new AdminCustomerController();
        $controller->view();
     break;
-
     case 'admin-customer-edit':
        requireAdmin();
        $controller = new AdminCustomerController();
@@ -264,10 +420,19 @@ switch ($page) {
     break;
     case 'admin-reports':
        requireAdmin();
-       $controller = new AdminDashboardController();
-       $controller->reports();
+       $controller = new AdminReportController();
+       $controller->index();
     break;
-
+    case 'admin-returns':
+        requireAdmin();
+        $controller = new AdminReturnController();
+        $controller->index();
+    break;
+    case 'admin-return-process':
+        requireAdmin();
+        $controller = new AdminReturnController();
+        $controller->process();
+    break;
 
     // ---- Default ----
     default:

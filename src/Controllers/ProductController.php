@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../Database.php';
+require_once __DIR__ . '/../Controllers/ReviewController.php';  
 
 class ProductController {
 
@@ -95,6 +96,27 @@ class ProductController {
             return;
         }
 
+        // Track recently viewed products
+        if (!isset($_SESSION['recently_viewed'])) {
+            $_SESSION['recently_viewed'] = [];
+        }
+
+        // Remove if already exists (avoid duplicates)
+        $_SESSION['recently_viewed'] = array_diff(
+           $_SESSION['recently_viewed'],
+          [$id]
+       );
+
+        // Add to beginning
+        array_unshift($_SESSION['recently_viewed'], $id);
+
+        // Keep only last 5
+        $_SESSION['recently_viewed'] = array_slice(
+           $_SESSION['recently_viewed'],
+           0,
+           4
+        );
+
         // Fetch all images for product
         $imgStmt = $this->db->prepare(" SELECT image_path, is_primary
            FROM product_images
@@ -104,6 +126,15 @@ class ProductController {
         $imgStmt->execute([$id]);
         $images = $imgStmt->fetchAll();
 
+        $reviewController = new ReviewController();
+
+        $reviews = $reviewController->showReviews($id);
+        $averageData = $reviewController->getAverage($id);
+
+        $canReview = false;
+         if (isset($_SESSION['user_id'])) {
+          $canReview = $reviewController->canUserReview($_SESSION['user_id'], $id);
+      }
 
         include __DIR__ . '/../../templates/customer/product_detail.php';
     }

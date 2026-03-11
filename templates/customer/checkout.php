@@ -404,6 +404,16 @@ $vat = $subtotal * 0.20;
 
 // Final total
 $orderTotal = $subtotal + $shipping + $vat;
+
+$subtotal = $basketTotal;
+
+$freeShippingThreshold = 50;
+$shipping = ($subtotal >= $freeShippingThreshold) ? 0 : 4.99;
+
+$vat = $subtotal * 0.20;
+$orderTotal = $subtotal + $shipping + $vat;
+
+$remainingForFreeShipping = $freeShippingThreshold - $subtotal;
 ?>
 
 <!-- RIGHT SIDE -->

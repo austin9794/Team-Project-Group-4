@@ -101,20 +101,29 @@ class OrderController {
         $shippingAddress  = formatAddress($address);
 
     // Recalculate total
-    $total = 0;
+    $subtotal = 0;
 
-      foreach ($_SESSION['basket'] as $productId => $qty) {
-         $productId = (int)$productId;
-         $qty = max(1, (int)$qty);
+    foreach ($_SESSION['basket'] as $productId => $qty) {
 
-         $stmt = $db->prepare("SELECT price FROM products WHERE product_id = ?");
-         $stmt->execute([$productId]);
-         $price = $stmt->fetchColumn();
+       $productId = (int)$productId;
+       $qty = max(1, (int)$qty);
 
-        if ($price !== false) {
-           $total += (float)$price * $qty;
+       $stmt = $db->prepare("SELECT price FROM products WHERE product_id = ?");
+       $stmt->execute([$productId]);
+       $price = $stmt->fetchColumn();
+
+       if ($price !== false) {
+           $subtotal += (float)$price * $qty;
         }
     }
+
+    $freeShippingThreshold = 50;
+
+    $shipping = ($subtotal >= $freeShippingThreshold) ? 0 : 4.99;
+
+    $vat = $subtotal * 0.20;
+
+    $total = $subtotal + $shipping + $vat;
 
     //Order Snapshot
       $orderStmt = $db->prepare(" INSERT INTO orders (

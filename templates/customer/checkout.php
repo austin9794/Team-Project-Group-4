@@ -222,6 +222,20 @@ margin:14px 0;
     color:#9bb6ff;
 }
 
+.free-shipping-banner{
+background:rgba(108,76,255,0.15);
+border-left:4px solid #6c4cff;
+padding:12px;
+border-radius:6px;
+margin-bottom:15px;
+font-size:14px;
+}
+
+.free-shipping-banner.success{
+background:rgba(80,255,140,0.12);
+border-left:4px solid #6bff8f;
+}
+
 .checkout-grid{
 display:grid;
 grid-template-columns:2fr 1fr;
@@ -420,6 +434,17 @@ $remainingForFreeShipping = $freeShippingThreshold - $subtotal;
 <div class="checkout-right">
 
 <h2 class="section-title">Order Summary</h2>
+
+<?php if ($subtotal < $freeShippingThreshold): ?>
+<div class="free-shipping-banner">
+    Spend <strong>£<?= number_format($remainingForFreeShipping,2) ?></strong>
+    more to get <strong>FREE delivery</strong>.
+</div>
+<?php else: ?>
+<div class="free-shipping-banner success">
+    ✓ You qualify for <strong>FREE delivery</strong>.
+</div>
+<?php endif; ?>
 
 <div class="summary-box">
 

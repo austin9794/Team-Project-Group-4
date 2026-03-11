@@ -1,12 +1,9 @@
 <?php 
-$title = 'Login - Level Up Gaming';
+$title = 'Forgot Password - Level Up Gaming';
 include __DIR__ . '/../header.php'; 
 ?>
 
 <style>
-/* CACHE BUSTER: <?= time() ?> */
-
-/* Auth container */
 .auth-box {
     width: 100%;
     max-width: 420px;
@@ -21,16 +18,23 @@ include __DIR__ . '/../header.php';
     border: 1px solid var(--border-color);
 }
 
-/* Title */
+
 .auth-box h2 {
     text-align: left;
-    margin-bottom: 25px;
+    margin-bottom: 12px;
     font-size: 22px;
     color: var(--highlight-color);
     font-weight: bold;
 }
 
-/* Labels */
+
+.auth-box p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+    line-height: 1.4;
+}
+
 .auth-box label {
     display: block;
     margin-bottom: 6px;
@@ -38,7 +42,7 @@ include __DIR__ . '/../header.php';
     color: var(--text-primary);
 }
 
-/* Inputs */
+/* Input (same as login) */
 .auth-box input {
     width: 100%;
     padding: 14px;
@@ -55,23 +59,6 @@ include __DIR__ . '/../header.php';
     color: var(--text-secondary);
 }
 
-/* Forgot password spacing */
-.forgot-password {
-    margin-top: -6px;
-    margin-bottom: 18px;
-}
-
-.forgot-password a {
-    color: var(--highlight-color);
-    text-decoration: none;
-    font-size: 14px;
-}
-
-.forgot-password a:hover {
-    color: white;
-}
-
-/* Button */
 .auth-box button {
     width: 100%;
     padding: 12px;
@@ -89,7 +76,6 @@ include __DIR__ . '/../header.php';
     background: var(--highlight-dark);
 }
 
-/* Messages */
 .error, .success {
     padding: 12px;
     margin-bottom: 15px;
@@ -108,22 +94,22 @@ include __DIR__ . '/../header.php';
     background: rgba(50, 255, 120, 0.15);
 }
 
-/* Bottom link */
-.auth-box .signup-link {
-    display: block;
-    margin-top: 18px;
+.auth-box a {
+    display: inline-block;
+    margin-top: 16px;
     color: var(--highlight-color);
     text-decoration: none;
 }
 
-.auth-box .signup-link:hover {
+.auth-box a:hover {
     color: white;
 }
 </style>
 
-<div class="auth-box" id="unified-login-v2">
+<div class="auth-box" id="forgot-password-page">
 
-    <h2>Sign in to your account</h2>
+    <h2>Reset your password</h2>
+    <p>Enter the email address linked to your account. If it exists, we’ll send a reset link.</p>
 
     <?php if (isset($_GET['error'])): ?>
         <div class="error"><?= htmlspecialchars($_GET['error']) ?></div>
@@ -133,48 +119,22 @@ include __DIR__ . '/../header.php';
         <div class="success"><?= htmlspecialchars($_GET['success']) ?></div>
     <?php endif; ?>
 
-    <!-- Unified login form -->
-    <form method="POST" action="/Team-Project-Group-4/public/index.php?page=login-submit" id="auto-login-form">
-        
-        <label for="user-email">Email</label>
-        <input 
-            type="email" 
-            id="user-email" 
-            name="email" 
-            required 
+    <form method="POST" action="/Team-Project-Group-4/public/index.php?page=forgot-password-submit">
+        <label for="reset-email">Email</label>
+        <input
+            type="email"
+            id="reset-email"
+            name="email"
+            required
             placeholder="Enter your email"
+            autocomplete="email"
         >
 
-        <label for="user-password">Password</label>
-        <input 
-            type="password" 
-            id="user-password" 
-            name="password" 
-            required 
-            placeholder="Enter your password"
-        >
-        
-        <div class="forgot-password">
-            <a href="/Team-Project-Group-4/public/index.php?page=forgot-password">
-                Forgot your password?
-            </a>
-        </div>
-
-        <button type="submit">Sign In</button>
+        <button type="submit">Send Reset Link</button>
     </form>
 
-    <a href="<?= BASE_URL ?>index.php?page=signup">Don't have an account? Sign up</a>
+    <a href="/Team-Project-Group-4/public/index.php?page=login">← Back to login</a>
 
 </div>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const oldTabs = document.querySelector('.login-tabs');
-    if (oldTabs) oldTabs.remove();
-
-    const oldForms = document.querySelectorAll('.login-form:not(#auto-login-form)');
-    oldForms.forEach(f => f.remove());
-});
-</script>
 
 <?php include __DIR__ . '/../footer.php'; ?>

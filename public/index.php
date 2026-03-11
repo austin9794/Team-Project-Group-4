@@ -195,6 +195,19 @@ switch ($page) {
         $controller->logout();
         break;
 
+        // ---- Forgot Password Pages ----
+     case 'forgot-password':
+        include $TEMPLATES . '/auth/forgot_password.php';
+        break;
+
+    case 'forgot-password-submit':
+        header('Location: /Team-Project-Group-4/public/index.php?page=forgot-password&success=' . urlencode('If that email exists, a reset link has been sent.'));
+        exit;
+
+    case 'reset-password':
+        include $TEMPLATES . '/auth/reset_password.php';
+        break;
+
         // ---- Customer Pages ----
     case 'account':
         $controller = new AccountController();

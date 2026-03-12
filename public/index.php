@@ -36,13 +36,13 @@ switch ($page) {
     // ---- Public Pages ----
     case 'home':
 
+    require_once __DIR__ . '/../src/Database.php';
+    $db = Database::getInstance()->getConnection();
+
     $recentProducts = [];
+    $recommendedProducts = [];
 
     if (!empty($_SESSION['recently_viewed'])) {
-
-        require_once __DIR__ . '/../src/Database.php';
-
-        $db = Database::getInstance()->getConnection();
 
         $ids = $_SESSION['recently_viewed'];
 
@@ -66,8 +66,6 @@ switch ($page) {
                  - array_search($b['product_id'], $ids);
         });
     }
-
-    $recommendedProducts = [];
 
     $baseCategories = [];
     $excludeIds = [];

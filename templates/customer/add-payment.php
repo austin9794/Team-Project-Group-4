@@ -102,6 +102,9 @@
                    placeholder="1234 5678 9012 3456"
                    required>
             <small id="cardBrandDisplay" style="color:#9f7cff;"></small>
+            <small style="color:#9f7cff;">
+               We currently only accept Visa and Mastercard.
+            </small>
         </div>
 
         <div class="inline-row">

@@ -138,8 +138,7 @@
 
         <button type="submit" 
                 class="btn-purple"
-                id="saveCardBtn"
-                disabled>
+                id="saveCardBtn">
             Save Payment Method
         </button>
 
@@ -163,14 +162,33 @@
 <script>
 document.querySelector("form").addEventListener("submit", function (e) {
 
-    const expiryValid = /^(0[1-9]|1[0-2])\/\d{2}$/.test(expiryInput.value);
-    const cvvValid = /^\d{3,4}$/.test(cvvInput.value);
-    const cardValid = /^\d{16}$/.test(cardInput.value);
+    let valid = true;
 
-    if (!expiryValid || !cvvValid || !cardValid || expiryError.style.display === "block") {
-        e.preventDefault();
-        alert("Please fix payment details before saving.");
+    const cardValid = /^\d{16}$/.test(cardInput.value);
+    const cvvValid = /^\d{3,4}$/.test(cvvInput.value);
+    const expiryValid = validateExpiry(expiryInput.value);
+
+    clearErrors();
+
+    if (!cardValid) {
+        showError(cardInput, "Please enter a valid 16 digit card number.");
+        valid = false;
     }
+
+    if (!cvvValid) {
+        showError(cvvInput, "Please enter a valid CVV.");
+        valid = false;
+    }
+
+    if (!expiryValid) {
+        showError(expiryInput, "Please enter a valid expiry date.");
+        valid = false;
+    }
+
+    if (!valid) {
+        e.preventDefault();
+    }
+
 });
 </script>
 

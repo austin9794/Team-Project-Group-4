@@ -223,11 +223,18 @@ if (!empty($_SESSION['basket']) && is_array($_SESSION['basket'])) {
     border-radius:50%;
 }
 
+.account-link {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    line-height: 1.8;
+}
+
 .customer-view-indicator {
-    font-size: 0.75rem;
+    font-size: 0.80rem;
     margin-left: 6px;
-    opacity: 0.75;
-    color: #ffd166; /* subtle amber warning tone */
+    opacity: 0.90;
+    color: #ffd166; 
 }
 </style>
 </head>
@@ -267,11 +274,12 @@ if (!empty($_SESSION['basket']) && is_array($_SESSION['basket'])) {
 
             <!-- Account Dropdown -->
             <div class="dropdown">
-                <a href="#">
-                 My Account ▼
-                   <?php if ($actualRole === 'admin' && !$isAdmin): ?>
-                      <span class="customer-view-indicator">(Customer View)</span>
-                   <?php endif; ?>
+                <a href="#" class="account-link">
+                    <span>My Account ▼</span>
+
+                 <?php if ($actualRole === 'admin' && !$isAdmin): ?>
+                   <span class="customer-view-indicator">Customer View</span>
+                 <?php endif; ?>
                 </a>
                 <div class="dropdown-content">
                     <a href="index.php?page=account">Profile</a>

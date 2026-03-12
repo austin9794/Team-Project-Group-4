@@ -89,8 +89,7 @@
 <div class="payment-container">
     <h2>Add Payment Method</h2>
 
-    <form method="POST" action="<?= BASE_URL ?>index.php?page=save-payment">
-
+    <form method="POST" action="<?= BASE_URL ?>index.php?page=save-payment" novalidate>
         <div class="form-group">
             <label>Card Number</label>
             <input type="text" 
@@ -99,10 +98,9 @@
                    inputmode="numeric"
                    pattern="\d*"
                    maxlength="16"
-                   placeholder="1234 5678 9012 3456"
-                   required>
+                   placeholder="1234 5678 9012 3456">
             <small id="cardBrandDisplay" style="color:#9f7cff;"></small>
-            <small style="color:#9f7cff;">
+            <small style="color:#9505fc;">
                We currently only accept Visa and Mastercard.
             </small>
         </div>
@@ -116,8 +114,7 @@
                        placeholder="MM/YY"
                        inputmode="numeric"
                        maxlength="5"
-                       pattern="^(0[1-9]|1[0-2])\/\d{2}$"
-                       required>
+                       pattern="^(0[1-9]|1[0-2])\/\d{2}$">
 
                         <div id="expiryError" style="color:#ff6b6b; font-size:14px; display:none;">
                Please enter a valid date.
@@ -131,8 +128,7 @@
                        id="cvvInput"
                        inputmode="numeric"
                        maxlength="4"
-                       pattern="\d{3,4}"
-                       required>
+                       pattern="\d{3,4}">
             </div>
         </div>
 

@@ -12,41 +12,41 @@ define('ACCESS_ALLOWED', true);
 
     <!-- Summary Cards -->
     <div class="summary-cards">
-        <div class="summary-card total">
-            <div class="card-icon">📦</div>
-            <div class="card-content">
+        <div class="stat-card total">
+            <div class="stat-icon">📦</div>
+            <div class="stat-content">
                 <h3><?= number_format($summary['total_products']) ?></h3>
                 <p>Total Products</p>
             </div>
         </div>
 
-        <div class="summary-card stock">
-            <div class="card-icon">📋</div>
-            <div class="card-content">
+        <div class="stat-card stock">
+            <div class="stat-icon">📋</div>
+            <div class="stat-content">
                 <h3><?= number_format($summary['total_stock_units']) ?></h3>
                 <p>Total Stock Units</p>
             </div>
         </div>
 
-        <div class="summary-card value">
-            <div class="card-icon">💷</div>
-            <div class="card-content">
+        <div class="stat-card value">
+            <div class="stat-icon">💷</div>
+            <div class="stat-content">
                 <h3>£<?= number_format($summary['total_stock_value'], 2) ?></h3>
                 <p>Total Stock Value</p>
             </div>
         </div>
 
-        <div class="summary-card warning">
-            <div class="card-icon">⚠️</div>
-            <div class="card-content">
+        <div class="stat-card warning">
+            <div class="stat-icon">⚠️</div>
+            <div class="stat-content">
                 <h3><?= number_format($summary['low_stock_count']) ?></h3>
                 <p>Low Stock Alerts</p>
             </div>
         </div>
 
-        <div class="summary-card critical">
-            <div class="card-icon">❌</div>
-            <div class="card-content">
+        <div class="stat-card critical">
+            <div class="stat-icon">❌</div>
+            <div class="stat-content">
                 <h3><?= number_format($summary['out_of_stock_count']) ?></h3>
                 <p>Out of Stock</p>
             </div>
@@ -105,7 +105,7 @@ define('ACCESS_ALLOWED', true);
         <h2>📊 Product Inventory Report</h2>
         
         <div class="table-container">
-            <table class="report-table">
+            <table class="admin-table">
                 <thead>
                     <tr>
                         <th>Product</th>

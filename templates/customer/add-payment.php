@@ -253,6 +253,27 @@ function validateForm() {
     }
 }
 
+function showError(input, message) {
+
+    input.classList.add("input-error");
+
+    let error = document.createElement("div");
+    error.className = "error-text";
+    error.innerText = message;
+
+    input.parentNode.appendChild(error);
+}
+
+function clearErrors() {
+
+    document.querySelectorAll(".input-error").forEach(el => {
+        el.classList.remove("input-error");
+    });
+
+    document.querySelectorAll(".error-text").forEach(el => {
+        el.remove();
+    });
+}
 
 // Expiry validation logic
 function validateExpiry(value) {

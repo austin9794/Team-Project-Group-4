@@ -158,26 +158,46 @@
 <script>
 document.querySelector("form").addEventListener("submit", function (e) {
 
+    clearErrors();
+
     let valid = true;
+
+    if (cardInput.value.trim() === "") {
+        showError(cardInput, "Please fill in this field");
+        valid = false;
+    }
+
+    if (expiryInput.value.trim() === "") {
+        showError(expiryInput, "Please fill in this field");
+        valid = false;
+    }
+
+    if (cvvInput.value.trim() === "") {
+        showError(cvvInput, "Please fill in this field");
+        valid = false;
+    }
+
+    if (!valid) {
+        e.preventDefault();
+        return;
+    }
 
     const cardValid = /^\d{16}$/.test(cardInput.value);
     const cvvValid = /^\d{3,4}$/.test(cvvInput.value);
     const expiryValid = validateExpiry(expiryInput.value);
 
-    clearErrors();
-
     if (!cardValid) {
-        showError(cardInput, "Please enter a valid 16 digit card number.");
+        showError(cardInput, "Please enter a valid card number");
         valid = false;
     }
 
     if (!cvvValid) {
-        showError(cvvInput, "Please enter a valid CVV.");
+        showError(cvvInput, "Please enter a valid CVV");
         valid = false;
     }
 
     if (!expiryValid) {
-        showError(expiryInput, "Please enter a valid expiry date.");
+        showError(expiryInput, "Please enter a valid expiry date");
         valid = false;
     }
 

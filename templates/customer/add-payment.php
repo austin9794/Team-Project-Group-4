@@ -205,8 +205,21 @@ const saveBtn = document.getElementById("saveCardBtn");
 
 // Card number: numbers only, max 16
 cardInput.addEventListener("input", function () {
+
     this.value = this.value.replace(/\D/g, '').substring(0, 16);
-    validateForm();
+
+    const brandDisplay = document.getElementById("cardBrandDisplay");
+
+    if (/^4/.test(this.value)) {
+        brandDisplay.innerText = "Visa detected";
+    } 
+    else if (/^5[1-5]/.test(this.value)) {
+        brandDisplay.innerText = "Mastercard detected";
+    } 
+    else {
+        brandDisplay.innerText = "";
+    }
+
 });
 
 // CVV: numbers only, 3–4 digits

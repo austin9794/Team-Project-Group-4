@@ -251,11 +251,16 @@ if (!empty($_SESSION['basket']) && is_array($_SESSION['basket'])) {
     <!-- NAVIGATION -->
     <div class="nav-links">
 
-        <?php if (isLoggedIn()): ?>
+        <?php if (isLoggedIn()): ?> 
 
             <!-- Account Dropdown -->
             <div class="dropdown">
-                <a href="#">My Account ▼</a>
+                <a href="#">
+                 My Account ▼
+                   <?php if ($actualRole === 'admin' && !$isAdmin): ?>
+                      <span class="customer-view-indicator">(Customer View)</span>
+                   <?php endif; ?>
+                </a>
                 <div class="dropdown-content">
                     <a href="index.php?page=account">Profile</a>
                     <a href="index.php?page=orders">My Orders</a>

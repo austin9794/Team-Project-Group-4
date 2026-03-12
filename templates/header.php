@@ -222,7 +222,14 @@ if (!empty($_SESSION['basket']) && is_array($_SESSION['basket'])) {
 
     border-radius:50%;
 }
-    </style>
+
+.customer-view-indicator {
+    font-size: 0.75rem;
+    margin-left: 6px;
+    opacity: 0.75;
+    color: #ffd166; /* subtle amber warning tone */
+}
+</style>
 </head>
 <body>
 
@@ -248,6 +255,11 @@ if (!empty($_SESSION['basket']) && is_array($_SESSION['basket'])) {
 
     </form>
 
+    <?php
+       $actualRole = $_SESSION['actual_role'] ?? $_SESSION['user_role'] ?? 'customer';
+       $isAdmin = $_SESSION['is_admin'] ?? false;
+    ?>
+
     <!-- NAVIGATION -->
     <div class="nav-links">
 
@@ -264,11 +276,6 @@ if (!empty($_SESSION['basket']) && is_array($_SESSION['basket'])) {
                 <div class="dropdown-content">
                     <a href="index.php?page=account">Profile</a>
                     <a href="index.php?page=orders">My Orders</a>
-
-                    <?php
-                      $actualRole = $_SESSION['actual_role'] ?? $_SESSION['user_role'] ?? 'customer';
-                      $isAdmin = $_SESSION['is_admin'] ?? false;
-                    ?>
 
                     <?php if ($actualRole === 'admin'): ?>
                       <hr style="margin: 5px 0; border: 0; border-top: 1px solid rgba(255,255,255,0.2);">

@@ -55,3 +55,53 @@ define('ACCESS_ALLOWED', true);
         </div>
 
     </div>
+
+        <!-- Order Overview -->
+    <div class="admin-section">
+        <h2>💼 Order Status Overview</h2>
+
+        <div class="quick-stats">
+
+            <div class="stat-card">
+                <div class="stat-icon">🕒</div>
+                <div class="stat-content">
+                    <div class="stat-number"><?= number_format($orderSummary['pending_orders']) ?></div>
+                    <div class="stat-label">Pending Orders</div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">⚙️</div>
+                <div class="stat-content">
+                    <div class="stat-number"><?= number_format($orderSummary['processing_orders']) ?></div>
+                    <div class="stat-label">Processing</div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">🚚</div>
+                <div class="stat-content">
+                    <div class="stat-number"><?= number_format($orderSummary['shipped_orders']) ?></div>
+                    <div class="stat-label">Shipped</div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">✅</div>
+                <div class="stat-content">
+                    <div class="stat-number"><?= number_format($orderSummary['delivered_orders']) ?></div>
+                    <div class="stat-label">Delivered</div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">💵</div>
+                <div class="stat-content">
+                    <div class="stat-number">£<?= number_format($orderSummary['active_value'], 2) ?></div>
+                    <div class="stat-label">Active Order Value</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+

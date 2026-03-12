@@ -1268,7 +1268,7 @@
 /* Quick Stats */
 .quick-stats {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 20px;
 }
 
@@ -1295,13 +1295,19 @@
 
 .stat-content {
     flex: 1;
+    min-width: 0;
 }
 
 .stat-number {
-    font-size: 2rem;
+    font-size: 1.8rem;
     font-weight: 700;
     color: var(--highlight);
     margin: 0 0 5px 0;
+
+    white-space: nowrap;
+    word-break: break-word;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .stat-label {

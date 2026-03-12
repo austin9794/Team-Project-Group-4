@@ -33,7 +33,10 @@ define('ACCESS_ALLOWED', true);
         <div class="stat-card">
             <div class="stat-icon">💷</div>
             <div class="stat-content">
-                <div class="stat-number">£<?= number_format($summary['total_stock_value'], 2) ?></div>
+                <div class="stat-number"
+                 title="£<?= number_format($summary['total_stock_value'], 2) ?>">
+                 £<?= number_format($summary['total_stock_value'], 2) ?>
+                </div>
                 <div class="stat-label">Total Stock Value</div>
             </div>
         </div>

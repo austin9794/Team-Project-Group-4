@@ -205,9 +205,8 @@ const form = document.getElementById("paymentForm");
 const cardInput = document.getElementById("cardNumber");
 const expiryInput = document.getElementById("expiryInput");
 const cvvInput = document.getElementById("cvvInput");
-
-
-/* CARD FORMAT + BRAND */
+const visaIcon = document.getElementById("visaIcon");
+const mastercardIcon = document.getElementById("mastercardIcon");
 
 cardInput.addEventListener("input", function(){
 
@@ -218,21 +217,24 @@ value = value.substring(0,16);
 /* STRIPE STYLE FORMATTING */
 
 let formatted = value.match(/.{1,4}/g);
-
 this.value = formatted ? formatted.join(" ") : "";
 
-/* CARD BRAND DETECTION */
 
-const brandDisplay = document.getElementById("cardBrandDisplay");
+/* RESET ICONS */
 
-if(/^4/.test(value))
-brandDisplay.innerText="Visa detected";
+visaIcon.classList.remove("active");
+mastercardIcon.classList.remove("active");
 
-else if(/^5[1-5]/.test(value))
-brandDisplay.innerText="Mastercard detected";
 
-else
-brandDisplay.innerText="";
+/* DETECT CARD */
+
+if(/^4/.test(value)){
+visaIcon.classList.add("active");
+}
+
+else if(/^5[1-5]/.test(value)){
+mastercardIcon.classList.add("active");
+}
 
 clearFieldError(this);
 

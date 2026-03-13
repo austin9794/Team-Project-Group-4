@@ -272,3 +272,40 @@ if(!valid) e.preventDefault();
 
 });
 
+/* -------------------------
+ERROR HELPERS
+------------------------- */
+
+function showError(input,message){
+
+input.classList.add("input-error");
+
+const error=document.createElement("div");
+error.className="error-text";
+error.innerText=message;
+
+input.parentElement.appendChild(error);
+
+}
+
+
+function clearErrors(){
+
+document.querySelectorAll(".input-error")
+.forEach(el=>el.classList.remove("input-error"));
+
+document.querySelectorAll(".error-text")
+.forEach(el=>el.remove());
+
+}
+
+
+function clearFieldError(input){
+
+input.classList.remove("input-error");
+
+const err=input.parentElement.querySelector(".error-text");
+
+if(err) err.remove();
+
+}

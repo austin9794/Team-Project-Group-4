@@ -255,3 +255,20 @@ showError(expiryInput,"Please enter a valid expiry date");
 valid=false;
 }
 
+/* CVV */
+
+if(cvvInput.value.trim()===""){
+showError(cvvInput,"Please fill in this field");
+valid=false;
+}
+
+else if(!/^\d{3,4}$/.test(cvvInput.value)){
+showError(cvvInput,"CVV must be 3 or 4 digits");
+valid=false;
+}
+
+
+if(!valid) e.preventDefault();
+
+});
+

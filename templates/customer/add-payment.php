@@ -86,24 +86,28 @@ padding-right:90px;
 }
 
 .card-icons{
-position:absolute;
-right:12px;
-top:50%;
-transform:translateY(-50%);
 display:flex;
-gap:8px;
+gap:12px;
+margin-top:10px;
+align-items:center;
 }
 
 .card-icon{
-width:34px;
-height:22px;
+filter: grayscale(1);
+opacity:0.35;
+height:28px;
 opacity:0.35;
 transition:0.25s;
 }
 
 .card-icon.active{
+filter: none;
 opacity:1;
 transform:scale(1.05);
+}
+
+.card-icon:hover{
+opacity:0.7;
 }
 </style>
 
@@ -116,9 +120,8 @@ transform:scale(1.05);
 
 <label>Card Number</label>
 
-<div class="card-input-wrapper">
-
-<input type="text"
+<input
+type="text"
 name="card_number"
 id="cardNumber"
 inputmode="numeric"
@@ -127,15 +130,13 @@ placeholder="4242 4242 4242 4242">
 
 <div class="card-icons">
 
-<img src="<?= BASE_URL ?>assets/images/cards/visa.svg"
+<img src="<?= BASE_URL ?>assets/images/cards/visa.png"
      id="visaIcon"
      class="card-icon">
 
-<img src="<?= BASE_URL ?>assets/images/cards/mastercard.svg"
+<img src="<?= BASE_URL ?>assets/images/cards/mastercard.png"
      id="mastercardIcon"
      class="card-icon">
-
-</div>
 
 </div>
 

@@ -243,3 +243,15 @@ showError(cardInput,"Card number must be 16 digits");
 valid=false;
 }
 
+/* EXPIRY */
+
+if(expiryInput.value.trim()===""){
+showError(expiryInput,"Please fill in this field");
+valid=false;
+}
+
+else if(!validateExpiry(expiryInput.value)){
+showError(expiryInput,"Please enter a valid expiry date");
+valid=false;
+}
+

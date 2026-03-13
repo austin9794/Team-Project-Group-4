@@ -230,3 +230,16 @@ form.addEventListener("submit", function(e){
 clearErrors();
 
 let valid=true;
+
+/* CARD */
+
+if(cardInput.value.trim()===""){
+showError(cardInput,"Please fill in this field");
+valid=false;
+}
+
+else if(!/^\d{16}$/.test(cardInput.value)){
+showError(cardInput,"Card number must be 16 digits");
+valid=false;
+}
+

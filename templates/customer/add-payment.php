@@ -241,7 +241,6 @@ cardInput.addEventListener("input", function () {
 // CVV: numbers only, 3–4 digits
 cvvInput.addEventListener("input", function () {
     this.value = this.value.replace(/\D/g, '').substring(0, 4);
-    validateForm();
 });
 
 // Expiry formatter MM/YY
@@ -259,28 +258,9 @@ expiryInput.addEventListener("input", function () {
     }
 
     this.value = value.substring(0, 5);
-    validateForm();
 });
 
-
 // ---------- VALIDATION ENGINE ----------
-
-function validateForm() {
-
-    const cardValid = /^\d{16}$/.test(cardInput.value);
-    const cvvValid = /^\d{3,4}$/.test(cvvInput.value);
-    const expiryValid = validateExpiry(expiryInput.value);
-
-    if (cardValid && cvvValid && expiryValid) {
-        saveBtn.disabled = false;
-        saveBtn.style.opacity = "1";
-        saveBtn.style.cursor = "pointer";
-    } else {
-        saveBtn.disabled = true;
-        saveBtn.style.opacity = "0.6";
-        saveBtn.style.cursor = "not-allowed";
-    }
-}
 
 function showError(input, message) {
 

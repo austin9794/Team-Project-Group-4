@@ -83,21 +83,37 @@
 
 <form id="paymentForm" method="POST" action="<?= BASE_URL ?>index.php?page=save-payment" novalidate>
 
-<div class="form-group">
+<div class="form-group card-field">
+
 <label>Card Number</label>
+
+<div class="card-input-wrapper">
 
 <input type="text"
 name="card_number"
 id="cardNumber"
 inputmode="numeric"
-maxlength="16"
-placeholder="1234567812345678">
+maxlength="19"
+placeholder="4242 4242 4242 4242">
 
-<small id="cardBrandDisplay" style="color:#9f7cff;"></small>
+<div class="card-icons">
+
+<img src="<?= BASE_URL ?>assets/images/cards/visa.svg"
+     id="visaIcon"
+     class="card-icon">
+
+<img src="<?= BASE_URL ?>assets/images/cards/mastercard.svg"
+     id="mastercardIcon"
+     class="card-icon">
+
+</div>
+
+</div>
 
 <small style="color:#9505fc;">
 We currently only accept Visa and Mastercard.
 </small>
+
 </div>
 
 

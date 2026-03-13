@@ -241,12 +241,25 @@ let valid = true;
 
 /* CARD */
 
-if(cardInput.value.trim() === ""){
+let rawCard = cardInput.value.replace(/\s/g,'');
+
+if(rawCard === ""){
 showError(cardInput,"Please fill in this field");
 valid = false;
 }
-else if(!/^\d{16}$/.test(cardInput.value)){
+
+else if(!/^\d{16}$/.test(rawCard)){
 showError(cardInput,"Card number must be 16 digits");
+valid = false;
+}
+
+else if(!/^4|^5[1-5]/.test(rawCard)){
+showError(cardInput,"Only Visa or Mastercard supported");
+valid = false;
+}
+
+else if(!luhnCheck(rawCard)){
+showError(cardInput,"Invalid card number");
 valid = false;
 }
 

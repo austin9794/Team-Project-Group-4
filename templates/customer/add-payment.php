@@ -76,6 +76,35 @@
     font-size:13px;
     margin-top:6px;
 }
+
+.card-input-wrapper{
+position:relative;
+}
+
+.card-input-wrapper input{
+padding-right:90px;
+}
+
+.card-icons{
+position:absolute;
+right:12px;
+top:50%;
+transform:translateY(-50%);
+display:flex;
+gap:8px;
+}
+
+.card-icon{
+width:34px;
+height:22px;
+opacity:0.35;
+transition:0.25s;
+}
+
+.card-icon.active{
+opacity:1;
+transform:scale(1.05);
+}
 </style>
 
 <div class="payment-container">

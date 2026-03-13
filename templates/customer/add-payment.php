@@ -195,3 +195,29 @@ this.value = this.value.replace(/\D/g,'').substring(0,4);
 clearFieldError(this);
 
 });
+
+/* -------------------------
+EXPIRY FORMAT
+------------------------- */
+
+expiryInput.addEventListener("input", function(){
+
+let value = this.value.replace(/\D/g,'');
+
+if(value.length>=2){
+
+let month=value.substring(0,2);
+
+if(parseInt(month)>12) month="12";
+if(parseInt(month)<1) month="01";
+
+value=month+(value.length>2?"/"+value.substring(2,4):"");
+
+}
+
+this.value=value.substring(0,5);
+
+clearFieldError(this);
+
+});
+

@@ -81,7 +81,7 @@
 <div class="payment-container">
 <h2>Add Payment Method</h2>
 
-<form method="POST" action="<?= BASE_URL ?>index.php?page=save-payment" novalidate>
+<form id="paymentForm" method="POST" action="<?= BASE_URL ?>index.php?page=save-payment" novalidate>
 
 <div class="form-group">
 <label>Card Number</label>
@@ -154,16 +154,15 @@ Cancel
 
 <script>
 
-const form = document.querySelector("form");
+document.addEventListener("DOMContentLoaded", function(){
 
+const form = document.getElementById("paymentForm");
 const cardInput = document.getElementById("cardNumber");
 const expiryInput = document.getElementById("expiryInput");
 const cvvInput = document.getElementById("cvvInput");
 
 
-/* -------------------------
-CARD NUMBER FORMAT + BRAND
-------------------------- */
+/* CARD FORMAT + BRAND */
 
 cardInput.addEventListener("input", function(){
 
@@ -184,9 +183,8 @@ clearFieldError(this);
 
 });
 
-/* -------------------------
-CVV FORMAT
-------------------------- */
+
+/* CVV FORMAT */
 
 cvvInput.addEventListener("input", function(){
 
@@ -196,9 +194,8 @@ clearFieldError(this);
 
 });
 
-/* -------------------------
-EXPIRY FORMAT
-------------------------- */
+
+/* EXPIRY FORMAT */
 
 expiryInput.addEventListener("input", function(){
 
@@ -221,60 +218,58 @@ clearFieldError(this);
 
 });
 
-/* -------------------------
-SUBMIT VALIDATION
-------------------------- */
+
+/* FORM VALIDATION */
 
 form.addEventListener("submit", function(e){
 
+e.preventDefault(); // stop page refresh first
+
 clearErrors();
 
-let valid=true;
+let valid = true;
 
 /* CARD */
 
-if(cardInput.value.trim()===""){
+if(cardInput.value.trim() === ""){
 showError(cardInput,"Please fill in this field");
-valid=false;
+valid = false;
 }
-
 else if(!/^\d{16}$/.test(cardInput.value)){
 showError(cardInput,"Card number must be 16 digits");
-valid=false;
+valid = false;
 }
 
 /* EXPIRY */
 
-if(expiryInput.value.trim()===""){
+if(expiryInput.value.trim() === ""){
 showError(expiryInput,"Please fill in this field");
-valid=false;
+valid = false;
 }
-
 else if(!validateExpiry(expiryInput.value)){
 showError(expiryInput,"Please enter a valid expiry date");
-valid=false;
+valid = false;
 }
 
 /* CVV */
 
-if(cvvInput.value.trim()===""){
+if(cvvInput.value.trim() === ""){
 showError(cvvInput,"Please fill in this field");
-valid=false;
+valid = false;
 }
-
 else if(!/^\d{3,4}$/.test(cvvInput.value)){
 showError(cvvInput,"CVV must be 3 or 4 digits");
-valid=false;
+valid = false;
 }
 
-
-if(!valid) e.preventDefault();
+if(valid){
+form.submit(); // only submit if everything is valid
+}
 
 });
 
-/* -------------------------
-ERROR HELPERS
-------------------------- */
+
+/* ERROR HELPERS */
 
 function showError(input,message){
 
@@ -288,7 +283,6 @@ input.parentElement.appendChild(error);
 
 }
 
-
 function clearErrors(){
 
 document.querySelectorAll(".input-error")
@@ -298,7 +292,6 @@ document.querySelectorAll(".error-text")
 .forEach(el=>el.remove());
 
 }
-
 
 function clearFieldError(input){
 
@@ -310,9 +303,8 @@ if(err) err.remove();
 
 }
 
-/* -------------------------
-EXPIRY VALIDATION
-------------------------- */
+
+/* EXPIRY VALIDATION */
 
 function validateExpiry(value){
 
@@ -337,6 +329,8 @@ return false;
 return true;
 
 }
+
+});
 
 </script>
 

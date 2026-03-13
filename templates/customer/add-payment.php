@@ -166,14 +166,24 @@ const cvvInput = document.getElementById("cvvInput");
 
 cardInput.addEventListener("input", function(){
 
-this.value = this.value.replace(/\D/g,'').substring(0,16);
+let value = this.value.replace(/\D/g,'');
+
+value = value.substring(0,16);
+
+/* STRIPE STYLE FORMATTING */
+
+let formatted = value.match(/.{1,4}/g);
+
+this.value = formatted ? formatted.join(" ") : "";
+
+/* CARD BRAND DETECTION */
 
 const brandDisplay = document.getElementById("cardBrandDisplay");
 
-if(/^4/.test(this.value))
+if(/^4/.test(value))
 brandDisplay.innerText="Visa detected";
 
-else if(/^5[1-5]/.test(this.value))
+else if(/^5[1-5]/.test(value))
 brandDisplay.innerText="Mastercard detected";
 
 else

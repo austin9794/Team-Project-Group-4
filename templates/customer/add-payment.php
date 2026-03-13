@@ -309,3 +309,36 @@ const err=input.parentElement.querySelector(".error-text");
 if(err) err.remove();
 
 }
+
+/* -------------------------
+EXPIRY VALIDATION
+------------------------- */
+
+function validateExpiry(value){
+
+if(!/^(0[1-9]|1[0-2])\/\d{2}$/.test(value))
+return false;
+
+const parts=value.split("/");
+
+const month=parseInt(parts[0]);
+const year=parseInt(parts[1]);
+
+const now=new Date();
+
+const currentYear=parseInt(now.getFullYear().toString().slice(-2));
+const currentMonth=now.getMonth()+1;
+
+if(year<currentYear) return false;
+
+if(year===currentYear && month<currentMonth)
+return false;
+
+return true;
+
+}
+
+</script>
+
+
+<?php include __DIR__ . '/../footer.php'; ?>

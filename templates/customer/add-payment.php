@@ -183,3 +183,15 @@ brandDisplay.innerText="";
 clearFieldError(this);
 
 });
+
+/* -------------------------
+CVV FORMAT
+------------------------- */
+
+cvvInput.addEventListener("input", function(){
+
+this.value = this.value.replace(/\D/g,'').substring(0,4);
+
+clearFieldError(this);
+
+});

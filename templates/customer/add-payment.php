@@ -221,3 +221,12 @@ clearFieldError(this);
 
 });
 
+/* -------------------------
+SUBMIT VALIDATION
+------------------------- */
+
+form.addEventListener("submit", function(e){
+
+clearErrors();
+
+let valid=true;

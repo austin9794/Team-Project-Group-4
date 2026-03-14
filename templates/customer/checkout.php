@@ -259,6 +259,22 @@ width:100%;
 margin-top:20px;
 }
 
+.payment-option{
+display:flex;
+align-items:center;
+gap:14px;
+}
+
+.checkout-card-icon{
+height:32px;
+opacity:0.95;
+}
+
+.payment-info{
+display:flex;
+flex-direction:column;
+}
+
 @media (max-width:900px){
 
 .checkout-grid{

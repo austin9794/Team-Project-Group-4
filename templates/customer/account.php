@@ -183,6 +183,17 @@
     font-weight: 500;
 }
 
+.payment-card-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:10px;
+}
+
+.payment-icon{
+height:34px;
+opacity:0.9;
+}
 </style>
 
 <div class="account-container">

@@ -199,6 +199,11 @@ textarea {
     <option value="No longer needed">No longer needed</option>
 </select>
 
+
+    <label>Comments (Required)</label>
+    <textarea name="comments" required
+              placeholder="Please tell us how we can improve:"></textarea>
+
     <button class="btn-purple">Submit Return</button>
 
 </form>

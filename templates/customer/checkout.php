@@ -275,6 +275,24 @@ display:flex;
 flex-direction:column;
 }
 
+.option-card input:checked + .option-content{
+border-color:#9a5cff;
+box-shadow:0 0 12px rgba(160,120,255,0.3);
+}
+
+.secure-checkout{
+margin-top:20px;
+padding:12px 16px;
+border-radius:8px;
+background:rgba(80,255,140,0.08);
+border:1px solid rgba(80,255,140,0.35);
+color:#7dffb0;
+font-size:14px;
+display:flex;
+align-items:center;
+gap:8px;
+}
+
 @media (max-width:900px){
 
 .checkout-grid{
@@ -530,6 +548,10 @@ $canCheckout = $hasAddress && $hasPayment;
 </div>
 
 <?php endif; ?>
+
+<div class="secure-checkout">
+    🔒︎ Secure Checkout — Payments are encrypted and protected
+</div>
 
 <button
 type="submit"

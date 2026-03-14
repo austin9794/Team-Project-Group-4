@@ -192,6 +192,8 @@ margin:14px 0;
 }
 
 .option-card:hover {
+  transform:translateY(-2px);
+  box-shadow:0 0 10px rgba(150,100,255,0.25);
   border-color: #8f3dff;
 }
 
@@ -275,9 +277,13 @@ display:flex;
 flex-direction:column;
 }
 
-.option-card input:checked + .option-content{
-border-color:#9a5cff;
-box-shadow:0 0 12px rgba(160,120,255,0.3);
+.payment-card{
+transition:0.25s;
+}
+
+.payment-card:hover{
+transform:translateY(-4px);
+box-shadow:0 12px 25px rgba(120,0,255,0.35);
 }
 
 .secure-checkout{

@@ -192,7 +192,12 @@ margin-bottom:10px;
 
 .payment-icon{
 height:34px;
-opacity:0.9;
+opacity:0.85;
+transition:0.25s;
+}
+
+.info-card:hover .payment-icon{
+transform:scale(1.05);
 }
 </style>
 
@@ -361,7 +366,7 @@ opacity:0.9;
                 </h3>
 
                 <img
-                 src="<?= BASE_URL ?>assets/images/cards/<?= strtolower($p['card_brand']) ?>.svg"
+                 src="<?= BASE_URL ?>assets/images/cards/<?= strtolower($p['card_brand']) ?>.png"
                   class="payment-icon"
                 >
             </div>

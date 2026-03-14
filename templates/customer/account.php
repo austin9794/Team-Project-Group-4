@@ -342,10 +342,19 @@
             <?php foreach ($payments as $p): ?>
                 <div class="info-card <?= $p['is_default'] ? 'default-glow' : '' ?>">
 
-                    <h3>
-                        <?= htmlspecialchars($p['card_brand']) ?>
-                        •••• <?= htmlspecialchars($p['card_last4']) ?>
-                    </h3>
+            <div class="payment-card-header">
+
+                <h3>
+                 <?= htmlspecialchars($p['card_brand']) ?>
+                 •••• <?= htmlspecialchars($p['card_last4']) ?>
+                </h3>
+
+                <img
+                 src="<?= BASE_URL ?>assets/images/cards/<?= strtolower($p['card_brand']) ?>.svg"
+                  class="payment-icon"
+                >
+            </div>
+
 
                     <p>
                         Expires

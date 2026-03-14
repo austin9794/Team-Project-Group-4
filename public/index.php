@@ -35,7 +35,8 @@ $page = $_GET['page'] ?? 'home';
 switch ($page) {
     // ---- Public Pages ----
     case 'home':
-
+    
+    $db = Database::getInstance()->getConnection();
     $recentProducts = [];
 
     if (!empty($_SESSION['recently_viewed'])) {

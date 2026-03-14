@@ -167,6 +167,8 @@ textarea {
 
     <input type="hidden" name="order_item_id"
            value="<?= $item['order_item_id'] ?>">
+           
+    <input type="hidden" name="quantity" value="1"> 
 
     <label for="reason">Why are you returning this item? (Required)</label>
     

@@ -302,6 +302,61 @@ require_once __DIR__ . '/../header.php';
 </section>
 <?php endif; ?>
 
+<?php if (!empty($reorderProducts)): ?>
+<section class="features-section">
+  <h2 class="section-title">Reorder</h2>
+
+  <div class="product-grid"
+    style="max-width:1200px;margin:0 auto;display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(250px,250px));
+    gap:25px;justify-content:center;">
+
+  <?php foreach ($reorderProducts as $product): ?>
+
+  <?php
+    $imagePath = "products/"
+   . strtolower($product['category_name']) . "/"
+   . $product['slug'] . "/01.png";
+  ?>
+
+  <div class="product-card">
+
+     <div class="product-image">
+      <img src="<?= BASE_URL ?>assets/images/<?= $imagePath ?>"
+      alt="<?= htmlspecialchars($product['name']) ?>">
+    </div>
+
+    <div class="product-info">
+
+      <h3><?= htmlspecialchars($product['name']) ?></h3>
+
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+
+     <span class="product-price">
+        £<?= number_format($product['price'], 2) ?>
+     </span>
+
+    <form method="POST"
+          action="<?= BASE_URL ?>index.php?page=add-to-basket">
+
+        <input type="hidden"
+         name="product_id"
+         value="<?= $product['product_id'] ?>">
+
+       <button class="product-button">
+        Reorder
+       </button>
+     </form>
+   </div>
+ </div>
+</div>
+
+<?php endforeach; ?>
+
+</div>
+</section>
+<?php endif; ?>
+
 <?php if (!empty($recommendedProducts)): ?>
 <section class="features-section">
   <h2 class="section-title">Recommended For You</h2>

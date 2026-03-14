@@ -35,15 +35,13 @@ $page = $_GET['page'] ?? 'home';
 switch ($page) {
     // ---- Public Pages ----
     case 'home':
-    
+
+    require_once __DIR__ . '/../src/Database.php';
     $db = Database::getInstance()->getConnection();
+
     $recentProducts = [];
 
     if (!empty($_SESSION['recently_viewed'])) {
-
-        require_once __DIR__ . '/../src/Database.php';
-
-        $db = Database::getInstance()->getConnection();
 
         $ids = $_SESSION['recently_viewed'];
 
@@ -66,6 +64,32 @@ switch ($page) {
             return array_search($a['product_id'], $ids)
                  - array_search($b['product_id'], $ids);
         });
+    }
+
+    $reorderProducts = [];
+
+    if (isset($_SESSION['user_id'])) {
+
+        $userId = $_SESSION['user_id'];
+
+       $stmt = $db->prepare("  SELECT DISTINCT
+            p.product_id,
+            p.name,
+            p.slug,
+            p.price,
+            c.name AS category_name
+        FROM order_items oi
+        JOIN orders o ON oi.order_id = o.order_id
+        JOIN products p ON oi.product_id = p.product_id
+        JOIN categories c ON p.category_id = c.category_id
+        WHERE o.user_id = ?
+        AND o.status = 'delivered'
+        ORDER BY o.created_at DESC
+        LIMIT 4
+    ");
+
+    $stmt->execute([$userId]);
+    $reorderProducts = $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     $recommendedProducts = [];

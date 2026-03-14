@@ -157,6 +157,19 @@ textarea {
   font-size: 0.75rem;
 }
 
+.btn-purple {
+    display: inline-block;
+    padding: 10px 15px;
+    background: #8f3dff;
+    border-radius: 6px;
+    color: white;
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+.btn-purple:hover {
+    background: #b46cff;
+}
 </style>
 
 <h1>Request Return</h1>
@@ -185,6 +198,11 @@ textarea {
     <option value="Found better price somewhere else">Found better price somewhere else</option>
     <option value="No longer needed">No longer needed</option>
 </select>
+
+
+    <label>Comments (Required)</label>
+    <textarea name="comments" required
+              placeholder="Please tell us how we can improve:"></textarea>
 
     <button class="btn-purple">Submit Return</button>
 

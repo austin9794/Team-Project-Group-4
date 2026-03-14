@@ -1172,3 +1172,13 @@ font-weight: 600;
 font-size: 16px;
 }
 
+.input-error {
+    border: 2px solid #ff4f4f !important;
+    box-shadow: 0 0 6px rgba(255,79,79,0.6);
+}
+
+.error-text {
+    color:#ff6b6b;
+    font-size:14px;
+    margin-top:6px;
+}

@@ -183,21 +183,36 @@
     font-weight: 500;
 }
 
-.payment-card-header{
+.payment-card{
+position:relative;
+background:linear-gradient(135deg,#140028,#1e0042);
+padding:22px;
+border-radius:16px;
+border:1px solid rgba(160,120,255,0.2);
+}
+
+.payment-card-top{
 display:flex;
 justify-content:space-between;
 align-items:center;
-margin-bottom:10px;
+margin-bottom:20px;
 }
 
 .payment-icon{
 height:34px;
-opacity:0.85;
-transition:0.25s;
+opacity:0.95;
 }
 
-.info-card:hover .payment-icon{
-transform:scale(1.05);
+.payment-card-number{
+font-size:20px;
+letter-spacing:2px;
+font-weight:600;
+margin-bottom:8px;
+}
+
+.payment-card-expiry{
+font-size:14px;
+opacity:0.85;
 }
 </style>
 
@@ -356,31 +371,27 @@ transform:scale(1.05);
 
         <?php if (!empty($payments)): ?>
             <?php foreach ($payments as $p): ?>
-                <div class="info-card <?= $p['is_default'] ? 'default-glow' : '' ?>">
+                <div class="info-card payment-card <?= $p['is_default'] ? 'default-glow' : '' ?>">
 
-            <div class="payment-card-header">
+    <div class="payment-card-top">
 
-                <h3>
-                 <?= htmlspecialchars($p['card_brand']) ?>
-                 •••• <?= htmlspecialchars($p['card_last4']) ?>
-                </h3>
+        <img
+            src="<?= BASE_URL ?>assets/images/cards/<?= strtolower($p['card_brand']) ?>.png"
+            class="payment-icon">
 
-                <img
-                 src="<?= BASE_URL ?>assets/images/cards/<?= strtolower($p['card_brand']) ?>.png"
-                  class="payment-icon"
-                >
-            </div>
+        <?php if ($p['is_default']): ?>
+            <span class="default-badge">✓ Default</span>
+        <?php endif; ?>
 
+    </div>
 
-                    <p>
-                        Expires
-                        <?= str_pad($p['expiry_month'], 2, '0', STR_PAD_LEFT) ?>
-                        /<?= substr($p['expiry_year'], -2) ?>
-                    </p>
+    <div class="payment-card-number">
+        •••• •••• •••• <?= htmlspecialchars($p['card_last4']) ?>
+    </div>
 
-                    <?php if ($p['is_default']): ?>
-                        <span class="default-badge">✓ Default Payment</span>
-                    <?php endif; ?>
+    <div class="payment-card-expiry">
+        Expires <?= str_pad($p['expiry_month'],2,'0',STR_PAD_LEFT) ?>/<?= substr($p['expiry_year'],-2) ?>
+    </div>
 
                     <div class="card-actions">
 

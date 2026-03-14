@@ -363,13 +363,23 @@ value="<?= $p['payment_id'] ?>"
 required
 >
 
-<div class="option-content">
+<div class="option-content payment-option">
+
+<img
+src="<?= BASE_URL ?>assets/images/cards/<?= strtolower($p['card_brand']) ?>.png"
+class="checkout-card-icon">
+
+<div class="payment-info">
+
 <strong><?= htmlspecialchars($p['card_brand']) ?></strong>
 <p>Ending in <?= htmlspecialchars($p['card_last4']) ?></p>
 
 <?php if (!empty($p['is_default'])): ?>
 <span class="badge-default">Default</span>
 <?php endif; ?>
+
+</div>
+
 </div>
 
 </label>

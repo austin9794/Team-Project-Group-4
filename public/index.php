@@ -226,8 +226,9 @@ switch ($page) {
         break;
 
     case 'forgot-password-submit':
-        header('Location: /Team-Project-Group-4/public/index.php?page=forgot-password&success=' . urlencode('If that email exists, a reset link has been sent.'));
-        exit;
+        $controller = new AuthController();
+        $controller->handleForgotPassword();
+    break;
 
     case 'reset-password':
         include $TEMPLATES . '/auth/reset_password.php';

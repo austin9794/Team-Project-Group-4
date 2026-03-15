@@ -232,7 +232,12 @@ switch ($page) {
 
     case 'reset-password':
         include $TEMPLATES . '/auth/reset_password.php';
-        break;
+    break;
+
+    case 'reset-password-submit':
+        $controller = new AuthController();
+        $controller->handleResetPassword();
+    break;
 
         // ---- Customer Pages ----
     case 'account':

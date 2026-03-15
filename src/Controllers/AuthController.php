@@ -152,7 +152,7 @@ class AuthController {
     }
 
     public function handleForgotPassword() {
-        
+
     $email = trim($_POST['email'] ?? '');
 
     if (!$email) {
@@ -169,4 +169,15 @@ class AuthController {
         header("Location: index.php?page=forgot-password&success=If+that+email+exists,+a+reset+link+has+been+sent.");
         exit;
     }
+
+    // Generate secure token
+    $token = bin2hex(random_bytes(32));
+    $expiry = date("Y-m-d H:i:s", strtotime("+1 hour"));
+
+    $stmt = $this->db->prepare("  UPDATE users 
+        SET reset_token = ?, reset_expires = ?
+        WHERE user_id = ?
+    ");
+
+    $stmt->execute([$token, $expiry, $user['user_id']]);
 }

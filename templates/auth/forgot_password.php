@@ -104,6 +104,32 @@ include __DIR__ . '/../header.php';
 .auth-box a:hover {
     color: white;
 }
+
+.reset-link-box{
+margin-top:10px;
+padding:14px;
+border-radius:10px;
+background:rgba(0,0,0,0.35);
+border:1px solid var(--border-color);
+}
+
+.reset-link-box a{
+display:inline-block;
+margin-bottom:8px;
+color:var(--highlight-color);
+font-weight:bold;
+text-decoration:none;
+}
+
+.reset-link-box a:hover{
+text-decoration:underline;
+}
+
+.reset-link-preview{
+font-size:12px;
+word-break:break-all;
+opacity:0.7;
+}
 </style>
 
 <div class="auth-box" id="forgot-password-page">
@@ -127,10 +153,16 @@ include __DIR__ . '/../header.php';
 
             For demo purposes your reset email would contain the link below:<br><br>
 
-            <a href="<?= htmlspecialchars($_SESSION['reset_demo_link']) ?>">
-                <?= htmlspecialchars($_SESSION['reset_demo_link']) ?>
-            </a>
+            <div class="reset-link-box">
 
+             <a href="<?= htmlspecialchars($_SESSION['reset_demo_link']) ?>">
+              Reset your password
+             </a>
+
+               <p class="reset-link-preview">
+                 <?= htmlspecialchars($_SESSION['reset_demo_link']) ?>
+               </p>
+           </div>
         </div>
 
         <?php unset($_SESSION['reset_demo_link']); ?>

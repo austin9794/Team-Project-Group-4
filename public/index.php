@@ -222,7 +222,7 @@ switch ($page) {
 
         // ---- Forgot Password Pages ----
     case 'forgot-password':
-        include $TEMPLATES . '/auth/forgot_password.php';
+        include __DIR__ . '/../templates/auth/forgot_password.php';
         break;
 
     case 'forgot-password-submit':
@@ -231,7 +231,7 @@ switch ($page) {
     break;
 
     case 'reset-password':
-        include $TEMPLATES . '/auth/reset_password.php';
+        include __DIR__ . '/../templates/auth/reset_password.php';
     break;
 
     case 'reset-password-submit':

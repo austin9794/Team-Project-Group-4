@@ -14,6 +14,9 @@ CREATE TABLE users (
   password_changed BOOLEAN DEFAULT 0,
   last_login TIMESTAMP NULL,
 
+  reset_token VARCHAR(255) NULL,
+  reset_expires DATETIME NULL,
+
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 

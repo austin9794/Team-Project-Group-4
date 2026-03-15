@@ -115,7 +115,7 @@ include __DIR__ . '/../header.php';
 </style>
 
 <div class="password-form-container">
-    <h1>🔒 Change Password</h1>
+    <h1>🔒︎ Change Password</h1>
 
     <?php if (isset($_GET['pw'])): ?>
         <?php if ($_GET['pw'] === 'success'): ?>

@@ -221,7 +221,7 @@ switch ($page) {
         break;
 
         // ---- Forgot Password Pages ----
-     case 'forgot-password':
+    case 'forgot-password':
         include $TEMPLATES . '/auth/forgot_password.php';
         break;
 

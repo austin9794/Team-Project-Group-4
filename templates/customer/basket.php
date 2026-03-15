@@ -121,7 +121,7 @@
         <h1>Your Basket is Empty</h1>
         <p>Looks like you haven’t added anything yet.</p>
 
-        <a href="/Team-Project-Group-4/public/index.php?page=products" 
+        <a href="<?= BASE_URL ?>index.php?page=products" 
            class="checkout-btn">
            Browse Products
         </a>
@@ -137,7 +137,7 @@
         <div class="cart-item">
 
             <div class="item-left">
-                <img src="/Team-Project-Group-4/public/assets/images/<?= htmlspecialchars($item['image']) ?>" alt="<?= htmlspecialchars($item['name']) ?>">
+                <img src="<?= BASE_URL ?>assets/images/<?= htmlspecialchars($item['image']) ?>" alt="<?= htmlspecialchars($item['name']) ?>">
 
 
                 <div class="item-info">
@@ -148,7 +148,7 @@
                     <div class="quantity-box">
 
                         <!-- Minus -->
-                        <form method="POST" action="/Team-Project-Group-4/public/index.php?page=basket-update">
+                        <form method="POST" action="<?= BASE_URL ?>index.php?page=basket-update">
                             <input type="hidden" name="product_id" value="<?= $item['id'] ?>">
                             <input type="hidden" name="quantity" value="<?= $item['quantity'] - 1 ?>">
                             <button class="qty-btn minus" data-id="<?= $item['id'] ?>">−</button>
@@ -158,7 +158,7 @@
                         <div class="quantity-display" id="qty-<?= $item['id'] ?>"><?= $item['quantity'] ?></div>
 
                         <!-- Plus -->
-                        <form method="POST" action="/Team-Project-Group-4/public/index.php?page=basket-update">
+                        <form method="POST" action="<?= BASE_URL ?>index.php?page=basket-update">
                             <input type="hidden" name="product_id" value="<?= $item['id'] ?>">
                             <input type="hidden" name="quantity" value="<?= $item['quantity'] + 1 ?>">
                             <button class="qty-btn plus" data-id="<?= $item['id'] ?>">+</button>
@@ -167,7 +167,7 @@
                     </div>
 
                     <!-- Remove -->
-                    <form method="POST" action="/Team-Project-Group-4/public/index.php?page=basket-remove">
+                    <form method="POST" action="<?= BASE_URL ?>index.php?page=basket-remove">
                         <input type="hidden" name="product_id" value="<?= $item['id'] ?>">
                         <button class="remove-btn" data-id="<?= $item['id'] ?>">Remove Item</button>
 
@@ -186,10 +186,10 @@
     <h2>Total: £<?= number_format($basketTotal, 2) ?></h2>
 
 
-    <a href="/Team-Project-Group-4/public/index.php?page=products" class="checkout-btn" style="margin-right: 1rem;">
+    <a href="<?= BASE_URL ?>index.php?page=products" class="checkout-btn" style="margin-right: 1rem;">
         Continue Shopping
     </a>
-    <a href="/Team-Project-Group-4/public/index.php?page=checkout" class="checkout-btn">
+    <a href="<?= BASE_URL ?>index.php?page=checkout" class="checkout-btn">
         Proceed to Checkout
     </a>
 
@@ -200,7 +200,7 @@
 document.addEventListener("DOMContentLoaded", () => {
 
     function updateQuantity(productId, newQty) {
-        fetch("/Team-Project-Group-4/public/index.php?page=basket-update-ajax", {
+        fetch("<?= BASE_URL ?>index.php?page=basket-update-ajax", {
             method: "POST",
             headers: { "Content-Type": "application/x-www-form-urlencoded" },
             body: `product_id=${productId}&quantity=${newQty}`

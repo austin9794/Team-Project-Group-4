@@ -221,13 +221,13 @@ opacity:0.85;
     <!-- SIDEBAR -->
     <div class="account-sidebar">
         <h3>My Account</h3>
-        <a href="/Team-Project-Group-4/public/index.php?page=account#personal">Personal Details</a>
-        <a href="/Team-Project-Group-4/public/index.php?page=account#orders">Recent Orders</a>
-        <a href="/Team-Project-Group-4/public/index.php?page=account#security">Security</a>
-        <a href="/Team-Project-Group-4/public/index.php?page=account#preferences">Preferences</a>
-        <a href="/Team-Project-Group-4/public/index.php?page=account#addresses">Saved Addresses</a>
-        <a href="/Team-Project-Group-4/public/index.php?page=account#delete">Delete Account</a>
-        <a href="/Team-Project-Group-4/public/index.php?page=logout">Logout</a>
+        <a href="<?= BASE_URL ?>index.php?page=account#personal">Personal Details</a>
+        <a href="<?= BASE_URL ?>index.php?page=account#orders">Recent Orders</a>
+        <a href="<?= BASE_URL ?>index.php?page=account#security">Security</a>
+        <a href="<?= BASE_URL ?>index.php?page=account#preferences">Preferences</a>
+        <a href="<?= BASE_URL ?>index.php?page=account#addresses">Saved Addresses</a>
+        <a href="<?= BASE_URL ?>index.php?page=account#delete">Delete Account</a>
+        <a href="<?= BASE_URL ?>index.php?page=logout">Logout</a>
     </div>
 
 
@@ -240,7 +240,7 @@ opacity:0.85;
 
             <?php if ($user): ?>
            <div class="profile-header">
-             <div class="profile-pic" style="background-image: url('/Team-Project-Group-4/public/assets/images/avatar.png');"></div>
+             <div class="profile-pic" style="background-image: url('<?= BASE_URL ?>assets/images/avatar.png');"></div>
              <div class="profile-details">
                   <p><strong>Name:</strong> <?= htmlspecialchars($user['name']) ?></p>
                   <p><strong>Email:</strong> <?= htmlspecialchars($user['email']) ?></p>
@@ -255,7 +255,7 @@ opacity:0.85;
             <?php endif; ?>
 
             <br>
-            <a class="btn-purple" href="/Team-Project-Group-4/public/index.php?page=account-edit">Edit Details</a>
+            <a class="btn-purple" href="<?= BASE_URL ?>index.php?page=account-edit">Edit Details</a>
         </div>
 
         <!-- RECENT ORDERS -->
@@ -271,13 +271,13 @@ opacity:0.85;
                         <p>Date: <?= $o['order_date'] ?></p>
                         <p>Total: £<?= number_format($o['total_price'], 2) ?></p>
                         <p>Status: <?= $o['status'] ?></p>
-                        <a class="btn-purple" href="/Team-Project-Group-4/public/index.php?page=order&id=<?= $o['order_id'] ?>">View Order</a>
+                        <a class="btn-purple" href="<?= BASE_URL ?>index.php?page=order&id=<?= $o['order_id'] ?>">View Order</a>
                         <hr>
                     </div>
                 <?php endforeach; ?>
             <?php endif; ?>
 
-            <a class="btn-purple" href="/Team-Project-Group-4/public/index.php?page=orders">View All Orders</a>
+            <a class="btn-purple" href="<?= BASE_URL ?>index.php?page=orders">View All Orders</a>
         </div>
 
 
@@ -285,7 +285,7 @@ opacity:0.85;
         <div id="security" class="section-card">
             <h2>Security Settings</h2>
 
-            <a class="btn-purple" href="/Team-Project-Group-4/public/index.php?page=change-password">Change Password</a>
+            <a class="btn-purple" href="<?= BASE_URL ?>index.php?page=change-password">Change Password</a>
 
             <p style="margin-top:12px;">
                 <strong>Two-Factor Authentication:</strong> Not Enabled  

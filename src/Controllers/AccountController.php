@@ -69,7 +69,7 @@ class AccountController {
 
     // Validate email
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        header("Location: /Team-Project-Group-4/public/index.php?page=account-edit&error=invalid_email");
+        header("Location: " . BASE_URL . "index.php?page=account-edit&error=invalid_email");
         exit;
     }
 
@@ -80,7 +80,7 @@ class AccountController {
     $check->execute([$email, $_SESSION['user_id']]);
     
     if ($check->rowCount() > 0) {
-        header("Location: /Team-Project-Group-4/public/index.php?page=account-edit&error=email_taken");
+        header("Location: " . BASE_URL . "index.php?page=account-edit&error=email_taken");
         exit;
     }
 
@@ -92,7 +92,7 @@ class AccountController {
 
     $update->execute([$name, $email, $phone, $_SESSION['user_id']]);
 
-    header("Location: /Team-Project-Group-4/public/index.php?page=account&updated=1");
+    header("Location: " . BASE_URL . "index.php?page=account&updated=1");
     exit;
    }
 
@@ -114,7 +114,7 @@ class AccountController {
 
         // NEW PASSWORDS MATCH?
         if ($new !== $confirm) {
-            header("Location: /Team-Project-Group-4/public/index.php?page=change-password&pw=mismatch");
+            header("Location: " . BASE_URL . "index.php?page=change-password&pw=mismatch");
             exit;
         }
 
@@ -125,7 +125,7 @@ class AccountController {
 
         // Verify current password
         if (!password_verify($current, $stored)) {
-            header("Location: /Team-Project-Group-4/public/index.php?page=change-password&pw=incorrect");
+            header("Location: " . BASE_URL . "index.php?page=change-password&pw=incorrect");
             exit;
         }
 
@@ -139,7 +139,7 @@ class AccountController {
         ");
         $update->execute([$hashed, $_SESSION['user_id']]);
 
-        header("Location: /Team-Project-Group-4/public/index.php?page=change-password&pw=success");
+        header("Location: " . BASE_URL . "index.php?page=change-password&pw=success");
         exit;
   }
 
@@ -180,7 +180,7 @@ class AccountController {
 
        foreach (['label','full_name','address_line1','city','postcode'] as $field) {
          if ($data[$field] === '') {
-             header("Location: index.php?page=add-address&error=missing");
+             header("Location: " . BASE_URL . "index.php?page=add-address&error=missing");
              exit;
             }
         }
@@ -340,7 +340,7 @@ class AccountController {
     $used = $check->fetchColumn();
 
     if ($used > 0) {
-        header("Location: index.php?page=account&error=address_in_use");
+        header("Location: " . BASE_URL . "index.php?page=account&error=address_in_use");
         exit;
     }
 
@@ -350,7 +350,7 @@ class AccountController {
     ");
     $stmt->execute([$id, $_SESSION['user_id']]);
 
-    header("Location: index.php?page=account#addresses");
+    header("Location: " . BASE_URL . "index.php?page=account#addresses");
     exit;
 }
     
@@ -360,7 +360,7 @@ class AccountController {
 
     $addressId = $_GET['id'] ?? null;
     if (!$addressId) {
-        header("Location: index.php?page=account#addresses");
+        header("Location: " . BASE_URL . "index.php?page=account#addresses");
         exit;
     }
 
@@ -373,7 +373,7 @@ class AccountController {
         WHERE address_id = ? AND user_id = ?
     ")->execute([$addressId, $_SESSION['user_id']]);
 
-    header("Location: index.php?page=account#addresses");
+    header("Location: " . BASE_URL . "index.php?page=account#addresses");
     exit;
   }
 
@@ -552,7 +552,7 @@ exit;
       $stmt = $db->prepare("DELETE FROM payment_methods WHERE payment_id = ? AND user_id = ?");
      $stmt->execute([$id, $_SESSION['user_id']]);
 
-     header("Location: /Team-Project-Group-4/public/index.php?page=account#payment-methods");
+     header("Location: " . BASE_URL . "index.php?page=account#payment-methods");
      exit;
     }
 
@@ -562,7 +562,7 @@ exit;
 
     $paymentId = $_GET['id'] ?? null;
     if (!$paymentId) {
-        header("Location: index.php?page=account#payment-methods");
+        header("Location: " . BASE_URL . "index.php?page=account#payment-methods");
         exit;
     }
 
@@ -573,7 +573,7 @@ exit;
         WHERE payment_id = ? AND user_id = ?
     ")->execute([$paymentId, $_SESSION['user_id']]);
 
-    header("Location: index.php?page=account#payment-methods");
+    header("Location: " . BASE_URL . "index.php?page=account#payment-methods");
     exit;
   }
 

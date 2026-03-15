@@ -13,7 +13,7 @@ include __DIR__ . '/../header.php';
 <div class="error"><?= htmlspecialchars($_GET['error']) ?></div>
 <?php endif; ?>
 
-<form method="POST" action="/Team-Project-Group-4/public/index.php?page=reset-password-submit">
+<form method="POST" action="<?= BASE_URL ?>index.php?page=reset-password-submit">
 
 <input type="hidden" name="token" value="<?= htmlspecialchars($_GET['token'] ?? '') ?>">
 
@@ -43,7 +43,7 @@ autocomplete="new-password"
 
 </form>
 
-<a href="/Team-Project-Group-4/public/index.php?page=login">← Back to login</a>
+<a href="<?= BASE_URL ?>index.php?page=login">← Back to login</a>
 
 </div>
 

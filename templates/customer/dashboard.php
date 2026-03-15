@@ -8,7 +8,7 @@ $controller = new DashboardController();
 
 // Check if user is logged in
 if (!$controller->isLoggedIn()) {
-    header('Location: /Team-Project-Group-4/public/index.php?page=login');
+    header('Location: ' . BASE_URL . 'index.php?page=login');
     exit();
 }
 
@@ -16,7 +16,7 @@ $isAdmin = $controller->isAdmin();
 
 // Redirect non-admins to their account page
 if (!$isAdmin) {
-    header('Location: /Team-Project-Group-4/public/index.php?page=account');
+    header('Location: ' . BASE_URL . 'index.php?page=account');
     exit();
 }
 
@@ -35,7 +35,7 @@ $userRole = $controller->getUserRole();
             <span>Welcome, <?php echo htmlspecialchars($userName); ?></span>
             <span class="role-badge"><?php echo strtoupper($userRole); ?></span>
             <?php if ($actualRole === 'admin' && $isAdmin): ?>
-                <a href="/Team-Project-Group-4/public/index.php?page=switch-role" class="btn-switch-role">
+                <a href="<?= BASE_URL ?>index.php?page=switch-role" class="btn-switch-role">
                     Switch to Customer View
                 </a>
             <?php endif; ?>
@@ -82,7 +82,7 @@ $userRole = $controller->getUserRole();
                                     <?php endif; ?>
                                     <p class="alert-threshold">Threshold: <?= $product['low_stock_threshold'] ?> units</p>
                                 </div>
-                                <a href="/Team-Project-Group-4/public/index.php?page=admin-products" class="alert-action">Manage →</a>
+                                <a href="<?= BASE_URL ?>index.php?page=admin-products" class="alert-action">Manage →</a>
                             </div>
                         <?php endforeach; ?>
                     </div>
@@ -95,19 +95,19 @@ $userRole = $controller->getUserRole();
             <?php endif; ?>
 
             <div class="admin-nav">
-                <a href="/Team-Project-Group-4/public/index.php?page=admin-orders" class="admin-nav-item">
+                <a href="<?= BASE_URL ?>index.php?page=admin-orders" class="admin-nav-item">
                     <span class="icon">📦</span>
                     <span>View Orders</span>
                 </a>
-                <a href="/Team-Project-Group-4/public/index.php?page=admin-products" class="admin-nav-item">
+                <a href="<?= BASE_URL ?>index.php?page=admin-products" class="admin-nav-item">
                     <span class="icon">🛍️</span>
                     <span>Manage Products</span>
                 </a>
-                <a href="/Team-Project-Group-4/public/index.php?page=admin-customers" class="admin-nav-item">
+                <a href="<?= BASE_URL ?>index.php?page=admin-customers" class="admin-nav-item">
                     <span class="icon">👥</span>
                     <span>Manage Customers</span>
                 </a>
-                <a href="/Team-Project-Group-4/public/index.php?page=admin-reports" class="admin-nav-item">
+                <a href="<?= BASE_URL ?>index.php?page=admin-reports" class="admin-nav-item">
                     <span class="icon">📊</span>
                     <span>View Reports</span>
                 </a>
@@ -122,19 +122,19 @@ $userRole = $controller->getUserRole();
             <p>Manage your account, orders, and preferences</p>
 
             <div class="customer-nav">
-                <a href="/Team-Project-Group-4/public/index.php?page=account" class="customer-nav-item">
+                <a href="<?= BASE_URL ?>index.php?page=account" class="customer-nav-item">
                     <span class="icon">👤</span>
                     <span>My Account</span>
                 </a>
-                <a href="/Team-Project-Group-4/public/index.php?page=orders" class="customer-nav-item">
+                <a href="<?= BASE_URL ?>index.php?page=orders" class="customer-nav-item">
                     <span class="icon">📦</span>
                     <span>My Orders</span>
                 </a>
-                <a href="/Team-Project-Group-4/public/index.php?page=basket" class="customer-nav-item">
+                <a href="<?= BASE_URL ?>index.php?page=basket" class="customer-nav-item">
                     <span class="icon">🛒</span>
                     <span>My Basket</span>
                 </a>
-                <a href="/Team-Project-Group-4/public/index.php?page=products" class="customer-nav-item">
+                <a href="<?= BASE_URL ?>index.php?page=products" class="customer-nav-item">
                     <span class="icon">🛍️</span>
                     <span>Browse Products</span>
                 </a>

@@ -171,7 +171,7 @@ require_once __DIR__ . '/../header.php';
     <h1>Level Up</h1>
     <p>Level up your gaming today!</p>
     <div class="cta-buttons">
-      <a href="/Team-Project-Group-4/public/index.php?page=products" class="cta-button primary">Start Shopping</a>
+      <a href="<?= BASE_URL ?>index.php?page=products" class="cta-button primary">Start Shopping</a>
     </div>
   </div>
 </section>
@@ -408,8 +408,8 @@ require_once __DIR__ . '/../header.php';
   <div class="container" style="position: relative; z-index: 2;">
     <h2 style="font-size: 2rem; margin-bottom: 2rem;">Ready to level up your gaming today?</h2>
     <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-      <a href="/Team-Project-Group-4/public/index.php?page=products" class="cta-button primary">Shop Now!</a>
-      <a href="/Team-Project-Group-4/public/index.php?page=about" class="cta-button secondary">Learn More</a>
+      <a href="<?= BASE_URL ?>index.php?page=products" class="cta-button primary">Shop Now!</a>
+      <a href="<?= BASE_URL ?>index.php?page=about" class="cta-button secondary">Learn More</a>
     </div>
   </div>
 </section>

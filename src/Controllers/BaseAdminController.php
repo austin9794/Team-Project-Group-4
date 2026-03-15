@@ -13,7 +13,7 @@ class BaseAdminController {
         
         
         if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
-            header('Location: /Team-Project-Group-4/templates/auth/admin_login.php');
+            header('Location: ' . BASE_URL . 'index.php?page=admin_login');
             exit();
         }
         

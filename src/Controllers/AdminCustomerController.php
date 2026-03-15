@@ -94,7 +94,7 @@ public function view() {
         $userId = (int)($_GET['id'] ?? 0);
         
         if ($userId === 0) {
-            header("Location: /Team-Project-Group-4/public/index.php?page=admin-customers");
+            header("Location: " . BASE_URL . "index.php?page=admin-customers");
             exit;
         }
         
@@ -104,7 +104,7 @@ public function view() {
         $customer = $stmt->fetch();
         
         if (!$customer) {
-            header("Location: /Team-Project-Group-4/public/index.php?page=admin-customers");
+            header("Location: " . BASE_URL . "index.php?page=admin-customers");
             exit;
         }
         
@@ -118,7 +118,7 @@ public function view() {
             $update = $db->prepare("UPDATE users SET name = ?, email = ?, phone = ?, address = ? WHERE user_id = ?");
             $update->execute([$name, $email, $phone, $address, $userId]);
             
-            header("Location: /Team-Project-Group-4/public/index.php?page=admin-customers");
+            header("Location: " . BASE_URL . "index.php?page=admin-customers");
             exit;
         }
         
@@ -130,14 +130,14 @@ public function view() {
         $userId = (int)($_POST['user_id'] ?? 0);
         
         if ($userId === 0) {
-            header("Location: /Team-Project-Group-4/public/index.php?page=admin-customers");
+            header("Location: " . BASE_URL . "index.php?page=admin-customers");
             exit;
         }
         
         $delete = $db->prepare("DELETE FROM users WHERE user_id = ? AND role = 'customer'");
         $delete->execute([$userId]);
         
-        header("Location: /Team-Project-Group-4/public/index.php?page=admin-customers");
+        header("Location: " . BASE_URL . "index.php?page=admin-customers");
         exit;
     }
 }

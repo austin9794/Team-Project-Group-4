@@ -65,7 +65,7 @@
 <div class="edit-container">
     <h2>Edit Personal Details</h2>
 
-    <form method="POST" action="/Team-Project-Group-4/public/index.php?page=account-update">
+    <form method="POST" action="<?= BASE_URL ?>index.php?page=account-update">
         
         <div class="form-group">
             <label>Name</label>
@@ -84,7 +84,7 @@
 
         <button type="submit" class="btn-purple">Save Changes</button>
 
-        <a href="/Team-Project-Group-4/public/index.php?page=account" class="cancel-link">
+        <a href="<?= BASE_URL ?>index.php?page=account" class="cancel-link">
             Cancel
         </a>
 

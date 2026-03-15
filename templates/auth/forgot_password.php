@@ -44,7 +44,7 @@ include __DIR__ . '/../header.php';
     <?php endif; ?>
 
 
-    <form method="POST" action="/Team-Project-Group-4/public/index.php?page=forgot-password-submit">
+    <form method="POST" action="<?= BASE_URL ?>index.php?page=forgot-password-submit">
 
         <label for="reset-email">Email</label>
 
@@ -61,7 +61,7 @@ include __DIR__ . '/../header.php';
 
     </form>
 
-    <a href="/Team-Project-Group-4/public/index.php?page=login">← Back to login</a>
+    <a href="<?= BASE_URL ?>index.php?page=login">← Back to login</a>
 
 </div>
 

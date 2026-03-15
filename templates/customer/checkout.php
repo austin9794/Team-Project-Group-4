@@ -330,7 +330,7 @@ echo $errors[$_GET['error']] ?? '❌ An error occurred. Please try again.';
 </div>
 <?php endif; ?>
 
-<form method="POST" action="/Team-Project-Group-4/public/index.php?page=place-order">
+<form method="POST" action="<?= BASE_URL ?>index.php?page=place-order">
 
 <div class="checkout-grid">
 

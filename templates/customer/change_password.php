@@ -133,7 +133,7 @@ include __DIR__ . '/../header.php';
         <?php endif; ?>
     <?php endif; ?>
 
-    <form method="POST" action="/Team-Project-Group-4/public/index.php?page=change-password-submit">
+    <form method="POST" action="<?= BASE_URL ?>index.php?page=change-password-submit">
         <div class="form-group">
             <label for="current_password">Current Password</label>
             <input 
@@ -178,7 +178,7 @@ include __DIR__ . '/../header.php';
 
         <div class="button-group">
             <button type="submit">Change Password</button>
-            <a href="/Team-Project-Group-4/public/index.php?page=account">Cancel</a>
+            <a href="<?= BASE_URL ?>index.php?page=account">Cancel</a>
         </div>
     </form>
 </div>

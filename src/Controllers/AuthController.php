@@ -180,4 +180,14 @@ class AuthController {
     ");
 
     $stmt->execute([$token, $expiry, $user['user_id']]);
+    
+    // Simulated email link
+    $resetLink = BASE_URL . "index.php?page=reset-password&token=" . $token;
+
+    header("Location: index.php?page=forgot-password&success=" . urlencode("Reset link generated."));
+    $_SESSION['reset_demo_link'] = $resetLink;
+
+    exit;
+}
+
 }

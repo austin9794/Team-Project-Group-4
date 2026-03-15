@@ -221,17 +221,23 @@ switch ($page) {
         break;
 
         // ---- Forgot Password Pages ----
-     case 'forgot-password':
-        include $TEMPLATES . '/auth/forgot_password.php';
+    case 'forgot-password':
+        include __DIR__ . '/../templates/auth/forgot_password.php';
         break;
 
     case 'forgot-password-submit':
-        header('Location: /Team-Project-Group-4/public/index.php?page=forgot-password&success=' . urlencode('If that email exists, a reset link has been sent.'));
-        exit;
+        $controller = new AuthController();
+        $controller->handleForgotPassword();
+    break;
 
     case 'reset-password':
-        include $TEMPLATES . '/auth/reset_password.php';
-        break;
+        include __DIR__ . '/../templates/auth/reset_password.php';
+    break;
+
+    case 'reset-password-submit':
+        $controller = new AuthController();
+        $controller->handleResetPassword();
+    break;
 
         // ---- Customer Pages ----
     case 'account':

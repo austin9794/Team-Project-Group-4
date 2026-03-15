@@ -134,7 +134,7 @@ include __DIR__ . '/../header.php';
     <?php endif; ?>
 
     <!-- Unified login form -->
-    <form method="POST" action="/Team-Project-Group-4/public/index.php?page=login-submit" id="auto-login-form">
+    <form method="POST" action="<?= BASE_URL ?>index.php?page=login-submit" id="auto-login-form">
         
         <label for="user-email">Email</label>
         <input 
@@ -155,7 +155,7 @@ include __DIR__ . '/../header.php';
         >
         
         <div class="forgot-password">
-            <a href="/Team-Project-Group-4/public/index.php?page=forgot-password">
+            <a href="<?= BASE_URL ?>index.php?page=forgot-password">
                 Forgot your password?
             </a>
         </div>

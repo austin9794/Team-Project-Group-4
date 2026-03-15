@@ -13,7 +13,7 @@ function isAdmin() {
 // Redirect to login if not logged in
 function requireLogin() {
     if (!isLoggedIn()) {
-        header("Location: /Team-Project-Group-4/public/index.php?page=login");
+        header("Location: " . BASE_URL . "index.php?page=login");
         exit;
     }
 }
@@ -21,7 +21,7 @@ function requireLogin() {
 // Redirect if user is not admin
 function requireAdmin() {
     if (!isAdmin()) {
-        header("Location: /Team-Project-Group-4/public/index.php?page=home");
+        header("Location: " . BASE_URL . "index.php?page=home");
         exit;
     }
 }

@@ -59,7 +59,7 @@ define('ACCESS_ALLOWED', true);
     <?php else: ?>
     <div class="alert-section">
         <div class="no-alerts">
-            <div class="no-alerts-icon">✅</div>
+            <div class="no-alerts-icon">✔︎</div>
             <h3>All Stock Levels Healthy</h3>
             <p>No inventory alerts at this time</p>
         </div>
@@ -69,21 +69,21 @@ define('ACCESS_ALLOWED', true);
     <!-- Quick Stats -->
     <div class="quick-stats">
         <div class="stat-card">
-            <div class="stat-icon">📦</div>
+            <div class="stat-icon">🗃</div>
             <div class="stat-content">
                 <div class="stat-number"><?= $orderSummary['pending_count'] ?></div>
                 <div class="stat-label">Pending Orders</div>
             </div>
         </div>
         <div class="stat-card">
-            <div class="stat-icon">⚙️</div>
+            <div class="stat-icon">⚙︎</div>
             <div class="stat-content">
                 <div class="stat-number"><?= $orderSummary['processing_count'] ?></div>
                 <div class="stat-label">Processing</div>
             </div>
         </div>
         <div class="stat-card">
-            <div class="stat-icon">🚚</div>
+            <div class="stat-icon">⛟</div>
             <div class="stat-content">
                 <div class="stat-number"><?= $orderSummary['shipped_count'] ?></div>
                 <div class="stat-label">Shipped</div>
@@ -103,7 +103,7 @@ define('ACCESS_ALLOWED', true);
         <h3>Quick Navigation</h3>
         <div class="links-grid">
             <a href="index.php?page=admin-orders" class="quick-link">
-                📦 Manage Orders
+                🗃 Manage Orders
             </a>
             <a href="index.php?page=admin-products" class="quick-link">
                 🛍️ Manage Products

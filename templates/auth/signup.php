@@ -105,7 +105,7 @@ include __DIR__ . '/../header.php';
         <div class="error"><?= htmlspecialchars($_GET['error']) ?></div>
     <?php endif; ?>
 
-    <form method="POST" action="/Team-Project-Group-4/public/index.php?page=signup-submit">
+    <form method="POST" action="<?= BASE_URL ?>index.php?page=signup-submit">
 
         <label>Full Name</label>
         <input type="text" name="name" required placeholder="John Doe">
@@ -128,7 +128,7 @@ include __DIR__ . '/../header.php';
         <button type="submit">Create Account</button>
     </form>
 
-    <a href="/Team-Project-Group-4/public/index.php?page=login">Already have an account? Login</a>
+    <a href="<?= BASE_URL ?>index.php?page=login">Already have an account? Login</a>
 
 </div>
 

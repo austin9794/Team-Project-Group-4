@@ -3,7 +3,7 @@
 
 <div class="admin-orders-container">
     <div class="admin-header">
-        <h1>📦 Order Management</h1>
+        <h1>🗃 Order Management</h1>
         <p>Search, filter, and manage all orders</p>
     </div>
 

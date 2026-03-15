@@ -192,6 +192,8 @@ margin:14px 0;
 }
 
 .option-card:hover {
+  transform:translateY(-2px);
+  box-shadow:0 0 10px rgba(150,100,255,0.25);
   border-color: #8f3dff;
 }
 
@@ -259,6 +261,44 @@ width:100%;
 margin-top:20px;
 }
 
+.payment-option{
+display:flex;
+align-items:center;
+gap:14px;
+}
+
+.checkout-card-icon{
+height:32px;
+opacity:0.95;
+}
+
+.payment-info{
+display:flex;
+flex-direction:column;
+}
+
+.payment-card{
+transition:0.25s;
+}
+
+.payment-card:hover{
+transform:translateY(-4px);
+box-shadow:0 12px 25px rgba(120,0,255,0.35);
+}
+
+.secure-checkout{
+margin-top:20px;
+padding:12px 16px;
+border-radius:8px;
+background:rgba(80,255,140,0.08);
+border:1px solid rgba(80,255,140,0.35);
+color:#7dffb0;
+font-size:14px;
+display:flex;
+align-items:center;
+gap:8px;
+}
+
 @media (max-width:900px){
 
 .checkout-grid{
@@ -290,7 +330,7 @@ echo $errors[$_GET['error']] ?? '❌ An error occurred. Please try again.';
 </div>
 <?php endif; ?>
 
-<form method="POST" action="/Team-Project-Group-4/public/index.php?page=place-order">
+<form method="POST" action="<?= BASE_URL ?>index.php?page=place-order">
 
 <div class="checkout-grid">
 
@@ -363,13 +403,23 @@ value="<?= $p['payment_id'] ?>"
 required
 >
 
-<div class="option-content">
+<div class="option-content payment-option">
+
+<img
+src="<?= BASE_URL ?>assets/images/cards/<?= strtolower($p['card_brand']) ?>.png"
+class="checkout-card-icon">
+
+<div class="payment-info">
+
 <strong><?= htmlspecialchars($p['card_brand']) ?></strong>
 <p>Ending in <?= htmlspecialchars($p['card_last4']) ?></p>
 
 <?php if (!empty($p['is_default'])): ?>
 <span class="badge-default">Default</span>
 <?php endif; ?>
+
+</div>
+
 </div>
 
 </label>
@@ -504,6 +554,10 @@ $canCheckout = $hasAddress && $hasPayment;
 </div>
 
 <?php endif; ?>
+
+<div class="secure-checkout">
+    🔒︎ Secure Checkout — Payments are encrypted and protected
+</div>
 
 <button
 type="submit"

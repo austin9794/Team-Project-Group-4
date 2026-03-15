@@ -18,7 +18,7 @@ class DashboardController {
      */
     public function index() {
         if (!$this->isLoggedIn()) {
-            header('Location: /Team-Project-Group-4/public/index.php?page=login');
+            header('Location: ' . BASE_URL . 'index.php?page=login');
             exit();
         }
     }
@@ -37,7 +37,7 @@ class DashboardController {
 
         if (empty($email) || empty($password)) {
             $_SESSION['login_error'] = 'Please enter both email and password';
-            header('Location: /Team-Project-Group-4/public/index.php?page=login');
+            header('Location: ' . BASE_URL . 'index.php?page=login');
             exit();
         }
 
@@ -63,11 +63,11 @@ class DashboardController {
             $_SESSION['user_name'] = $admin['name'];
             $_SESSION['user_email'] = $admin['email'];
             
-            header('Location: /Team-Project-Group-4/public/index.php?page=dashboard');
+            header('Location: ' . BASE_URL . 'index.php?page=dashboard');
             exit();
         } else {
             $_SESSION['login_error'] = 'Invalid admin credentials';
-            header('Location: /Team-Project-Group-4/public/index.php?page=login');
+            header('Location: ' . BASE_URL . 'index.php?page=login');
             exit();
         }
     }
@@ -82,7 +82,7 @@ class DashboardController {
 
         if (!$user || !password_verify($password, $user['password'])) {
             $_SESSION['login_error'] = 'Invalid email or password';
-            header('Location: /Team-Project-Group-4/public/index.php?page=login');
+            header('Location: ' . BASE_URL . 'index.php?page=login');
             exit();
         }
         
@@ -92,7 +92,7 @@ class DashboardController {
         $_SESSION['user_name'] = $user['name'];
         $_SESSION['user_email'] = $user['email'];
 
-        header('Location: /Team-Project-Group-4/public/index.php?page=dashboard');
+        header('Location: ' . BASE_URL . 'index.php?page=dashboard');
         exit();
     }
 
@@ -102,14 +102,14 @@ class DashboardController {
 
     public function switchRole() {
         if (!$this->isLoggedIn()) {
-            header('Location: /Team-Project-Group-4/public/index.php?page=login');
+            header('Location: ' . BASE_URL . 'index.php?page=login');
             exit();
         }
 
         $actualRole = $this->getActualUserRole();
         
         if ($actualRole !== 'admin') {
-            header('Location: /Team-Project-Group-4/public/index.php?page=dashboard');
+            header('Location: ' . BASE_URL . 'index.php?page=dashboard');
             exit();
         }
 
@@ -128,7 +128,7 @@ class DashboardController {
         }
 
         session_write_close();
-        header('Location: /Team-Project-Group-4/public/index.php?page=dashboard');
+        header('Location: ' . BASE_URL . 'index.php?page=dashboard');
         exit();
     }
 
@@ -138,7 +138,7 @@ class DashboardController {
     public function logout() {
         session_unset();
         session_destroy();
-        header('Location: /Team-Project-Group-4/public/index.php?page=login');
+        header('Location: ' . BASE_URL . 'index.php?page=login');
         exit();
     }
 

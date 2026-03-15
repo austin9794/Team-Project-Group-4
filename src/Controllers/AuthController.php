@@ -188,6 +188,44 @@ class AuthController {
     $_SESSION['reset_demo_link'] = $resetLink;
 
     exit;
+   }
+
+   public function handleResetPassword() {
+    
+    $token = $_POST['token'] ?? '';
+    $password = $_POST['password'] ?? '';
+    $confirm = $_POST['confirm'] ?? '';
+
+    if ($password !== $confirm) {
+        header("Location: index.php?page=login&error=Passwords+do+not+match");
+        exit;
+    }
+
+    $stmt = $this->db->prepare(" SELECT user_id 
+        FROM users
+        WHERE reset_token = ?
+        AND reset_expires > NOW()
+    ");
+
+    $stmt->execute([$token]);
+    $user = $stmt->fetch();
+
+    if (!$user) {
+        header("Location: index.php?page=login&error=Reset+link+expired");
+        exit;
+    }
+
+    $hashed = password_hash($password, PASSWORD_BCRYPT);
+
+    $stmt = $this->db->prepare(" UPDATE users
+        SET password = ?, reset_token = NULL, reset_expires = NULL
+        WHERE user_id = ?
+    ");
+
+    $stmt->execute([$hashed, $user['user_id']]);
+
+    header("Location: index.php?page=login&success=Password+updated");
+    exit;
 }
 
 }

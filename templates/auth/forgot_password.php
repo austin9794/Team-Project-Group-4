@@ -119,8 +119,28 @@ include __DIR__ . '/../header.php';
         <div class="success"><?= htmlspecialchars($_GET['success']) ?></div>
     <?php endif; ?>
 
+
+    <?php if (!empty($_SESSION['reset_demo_link'])): ?>
+        <div class="success" style="margin-top:15px">
+
+            <strong> Demo Email Sent</strong><br><br>
+
+            For demo purposes your reset email would contain the link below:<br><br>
+
+            <a href="<?= htmlspecialchars($_SESSION['reset_demo_link']) ?>">
+                <?= htmlspecialchars($_SESSION['reset_demo_link']) ?>
+            </a>
+
+        </div>
+
+        <?php unset($_SESSION['reset_demo_link']); ?>
+    <?php endif; ?>
+
+
     <form method="POST" action="/Team-Project-Group-4/public/index.php?page=forgot-password-submit">
+
         <label for="reset-email">Email</label>
+
         <input
             type="email"
             id="reset-email"
@@ -131,6 +151,7 @@ include __DIR__ . '/../header.php';
         >
 
         <button type="submit">Send Reset Link</button>
+
     </form>
 
     <a href="/Team-Project-Group-4/public/index.php?page=login">← Back to login</a>

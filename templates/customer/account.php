@@ -183,6 +183,37 @@
     font-weight: 500;
 }
 
+.payment-card{
+position:relative;
+background:linear-gradient(135deg,#140028,#1e0042);
+padding:22px;
+border-radius:16px;
+border:1px solid rgba(160,120,255,0.2);
+}
+
+.payment-card-top{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:20px;
+}
+
+.payment-icon{
+height:34px;
+opacity:0.95;
+}
+
+.payment-card-number{
+font-size:20px;
+letter-spacing:2px;
+font-weight:600;
+margin-bottom:8px;
+}
+
+.payment-card-expiry{
+font-size:14px;
+opacity:0.85;
+}
 </style>
 
 <div class="account-container">
@@ -190,13 +221,13 @@
     <!-- SIDEBAR -->
     <div class="account-sidebar">
         <h3>My Account</h3>
-        <a href="/Team-Project-Group-4/public/index.php?page=account#personal">Personal Details</a>
-        <a href="/Team-Project-Group-4/public/index.php?page=account#orders">Recent Orders</a>
-        <a href="/Team-Project-Group-4/public/index.php?page=account#security">Security</a>
-        <a href="/Team-Project-Group-4/public/index.php?page=account#preferences">Preferences</a>
-        <a href="/Team-Project-Group-4/public/index.php?page=account#addresses">Saved Addresses</a>
-        <a href="/Team-Project-Group-4/public/index.php?page=account#delete">Delete Account</a>
-        <a href="/Team-Project-Group-4/public/index.php?page=logout">Logout</a>
+        <a href="<?= BASE_URL ?>index.php?page=account#personal">Personal Details</a>
+        <a href="<?= BASE_URL ?>index.php?page=account#orders">Recent Orders</a>
+        <a href="<?= BASE_URL ?>index.php?page=account#security">Security</a>
+        <a href="<?= BASE_URL ?>index.php?page=account#preferences">Preferences</a>
+        <a href="<?= BASE_URL ?>index.php?page=account#addresses">Saved Addresses</a>
+        <a href="<?= BASE_URL ?>index.php?page=account#delete">Delete Account</a>
+        <a href="<?= BASE_URL ?>index.php?page=logout">Logout</a>
     </div>
 
 
@@ -209,7 +240,7 @@
 
             <?php if ($user): ?>
            <div class="profile-header">
-             <div class="profile-pic" style="background-image: url('/Team-Project-Group-4/public/assets/images/avatar.png');"></div>
+             <div class="profile-pic" style="background-image: url('<?= BASE_URL ?>assets/images/avatar.png');"></div>
              <div class="profile-details">
                   <p><strong>Name:</strong> <?= htmlspecialchars($user['name']) ?></p>
                   <p><strong>Email:</strong> <?= htmlspecialchars($user['email']) ?></p>
@@ -224,7 +255,7 @@
             <?php endif; ?>
 
             <br>
-            <a class="btn-purple" href="/Team-Project-Group-4/public/index.php?page=account-edit">Edit Details</a>
+            <a class="btn-purple" href="<?= BASE_URL ?>index.php?page=account-edit">Edit Details</a>
         </div>
 
         <!-- RECENT ORDERS -->
@@ -240,13 +271,13 @@
                         <p>Date: <?= $o['order_date'] ?></p>
                         <p>Total: £<?= number_format($o['total_price'], 2) ?></p>
                         <p>Status: <?= $o['status'] ?></p>
-                        <a class="btn-purple" href="/Team-Project-Group-4/public/index.php?page=order&id=<?= $o['order_id'] ?>">View Order</a>
+                        <a class="btn-purple" href="<?= BASE_URL ?>index.php?page=order&id=<?= $o['order_id'] ?>">View Order</a>
                         <hr>
                     </div>
                 <?php endforeach; ?>
             <?php endif; ?>
 
-            <a class="btn-purple" href="/Team-Project-Group-4/public/index.php?page=orders">View All Orders</a>
+            <a class="btn-purple" href="<?= BASE_URL ?>index.php?page=orders">View All Orders</a>
         </div>
 
 
@@ -254,7 +285,7 @@
         <div id="security" class="section-card">
             <h2>Security Settings</h2>
 
-            <a class="btn-purple" href="/Team-Project-Group-4/public/index.php?page=change-password">Change Password</a>
+            <a class="btn-purple" href="<?= BASE_URL ?>index.php?page=change-password">Change Password</a>
 
             <p style="margin-top:12px;">
                 <strong>Two-Factor Authentication:</strong> Not Enabled  
@@ -340,22 +371,27 @@
 
         <?php if (!empty($payments)): ?>
             <?php foreach ($payments as $p): ?>
-                <div class="info-card <?= $p['is_default'] ? 'default-glow' : '' ?>">
+                <div class="info-card payment-card <?= $p['is_default'] ? 'default-glow' : '' ?>">
 
-                    <h3>
-                        <?= htmlspecialchars($p['card_brand']) ?>
-                        •••• <?= htmlspecialchars($p['card_last4']) ?>
-                    </h3>
+    <div class="payment-card-top">
 
-                    <p>
-                        Expires
-                        <?= str_pad($p['expiry_month'], 2, '0', STR_PAD_LEFT) ?>
-                        /<?= substr($p['expiry_year'], -2) ?>
-                    </p>
+        <img
+            src="<?= BASE_URL ?>assets/images/cards/<?= strtolower($p['card_brand']) ?>.png"
+            class="payment-icon">
 
-                    <?php if ($p['is_default']): ?>
-                        <span class="default-badge">✓ Default Payment</span>
-                    <?php endif; ?>
+        <?php if ($p['is_default']): ?>
+            <span class="default-badge">✓ Default</span>
+        <?php endif; ?>
+
+    </div>
+
+    <div class="payment-card-number">
+        •••• •••• •••• <?= htmlspecialchars($p['card_last4']) ?>
+    </div>
+
+    <div class="payment-card-expiry">
+        Expires <?= str_pad($p['expiry_month'],2,'0',STR_PAD_LEFT) ?>/<?= substr($p['expiry_year'],-2) ?>
+    </div>
 
                     <div class="card-actions">
 

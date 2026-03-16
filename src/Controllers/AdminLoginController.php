@@ -27,7 +27,7 @@ class AdminLoginController {
         error_log("AdminLoginController - Calling BaseAdminController::login");
         if (BaseAdminController::login($username, $password)) {
             error_log("AdminLoginController - Login successful, redirecting");
-            header('Location: /Team-Project-Group-4/public/index.php?page=admin-dashboard');
+            header("Location: " . BASE_URL . "index.php?page=admin-dashboard");
             exit();
         } else {
             error_log("AdminLoginController - Login failed");

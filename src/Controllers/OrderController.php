@@ -9,18 +9,18 @@ class OrderController {
         $addressId = null;
 
         if (empty($_SESSION['basket'])) {
-            header("Location: /Team-Project-Group-4/public/index.php?page=basket");
+            header("Location: " . BASE_URL . "index.php?page=basket");
             exit;
         }
 
         if (!isset($_SESSION['user_id'])) {
-            header("Location: /Team-Project-Group-4/public/index.php?page=login");
+            header("Location: " . BASE_URL . "index.php?page=login");
             exit;
         }
 
         // VALIDATE PAYMENT METHOD 
         if (empty($_POST['payment_id'])) {
-            header("Location: /Team-Project-Group-4/public/index.php?page=checkout&error=no_payment");
+            header("Location: " . BASE_URL . "index.php?page=checkout&error=no_payment");
             exit;
         }
 
@@ -47,7 +47,7 @@ class OrderController {
 
         //Payment Validation
         if (empty($_POST['payment_id'])) {
-        header("Location: /Team-Project-Group-4/public/index.php?page=checkout&error=no_payment");
+        header("Location: " . BASE_URL . "index.php?page=checkout&error=no_payment");
         exit;
      }
 
@@ -61,7 +61,7 @@ class OrderController {
         $payment = $payStmt->fetch();
 
        if (!$payment) {
-         header("Location: /Team-Project-Group-4/public/index.php?page=checkout&error=invalid_payment");
+         header("Location: " . BASE_URL . "index.php?page=checkout&error=invalid_payment");
          exit;
         }
 
@@ -93,7 +93,7 @@ class OrderController {
        }
 
       if (!$address) {
-         header("Location: /Team-Project-Group-4/public/index.php?page=checkout&error=no_address");
+         header("Location: " . BASE_URL . "index.php?page=checkout&error=no_address");
          exit;
         }
 
@@ -101,20 +101,29 @@ class OrderController {
         $shippingAddress  = formatAddress($address);
 
     // Recalculate total
-    $total = 0;
+    $subtotal = 0;
 
-      foreach ($_SESSION['basket'] as $productId => $qty) {
-         $productId = (int)$productId;
-         $qty = max(1, (int)$qty);
+    foreach ($_SESSION['basket'] as $productId => $qty) {
 
-         $stmt = $db->prepare("SELECT price FROM products WHERE product_id = ?");
-         $stmt->execute([$productId]);
-         $price = $stmt->fetchColumn();
+       $productId = (int)$productId;
+       $qty = max(1, (int)$qty);
 
-        if ($price !== false) {
-           $total += (float)$price * $qty;
+       $stmt = $db->prepare("SELECT price FROM products WHERE product_id = ?");
+       $stmt->execute([$productId]);
+       $price = $stmt->fetchColumn();
+
+       if ($price !== false) {
+           $subtotal += (float)$price * $qty;
         }
     }
+
+    $freeShippingThreshold = 50;
+
+    $shipping = ($subtotal >= $freeShippingThreshold) ? 0 : 4.99;
+
+    $vat = $subtotal * 0.20;
+
+    $total = $subtotal + $shipping + $vat;
 
     //Order Snapshot
       $orderStmt = $db->prepare(" INSERT INTO orders (
@@ -153,7 +162,7 @@ class OrderController {
     unset($_SESSION['basket']);
     unset($_SESSION['checkout_address_id']);
 
-    header("Location: /Team-Project-Group-4/public/index.php?page=order-success&id=" . $orderId);
+    header("Location: " . BASE_URL . "index.php?page=order-success&id=" . $orderId);
     exit;
 
   }
@@ -268,7 +277,7 @@ public function showOrder()
     }
 
     if (!isset($_SESSION['user_id'])) {
-        header("Location: /Team-Project-Group-4/public/index.php?page=login");
+        header("Location: " . BASE_URL . "index.php?page=login");
         exit;
     }
 

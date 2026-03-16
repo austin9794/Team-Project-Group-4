@@ -31,6 +31,14 @@ if (!empty($_SESSION['basket']) && is_array($_SESSION['basket'])) {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Science+Gothic:wght@100..900&display=swap" rel="stylesheet">
 
+    <!-- Favicons -->
+    <?php $faviconPath = "assets/images/favicon_io/"; ?>
+    <link rel="icon" type="image/x-icon" href="<?= $faviconPath ?>favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="<?= $faviconPath ?>favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="<?= $faviconPath ?>favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="<?= $faviconPath ?>android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="<?= $faviconPath ?>android-chrome-512x512.png">
+
     <!-- Dynamic asset loading -->
     <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/style.css">
 
@@ -86,8 +94,6 @@ if (!empty($_SESSION['basket']) && is_array($_SESSION['basket'])) {
         .search-bar input::placeholder {
             color: #bca8e6;
         }
-
-        /* .search-bar button styles removed since button is gone */
 
         .search-bar button:hover {
             background-color: var(--lavender);
@@ -201,7 +207,7 @@ if (!empty($_SESSION['basket']) && is_array($_SESSION['basket'])) {
     height:26px;
 }
 
-/* smaller badge inside icon */
+/* badge inside icon */
 .basket-badge{
     position:absolute;
     top:-4px;
@@ -222,7 +228,21 @@ if (!empty($_SESSION['basket']) && is_array($_SESSION['basket'])) {
 
     border-radius:50%;
 }
-    </style>
+
+.account-link {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    line-height: 1.8;
+}
+
+.customer-view-indicator {
+    font-size: 0.80rem;
+    margin-left: 6px;
+    opacity: 0.90;
+    color: #ffd166; 
+}
+</style>
 </head>
 <body>
 
@@ -248,22 +268,28 @@ if (!empty($_SESSION['basket']) && is_array($_SESSION['basket'])) {
 
     </form>
 
+    <?php
+       $actualRole = $_SESSION['actual_role'] ?? $_SESSION['user_role'] ?? 'customer';
+       $isAdmin = $_SESSION['is_admin'] ?? false;
+    ?>
+
     <!-- NAVIGATION -->
     <div class="nav-links">
 
-        <?php if (isLoggedIn()): ?>
+        <?php if (isLoggedIn()): ?> 
 
             <!-- Account Dropdown -->
             <div class="dropdown">
-                <a href="#">My Account ▼</a>
+                <a href="#" class="account-link">
+                    <span>My Account ▼</span>
+
+                 <?php if ($actualRole === 'admin' && !$isAdmin): ?>
+                   <span class="customer-view-indicator">Customer View</span>
+                 <?php endif; ?>
+                </a>
                 <div class="dropdown-content">
                     <a href="index.php?page=account">Profile</a>
                     <a href="index.php?page=orders">My Orders</a>
-
-                    <?php
-                      $actualRole = $_SESSION['actual_role'] ?? $_SESSION['user_role'] ?? 'customer';
-                      $isAdmin = $_SESSION['is_admin'] ?? false;
-                    ?>
 
                     <?php if ($actualRole === 'admin'): ?>
                       <hr style="margin: 5px 0; border: 0; border-top: 1px solid rgba(255,255,255,0.2);">

@@ -157,6 +157,19 @@ textarea {
   font-size: 0.75rem;
 }
 
+.btn-purple {
+    display: inline-block;
+    padding: 10px 15px;
+    background: #8f3dff;
+    border-radius: 6px;
+    color: white;
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+.btn-purple:hover {
+    background: #b46cff;
+}
 </style>
 
 <h1>Request Return</h1>
@@ -167,16 +180,29 @@ textarea {
 
     <input type="hidden" name="order_item_id"
            value="<?= $item['order_item_id'] ?>">
+           
+    <input type="hidden" name="quantity" value="1"> 
 
-    <label>Quantity</label>
-    <input type="number"
-           name="quantity"
-           min="1"
-           max="<?= $item['quantity'] - $item['returned_quantity'] ?>"
-           required>
+    <label for="reason">Why are you returning this item? (Required)</label>
+    
+  <select name="reason" id="reason" required>
+    <option value="">Choose a response</option>
+    <option value="Arrived in addition to what was ordered">Arrived in addition to what was ordered</option>
+    <option value="Missed estimated delivery date">Missed estimated delivery date</option>
+    <option value="Description on website was not accurate">Description on website was not accurate</option>
+    <option value="No reason given">No reason given</option>
+    <option value="Wrong item was sent">Wrong item was sent</option>
+    <option value="Accidental order">Accidental order</option>
+    <option value="The item and delivery box are both damaged">The item and delivery box are both damaged</option>
+    <option value="Item is defective or does not work">Item is defective or does not work</option>
+    <option value="Found better price somewhere else">Found better price somewhere else</option>
+    <option value="No longer needed">No longer needed</option>
+</select>
 
-    <label>Why are you returning this item? (Required)</label>
-    <textarea name="reason" required></textarea>
+
+    <label>Comments (Required)</label>
+    <textarea name="comments" required
+              placeholder="Please tell us how we can improve:"></textarea>
 
     <button class="btn-purple">Submit Return</button>
 

@@ -32,7 +32,7 @@ class AdminProductController extends BaseAdminController {
             ");
             $insert->execute([$name, $categoryId, $description, $price, $stock, $threshold, $slug]);
 
-            header("Location: /Team-Project-Group-4/public/index.php?page=admin-products&added=1");
+            header("Location: " . BASE_URL . "index.php?page=admin-products&added=1");
             exit;
         }
 
@@ -43,7 +43,7 @@ class AdminProductController extends BaseAdminController {
             $delete = $db->prepare("DELETE FROM products WHERE product_id = ?");
             $delete->execute([$productId]);
 
-            header("Location: /Team-Project-Group-4/public/index.php?page=admin-products&deleted=1");
+            header("Location: " . BASE_URL . "index.php?page=admin-products&deleted=1");
             exit;
         }
 
@@ -60,7 +60,7 @@ class AdminProductController extends BaseAdminController {
             ");
             $update->execute([$stock, $price, $threshold, $productId]);
 
-            header("Location: /Team-Project-Group-4/public/index.php?page=admin-products&updated=1");
+            header("Location: " . BASE_URL . "index.php?page=admin-products&updated=1");
             exit;
         }
 

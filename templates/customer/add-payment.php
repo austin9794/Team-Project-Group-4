@@ -1,21 +1,5 @@
 <?php include __DIR__ . '/../header.php'; ?>
 
-<?php if (isset($_GET['error'])): ?>
-    <div style="background:#3a0d0d; color:#ff7c7c; padding:12px; border-radius:8px; margin-bottom:20px;">
-        <?php
-            $errors = [
-                'invalid_card' => 'Invalid card number.',
-                'unsupported_card' => 'Only Visa and Mastercard supported.',
-                'invalid_cvv' => 'CVV must be 3 or 4 digits.',
-                'invalid_expiry' => 'Invalid expiry format.',
-                'expired_card' => 'Card is expired.',
-                'year_too_old' => 'Expiry year must be 26 or later.'
-            ];
-            echo $errors[$_GET['error']] ?? 'Invalid payment details.';
-        ?>
-    </div>
-<?php endif; ?>
-
 <style>
 .payment-container {
     max-width: 600px;
@@ -33,17 +17,17 @@
 
 .form-group {
     margin-bottom: 18px;
+    display: flex;
+    flex-direction: column;
 }
 
 .form-group label {
-    display: block;
     margin-bottom: 6px;
     color: #c9a7ff;
     font-weight: 600;
 }
 
 .form-group input {
-    width: 100%;
     padding: 12px;
     background: #2a0f47;
     border: 1px solid #5d3b8a;
@@ -55,12 +39,10 @@
     display: flex;
     gap: 20px;
     flex-wrap: wrap;
-    align-items: flex-start;
 }
 
 .inline-row .form-group {
     flex: 1;
-    display: flex;
     min-width: 180px;
 }
 
@@ -84,175 +66,373 @@
     color: #c9a7ff;
     text-decoration: none;
 }
+
+.input-error {
+    border:2px solid #ff4f4f !important;
+}
+
+.error-text {
+    color:#ff6b6b;
+    font-size:13px;
+    margin-top:6px;
+}
+
+.card-input-wrapper{
+position:relative;
+}
+
+.card-input-wrapper input{
+padding-right:90px;
+}
+
+.card-icons{
+display:flex;
+gap:12px;
+margin-top:10px;
+align-items:center;
+}
+
+.card-icon{
+filter: grayscale(1);
+opacity:0.35;
+height:28px;
+opacity:0.35;
+transition:0.25s;
+}
+
+.card-icon.active{
+filter: none;
+opacity:1;
+transform:scale(1.05);
+}
+
+.card-icon:hover{
+opacity:0.7;
+}
 </style>
 
 <div class="payment-container">
-    <h2>Add Payment Method</h2>
+<h2>Add Payment Method</h2>
 
-    <form method="POST" action="<?= BASE_URL ?>index.php?page=save-payment">
+<form id="paymentForm" method="POST" action="<?= BASE_URL ?>index.php?page=save-payment" novalidate>
 
-        <div class="form-group">
-            <label>Card Number</label>
-            <input type="text" 
-                   name="card_number" 
-                   id="cardNumber"
-                   inputmode="numeric"
-                   pattern="\d*"
-                   maxlength="16"
-                   placeholder="1234 5678 9012 3456"
-                   required>
-            <small id="cardBrandDisplay" style="color:#9f7cff;"></small>
-        </div>
+<div class="form-group card-field">
 
-        <div class="inline-row">
-            <div class="form-group" style="flex:1;">
-                <label>Expiry (MM/YY)</label>
-                <input type="text" 
-                       name="expiry"
-                       id="expiryInput"
-                       placeholder="MM/YY"
-                       inputmode="numeric"
-                       maxlength="5"
-                       pattern="^(0[1-9]|1[0-2])\/\d{2}$"
-                       required>
+<label>Card Number</label>
 
-                        <div id="expiryError" style="color:#ff6b6b; font-size:14px; display:none;">
-               Please enter a valid date.
-            </div>
-            </div>
+<input
+type="text"
+name="card_number"
+id="cardNumber"
+inputmode="numeric"
+maxlength="19"
+placeholder="4242 4242 4242 4242">
 
-            <div class="form-group" style="flex:1;">
-                <label>Security Code (CVV)</label>
-                <input type="password"
-                       name="cvv"
-                       id="cvvInput"
-                       inputmode="numeric"
-                       maxlength="4"
-                       pattern="\d{3,4}"
-                       required>
-            </div>
-        </div>
+<div class="card-icons">
 
-        <button type="submit" 
-                class="btn-purple"
-                id="saveCardBtn"
-                disabled>
-            Save Payment Method
-        </button>
+<img src="<?= BASE_URL ?>assets/images/cards/visa.png"
+     id="visaIcon"
+     class="card-icon">
 
-        <?php
-        $redirect = $_GET['redirect'] ?? null;
-        $cancelUrl = $redirect === 'checkout'
-        ? BASE_URL . "index.php?page=checkout"
-        : BASE_URL . "index.php?page=account#payment-methods";
-        ?>
+<img src="<?= BASE_URL ?>assets/images/cards/mastercard.png"
+     id="mastercardIcon"
+     class="card-icon">
 
-        <a class="cancel-link" href="<?= $cancelUrl ?>">
-          Cancel
-       </a>
-
-        <?php $redirect = $_GET['redirect'] ?? null; ?>
-
-        <?php if ($redirect): ?>
-           <input type="hidden" name="redirect" value="<?= htmlspecialchars($redirect) ?>">
-       <?php endif; ?>
-
-<script>
-document.querySelector("form").addEventListener("submit", function (e) {
-
-    const expiryValid = /^(0[1-9]|1[0-2])\/\d{2}$/.test(expiryInput.value);
-    const cvvValid = /^\d{3,4}$/.test(cvvInput.value);
-    const cardValid = /^\d{16}$/.test(cardInput.value);
-
-    if (!expiryValid || !cvvValid || !cardValid || expiryError.style.display === "block") {
-        e.preventDefault();
-        alert("Please fix payment details before saving.");
-    }
-});
-</script>
-
-    </form>
 </div>
 
+<small style="color:#9505fc;">
+We currently only accept Visa and Mastercard.
+</small>
+
+</div>
+
+
+<div class="inline-row">
+
+<div class="form-group">
+<label>Expiry (MM/YY)</label>
+
+<input type="text"
+name="expiry"
+id="expiryInput"
+placeholder="MM/YY"
+inputmode="numeric"
+maxlength="5">
+</div>
+
+
+<div class="form-group">
+<label>Security Code (CVV)</label>
+
+<input type="password"
+name="cvv"
+id="cvvInput"
+inputmode="numeric"
+maxlength="4">
+</div>
+
+</div>
+
+
+<button type="submit" class="btn-purple">
+Save Payment Method
+</button>
+
+<?php
+$redirect = $_GET['redirect'] ?? null;
+
+$cancelUrl = $redirect === 'checkout'
+? BASE_URL."index.php?page=checkout"
+: BASE_URL."index.php?page=account#payment-methods";
+?>
+
+<a class="cancel-link" href="<?= $cancelUrl ?>">
+Cancel
+</a>
+
+<?php if ($redirect): ?>
+<input type="hidden" name="redirect" value="<?= htmlspecialchars($redirect) ?>">
+<?php endif; ?>
+
+</form>
+</div>
+
+
 <script>
+
+document.addEventListener("DOMContentLoaded", function(){
+
+const form = document.getElementById("paymentForm");
 const cardInput = document.getElementById("cardNumber");
 const expiryInput = document.getElementById("expiryInput");
 const cvvInput = document.getElementById("cvvInput");
-const saveBtn = document.getElementById("saveCardBtn");
+const visaIcon = document.getElementById("visaIcon");
+const mastercardIcon = document.getElementById("mastercardIcon");
 
-// ---------- FORMATTERS ----------
+cardInput.addEventListener("input", function(){
 
-// Card number: numbers only, max 16
-cardInput.addEventListener("input", function () {
-    this.value = this.value.replace(/\D/g, '').substring(0, 16);
-    validateForm();
+let value = this.value.replace(/\D/g,'');
+
+value = value.substring(0,16);
+
+/* STRIPE STYLE FORMATTING */
+
+let formatted = value.match(/.{1,4}/g);
+this.value = formatted ? formatted.join(" ") : "";
+
+
+/* RESET ICONS */
+
+visaIcon.classList.remove("active");
+mastercardIcon.classList.remove("active");
+
+
+/* DETECT CARD */
+
+if(/^4/.test(value)){
+visaIcon.classList.add("active");
+}
+
+else if(/^5[1-5]/.test(value)){
+mastercardIcon.classList.add("active");
+}
+
+clearFieldError(this);
+
 });
 
-// CVV: numbers only, 3–4 digits
-cvvInput.addEventListener("input", function () {
-    this.value = this.value.replace(/\D/g, '').substring(0, 4);
-    validateForm();
-});
 
-// Expiry formatter MM/YY
-expiryInput.addEventListener("input", function () {
+/* CVV FORMAT */
 
-    let value = this.value.replace(/\D/g, '');
+cvvInput.addEventListener("input", function(){
 
-    if (value.length >= 2) {
-        let month = value.substring(0, 2);
+this.value = this.value.replace(/\D/g,'').substring(0,4);
 
-        if (parseInt(month) > 12) month = "12";
-        if (parseInt(month) < 1) month = "01";
+clearFieldError(this);
 
-        value = month + (value.length > 2 ? "/" + value.substring(2, 4) : "");
-    }
-
-    this.value = value.substring(0, 5);
-    validateForm();
 });
 
 
-// ---------- VALIDATION ENGINE ----------
+/* EXPIRY FORMAT */
 
-function validateForm() {
+expiryInput.addEventListener("input", function(){
 
-    const cardValid = /^\d{16}$/.test(cardInput.value);
-    const cvvValid = /^\d{3,4}$/.test(cvvInput.value);
-    const expiryValid = validateExpiry(expiryInput.value);
+let value = this.value.replace(/\D/g,'');
 
-    if (cardValid && cvvValid && expiryValid) {
-        saveBtn.disabled = false;
-        saveBtn.style.opacity = "1";
-        saveBtn.style.cursor = "pointer";
-    } else {
-        saveBtn.disabled = true;
-        saveBtn.style.opacity = "0.6";
-        saveBtn.style.cursor = "not-allowed";
-    }
+if(value.length>=2){
+
+let month=value.substring(0,2);
+
+if(parseInt(month)>12) month="12";
+if(parseInt(month)<1) month="01";
+
+value=month+(value.length>2?"/"+value.substring(2,4):"");
+
+}
+
+this.value=value.substring(0,5);
+
+clearFieldError(this);
+
+});
+
+
+/* FORM VALIDATION */
+
+form.addEventListener("submit", function(e){
+
+e.preventDefault(); // stop page refresh first
+
+clearErrors();
+
+let valid = true;
+
+/* CARD */
+
+let rawCard = cardInput.value.replace(/\s/g,'');
+
+if(rawCard === ""){
+showError(cardInput,"Please fill in this field");
+valid = false;
+}
+
+else if(!/^\d{16}$/.test(rawCard)){
+showError(cardInput,"Card number must be 16 digits");
+valid = false;
+}
+
+else if(!/^4|^5[1-5]/.test(rawCard)){
+showError(cardInput,"Only Visa or Mastercard supported");
+valid = false;
+}
+
+else if(!luhnCheck(rawCard)){
+showError(cardInput,"Invalid card number");
+valid = false;
+}
+
+/* EXPIRY */
+
+if(expiryInput.value.trim() === ""){
+showError(expiryInput,"Please fill in this field");
+valid = false;
+}
+else if(!validateExpiry(expiryInput.value)){
+showError(expiryInput,"Please enter a valid expiry date");
+valid = false;
+}
+
+/* CVV */
+
+if(cvvInput.value.trim() === ""){
+showError(cvvInput,"Please fill in this field");
+valid = false;
+}
+else if(!/^\d{3,4}$/.test(cvvInput.value)){
+showError(cvvInput,"CVV must be 3 or 4 digits");
+valid = false;
+}
+
+if(valid){
+form.submit(); // only submit if everything is valid
+}
+
+});
+
+
+/* ERROR HELPERS */
+
+function showError(input,message){
+
+input.classList.add("input-error");
+
+const error=document.createElement("div");
+error.className="error-text";
+error.innerText=message;
+
+input.parentElement.appendChild(error);
+
+}
+
+function clearErrors(){
+
+document.querySelectorAll(".input-error")
+.forEach(el=>el.classList.remove("input-error"));
+
+document.querySelectorAll(".error-text")
+.forEach(el=>el.remove());
+
+}
+
+function clearFieldError(input){
+
+input.classList.remove("input-error");
+
+const err=input.parentElement.querySelector(".error-text");
+
+if(err) err.remove();
+
 }
 
 
-// Expiry validation logic
-function validateExpiry(value) {
+/* EXPIRY VALIDATION */
 
-    if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(value)) {
-        return false;
-    }
+function validateExpiry(value){
 
-    const parts = value.split("/");
-    const month = parseInt(parts[0]);
-    const year  = parseInt(parts[1]);
+if(!/^(0[1-9]|1[0-2])\/\d{2}$/.test(value))
+return false;
 
-    const now = new Date();
-    const currentYear = parseInt(now.getFullYear().toString().slice(-2));
-    const currentMonth = now.getMonth() + 1;
+const parts=value.split("/");
 
-    if (year < currentYear) return false;
-    if (year === currentYear && month < currentMonth) return false;
+const month=parseInt(parts[0]);
+const year=parseInt(parts[1]);
 
-    return true;
+const now=new Date();
+
+const currentYear=parseInt(now.getFullYear().toString().slice(-2));
+const currentMonth=now.getMonth()+1;
+
+if(year<currentYear) return false;
+
+if(year===currentYear && month<currentMonth)
+return false;
+
+return true;
+
 }
+
+function luhnCheck(card){
+
+let sum = 0;
+let shouldDouble = false;
+
+card = card.replace(/\s/g,'');
+
+for(let i = card.length - 1; i >= 0; i--){
+
+let digit = parseInt(card.charAt(i));
+
+if(shouldDouble){
+
+digit *= 2;
+
+if(digit > 9){
+digit -= 9;
+}
+
+}
+
+sum += digit;
+shouldDouble = !shouldDouble;
+
+}
+
+return sum % 10 === 0;
+
+}
+
+});
+
 </script>
 
 

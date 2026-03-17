@@ -310,6 +310,9 @@ switch ($page) {
     case 'submit-return':
     (new OrderController())->submitReturn();
         break;
+    case 'return-success':
+        include __DIR__ . '/../templates/customer/return_success.php';
+        break;
     case 'add-address':
         $controller = new AccountController();
         $controller->showAddAddressForm();

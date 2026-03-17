@@ -181,7 +181,19 @@ textarea {
     <input type="hidden" name="order_item_id"
            value="<?= $item['order_item_id'] ?>">
            
-    <input type="hidden" name="quantity" value="1"> 
+    <label for="quantity">How many items are you returning?</label>
+
+   <select name="quantity" id="quantity" required>
+
+     <?php for ($i = 1; $i <= $item['quantity']; $i++): ?>
+      <option value="<?= $i ?>"><?= $i ?></option>
+    <?php endfor; ?>
+
+  </select>
+
+   <p style="font-size:13px;color:#bbb;margin-top:-8px;margin-bottom:15px;">
+     You purchased <?= $item['quantity'] ?> of this item.
+   </p> 
 
     <label for="reason">Why are you returning this item? (Required)</label>
     

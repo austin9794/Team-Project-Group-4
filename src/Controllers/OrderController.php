@@ -426,7 +426,7 @@ public function submitReturn() {
         $reason
     ]);
 
-    header("Location: " . BASE_URL . "index.php?page=orders");
+    header("Location: " . BASE_URL . "index.php?page=return-success");
     exit;
 }
 

@@ -22,8 +22,6 @@ if (!empty($_SESSION['basket']) && is_array($_SESSION['basket'])) {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <base href="/Team-Project-Group-4/public/">
-
 
     <title><?= $title ?? 'Level Up!' ?></title>
 
@@ -251,7 +249,7 @@ if (!empty($_SESSION['basket']) && is_array($_SESSION['basket'])) {
 
     <!-- LOGO -->
     <div class="logo-container" style="flex: 0 0 auto;">
-        <a href="index.php?page=home">
+        <a href="<?= BASE_URL ?>index.php?page=home">
             <img src="<?= BASE_URL ?>assets/images/logo text.png" alt="Level Up Logo">
         </a>
     </div>
@@ -288,36 +286,36 @@ if (!empty($_SESSION['basket']) && is_array($_SESSION['basket'])) {
                  <?php endif; ?>
                 </a>
                 <div class="dropdown-content">
-                    <a href="index.php?page=account">Profile</a>
-                    <a href="index.php?page=orders">My Orders</a>
+                    <a href="<?= BASE_URL ?>index.php?page=account">Profile</a>
+                    <a href="<?= BASE_URL ?>index.php?page=orders">My Orders</a>
 
                     <?php if ($actualRole === 'admin'): ?>
                       <hr style="margin: 5px 0; border: 0; border-top: 1px solid rgba(255,255,255,0.2);">
 
                       <?php if ($isAdmin): ?>
                          <!-- Currently in Admin Mode -->
-                         <a href="index.php?page=dashboard">Admin Dashboard</a>
-                         <a href="index.php?page=admin-orders">Admin - Orders</a>
-                         <a href="index.php?page=admin-products">Admin - Products</a>
-                         <a href="index.php?page=admin-customers">Admin - Customers</a>
-                         <a href="index.php?page=switch-role">Switch to Customer View</a>
+                         <a href="<?= BASE_URL ?>index.php?page=dashboard">Admin Dashboard</a>
+                         <a href="<?= BASE_URL ?>index.php?page=admin-orders">Admin - Orders</a>
+                         <a href="<?= BASE_URL ?>index.php?page=admin-products">Admin - Products</a>
+                         <a href="<?= BASE_URL ?>index.php?page=admin-customers">Admin - Customers</a>
+                         <a href="<?= BASE_URL ?>index.php?page=switch-role">Switch to Customer View</a>
                         <?php else: ?>
                           <!-- Currently in Customer Mode but is actually Admin -->
-                         <a href="index.php?page=switch-role">Switch Back to Admin View</a>
+                         <a href="<?= BASE_URL ?>index.php?page=switch-role">Switch Back to Admin View</a>
                         <?php endif; ?>
                     <?php endif; ?>
 
                     <hr style="margin: 5px 0; border: 0; border-top: 1px solid rgba(255,255,255,0.2);">
-                    <a href="index.php?page=logout">Logout</a>
+                    <a href="<?= BASE_URL ?>index.php?page=logout">Logout</a>
                 </div>
             </div>
 
         <?php else: ?>
 
             <span>
-                <a href="index.php?page=login">Login</a>
+                <a href="<?= BASE_URL ?>index.php?page=login">Login</a>
                 <span style="color:#fff;"> / </span>
-                <a href="index.php?page=signup">Signup</a>
+                <a href="<?= BASE_URL ?>index.php?page=signup">Signup</a>
             </span>
 
         <?php endif; ?>
@@ -342,7 +340,7 @@ if (!empty($_SESSION['basket']) && is_array($_SESSION['basket'])) {
         </a>
 
         <!-- Basket -->
-    <a href="index.php?page=basket" class="basket-icon">
+    <a href="<?= BASE_URL ?>index.php?page=basket" class="basket-icon">
 
     <div class="basket-wrapper">
 
@@ -379,21 +377,21 @@ if (!empty($_SESSION['basket']) && is_array($_SESSION['basket'])) {
 <!-- SUB NAV BAR -->
 <div class="sub-nav">
     <div>
-        <a href="index.php?page=home">Home</a>
-        <a href="index.php?page=products">Products</a>
-        <a href="index.php?page=contact">Contact Us</a>
-        <a href="index.php?page=about">About Us</a>
+        <a href="<?= BASE_URL ?>index.php?page=home">Home</a>
+        <a href="<?= BASE_URL ?>index.php?page=products">Products</a>
+        <a href="<?= BASE_URL ?>index.php?page=contact">Contact Us</a>
+        <a href="<?= BASE_URL ?>index.php?page=about">About Us</a>
     </div>
     <div>
         <?php if (isLoggedIn()): ?>
-            <a href="index.php?page=orders">Orders</a>
+            <a href="<?= BASE_URL ?>index.php?page=orders">Orders</a>
             <?php if (isAdmin()): ?>
-                <a href="index.php?page=dashboard">Admin Dashboard</a>
-                <a href="index.php?page=admin-orders">Admin Orders</a>
+                <a href="<?= BASE_URL ?>index.php?page=dashboard">Admin Dashboard</a>
+                <a href="<?= BASE_URL ?>index.php?page=admin-orders">Admin Orders</a>
             <?php endif; ?>
         <?php else: ?>
-            <a href="index.php?page=account">Account</a>
-            <a href="index.php?page=orders">Orders</a>
+            <a href="<?= BASE_URL ?>index.php?page=account">Account</a>
+            <a href="<?= BASE_URL ?>index.php?page=orders">Orders</a>
         <?php endif; ?>
     </div>
 </div>

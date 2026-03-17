@@ -4,24 +4,66 @@
 </style>
 
 <hr>
-<footer style="display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 2rem;">
-    <p>© Level Up Inc.</p>
-    <div style="text-align: right;">
-        <p class="footer-info" style="margin: 0;">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                <circle cx="12" cy="10" r="3"></circle>
-            </svg>
-            <span>Aston Triangle, Birmingham, B4 7ET, United Kingdom</span>
-        </p>
-        <p class="footer-info" style="margin: 0.5rem 0 0 0; font-size: 0.9rem;">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                <circle cx="12" cy="10" r="3"></circle>
-            </svg>
-            <span>UK Shipping Only</span>
-        </p>
-    </div>
+<hr>
+
+<footer class="site-footer">
+
+<div class="footer-grid">
+
+<!-- BRAND -->
+<div class="footer-col">
+<h3>Level Up</h3>
+<p class="footer-tagline">
+Premium gaming gear for players who want to level up.
+</p>
+
+<div class="social-icons">
+<svg width="20" height="20"><path d=""/></svg>
+<svg width="20" height="20"><path d=""/></svg>
+<svg width="20" height="20"><path d=""/></svg>
+<svg width="20" height="20"><path d=""/></svg>
+</div>
+</div>
+
+
+<!-- QUICK LINKS -->
+<div class="footer-col">
+<h4>Quick Links</h4>
+
+<a href="<?= BASE_URL ?>index.php?page=products">Products</a>
+<a href="<?= BASE_URL ?>index.php?page=about">About Us</a>
+<a href="<?= BASE_URL ?>index.php?page=contact">Contact</a>
+<a href="<?= BASE_URL ?>index.php?page=orders">Orders</a>
+</div>
+
+
+<!-- CONTACT -->
+<div class="footer-col">
+
+<h4>Contact</h4>
+
+<p class="footer-info">
+📍 Aston Triangle, Birmingham  
+B4 7ET, United Kingdom
+</p>
+
+<p class="footer-info">
+🚚 UK Shipping Only
+</p>
+
+<p class="footer-info">
+✉ support@levelupgaming.co.uk
+</p>
+
+</div>
+
+</div>
+
+
+<div class="footer-bottom">
+© <?= date("Y") ?> Level Up Inc.
+</div>
+
 </footer>
 
 <script src="<?= BASE_URL ?>assets/js/main.js" defer></script>

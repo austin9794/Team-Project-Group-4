@@ -1,6 +1,70 @@
 <style>
-  .footer-info { display: flex; align-items: center; gap: 0.5rem; justify-content: flex-end; }
-  .footer-info svg { flex-shrink: 0; }
+.site-footer{
+padding:40px 60px;
+background:#0c0c14;
+color:#bbb;
+}
+
+.footer-grid{
+display:grid;
+grid-template-columns:1fr 1fr 1fr;
+gap:40px;
+margin-bottom:25px;
+}
+
+.footer-col h3{
+color:#c9a7ff;
+margin-bottom:10px;
+}
+
+.footer-col h4{
+color:#c9a7ff;
+margin-bottom:12px;
+}
+
+.footer-col a{
+display:block;
+margin-bottom:8px;
+color:#bbb;
+text-decoration:none;
+}
+
+.footer-col a:hover{
+color:#fff;
+}
+
+.footer-tagline{
+font-size:14px;
+color:#888;
+margin-bottom:15px;
+}
+
+.social-icons{
+display:flex;
+gap:15px;
+}
+
+.social-icons svg{
+opacity:0.6;
+cursor:pointer;
+transition:0.2s;
+}
+
+.social-icons svg:hover{
+opacity:1;
+transform:scale(1.1);
+}
+
+.footer-bottom{
+border-top:1px solid #2a2a3a;
+padding-top:15px;
+font-size:13px;
+text-align:center;
+color:#777;
+}
+
+.footer-info { display: flex; align-items: center; gap: 0.5rem; justify-content: flex-end; }
+.footer-info svg { flex-shrink: 0; }
 </style>
 
 <hr>
@@ -43,12 +107,13 @@ Premium gaming gear for players who want to level up.
 <h4>Contact</h4>
 
 <p class="footer-info">
-📍 Aston Triangle, Birmingham  
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"> <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path> <circle cx="12" cy="10" r="3"></circle> </svg>
+Aston Triangle, Birmingham  
 B4 7ET, United Kingdom
 </p>
 
 <p class="footer-info">
-🚚 UK Shipping Only
+⛟ UK Shipping Only
 </p>
 
 <p class="footer-info">

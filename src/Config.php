@@ -2,13 +2,13 @@
 
 // Detect base URL dynamically
 $folder = basename(dirname(__DIR__)); 
-define('BASE_URL', '/Team-Project-Group-4/public/'); 
+define('BASE_URL', '/'); 
 
 // Database configuration
 define('DB_HOST', 'localhost');
-define('DB_NAME', 'ecommerce_db');
-define('DB_USER', 'root');
-define('DB_PASS', '');
+define('DB_NAME', 'cs2team4_db2');
+define('DB_USER', 'cs2team4');
+define('DB_PASS', 'TrET2RHhjhPWcoQKOPiNGTQMk');
 
 // Other global settings
 

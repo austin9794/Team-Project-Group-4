@@ -2,30 +2,30 @@
 // index.php
 
 // --- Include configuration and required files ---
-require_once __DIR__ . '/../src/Config.php';
-require_once __DIR__ . '/../src/Database.php';
+require_once __DIR__ . '/src/Config.php';
+require_once __DIR__ . '/src/Database.php';
 
 // Controllers 
-require_once __DIR__ . '/../src/Controllers/AccountController.php';
-require_once __DIR__ . '/../src/Controllers/AdminDashboardController.php';
-require_once __DIR__ . '/../src/Controllers/AdminLoginController.php';
-require_once __DIR__ . '/../src/Controllers/AdminOrderController.php';
-require_once __DIR__ . '/../src/Controllers/AdminProductController.php';
-require_once __DIR__ . '/../src/Controllers/AdminReportController.php'; 
-require_once __DIR__ . '/../src/Controllers/AdminReturnController.php';        
-require_once __DIR__ . '/../src/Controllers/AdminCustomerController.php';
-require_once __DIR__ . '/../src/Controllers/BaseAdminController.php';
-require_once __DIR__ . '/../src/Controllers/DashboardController.php';
-require_once __DIR__ . '/../src/Controllers/AuthController.php';
-require_once __DIR__ . '/../src/Controllers/ProductController.php';
-require_once __DIR__ . '/../src/Controllers/OrderController.php';
-require_once __DIR__ . '/../src/Controllers/BasketController.php';
-require_once __DIR__ . '/../src/Controllers/ReviewController.php';
+require_once __DIR__ . '/src/Controllers/AccountController.php';
+require_once __DIR__ . '/src/Controllers/AdminDashboardController.php';
+require_once __DIR__ . '/src/Controllers/AdminLoginController.php';
+require_once __DIR__ . '/src/Controllers/AdminOrderController.php';
+require_once __DIR__ . '/src/Controllers/AdminProductController.php';
+require_once __DIR__ . '/src/Controllers/AdminReportController.php'; 
+require_once __DIR__ . '/src/Controllers/AdminReturnController.php';        
+require_once __DIR__ . '/src/Controllers/AdminCustomerController.php';
+require_once __DIR__ . '/src/Controllers/BaseAdminController.php';
+require_once __DIR__ . '/src/Controllers/DashboardController.php';
+require_once __DIR__ . '/src/Controllers/AuthController.php';
+require_once __DIR__ . '/src/Controllers/ProductController.php';
+require_once __DIR__ . '/src/Controllers/OrderController.php';
+require_once __DIR__ . '/src/Controllers/BasketController.php';
+require_once __DIR__ . '/src/Controllers/ReviewController.php';
 
 
 // --- Start session ---
 session_start();
-require_once __DIR__ . '/../src/Helpers/session.php';
+require_once __DIR__ . '/src/Helpers/session.php';
 
 // --- Basic routing setup ---
 $page = $_GET['page'] ?? 'home';
@@ -36,7 +36,7 @@ switch ($page) {
     // ---- Public Pages ----
     case 'home':
 
-    require_once __DIR__ . '/../src/Database.php';
+    require_once __DIR__ . '/src/Database.php';
     $db = Database::getInstance()->getConnection();
 
     $recentProducts = [];
@@ -171,13 +171,13 @@ switch ($page) {
         $recommendedProducts = $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    include __DIR__ . '/../templates/customer/home.php';
+    include __DIR__ . '/templates/customer/home.php';
     break;
     case 'about':
-        include __DIR__ . '/../templates/customer/about.php';
+        include __DIR__ . '/templates/customer/about.php';
         break;
     case 'contact':
-        include __DIR__ . '/../templates/customer/contact.php';
+        include __DIR__ . '/templates/customer/contact.php';
         break;
 
         // ---- Authentication ----
@@ -196,11 +196,11 @@ switch ($page) {
         exit;
     }
     if ($controller->isAdmin()) {
-        require_once __DIR__ . '/../src/Controllers/AdminDashboardController.php';
+        require_once __DIR__ . '/src/Controllers/AdminDashboardController.php';
         $adminController = new AdminDashboardController();
         $adminController->index();
     } else {
-        include __DIR__ . '/../templates/customer/dashboard.php';
+        include __DIR__ . '/templates/customer/dashboard.php';
     }
     break;
     case 'switch-role':
@@ -222,7 +222,7 @@ switch ($page) {
 
         // ---- Forgot Password Pages ----
     case 'forgot-password':
-        include __DIR__ . '/../templates/auth/forgot_password.php';
+        include __DIR__ . '/templates/auth/forgot_password.php';
         break;
 
     case 'forgot-password-submit':
@@ -231,7 +231,7 @@ switch ($page) {
     break;
 
     case 'reset-password':
-        include __DIR__ . '/../templates/auth/reset_password.php';
+        include __DIR__ . '/templates/auth/reset_password.php';
     break;
 
     case 'reset-password-submit':
@@ -289,7 +289,7 @@ switch ($page) {
         $controller->listUserOrders();
         break;
     case 'contact-submit':
-        require_once __DIR__ . '/../src/Controllers/ContactController.php';
+        require_once __DIR__ . '/src/Controllers/ContactController.php';
         $controller = new ContactController();
         $controller->submit();
        break;
@@ -302,13 +302,16 @@ switch ($page) {
        $controller->checkoutPage();
        break;
     case 'order-success':
-        include __DIR__ . '/../templates/customer/order_success.php';
+        include __DIR__ . '/templates/customer/order_success.php';
         break;
     case 'request-return':
     (new OrderController())->showReturnForm();
         break;
     case 'submit-return':
     (new OrderController())->submitReturn();
+        break;
+    case 'return-success':
+        include __DIR__ . '/templates/customer/return_success.php';
         break;
     case 'add-address':
         $controller = new AccountController();
@@ -379,7 +382,7 @@ switch ($page) {
     break;
     case 'add-review':
 
-    require_once __DIR__ . '/../src/Controllers/ReviewController.php';
+    require_once __DIR__ . '/src/Controllers/ReviewController.php';
 
     if (!isset($_SESSION['user_id'])) {
         header("Location: " . BASE_URL . "index.php?page=login");
@@ -467,7 +470,7 @@ switch ($page) {
 
     // ---- Default ----
     default:
-        include __DIR__ . '/../templates/customer/home.php';
+        include __DIR__ . '/templates/customer/home.php';
         break;
 }
 ?>

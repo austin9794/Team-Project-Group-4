@@ -82,7 +82,7 @@ require_once __DIR__ . '/../header.php';
 
   .about-image-section {
     position: relative;
-    background: url('assets/images/bg2.jpg') center/cover no-repeat;
+    background: url('/assets/images/bg2.jpg') center/cover no-repeat;
   }
 
   .about-image-section::after {

@@ -30,7 +30,7 @@ if (!empty($_SESSION['basket']) && is_array($_SESSION['basket'])) {
     <link href="https://fonts.googleapis.com/css2?family=Science+Gothic:wght@100..900&display=swap" rel="stylesheet">
 
     <!-- Favicons -->
-    <?php $faviconPath = "assets/images/favicon_io/"; ?>
+    <?php $faviconPath = "/assets/images/favicon_io/"; ?>
     <link rel="icon" type="image/x-icon" href="<?= $faviconPath ?>favicon.ico">
     <link rel="icon" type="image/png" sizes="16x16" href="<?= $faviconPath ?>favicon-16x16.png">
     <link rel="icon" type="image/png" sizes="32x32" href="<?= $faviconPath ?>favicon-32x32.png">
@@ -256,7 +256,7 @@ if (!empty($_SESSION['basket']) && is_array($_SESSION['basket'])) {
 
     <!-- SEARCH BAR -->
      <!-- template icon magnifying glass used -->
-    <form class="search-bar" action="index.php" method="GET" style="flex: 1 1 500px; align-items: center; position: relative;">
+    <form class="search-bar" action="<?= BASE_URL ?>index.php" method="GET" style="flex: 1 1 500px; align-items: center; position: relative;">
         <input type="hidden" name="page" value="products">
         <svg class="search-icon-inside" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" color="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); pointer-events: none;">
             <circle cx="11" cy="11" r="8"></circle>

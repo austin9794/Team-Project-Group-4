@@ -37,8 +37,7 @@ class AdminContactController extends BaseAdminController {
     $message = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if (!$message) {
-        header("Location: " . BASE_URL . "index.php?page=admin-messages");
-        exit;
+       die("Message not found");
     }
 
     // Mark as read

@@ -325,7 +325,7 @@ class AccountController {
 
     $id = $_GET['id'] ?? null;
     if (!$id) {
-        header("Location: index.php?page=account");
+        header("Location: " . BASE_URL . "index.php?page=account");
         exit;
     }
 

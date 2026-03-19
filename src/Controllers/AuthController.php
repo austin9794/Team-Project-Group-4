@@ -31,7 +31,7 @@ class AuthController {
         $password = trim($_POST['password'] ?? '');
 
         if (empty($email) || empty($password)) {
-            header("Location: index.php?page=login&error=Invalid+email+or+password");
+            header("Location: " . BASE_URL . "index.php?page=login&error=Invalid+email+or+password");
             exit;
         }
 
@@ -65,7 +65,7 @@ class AuthController {
             header('Location: index.php?page=dashboard');
             exit;
         } else {
-            header("Location: index.php?page=login&error=Invalid+admin+credentials");
+            header("Location: " . BASE_URL . "index.php?page=login&error=Invalid+admin+credentials");
             exit;
         }
     }
@@ -77,13 +77,13 @@ class AuthController {
         $user = $stmt->fetch();
 
         if (!$user) {
-            header("Location: index.php?page=login&error=Invalid+email+or+password");
+            header("Location: " . BASE_URL . "index.php?page=login&error=Invalid+email+or+password");
             exit;
         }
 
         // Compare hashed password
         if (!password_verify($password, $user['password'])) {
-            header("Location: index.php?page=login&error=Invalid+email+or+password");
+            header("Location: " . BASE_URL . "index.php?page=login&error=Invalid+email+or+password");
             exit;
         }
         
@@ -94,7 +94,7 @@ class AuthController {
         $_SESSION['user_name'] = $user['name'];
         $_SESSION['user_email'] = $user['email'];
 
-        header("Location: index.php?page=home");
+        header("Location: " . BASE_URL . "index.php?page=home");
         exit;
     }
 
@@ -102,7 +102,7 @@ class AuthController {
     public function logout() {
         session_unset();
         session_destroy();
-        header("Location: index.php?page=login");
+        header("Location: " . BASE_URL . "index.php?page=login");
         exit;
     }
 
@@ -116,13 +116,13 @@ class AuthController {
 
         // 1. Validate passwords match
         if ($password !== $confirm) {
-           header("Location: index.php?page=signup&error=Passwords+do+not+match");
+           header("Location: " . BASE_URL . "index.php?page=signup&error=Passwords+do+not+match");
            exit;
         }
 
         // 2. Validate password length
         if (strlen($password) < 6) {
-            header("Location: index.php?page=signup&error=Password+must+be+at+least+6+characters");
+            header("Location: " . BASE_URL . "index.php?page=signup&error=Password+must+be+at+least+6+characters");
             exit;
         }
 
@@ -130,7 +130,7 @@ class AuthController {
         $check = $this->db->prepare("SELECT user_id FROM users WHERE email = ?");
         $check->execute([$email]);
         if ($check->rowCount() > 0) {
-           header("Location: index.php?page=signup&error=Email+is+already+registered");
+           header("Location: " . BASE_URL . "index.php?page=signup&error=Email+is+already+registered");
            exit;
         }
 
@@ -144,11 +144,11 @@ class AuthController {
 
 
         if ($stmt->execute([$name, $email, $hashed, $phone])) {
-           header("Location: index.php?page=login&success=Account+created,+please+login");
+           header("Location: " . BASE_URL . "index.php?page=login&success=Account+created,+please+login");
             exit;
         }
 
-       header("Location: index.php?page=signup&error=An+error+occurred");
+       header("Location: " . BASE_URL . "index.php?page=signup&error=An+error+occurred");
     }
 
     public function handleForgotPassword() {
@@ -156,7 +156,7 @@ class AuthController {
     $email = trim($_POST['email'] ?? '');
 
     if (!$email) {
-        header("Location: index.php?page=forgot-password&error=Please+enter+your+email");
+        header("Location: " . BASE_URL . "index.php?page=forgot-password&error=Please+enter+your+email");
         exit;
     }
 
@@ -166,7 +166,7 @@ class AuthController {
 
     // Always show success message for security
     if (!$user) {
-        header("Location: index.php?page=forgot-password&success=If+that+email+exists,+a+reset+link+has+been+sent.");
+        header("Location: " . BASE_URL . "index.php?page=forgot-password&success=If+that+email+exists,+a+reset+link+has+been+sent.");
         exit;
     }
 
@@ -184,7 +184,7 @@ class AuthController {
     // Simulated email link
     $resetLink = BASE_URL . "index.php?page=reset-password&token=" . $token;
 
-    header("Location: index.php?page=forgot-password&success=" . urlencode("Reset link generated."));
+    header("Location: " . BASE_URL . "index.php?page=forgot-password&success=" . urlencode("Reset link generated."));
     $_SESSION['reset_demo_link'] = $resetLink;
 
     exit;
@@ -197,7 +197,7 @@ class AuthController {
     $confirm = $_POST['confirm'] ?? '';
 
     if ($password !== $confirm) {
-        header("Location: index.php?page=login&error=Passwords+do+not+match");
+        header("Location: " . BASE_URL . "index.php?page=login&error=Passwords+do+not+match");
         exit;
     }
 
@@ -211,7 +211,7 @@ class AuthController {
     $user = $stmt->fetch();
 
     if (!$user) {
-        header("Location: index.php?page=login&error=Reset+link+expired");
+        header("Location: " . BASE_URL . "index.php?page=login&error=Reset+link+expired");
         exit;
     }
 
@@ -224,7 +224,7 @@ class AuthController {
 
     $stmt->execute([$hashed, $user['user_id']]);
 
-    header("Location: index.php?page=login&success=Password+updated");
+    header("Location: " . BASE_URL . "index.php?page=login&success=Password+updated");
     exit;
 }
 

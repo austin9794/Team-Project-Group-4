@@ -26,25 +26,38 @@ include __DIR__ . '/../header.php';
 
             <tbody>
 
-            <?php if (empty($messages)): ?>
-                <tr>
-                    <td colspan="5" style="text-align:center;">No messages yet</td>
-                </tr>
+<?php if (empty($messages)): ?>
+    <tr>
+        <td colspan="6" style="text-align:center;">No messages yet</td>
+    </tr>
+<?php endif; ?>
+
+<?php foreach ($messages as $msg): ?>
+    <tr onclick="window.location='<?= BASE_URL ?>index.php?page=admin-message-view&id=<?= $msg['id'] ?>'"
+        style="cursor:pointer;">
+
+        <td><?= htmlspecialchars($msg['name']) ?></td>
+        <td><?= htmlspecialchars($msg['email']) ?></td>
+        <td><?= htmlspecialchars($msg['subject']) ?></td>
+
+        <td style="max-width:300px;">
+            <?= substr(htmlspecialchars($msg['message']), 0, 80) ?>...
+        </td>
+
+        <td><?= date('d M Y, H:i', strtotime($msg['created_at'])) ?></td>
+
+        <td>
+            <?php if ($msg['status'] === 'unread'): ?>
+                <span class="badge">Unread</span>
+            <?php else: ?>
+                <span style="color:#4caf50;">Read</span>
             <?php endif; ?>
+        </td>
 
-            <?php foreach ($messages as $msg): ?>
-                <tr>
-                    <td><?= htmlspecialchars($msg['name']) ?></td>
-                    <td><?= htmlspecialchars($msg['email']) ?></td>
-                    <td><?= htmlspecialchars($msg['subject']) ?></td>
-                    <td style="max-width:300px;">
-                        <?= nl2br(htmlspecialchars($msg['message'])) ?>
-                    </td>
-                    <td><?= date('d M Y, H:i', strtotime($msg['created_at'])) ?></td>
-                </tr>
-            <?php endforeach; ?>
+    </tr>
+<?php endforeach; ?>
 
-            </tbody>
+</tbody>
 
             <td>
            <?php if ($msg['status'] === 'unread'): ?>

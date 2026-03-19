@@ -90,7 +90,7 @@ class BasketController
     $quantity  = (int)($_POST['quantity'] ?? 1);
 
     if (!$productId) {
-        header("Location: index.php?page=products");
+        header("Location: " . BASE_URL . "index.php?page=products");
         exit;
     }
 
@@ -152,7 +152,7 @@ class BasketController
         $quantity  = (int)($_POST['quantity'] ?? 0);
 
         if (!$productId) {
-            header("Location: index.php?page=basket");
+            header("Location: " . BASE_URL . "index.php?page=basket");
             exit;
         }
 
@@ -162,7 +162,7 @@ class BasketController
             $_SESSION['basket'][$productId] = $quantity;
         }
 
-        header("Location: index.php?page=basket");
+        header("Location: " . BASE_URL . "index.php?page=basket");
         exit;
     }
 
@@ -174,7 +174,7 @@ class BasketController
         $productId = $_POST['product_id'] ?? null;
         unset($_SESSION['basket'][$productId]);
 
-        header("Location: index.php?page=basket");
+        header("Location: " . BASE_URL . "index.php?page=basket");
         exit;
     }
 
@@ -184,7 +184,7 @@ class BasketController
     public function showCheckout()
     {
         if (empty($_SESSION['basket'])) {
-            header("Location: index.php?page=basket");
+            header("Location: " . BASE_URL . "index.php?page=basket");
             exit;
         }
 

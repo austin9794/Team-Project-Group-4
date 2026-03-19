@@ -42,7 +42,7 @@ class AdminReturnController extends BaseAdminController {
 
     public function process() {
         if (!isset($_POST['return_id'], $_POST['action'])) {
-            header("Location: index.php?page=admin-returns");
+            header("Location: " . BASE_URL . "index.php?page=admin-returns");
             exit;
         }
 
@@ -104,7 +104,7 @@ class AdminReturnController extends BaseAdminController {
             $db->rollBack();
         }
 
-        header("Location: index.php?page=admin-returns");
+        header("Location: " . BASE_URL . "index.php?page=admin-returns");
         exit;
     }
 
@@ -116,7 +116,7 @@ class AdminReturnController extends BaseAdminController {
             WHERE return_id = ?
         ")->execute([$returnId]);
 
-        header("Location: index.php?page=admin-returns");
+        header("Location: " . BASE_URL . "index.php?page=admin-returns");
         exit;
     }
 }

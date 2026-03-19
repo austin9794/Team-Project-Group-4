@@ -69,6 +69,8 @@ if (isLoggedIn() && isAdmin()) {
 </head>
 <body>
 
+<div id="page-loader"></div>
+
 <!-- TOP HEADER -->
 <div class="top-header">
 

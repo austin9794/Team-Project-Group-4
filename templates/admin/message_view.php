@@ -17,7 +17,7 @@
 
     <br>
 
-    <a href="index.php?page=admin-messages" class="btn-secondary">
+    <a href="<?= BASE_URL ?>index.php?page=admin-messages" class="btn-secondary">
         ← Back to Messages
     </a>
 

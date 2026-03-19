@@ -103,64 +103,47 @@ if (isLoggedIn() && isAdmin()) {
 
             <!-- Account Dropdown -->
             <div class="dropdown">
-                <a href="#" class="account-link">
-                    <span>My Account ▼</span>
+    <a href="#" class="account-link">
+        <span>My Account ▼</span>
 
-                 <?php if ($actualRole === 'admin' && !$isAdmin): ?>
-                   <span class="customer-view-indicator">Customer View</span>
-                 <?php endif; ?>
-                </a>
-                <div class="dropdown-content">
-                    <a href="<?= BASE_URL ?>index.php?page=account">Profile</a>
-                    <a href="<?= BASE_URL ?>index.php?page=orders">My Orders</a>
-
-                    <?php if ($actualRole === 'admin'): ?>
-                      <hr style="margin: 5px 0; border: 0; border-top: 1px solid rgba(255,255,255,0.2);">
-
-                      <?php if ($isAdmin): ?>
-                         <!-- Currently in Admin Mode -->
-                         <a href="<?= BASE_URL ?>index.php?page=dashboard">Admin Dashboard</a>
-                         <a href="<?= BASE_URL ?>index.php?page=admin-orders">Admin - Orders</a>
-                         <a href="<?= BASE_URL ?>index.php?page=admin-products">Admin - Products</a>
-                         <a href="<?= BASE_URL ?>index.php?page=admin-customers">Admin - Customers</a>
-                         <a href="<?= BASE_URL ?>index.php?page=switch-role">Switch to Customer View</a>
-                        <?php else: ?>
-                          <!-- Currently in Customer Mode but is actually Admin -->
-                         <a href="<?= BASE_URL ?>index.php?page=switch-role">Switch Back to Admin View</a>
-                        <?php endif; ?>
-                    <?php endif; ?>
-
-                    <?php if (isAdmin()): ?>
-    <hr style="margin: 5px 0; border: 0; border-top: 1px solid rgba(255,255,255,0.2);">
-
-    <a href="<?= BASE_URL ?>index.php?page=admin-messages">
-        📨 Messages
-        <?php if ($unreadCount > 0): ?>
-            <span class="badge"><?= $unreadCount ?></span>
+        <?php if ($actualRole === 'admin' && !$isAdmin): ?>
+            <span class="customer-view-indicator">Customer View</span>
         <?php endif; ?>
     </a>
 
-    <?php if (!empty($latestMessages)): ?>
-        <?php foreach ($latestMessages as $msg): ?>
-            <a class="message-preview"
-               href="<?= BASE_URL ?>index.php?page=admin-message-view&id=<?= $msg['id'] ?>">
-                <strong><?= htmlspecialchars($msg['name']) ?></strong><br>
-                <small><?= htmlspecialchars($msg['subject']) ?></small>
+    <div class="dropdown-content">
+
+        <!-- Customer -->
+        <a href="<?= BASE_URL ?>index.php?page=account">Profile</a>
+        <a href="<?= BASE_URL ?>index.php?page=orders">My Orders</a>
+
+        <?php if ($actualRole === 'admin'): ?>
+            <hr>
+
+            <!-- Admin core -->
+            <a href="<?= BASE_URL ?>index.php?page=dashboard">Admin Dashboard</a>
+
+            <a href="<?= BASE_URL ?>index.php?page=admin-messages">
+                📨 Messages
+                <?php if (!empty($unreadCount) && $unreadCount > 0): ?>
+                    <span class="badge"><?= $unreadCount ?></span>
+                <?php endif; ?>
             </a>
-        <?php endforeach; ?>
-    
 
-                   <hr>
-                   <a href="<?= BASE_URL ?>index.php?page=admin-messages">View All Messages</a>
-                   <?php endif; ?>
-                </div>
-             </div>
-            <?php endif; ?>
+            <!-- Role switch -->
+            <a href="<?= BASE_URL ?>index.php?page=switch-role">
+                <?= $isAdmin ? 'Switch to Customer View' : 'Switch Back to Admin View' ?>
+            </a>
 
-                    <hr style="margin: 5px 0; border: 0; border-top: 1px solid rgba(255,255,255,0.2);">
-                    <a href="<?= BASE_URL ?>index.php?page=logout">Logout</a>
-                </div>
-            </div>
+        <?php endif; ?>
+
+        <hr>
+
+        <!-- Logout -->
+        <a href="<?= BASE_URL ?>index.php?page=logout">Logout</a>
+
+    </div>
+</div>
 
         <?php else: ?>
 

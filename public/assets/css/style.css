@@ -50,6 +50,203 @@ body {
     transition: background-color 0.3s, color 0.3s;
 }
 
+/* header */
+.top-header {
+background: linear-gradient(90deg, #000000 0%, var(--highlight-dark) 100%);            
+padding: 15px 20px;
+display: flex;
+align-items: center;            
+justify-content: center;            
+gap: 40px;            
+height: 110px;            
+overflow: visible;            
+}
+
+.logo-container {
+display: flex;
+align-items: center;
+height: 100%;
+}
+
+.logo-container img {
+  height: 160px;
+  width: auto;
+  object-fit: contain;
+  position: relative;
+  z-index: 10;
+}
+        
+        /* === SEARCH BAR === */
+        .search-bar {
+            flex: 1 1 500px;
+            max-width: 500px;
+            margin: 0 40px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .search-bar input {
+            flex-grow: 1;
+            padding: 10px 14px;
+            border: 2px solid var(--lavender);
+            border-radius: 6px;
+            background-color: #0a0a0a;
+            color: #FFFFFF;
+            outline: none;
+            font-size: 14px;
+        }
+ 
+        .search-bar input::placeholder {
+            color: #bca8e6;
+        }
+
+        .search-bar button:hover {
+            background-color: var(--lavender);
+            color: #0a0a0a;
+            text-shadow: 0 0 10px white;
+        }
+
+        /* === NAVIGATION LINKS === */
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            color: #FFFFFF;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            transition: 0.2s ease-in-out;
+        }
+
+        .nav-links a:hover {
+            color: var(--lavender);
+            text-shadow: 0 0 10px var(--lavender);
+        }
+
+        /* === DROPDOWN MENU === */
+        .dropdown {
+            position: relative;
+            z-index: 9999;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            z-index: 99999;
+            right: 0;
+            background-color: var(--highlight-color);
+            border-radius: 8px;
+            min-width: 160px;
+            overflow: hidden;
+            box-shadow: 0 0 15px rgba(0,0,0,0.3);
+        }
+
+        .dropdown-content a {
+            padding: 12px 16px;
+            color: #FFFFFF;
+            display: block;
+            text-decoration: none;
+        }
+
+        .dropdown-content a:hover {
+            background-color: var(--lavender);
+            color: #0a0a0a;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* === BASKET ICON === */
+        .basket-icon {
+            color: #FFFFFF;
+            font-size: 17px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: 0.2s;
+        }
+
+        .basket-icon:hover {
+            color: var(--lavender);
+            text-shadow: 0 0 10px var(--lavender);
+        }
+
+        /* === SUB NAV BAR === */
+        .sub-nav {
+            background-color: var(--highlight-color);
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .sub-nav a {
+            color: #FFFFFF;
+            font-size: 14px;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .sub-nav a:hover {
+            color: var(--lavender);
+        }
+        
+        .sub-nav > div {
+            display: flex;
+            gap: 20px;
+        }
+
+        .basket-wrapper{
+          position:relative;
+          display:flex;
+          align-items:center;
+        } 
+
+        .basket-svg{
+    width:26px;
+    height:26px;
+}
+
+/* badge inside icon */
+.basket-badge{
+    position:absolute;
+    top:-4px;
+    right:-6px;
+
+    background:#ff4d6d;
+    color:white;
+
+    font-size:10px;
+    font-weight:600;
+
+    min-width:16px;
+    height:16px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:50%;
+}
+
+.account-link {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    line-height: 1.8;
+}
+
+.customer-view-indicator {
+    font-size: 0.80rem;
+    margin-left: 6px;
+    opacity: 0.90;
+    color: #ffd166; 
+}
 /* PRODUCT GRID */
 .products-grid {
     max-width: 1400px;

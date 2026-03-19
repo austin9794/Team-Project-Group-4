@@ -124,6 +124,9 @@ define('ACCESS_ALLOWED', true);
             <a href="index.php?page=admin-returns" class="quick-link">
                 ↩ Manage Returns
             </a>
+            <a href="index.php?page=admin-messages" class="quick-link">
+               📨 Manage Messages
+            </a>
         </div>
     </div>
 </div>

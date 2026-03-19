@@ -18,6 +18,30 @@ if (!empty($_SESSION['basket']) && is_array($_SESSION['basket'])) {
 }
 ?>
 
+<?php
+$unreadCount = 0;
+$latestMessages = [];
+
+if (isLoggedIn() && isAdmin()) {
+    $db = Database::getInstance()->getConnection();
+
+    // Count unread
+    $stmt = $db->query(" SELECT COUNT(*) as count 
+        FROM contact_messages 
+        WHERE status = 'unread'
+    ");
+    $unreadCount = $stmt->fetch()['count'];
+
+    // Latest 5 messages
+    $msgStmt = $db->query(" SELECT id, name, subject, created_at
+        FROM contact_messages
+        ORDER BY created_at DESC
+        LIMIT 5
+    ");
+    $latestMessages = $msgStmt->fetchAll(PDO::FETCH_ASSOC);
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

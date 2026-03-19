@@ -208,8 +208,31 @@ height: 100%;
         } 
 
         .basket-svg{
-    width:26px;
-    height:26px;
+          width:26px;
+           height:26px;
+         }
+
+         .badge {
+    background: red;
+    color: white;
+    border-radius: 50%;
+    padding: 3px 7px;
+    font-size: 0.7rem;
+    margin-left: 6px;
+}
+
+.message-dropdown-content {
+    width: 280px;
+}
+
+.message-dropdown-content a {
+    display: block;
+    padding: 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.message-dropdown-content a:hover {
+    background: rgba(255,255,255,0.05);
 }
 
 /* badge inside icon */

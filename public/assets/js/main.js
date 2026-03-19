@@ -152,4 +152,36 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
+// Fade in when page loads
+window.addEventListener("load", () => {
+  document.body.classList.add("loaded");
+});
 
+const loader = document.getElementById("page-loader");
+
+// Handle link clicks
+document.querySelectorAll("a").forEach(link => {
+
+  link.addEventListener("click", function (e) {
+
+    // Ignore special cases
+    if (
+      this.target === "_blank" ||
+      this.href.includes("#") ||
+      this.href.startsWith("javascript:")
+    ) return;
+
+    // Ignore same-page clicks
+    if (this.href === window.location.href) return;
+
+    e.preventDefault();
+
+    loader.classList.add("active");
+    document.body.classList.add("fade-out");
+
+    setTimeout(() => {
+      window.location = this.href;
+    }, 200);
+  });
+
+});

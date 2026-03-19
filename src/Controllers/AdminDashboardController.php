@@ -49,7 +49,7 @@ class AdminDashboardController extends BaseAdminController {
 
         // Get contact message summary
         $messageStmt = $db->query("SELECT COUNT(*) as unread_messages
-         FROM contact_messages
+         FROM contact_messages WHERE status = 'unread'
         ");
         $messageSummary = $messageStmt->fetch(PDO::FETCH_ASSOC);
 

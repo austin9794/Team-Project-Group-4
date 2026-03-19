@@ -156,6 +156,7 @@ CREATE TABLE IF NOT EXISTS contact_messages (
     email VARCHAR(255) NOT NULL,
     subject VARCHAR(255) NOT NULL,
     message TEXT NOT NULL,
+    status ENUM('unread','read') DEFAULT 'unread',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 

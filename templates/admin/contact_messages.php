@@ -46,6 +46,17 @@ include __DIR__ . '/../header.php';
 
             </tbody>
 
+            <td>
+           <?php if ($msg['status'] === 'unread'): ?>
+              <a href="<?= BASE_URL ?>index.php?page=admin-message-view&id=<?= $msg['id'] ?>"
+                  class="btn-small">
+                   Mark as Read
+              </a>
+           <?php else: ?>
+               <span style="color: #4caf50;">Read</span>
+           <?php endif; ?>
+       </td>
+
         </table>
 
     </div>

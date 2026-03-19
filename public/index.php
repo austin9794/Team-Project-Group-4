@@ -467,6 +467,12 @@ switch ($page) {
         $controller = new AdminReturnController();
         $controller->process();
     break;
+    case 'admin-messages':
+        requireAdmin();
+        require_once __DIR__ . '/src/Controllers/AdminContactController.php';
+        $controller = new AdminContactController();
+        $controller->index();
+    break;
 
     // ---- Default ----
     default:

@@ -473,6 +473,12 @@ switch ($page) {
         $controller = new AdminContactController();
         $controller->index();
     break;
+    case 'admin-message-view':
+        requireAdmin();
+        require_once __DIR__ . '/../src/Controllers/AdminContactController.php';
+        $controller = new AdminContactController();
+        $controller->view();
+    break;
 
     // ---- Default ----
     default:

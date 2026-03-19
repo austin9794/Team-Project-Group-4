@@ -106,16 +106,27 @@ switch ($page) {
         $userId = $_SESSION['user_id'];
 
         // Get categories from delivered orders
-        $stmt = $db->prepare(" SELECT DISTINCT p.category_id, p.product_id
+        $stmt = $db->prepare(" SELECT DISTINCT p.category_id
+           FROM order_items oi
+           JOIN orders o ON oi.order_id = o.order_id
+           JOIN products p ON oi.product_id = p.product_id
+           WHERE o.user_id = ?
+           AND o.status = 'delivered'
+        ");
+
+        $stmt->execute([$userId]);
+        $baseCategories = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+        // Get purchased product IDs
+        $stmt = $db->prepare(" SELECT DISTINCT oi.product_id
             FROM order_items oi
             JOIN orders o ON oi.order_id = o.order_id
-            JOIN products p ON oi.product_id = p.product_id
             WHERE o.user_id = ?
             AND o.status = 'delivered'
         ");
 
         $stmt->execute([$userId]);
-        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $excludeIds = $stmt->fetchAll(PDO::FETCH_COLUMN);
 
         foreach ($rows as $row) {
             $baseCategories[] = $row['category_id'];

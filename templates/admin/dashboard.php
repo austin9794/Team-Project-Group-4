@@ -96,6 +96,13 @@ define('ACCESS_ALLOWED', true);
             <div class="stat-label">Pending Returns</div>
         </div>
        </div>
+       <div class="stat-card <?= $messageSummary['unread_messages'] > 0 ? 'highlight-warning' : '' ?>">
+           <div class="stat-icon">📨</div>
+           <div class="stat-content">
+              <div class="stat-number"><?= $messageSummary['unread_messages'] ?></div>
+             <div class="stat-label">Messages</div>
+        </div>
+      </div>
     </div>
 
     <!-- Quick Links -->

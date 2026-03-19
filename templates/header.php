@@ -130,6 +130,36 @@ if (isLoggedIn() && isAdmin()) {
                         <?php endif; ?>
                     <?php endif; ?>
 
+                    <?php if (isAdmin()): ?>
+                   <div class="dropdown message-dropdown">
+
+                  <a href="#">
+                    📨 Messages
+                     <?php if ($unreadCount > 0): ?>
+                         <span class="badge"><?= $unreadCount ?></span>
+                     <?php endif; ?>
+                   </a>
+
+                   <div class="dropdown-content message-dropdown-content">
+
+                     <?php if (empty($latestMessages)): ?>
+                      <p style="padding:10px;">No messages</p>
+                    <?php else: ?>
+
+                    <?php foreach ($latestMessages as $msg): ?>
+                      <a href="index.php?page=admin-message-view&id=<?= $msg['id'] ?>">
+                         <strong><?= htmlspecialchars($msg['name']) ?></strong><br>
+                         <small><?= htmlspecialchars($msg['subject']) ?></small>
+                     </a>
+                    <?php endforeach; ?>
+
+                   <hr>
+                   <a href="index.php?page=admin-messages">View All Messages</a>
+                   <?php endif; ?>
+                </div>
+             </div>
+            <?php endif; ?>
+
                     <hr style="margin: 5px 0; border: 0; border-top: 1px solid rgba(255,255,255,0.2);">
                     <a href="<?= BASE_URL ?>index.php?page=logout">Logout</a>
                 </div>

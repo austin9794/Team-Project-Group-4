@@ -179,82 +179,83 @@ require_once __DIR__ . '/../header.php';
 <!-- Popular Products Section -->
 <section class="features-section" id="features">
   <h2 class="section-title">Popular Products</h2>
+  <?php
+    $popularProducts = [
+      [
+        'name' => 'TECKNET RGB Gaming Keyboard',
+        'desc' => 'Mechanical-feel keyboard with vibrant RGB lighting zones',
+        'img' => 'products/keyboards/keyboard1/01.png',
+        'price' => 32.99,
+        'id' => 1
+      ],
+      [
+        'name' => 'Logitech G305 LIGHTSPEED',
+        'desc' => 'High-accuracy HERO sensor with up to 12,000 DPI',
+        'img' => 'products/mice/mouse1/01.png',
+        'price' => 59.99,
+        'id' => 6
+      ],
+      [
+        'name' => 'HyperX Cloud Alpha',
+        'desc' => 'Dual-chamber drivers provide cleaner audio',
+        'img' => 'products/headsets/head1/01.png',
+        'price' => 34.99,
+        'id' => 11
+      ],
+      [
+        'name' => 'Philips 27E1N1100A 27"',
+        'desc' => '27-inch Full HD IPS panel with wide viewing angles',
+        'img' => 'products/monitors/monitor1/01.png',
+        'price' => 94.99,
+        'id' => 16
+      ],
+      [
+        'name' => 'TONOR RGB USB Microphone',
+        'desc' => 'High-clarity microphone with built-in noise reduction',
+        'img' => 'products/microphones/mic1/01.png',
+        'price' => 49.99,
+        'id' => 21
+      ],
+      [
+        'name' => 'Corsair K55 RGB Pro',
+        'desc' => 'Dynamic RGB backlighting and six macro keys',
+        'img' => 'products/keyboards/keyboard2/01.png',
+        'price' => 44.99,
+        'id' => 2
+      ],
+      [
+        'name' => 'Razer DeathAdder V2',
+        'desc' => 'Focus+ Optical Sensor, 20,000 DPI, Speedflex cable',
+        'img' => 'products/mice/mouse2/01.png',
+        'price' => 69.99,
+        'id' => 7
+      ],
+      [
+        'name' => 'SteelSeries Arctis 5',
+        'desc' => 'RGB illuminated, DTS Headphone:X v2.0 surround sound',
+        'img' => 'products/headsets/head2/01.png',
+        'price' => 79.99,
+        'id' => 12
+      ],
+    ];
+  ?>
   <div class="product-grid" style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px;">
-    
-    <!-- Keyboard - TECKNET RGB Gaming Keyboard -->
-    <div class="product-card" style="background: white; border-radius: 12px; overflow: hidden; box-shadow: var(--shadow);">
-      <div class="product-image" style="width: 100%; height: 200px; background: white; display: flex; align-items: center; justify-content: center; overflow: hidden;">
-        <img src="<?= BASE_URL ?>assets/images/products/keyboards/keyboard1/01.png" alt="TECKNET RGB Gaming Keyboard" style="width: 100%; height: 100%; object-fit: contain; padding: 10px;">
-      </div>
-      <div class="product-info" style="padding: 1.25rem;">
-        <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem; color: #1a1a2e;">TECKNET RGB Gaming Keyboard</h3>
-        <p style="color: #6b6b80; font-size: 0.9rem; margin-bottom: 1rem;">Mechanical-feel keyboard with vibrant RGB lighting zones</p>
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-          <span style="font-size: 1.5rem; font-weight: bold; color: var(--highlight-color);">£32.99</span>
-          <a href="<?= BASE_URL ?>index.php?page=product&id=1" style="padding: 0.6rem 1.25rem; background: var(--highlight-color); color: white; border-radius: 6px; text-decoration: none; font-weight: 600;">View</a>
+    <?php foreach ($popularProducts as $product): ?>
+      <div class="product-card" style="background: white; border-radius: 12px; overflow: hidden; box-shadow: var(--shadow);">
+        <div class="product-image" style="width: 100%; height: 200px; background: white; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+          <img src="<?= BASE_URL ?>assets/images/<?= $product['img'] ?>" alt="<?= htmlspecialchars($product['name']) ?>" style="width: 100%; height: 100%; object-fit: contain; padding: 10px;">
+        </div>
+        <div class="product-info" style="padding: 1.25rem;">
+          <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem; color: #1a1a2e;"><?= htmlspecialchars($product['name']) ?></h3>
+          <p style="color: #6b6b80; font-size: 0.9rem; margin-bottom: 1rem;"><?= htmlspecialchars($product['desc']) ?></p>
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 1.5rem; font-weight: bold; color: var(--highlight-color);">£<?= number_format($product['price'], 2) ?></span>
+            <a href="<?= BASE_URL ?>index.php?page=product&id=<?= $product['id'] ?>" style="padding: 0.6rem 1.25rem; background: var(--highlight-color); color: white; border-radius: 6px; text-decoration: none; font-weight: 600;">View</a>
+          </div>
         </div>
       </div>
-    </div>
-
-    <!-- Mouse - Logitech G305 LIGHTSPEED -->
-    <div class="product-card" style="background: white; border-radius: 12px; overflow: hidden; box-shadow: var(--shadow);">
-      <div class="product-image" style="width: 100%; height: 200px; background: white; display: flex; align-items: center; justify-content: center; overflow: hidden;">
-        <img src="<?= BASE_URL ?>assets/images/products/mice/mouse1/01.png" alt="Logitech G305 LIGHTSPEED" style="width: 100%; height: 100%; object-fit: contain; padding: 10px;">
-      </div>
-      <div class="product-info" style="padding: 1.25rem;">
-        <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem; color: #1a1a2e;">Logitech G305 LIGHTSPEED</h3>
-        <p style="color: #6b6b80; font-size: 0.9rem; margin-bottom: 1rem;">High-accuracy HERO sensor with up to 12,000 DPI</p>
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-          <span style="font-size: 1.5rem; font-weight: bold; color: var(--highlight-color);">£59.99</span>
-          <a href="<?= BASE_URL ?>index.php?page=product&id=6" style="padding: 0.6rem 1.25rem; background: var(--highlight-color); color: white; border-radius: 6px; text-decoration: none; font-weight: 600;">View</a>
-        </div>
-      </div>
-    </div>
-
-    <!-- Headset - HyperX Cloud Alpha -->
-    <div class="product-card" style="background: white; border-radius: 12px; overflow: hidden; box-shadow: var(--shadow);">
-      <div class="product-image" style="width: 100%; height: 200px; background: white; display: flex; align-items: center; justify-content: center; overflow: hidden;">
-        <img src="<?= BASE_URL ?>assets/images/products/headsets/head1/01.png" alt="HyperX Cloud Alpha" style="width: 100%; height: 100%; object-fit: contain; padding: 10px;">
-      </div>
-      <div class="product-info" style="padding: 1.25rem;">
-        <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem; color: #1a1a2e;">HyperX Cloud Alpha</h3>
-        <p style="color: #6b6b80; font-size: 0.9rem; margin-bottom: 1rem;">Dual-chamber drivers provide cleaner audio</p>
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-          <span style="font-size: 1.5rem; font-weight: bold; color: var(--highlight-color);">£34.99</span>
-          <a href="<?= BASE_URL ?>index.php?page=product&id=11" style="padding: 0.6rem 1.25rem; background: var(--highlight-color); color: white; border-radius: 6px; text-decoration: none; font-weight: 600;">View</a>
-        </div>
-      </div>
-    </div>
-
-    <!-- Monitor - Philips 27E1N1100A 27" -->
-    <div class="product-card" style="background: white; border-radius: 12px; overflow: hidden; box-shadow: var(--shadow);">
-      <div class="product-image" style="width: 100%; height: 200px; background: white; display: flex; align-items: center; justify-content: center; overflow: hidden;">
-        <img src="<?= BASE_URL ?>assets/images/products/monitors/monitor1/01.png" alt="Philips 27E1N1100A 27&quot;" style="width: 100%; height: 100%; object-fit: contain; padding: 10px;">
-      </div>
-      <div class="product-info" style="padding: 1.25rem;">
-        <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem; color: #1a1a2e;">Philips 27E1N1100A 27"</h3>
-        <p style="color: #6b6b80; font-size: 0.9rem; margin-bottom: 1rem;">27-inch Full HD IPS panel with wide viewing angles</p>
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-          <span style="font-size: 1.5rem; font-weight: bold; color: var(--highlight-color);">£94.99</span>
-          <a href="<?= BASE_URL ?>index.php?page=product&id=16" style="padding: 0.6rem 1.25rem; background: var(--highlight-color); color: white; border-radius: 6px; text-decoration: none; font-weight: 600;">View</a>
-        </div>
-      </div>
-    </div>
-
-    <!-- Microphone - TONOR RGB USB Microphone -->
-    <div class="product-card" style="background: white; border-radius: 12px; overflow: hidden; box-shadow: var(--shadow);">
-      <div class="product-image" style="width: 100%; height: 200px; background: white; display: flex; align-items: center; justify-content: center; overflow: hidden;">
-        <img src="<?= BASE_URL ?>assets/images/products/microphones/mic1/01.png" alt="TONOR RGB USB Microphone" style="width: 100%; height: 100%; object-fit: contain; padding: 10px;">
-      </div>
-      <div class="product-info" style="padding: 1.25rem;">
-        <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem; color: #1a1a2e;">TONOR RGB USB Microphone</h3>
-        <p style="color: #6b6b80; font-size: 0.9rem; margin-bottom: 1rem;">High-clarity microphone with built-in noise reduction</p>
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-          <span style="font-size: 1.5rem; font-weight: bold; color: var(--highlight-color);">£49.99</span>
-          <a href="<?= BASE_URL ?>index.php?page=product&id=21" style="padding: 0.6rem 1.25rem; background: var(--highlight-color); color: white; border-radius: 6px; text-decoration: none; font-weight: 600;">View</a>
-        </div>
-      </div>
-    </div>
+    <?php endforeach; ?>
+  </div>
 
   </div>
 </section>

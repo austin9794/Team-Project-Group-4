@@ -146,25 +146,33 @@ class BasketController
     // =========================
     // UPDATE QUANTITY
     // =========================
-    public function update()
-    {
-        $productId = $_POST['product_id'] ?? null;
-        $quantity  = (int)($_POST['quantity'] ?? 0);
+    public function update() {
 
-        if (!$productId) {
-            header("Location: " . BASE_URL . "index.php?page=basket");
-            exit;
-        }
+    $productId = $_POST['product_id'] ?? null;
+    $quantity  = (int)($_POST['quantity'] ?? 0);
 
-        if ($quantity <= 0) {
-            unset($_SESSION['basket'][$productId]);
-        } else {
-            $_SESSION['basket'][$productId] = $quantity;
-        }
-
+    if (!$productId) {
         header("Location: " . BASE_URL . "index.php?page=basket");
         exit;
     }
+
+    // Get stock
+    $stmt = $this->db->prepare("SELECT stock FROM products WHERE product_id = ?");
+    $stmt->execute([$productId]);
+    $stock = (int)$stmt->fetchColumn();
+
+    if ($quantity <= 0) {
+        unset($_SESSION['basket'][$productId]);
+    } else {
+        
+        // Clamp to stock
+        $quantity = min($quantity, $stock);
+        $_SESSION['basket'][$productId] = $quantity;
+    }
+
+    header("Location: " . BASE_URL . "index.php?page=basket");
+    exit;
+}
 
     // =========================
     // REMOVE ITEM

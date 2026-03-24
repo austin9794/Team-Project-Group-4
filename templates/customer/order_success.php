@@ -11,4 +11,10 @@
     </a>
 </div>
 
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    showToast("Order placed successfully");
+  });
+</script>
+
 <?php include __DIR__ . '/../footer.php'; ?>

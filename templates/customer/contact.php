@@ -257,4 +257,10 @@ require_once __DIR__ . '/../header.php';
   <div class="contact-image-section"></div>
 </div>
 
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    showToast("Message sent successfully");
+  });
+</script>
+
 <?php require_once __DIR__ . '/../footer.php'; ?>

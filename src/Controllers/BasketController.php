@@ -164,7 +164,7 @@ class BasketController
     if ($quantity <= 0) {
         unset($_SESSION['basket'][$productId]);
     } else {
-        
+
         // Clamp to stock
         $quantity = min($quantity, $stock);
         $_SESSION['basket'][$productId] = $quantity;
@@ -200,7 +200,7 @@ class BasketController
         $total = 0;
 
         $productIds = array_keys($_SESSION['basket']);
-$products = $this->getProductsByIds($productIds);
+        $products = $this->getProductsByIds($productIds);
 
 foreach ($_SESSION['basket'] as $productId => $qty) {
 
@@ -234,48 +234,69 @@ foreach ($_SESSION['basket'] as $productId => $qty) {
     // =========================
     // AJAX UPDATE
     // =========================
-    public function updateAjax()
-    {
-        header('Content-Type: application/json');
+    public function updateAjax() {
+        
+    header('Content-Type: application/json');
 
-        $productId = $_POST['product_id'] ?? null;
-        $quantity  = (int)($_POST['quantity'] ?? 0);
+    $productId = $_POST['product_id'] ?? null;
+    $quantity  = (int)($_POST['quantity'] ?? 0);
 
-        if (!$productId) {
-            echo json_encode(['error' => 'No product ID']);
-            return;
-        }
+    if (!$productId) {
+        echo json_encode(['success' => false, 'message' => 'No product ID']);
+        return;
+    }
 
-        if ($quantity <= 0) {
-            unset($_SESSION['basket'][$productId]);
-        } else {
-            $_SESSION['basket'][$productId] = $quantity;
-        }
+    // Fetch product (stock + price)
+    $stmt = $this->db->prepare("SELECT stock, price FROM products WHERE product_id = ?");
+    $stmt->execute([$productId]);
+    $product = $stmt->fetch();
 
-        $total = 0;
+    if (!$product) {
+        echo json_encode(['success' => false, 'message' => 'Product not found']);
+        return;
+    }
+
+    $stock = (int)$product['stock'];
+    $price = (float)$product['price'];
+
+    // Handle removal or update
+    if ($quantity <= 0) {
+        unset($_SESSION['basket'][$productId]);
+        $quantity = 0;
         $lineTotal = 0;
+        $clamped = false;
+    } else {
+        // Clamp to stock
+        $originalQty = $quantity;
+        $quantity = min($quantity, $stock);
+        $_SESSION['basket'][$productId] = $quantity;
 
-        if ($quantity > 0) {
-            $stmt = $this->db->prepare("SELECT price FROM products WHERE product_id = ?");
-            $stmt->execute([$productId]);
-            $price = $stmt->fetchColumn();
-            $lineTotal = $price * $quantity;
-        }
+        $lineTotal = $price * $quantity;
+        $clamped = ($quantity < $originalQty);
+    }
+
+    // Recalculate basket total efficiently
+    $total = 0;
+
+    if (!empty($_SESSION['basket'])) {
+        $products = $this->getProductsByIds(array_keys($_SESSION['basket']));
 
         foreach ($_SESSION['basket'] as $id => $qty) {
-            $stmt = $this->db->prepare("SELECT price FROM products WHERE product_id = ?");
-            $stmt->execute([$id]);
-            $price = $stmt->fetchColumn();
-            $total += $price * $qty;
-        }
+            if (!isset($products[$id])) continue;
 
-        echo json_encode([
-            'success'   => true,
-            'productId' => $productId,
-            'quantity'  => $quantity,
-            'lineTotal' => number_format($lineTotal, 2),
-            'total'     => number_format($total, 2),
-            'remove'    => ($quantity <= 0)
-        ]);
+            $total += $products[$id]['price'] * $qty;
+        }
     }
+
+    echo json_encode([
+        'success'     => true,
+        'productId'   => $productId,
+        'quantity'    => $quantity,
+        'lineTotal'   => number_format($lineTotal, 2),
+        'total'       => number_format($total, 2),
+        'basketCount' => array_sum($_SESSION['basket'] ?? []),
+        'remove'      => ($quantity === 0),
+        'clamped'     => $clamped
+    ]);
+  }   
 }

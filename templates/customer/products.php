@@ -179,7 +179,7 @@ $filters = [
     <?php else: ?>
     
     <?php foreach ($filtered_products as $product): ?>
-        <div class="product-card">
+        <div class="product-card skeleton">
 
             <div class="product-image">
                 <?php
@@ -205,13 +205,13 @@ $filters = [
             </div>
 
             <div class="product-info">
-                <h3 class="product-title"><?php echo htmlspecialchars($product['name']); ?></h3>
+                <h3 class="product-title skeleton-text"><?php echo htmlspecialchars($product['name']); ?></h3>
 
-                <p class="product-category">
+                <p class="product-category skeleton-text">
                     <?php echo htmlspecialchars($product['category_name']); ?>
                 </p>
 
-                <p class="product-desc">
+                <p class="product-desc skeleton-text">
                     <?php echo htmlspecialchars(substr($product['description'], 0, 70)); ?>...
                 </p>
 

@@ -11,7 +11,7 @@ if (!empty($images) && isset($images[0]['image_path'])) {
 }
 ?>
 
-<div class="product-detail-container">
+<div class="product-detail-container skeleton">
 
   <!-- Breadcrumb -->
   <div class="product-breadcrumb">

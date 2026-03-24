@@ -77,6 +77,44 @@ body.fade-out {
   transform: scaleX(1);
 }
 
+/* ===== Skeleton Base ===== */
+
+body:not(.loaded) .skeleton {
+  background: linear-gradient(90deg, #2a2a2a, #3a3a3a, #2a2a2a);
+  background-size: 200px 100%;
+  animation: shimmer 1.2s infinite;
+  color: transparent !important;
+  border-radius: 6px;
+}
+
+/* Text placeholders */
+body:not(.loaded) .skeleton-text {
+  height: 16px;
+  margin-bottom: 8px;
+  border-radius: 4px;
+}
+
+/* Image placeholders */
+body:not(.loaded) .skeleton-img {
+  width: 100%;
+  height: 180px;
+  border-radius: 8px;
+}
+
+/* Hide real content while loading */
+body:not(.loaded) img,
+body:not(.loaded) .product-title,
+body:not(.loaded) .product-price,
+body:not(.loaded) .product-desc {
+  opacity: 0;
+}
+
+/* Animation */
+@keyframes shimmer {
+  0% { background-position: -200px 0; }
+  100% { background-position: 200px 0; }
+}
+
 /* header */
 .top-header {
 background: linear-gradient(90deg, #000000 0%, var(--highlight-dark) 100%);            

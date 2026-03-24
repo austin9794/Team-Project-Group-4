@@ -168,3 +168,47 @@ In Stock
 <?php else: ?>
 
 <?php foreach ($filtered_products as $product): ?>
+
+<div class="product-card skeleton">
+
+<div class="product-image">
+
+<?php
+$imagePath = "products/"
+. strtolower($product['category_name']) . "/"
+. $product['slug'] . "/01.png";
+?>
+
+<img src="<?= BASE_URL ?>assets/images/<?= $imagePath ?>">
+
+</div>
+
+<div class="product-info">
+
+<h3 class="product-title skeleton-text"><?= htmlspecialchars($product['name']) ?></h3>
+
+<p class="product-price">£<?= number_format($product['price'],2) ?></p>
+
+<a href="index.php?page=product&id=<?= $product['product_id'] ?>">View</a>
+
+<?php if ($product['stock'] > 0): ?>
+<form class="add-to-cart-form">
+<input type="hidden" name="product_id" value="<?= $product['product_id'] ?>">
+<button>Add to Basket</button>
+</form>
+<?php else: ?>
+<span>Out of stock</span>
+<?php endif; ?>
+
+</div>
+
+</div>
+
+<?php endforeach; ?>
+
+<?php endif; ?>
+
+</div>
+</div>
+
+<?php include __DIR__ . '/../footer.php'; ?>

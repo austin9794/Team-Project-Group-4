@@ -197,7 +197,7 @@ public function placeOrder() {
     $db = Database::getInstance()->getConnection();
 
     // User
-     $userStmt = $db->prepare("SELECT * FROM users WHERE user_id = ?");
+    $userStmt = $db->prepare("SELECT * FROM users WHERE user_id = ?");
     $userStmt->execute([$_SESSION['user_id']]);
     $userData = $userStmt->fetch();
 

@@ -210,3 +210,50 @@ function showToast(message, type = "success") {
     setTimeout(() => toast.remove(), 300);
   }, 3000);
 }
+
+document.addEventListener("submit", function (e) {
+  if (!e.target.classList.contains("add-to-cart-form")) return;
+
+  e.preventDefault();
+
+  const form = e.target;
+  const btn = form.querySelector("button");
+  const formData = new FormData(form);
+
+  btn.disabled = true;
+
+  fetch("index.php?page=add-to-basket", {
+    method: "POST",
+    body: formData,
+    headers: {
+      "X-Requested-With": "XMLHttpRequest"
+    }
+  })
+    .then(res => res.json())
+    .then(data => {
+
+      if (!data.success) {
+        showToast(data.message || "Error adding to basket", "error");
+        return;
+      }
+
+      if (data.clamped) {
+        showToast("Adjusted to available stock", "error");
+      } else {
+        showToast("Added to basket");
+      }
+
+      // Update basket count
+      const basket = document.getElementById("basket-count");
+      if (basket) {
+        basket.textContent = data.basketCount;
+      }
+
+    })
+    .catch(() => {
+      showToast("Something went wrong", "error");
+    })
+    .finally(() => {
+      btn.disabled = false;
+    });
+});

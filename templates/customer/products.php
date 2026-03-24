@@ -225,8 +225,7 @@ $filters = [
 
 
                     <?php if ($product['stock'] > 0): ?>
-                        <form method="POST"
-                              action="index.php?page=add-to-basket">
+                        <form class="add-to-cart-form">
                             <input type="hidden" name="product_id" value="<?= $product['product_id'] ?>">
                             <button type="submit" class="btn-basket">Add to Basket</button>
                         </form>

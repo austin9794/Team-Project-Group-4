@@ -155,6 +155,10 @@ document.addEventListener("DOMContentLoaded", () => {
 // Fade in when page loads
 window.addEventListener("load", () => {
   document.body.classList.add("loaded");
+
+  if (loader) {
+    loader.classList.remove("active");
+  }
 });
 
 const loader = document.getElementById("page-loader");

@@ -257,3 +257,9 @@ document.addEventListener("submit", function (e) {
       btn.disabled = false;
     });
 });
+
+document.querySelectorAll(".filters select").forEach(select => {
+  select.addEventListener("change", () => {
+    select.form.submit();
+  });
+});

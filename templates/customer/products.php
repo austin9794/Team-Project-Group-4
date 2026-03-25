@@ -179,22 +179,25 @@ $imagePath = "products/"
 . $product['slug'] . "/01.png";
 ?>
 
-<img src="<?= BASE_URL ?>assets/images/<?= $imagePath ?>">
 
+<!-- Stock Badge --> <?php if ($product['stock'] > 10): ?> <span class="stock-badge in-stock">✓ In Stock</span> <?php elseif ($product['stock'] > 0): ?> <span class="stock-badge low-stock">⚠ Low Stock</span> <?php else: ?> <span class="stock-badge out-of-stock">✗ Out of Stock</span> <?php endif; ?> <img src="<?= BASE_URL ?>assets/images/<?= htmlspecialchars($imagePath) ?>" alt="<?= htmlspecialchars($product['name']) ?>" >
 </div>
 
 <div class="product-info">
 
 <h3 class="product-title skeleton-text"><?= htmlspecialchars($product['name']) ?></h3>
 
+<p class="product-desc skeleton-text"> <?php echo htmlspecialchars(substr($product['description'], 0, 70)); ?>... </p>
+
 <p class="product-price">£<?= number_format($product['price'],2) ?></p>
 
-<a href="index.php?page=product&id=<?= $product['product_id'] ?>">View</a>
+<div class="product-actions">
+<a href="index.php?page=product&id=<?= $product['product_id'] ?>"class="btn-view">View</a>
 
 <?php if ($product['stock'] > 0): ?>
 <form class="add-to-cart-form">
 <input type="hidden" name="product_id" value="<?= $product['product_id'] ?>">
-<button>Add to Basket</button>
+<button type="submit" class="btn-basket">Add to Basket</button>
 </form>
 <?php else: ?>
 <span>Out of stock</span>
@@ -203,7 +206,7 @@ $imagePath = "products/"
 </div>
 
 </div>
-
+</div>
 <?php endforeach; ?>
 
 <?php endif; ?>

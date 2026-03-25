@@ -268,3 +268,12 @@ function toggleSupport() {
   const panel = document.getElementById("support-panel");
   panel.classList.toggle("active");
 }
+
+document.addEventListener("click", function(e) {
+  if (!e.target.classList.contains("faq-question")) return;
+
+  document.querySelectorAll(".faq-item").forEach(i => i.classList.remove("active"));
+
+  const item = e.target.parentElement;
+  item.classList.add("active");
+});

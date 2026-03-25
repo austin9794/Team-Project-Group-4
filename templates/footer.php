@@ -89,7 +89,7 @@ color:#777;
     <ul>
       <li><strong>Delivery time?</strong><br>2–4 working days.</li>
       <li><strong>Returns?</strong><br>Within 7 days.</li>
-      <li><strong>Payment methods?</strong><br>All major cards supported.</li>
+      <li><strong>Payment methods?</strong><br>Only Visa and Mastercard supported.</li>
     </ul>
 
     <a href="index.php?page=faq" class="btn">View Full FAQ</a>

@@ -217,6 +217,7 @@ if (isLoggedIn() && isAdmin()) {
         <a href="<?= BASE_URL ?>index.php?page=home">Home</a>
         <a href="<?= BASE_URL ?>index.php?page=products">Products</a>
         <a href="<?= BASE_URL ?>index.php?page=contact">Contact Us</a>
+        <a href="<?= BASE_URL ?>index.php?page=faq">FAQ</a>
         <a href="<?= BASE_URL ?>index.php?page=about">About Us</a>
     </div>
     <div>

@@ -1638,3 +1638,77 @@ opacity:0.7;
     transform: translateY(0);
   }
 }
+
+/* ===== Support Widget ===== */
+
+.support-widget {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 9999;
+}
+
+/* Button */
+.support-btn {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: #8f3dff;
+  color: white;
+  font-size: 20px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Tooltip */
+.support-tooltip {
+  position: absolute;
+  bottom: 60px;
+  right: 0;
+  background: #222;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: 0.2s;
+  white-space: nowrap;
+}
+
+.support-widget:hover .support-tooltip {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Panel */
+.support-panel {
+  position: absolute;
+  bottom: 70px;
+  right: 0;
+  width: 260px;
+  background: #111;
+  border: 1px solid #333;
+  border-radius: 10px;
+  padding: 15px;
+  display: none;
+}
+
+.support-panel.active {
+  display: block;
+}
+
+.support-panel h4 {
+  margin-bottom: 10px;
+}
+
+.support-panel ul {
+  padding-left: 0;
+  list-style: none;
+}
+
+.support-panel li {
+  margin-bottom: 10px;
+  font-size: 0.85rem;
+}

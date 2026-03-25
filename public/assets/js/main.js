@@ -263,3 +263,8 @@ document.querySelectorAll(".filters select").forEach(select => {
     select.form.submit();
   });
 });
+
+function toggleSupport() {
+  const panel = document.getElementById("support-panel");
+  panel.classList.toggle("active");
+}

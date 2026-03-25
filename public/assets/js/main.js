@@ -277,3 +277,62 @@ document.addEventListener("click", function(e) {
   const item = e.target.parentElement;
   item.classList.add("active");
 });
+
+const searchInput = document.querySelector(".search-bar input[name='search']");
+const suggestionsBox = document.getElementById("search-suggestions");
+
+if (searchInput && suggestionsBox) {
+
+  let timeout;
+
+  searchInput.addEventListener("input", () => {
+
+    const query = searchInput.value.trim();
+
+    clearTimeout(timeout);
+
+    if (query.length < 2) {
+      suggestionsBox.style.display = "none";
+      return;
+    }
+
+    timeout = setTimeout(() => {
+
+      fetch(`search_suggestions.php?q=${encodeURIComponent(query)}`)
+        .then(res => res.json())
+        .then(data => {
+
+          if (data.length === 0) {
+            suggestionsBox.style.display = "none";
+            return;
+          }
+
+          suggestionsBox.innerHTML = data.map(item => `
+            <div class="suggestion-item" data-id="${item.product_id}">
+              ${item.name}
+            </div>
+          `).join("");
+
+          suggestionsBox.style.display = "block";
+
+        });
+
+    }, 300); // debounce
+
+  });
+
+  // Click suggestion
+  suggestionsBox.addEventListener("click", e => {
+    if (!e.target.classList.contains("suggestion-item")) return;
+
+    const id = e.target.dataset.id;
+    window.location.href = `index.php?page=product&id=${id}`;
+  });
+
+  // Hide when clicking outside
+  document.addEventListener("click", e => {
+    if (!e.target.closest(".search-bar")) {
+      suggestionsBox.style.display = "none";
+    }
+  });
+}

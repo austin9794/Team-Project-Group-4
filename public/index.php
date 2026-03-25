@@ -390,6 +390,9 @@ switch ($page) {
        $controller = new ProductController();
        $controller->list();
        break;
+    case 'faq':
+       include __DIR__ . '/templates/customer/faq.php';
+       break;
     case 'delete-account':
     (new AccountController())->deleteAccount();
     break;

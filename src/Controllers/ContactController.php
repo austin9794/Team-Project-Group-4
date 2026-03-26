@@ -6,7 +6,7 @@ class ContactController
     {
         // Validate request
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            header("Location: index.php?page=contact");
+            header("Location: " . BASE_URL . "index.php?page=contact");
             exit;
         }
 
@@ -18,7 +18,7 @@ class ContactController
         // Basic validation
         if ($name === '' || $email === '' || $subject === '' || $message === '') {
             $_SESSION['contact_error'] = "All fields are required.";
-            header("Location: index.php?page=contact");
+            header("Location: " . BASE_URL . "index.php?page=contact");
             exit;
         }
 
@@ -31,7 +31,7 @@ class ContactController
 
         // Success message
         $_SESSION['contact_success'] = "Thank you! Your message has been sent.";
-        header("Location: index.php?page=contact");
+        header("Location: " . BASE_URL . "index.php?page=contact");
         exit;
     }
 }

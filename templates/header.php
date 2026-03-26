@@ -18,6 +18,30 @@ if (!empty($_SESSION['basket']) && is_array($_SESSION['basket'])) {
 }
 ?>
 
+<?php
+$unreadCount = 0;
+$latestMessages = [];
+
+if (isLoggedIn() && isAdmin()) {
+    $db = Database::getInstance()->getConnection();
+
+    // Count unread
+    $stmt = $db->query(" SELECT COUNT(*) as count 
+        FROM contact_messages 
+        WHERE status = 'unread'
+    ");
+    $unreadCount = $stmt->fetch()['count'];
+
+    // Latest 5 messages
+    $msgStmt = $db->query(" SELECT id, name, subject, created_at
+        FROM contact_messages
+        ORDER BY created_at DESC
+        LIMIT 5
+    ");
+    $latestMessages = $msgStmt->fetchAll(PDO::FETCH_ASSOC);
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -42,207 +66,10 @@ if (!empty($_SESSION['basket']) && is_array($_SESSION['basket'])) {
 
     <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/admin.css">
 
-    <style>
-        /* === TOP HEADER BAR === */
-        .top-header {
-            background: linear-gradient(90deg, #000000 0%, var(--highlight-dark) 100%);
-            padding: 15px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 40px;
-            height: 110px;
-            overflow: visible;
-        }
-
-        .logo-container {
-            display: flex;
-            align-items: center;
-            height: 100%;
-        }
-
-        .logo-container img {
-            height: 160px;
-            width: auto;
-            object-fit: contain;
-            position: relative;
-            z-index: 10;
-        }
-        
-        /* === SEARCH BAR === */
-        .search-bar {
-            flex: 1 1 500px;
-            max-width: 500px;
-            margin: 0 40px;
-            display: flex;
-            justify-content: center;
-        }
-
-        .search-bar input {
-            flex-grow: 1;
-            padding: 10px 14px;
-            border: 2px solid var(--lavender);
-            border-radius: 6px;
-            background-color: #0a0a0a;
-            color: #FFFFFF;
-            outline: none;
-            font-size: 14px;
-        }
- 
-        .search-bar input::placeholder {
-            color: #bca8e6;
-        }
-
-        .search-bar button:hover {
-            background-color: var(--lavender);
-            color: #0a0a0a;
-            text-shadow: 0 0 10px white;
-        }
-
-        /* === NAVIGATION LINKS === */
-        .nav-links {
-            display: flex;
-            align-items: center;
-            gap: 25px;
-        }
-
-        .nav-links a {
-            color: #FFFFFF;
-            text-decoration: none;
-            font-size: 15px;
-            font-weight: 500;
-            transition: 0.2s ease-in-out;
-        }
-
-        .nav-links a:hover {
-            color: var(--lavender);
-            text-shadow: 0 0 10px var(--lavender);
-        }
-
-        /* === DROPDOWN MENU === */
-        .dropdown {
-            position: relative;
-            z-index: 9999;
-        }
-
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            z-index: 99999;
-            right: 0;
-            background-color: var(--highlight-color);
-            border-radius: 8px;
-            min-width: 160px;
-            overflow: hidden;
-            box-shadow: 0 0 15px rgba(0,0,0,0.3);
-        }
-
-        .dropdown-content a {
-            padding: 12px 16px;
-            color: #FFFFFF;
-            display: block;
-            text-decoration: none;
-        }
-
-        .dropdown-content a:hover {
-            background-color: var(--lavender);
-            color: #0a0a0a;
-        }
-
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
-
-        /* === BASKET ICON === */
-        .basket-icon {
-            color: #FFFFFF;
-            font-size: 17px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            transition: 0.2s;
-        }
-
-        .basket-icon:hover {
-            color: var(--lavender);
-            text-shadow: 0 0 10px var(--lavender);
-        }
-
-        /* === SUB NAV BAR === */
-        .sub-nav {
-            background-color: var(--highlight-color);
-            padding: 10px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .sub-nav a {
-            color: #FFFFFF;
-            font-size: 14px;
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-
-        .sub-nav a:hover {
-            color: var(--lavender);
-        }
-        
-        .sub-nav > div {
-            display: flex;
-            gap: 20px;
-        }
-
-        .basket-wrapper{
-          position:relative;
-          display:flex;
-          align-items:center;
-        } 
-
-.basket-svg{
-    width:26px;
-    height:26px;
-}
-
-/* badge inside icon */
-.basket-badge{
-    position:absolute;
-    top:-4px;
-    right:-6px;
-
-    background:#ff4d6d;
-    color:white;
-
-    font-size:10px;
-    font-weight:600;
-
-    min-width:16px;
-    height:16px;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    border-radius:50%;
-}
-
-.account-link {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    line-height: 1.8;
-}
-
-.customer-view-indicator {
-    font-size: 0.80rem;
-    margin-left: 6px;
-    opacity: 0.90;
-    color: #ffd166; 
-}
-</style>
 </head>
 <body>
+
+<div id="page-loader"></div>
 
 <!-- TOP HEADER -->
 <div class="top-header">
@@ -258,6 +85,7 @@ if (!empty($_SESSION['basket']) && is_array($_SESSION['basket'])) {
      <!-- template icon magnifying glass used -->
     <form class="search-bar" action="<?= BASE_URL ?>index.php" method="GET" style="flex: 1 1 500px; align-items: center; position: relative;">
         <input type="hidden" name="page" value="products">
+        <div id="search-suggestions"></div>
         <svg class="search-icon-inside" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" color="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); pointer-events: none;">
             <circle cx="11" cy="11" r="8"></circle>
             <path d="m21 21-4.35-4.35"></path>
@@ -278,37 +106,47 @@ if (!empty($_SESSION['basket']) && is_array($_SESSION['basket'])) {
 
             <!-- Account Dropdown -->
             <div class="dropdown">
-                <a href="#" class="account-link">
-                    <span>My Account ▼</span>
+    <a href="#" class="account-link">
+        <span>My Account ▼</span>
 
-                 <?php if ($actualRole === 'admin' && !$isAdmin): ?>
-                   <span class="customer-view-indicator">Customer View</span>
-                 <?php endif; ?>
-                </a>
-                <div class="dropdown-content">
-                    <a href="<?= BASE_URL ?>index.php?page=account">Profile</a>
-                    <a href="<?= BASE_URL ?>index.php?page=orders">My Orders</a>
+        <?php if ($actualRole === 'admin' && !$isAdmin): ?>
+            <span class="customer-view-indicator">Customer View</span>
+        <?php endif; ?>
+    </a>
 
-                    <?php if ($actualRole === 'admin'): ?>
-                      <hr style="margin: 5px 0; border: 0; border-top: 1px solid rgba(255,255,255,0.2);">
+    <div class="dropdown-content">
 
-                      <?php if ($isAdmin): ?>
-                         <!-- Currently in Admin Mode -->
-                         <a href="<?= BASE_URL ?>index.php?page=dashboard">Admin Dashboard</a>
-                         <a href="<?= BASE_URL ?>index.php?page=admin-orders">Admin - Orders</a>
-                         <a href="<?= BASE_URL ?>index.php?page=admin-products">Admin - Products</a>
-                         <a href="<?= BASE_URL ?>index.php?page=admin-customers">Admin - Customers</a>
-                         <a href="<?= BASE_URL ?>index.php?page=switch-role">Switch to Customer View</a>
-                        <?php else: ?>
-                          <!-- Currently in Customer Mode but is actually Admin -->
-                         <a href="<?= BASE_URL ?>index.php?page=switch-role">Switch Back to Admin View</a>
-                        <?php endif; ?>
-                    <?php endif; ?>
+        <!-- Customer -->
+        <a href="<?= BASE_URL ?>index.php?page=account">Profile</a>
+        <a href="<?= BASE_URL ?>index.php?page=orders">My Orders</a>
 
-                    <hr style="margin: 5px 0; border: 0; border-top: 1px solid rgba(255,255,255,0.2);">
-                    <a href="<?= BASE_URL ?>index.php?page=logout">Logout</a>
-                </div>
-            </div>
+        <?php if ($actualRole === 'admin'): ?>
+            <hr>
+
+            <!-- Admin core -->
+            <a href="<?= BASE_URL ?>index.php?page=dashboard">Admin Dashboard</a>
+
+            <a href="<?= BASE_URL ?>index.php?page=admin-messages">
+                📨 Messages
+                <?php if (!empty($unreadCount) && $unreadCount > 0): ?>
+                    <span class="badge"><?= $unreadCount ?></span>
+                <?php endif; ?>
+            </a>
+
+            <!-- Role switch -->
+            <a href="<?= BASE_URL ?>index.php?page=switch-role">
+                <?= $isAdmin ? 'Switch to Customer View' : 'Switch Back to Admin View' ?>
+            </a>
+
+        <?php endif; ?>
+
+        <hr>
+
+        <!-- Logout -->
+        <a href="<?= BASE_URL ?>index.php?page=logout">Logout</a>
+
+    </div>
+</div>
 
         <?php else: ?>
 
@@ -380,6 +218,7 @@ if (!empty($_SESSION['basket']) && is_array($_SESSION['basket'])) {
         <a href="<?= BASE_URL ?>index.php?page=home">Home</a>
         <a href="<?= BASE_URL ?>index.php?page=products">Products</a>
         <a href="<?= BASE_URL ?>index.php?page=contact">Contact Us</a>
+        <a href="<?= BASE_URL ?>index.php?page=faq">FAQ</a>
         <a href="<?= BASE_URL ?>index.php?page=about">About Us</a>
     </div>
     <div>

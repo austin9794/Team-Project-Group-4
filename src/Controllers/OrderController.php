@@ -5,174 +5,199 @@ require_once __DIR__ . '/../Helpers/address.php';
 
 class OrderController {
 
-    public function placeOrder() {   
-        $addressId = null;
+public function placeOrder() {
 
-        if (empty($_SESSION['basket'])) {
-            header("Location: " . BASE_URL . "index.php?page=basket");
-            exit;
-        }
-
-        if (!isset($_SESSION['user_id'])) {
-            header("Location: " . BASE_URL . "index.php?page=login");
-            exit;
-        }
-
-        // VALIDATE PAYMENT METHOD 
-        if (empty($_POST['payment_id'])) {
-            header("Location: " . BASE_URL . "index.php?page=checkout&error=no_payment");
-            exit;
-        }
-
-        $db = Database::getInstance()->getConnection();
-
-        // Ensure user has address
-        $addressCheck = $db->prepare(" SELECT COUNT(*) FROM addresses
-          WHERE user_id = ?
-        ");
-        $addressCheck->execute([$_SESSION['user_id']]);
-        $hasAddress = $addressCheck->fetchColumn() > 0;
-
-        // Ensure user has payment
-        $paymentCheck = $db->prepare(" SELECT COUNT(*) FROM payment_methods
-         WHERE user_id = ?
-        ");
-        $paymentCheck->execute([$_SESSION['user_id']]);
-        $hasPayment = $paymentCheck->fetchColumn() > 0;
-
-        if (!$hasAddress || !$hasPayment) {
-          header("Location: " . BASE_URL . "index.php?page=checkout&error=incomplete_checkout");
+    if (empty($_SESSION['basket'])) {
+        header("Location: " . BASE_URL . "index.php?page=basket");
         exit;
-}
+    }
 
-        //Payment Validation
-        if (empty($_POST['payment_id'])) {
+    if (!isset($_SESSION['user_id'])) {
+        header("Location: " . BASE_URL . "index.php?page=login");
+        exit;
+    }
+
+    if (empty($_POST['payment_id'])) {
         header("Location: " . BASE_URL . "index.php?page=checkout&error=no_payment");
         exit;
-     }
+    }
 
+    $db = Database::getInstance()->getConnection();
+
+    try {
+        $db->beginTransaction();
+
+        $userId = $_SESSION['user_id'];
+        $basket = $_SESSION['basket'];
+
+        // =========================
+        // VALIDATE PAYMENT
+        // =========================
         $paymentId = (int) $_POST['payment_id'];
 
         $payStmt = $db->prepare(" SELECT card_brand, card_last4
-           FROM payment_methods
-           WHERE payment_id = ? AND user_id = ?
-       ");
-        $payStmt->execute([$paymentId, $_SESSION['user_id']]);
+            FROM payment_methods
+            WHERE payment_id = ? AND user_id = ?
+        ");
+        $payStmt->execute([$paymentId, $userId]);
         $payment = $payStmt->fetch();
 
-       if (!$payment) {
-         header("Location: " . BASE_URL . "index.php?page=checkout&error=invalid_payment");
-         exit;
+        if (!$payment) {
+            throw new Exception("Invalid payment method");
         }
 
-       $paymentSummary = $payment['card_brand'] . ' ending ' . $payment['card_last4'];
+        $paymentSummary = $payment['card_brand'] . ' ending ' . $payment['card_last4'];
 
-       //Address Validation
-       $addressId = $_SESSION['checkout_address_id'] ?? null;
+        // =========================
+        // VALIDATE ADDRESS
+        // =========================
+        $addressId = $_SESSION['checkout_address_id'] ?? null;
 
         if ($addressId) {
-
-        // Fetch snapshot from selected address
-        $addrStmt = $db->prepare(" SELECT *
-            FROM addresses
-            WHERE address_id = ? AND user_id = ?
-        ");
-
-        $addrStmt->execute([$addressId, $_SESSION['user_id']]);
-        $address = $addrStmt->fetch();
+            $addrStmt = $db->prepare(" SELECT *
+                FROM addresses
+                WHERE address_id = ? AND user_id = ?
+            ");
+            $addrStmt->execute([$addressId, $userId]);
         } else {
+            $addrStmt = $db->prepare(" SELECT *
+                FROM addresses
+                WHERE user_id = ? AND is_default = 1
+                LIMIT 1
+            ");
+            $addrStmt->execute([$userId]);
+        }
 
-         // Auto-select default address
-        $addrStmt = $db->prepare(" SELECT *
-            FROM addresses
-            WHERE user_id = ? AND is_default = 1
-            LIMIT 1
-        ");
-        $addrStmt->execute([$_SESSION['user_id']]);
         $address = $addrStmt->fetch();
-       }
 
-      if (!$address) {
-         header("Location: " . BASE_URL . "index.php?page=checkout&error=no_address");
-         exit;
+        if (!$address) {
+            throw new Exception("No valid address found");
         }
 
-        $addressId        = $address['address_id'];
-        $shippingAddress  = formatAddress($address);
+        $shippingAddress = formatAddress($address);
 
-    // Recalculate total
-    $subtotal = 0;
+        // =========================
+        // LOCK PRODUCTS + VALIDATE STOCK
+        // =========================
+        $productIds = array_keys($basket);
+        $placeholders = implode(',', array_fill(0, count($productIds), '?'));
 
-    foreach ($_SESSION['basket'] as $productId => $qty) {
+        $stmt = $db->prepare(" SELECT product_id, price, stock
+            FROM products
+            WHERE product_id IN ($placeholders)
+            FOR UPDATE
+        ");
+        $stmt->execute($productIds);
 
-       $productId = (int)$productId;
-       $qty = max(1, (int)$qty);
-
-       $stmt = $db->prepare("SELECT price FROM products WHERE product_id = ?");
-       $stmt->execute([$productId]);
-       $price = $stmt->fetchColumn();
-
-       if ($price !== false) {
-           $subtotal += (float)$price * $qty;
+        $products = [];
+        foreach ($stmt->fetchAll() as $p) {
+            $products[$p['product_id']] = $p;
         }
-    }
 
-    $freeShippingThreshold = 50;
+        $subtotal = 0;
 
-    $shipping = ($subtotal >= $freeShippingThreshold) ? 0 : 4.99;
+        foreach ($basket as $productId => $qty) {
 
-    $vat = $subtotal * 0.20;
+            if (!isset($products[$productId])) {
+                throw new Exception("Product not found");
+            }
 
-    $total = $subtotal + $shipping + $vat;
+            $product = $products[$productId];
 
-    //Order Snapshot
-      $orderStmt = $db->prepare(" INSERT INTO orders (
-           user_id,
-           total_price,
-           status,
-           address_id,
-           shipping_address,
-           payment_summary
-        ) VALUES (?, ?, 'pending', ?, ?, ?)
-   ");
+            if ($product['stock'] < $qty) {
+                throw new Exception("Some items are out of stock or changed quantity");
+            }
 
-      $orderStmt->execute([
-        $_SESSION['user_id'],
-        $total,
-        $addressId,
-        $shippingAddress,
-        $paymentSummary
-   ]);
+            $subtotal += $product['price'] * $qty;
+        }
 
-     $orderId = $db->lastInsertId();
+        // =========================
+        // CALCULATE TOTAL
+        // =========================
+        $shipping = ($subtotal >= 50) ? 0 : 4.99;
+        $vat = $subtotal * 0.20;
+        $total = $subtotal + $shipping + $vat;
 
-    //Order Items
-    foreach ($_SESSION['basket'] as $productId => $qty) {
-        $stmt = $db->prepare("SELECT price FROM products WHERE product_id = ?");
-        $stmt->execute([$productId]);
-        $price = $stmt->fetchColumn();
+        // =========================
+        // INSERT ORDER
+        // =========================
+        $orderStmt = $db->prepare(" INSERT INTO orders (
+                user_id,
+                total_price,
+                status,
+                address_id,
+                shipping_address,
+                payment_summary
+            ) VALUES (?, ?, 'pending', ?, ?, ?)
+        ");
 
-        $insert = $db->prepare(" INSERT INTO order_items (order_id, product_id, quantity, price_at_purchase)
+        $orderStmt->execute([
+            $userId,
+            $total,
+            $address['address_id'],
+            $shippingAddress,
+            $paymentSummary
+        ]);
+
+        $orderId = $db->lastInsertId();
+
+        // =========================
+        // INSERT ITEMS + UPDATE STOCK
+        // =========================
+        $insertItem = $db->prepare(" INSERT INTO order_items (order_id, product_id, quantity, price_at_purchase)
             VALUES (?, ?, ?, ?)
         ");
-        $insert->execute([$orderId, $productId, $qty, $price]);
+
+        $updateStock = $db->prepare("UPDATE products
+            SET stock = stock - ?
+            WHERE product_id = ?
+        ");
+
+        foreach ($basket as $productId => $qty) {
+            $product = $products[$productId];
+
+            $insertItem->execute([
+                $orderId,
+                $productId,
+                $qty,
+                $product['price']
+            ]);
+
+            $updateStock->execute([
+                $qty,
+                $productId
+            ]);
+        }
+
+        // =========================
+        // COMMIT
+        // =========================
+        $db->commit();
+
+        // Clean session
+        unset($_SESSION['basket']);
+        unset($_SESSION['checkout_address_id']);
+
+        header("Location: " . BASE_URL . "index.php?page=order-success&id=" . $orderId);
+        exit;
+
+    } catch (Exception $e) {
+
+        $db->rollBack();
+
+        $_SESSION['checkout_error'] = $e->getMessage();
+
+        header("Location: " . BASE_URL . "index.php?page=checkout");
+        exit;
     }
-
-    //Clean up and redirect
-    unset($_SESSION['basket']);
-    unset($_SESSION['checkout_address_id']);
-
-    header("Location: " . BASE_URL . "index.php?page=order-success&id=" . $orderId);
-    exit;
-
-  }
+}
 
     public function checkoutPage() {
     requireLogin();
     $db = Database::getInstance()->getConnection();
 
     // User
-     $userStmt = $db->prepare("SELECT * FROM users WHERE user_id = ?");
+    $userStmt = $db->prepare("SELECT * FROM users WHERE user_id = ?");
     $userStmt->execute([$_SESSION['user_id']]);
     $userData = $userStmt->fetch();
 

@@ -79,7 +79,7 @@ class ProductController {
 
         $id = $_GET['id'] ?? null;
         if (!$id) {
-            header("Location: index.php?page=products");
+            header("Location: " . BASE_URL . "index.php?page=products");
             exit;
         }
 

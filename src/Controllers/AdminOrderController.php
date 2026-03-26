@@ -37,7 +37,7 @@ class AdminOrderController extends BaseAdminController {
             $update = $db->prepare("UPDATE orders SET status = ? WHERE order_id = ?");
             $update->execute([$newStatus, $orderId]);
 
-            header("Location: index.php?page=admin-orders");
+            header("Location: " . BASE_URL . "index.php?page=admin-orders");
             exit;
         }
 
@@ -119,7 +119,7 @@ class AdminOrderController extends BaseAdminController {
 
         if ($order['status'] !== 'pending') {
             $db->commit();
-            header("Location: index.php?page=admin-orders");
+            header("Location: " . BASE_URL . "index.php?page=admin-orders");
             exit;
         }
 
@@ -159,7 +159,7 @@ class AdminOrderController extends BaseAdminController {
 
         $db->commit();
 
-        header("Location: index.php?page=admin-orders");
+        header("Location: " . BASE_URL . "index.php?page=admin-orders");
         exit;
 
     } catch (Exception $e) {
@@ -173,7 +173,7 @@ class AdminOrderController extends BaseAdminController {
         $orderId = (int)($_GET['id'] ?? 0);
 
         if (!$orderId) {
-            header("Location: index.php?page=admin-orders");
+            header("Location: " . BASE_URL . "index.php?page=admin-orders");
             exit;
         }
 
@@ -186,7 +186,7 @@ class AdminOrderController extends BaseAdminController {
         $order = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if (!$order) {
-            header("Location: index.php?page=admin-orders");
+            header("Location: " . BASE_URL . "index.php?page=admin-orders");
             exit;
         }
 

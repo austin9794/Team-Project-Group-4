@@ -152,4 +152,187 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
+// Fade in when page loads
+window.addEventListener("load", () => {
+  document.body.classList.add("loaded");
 
+  if (loader) {
+    loader.classList.remove("active");
+  }
+});
+
+const loader = document.getElementById("page-loader");
+
+// Handle link clicks
+document.querySelectorAll("a").forEach(link => {
+
+  link.addEventListener("click", function (e) {
+
+    // Ignore special cases
+    if (
+      this.target === "_blank" ||
+      this.href.includes("#") ||
+      this.href.startsWith("javascript:")
+    ) return;
+
+    // Ignore same-page clicks
+    if (this.href === window.location.href) return;
+
+    e.preventDefault();
+
+    loader.classList.add("active");
+    document.body.classList.add("fade-out");
+
+    setTimeout(() => {
+      window.location = this.href;
+    }, 200);
+  });
+
+});
+
+function showToast(message, type = "success") {
+  let container = document.getElementById("toast-container");
+
+  if (!container) {
+    container = document.createElement("div");
+    container.id = "toast-container";
+    document.body.appendChild(container);
+  }
+
+  const toast = document.createElement("div");
+  toast.className = `toast toast-${type}`;
+  toast.innerText = message;
+
+  container.appendChild(toast);
+
+  setTimeout(() => {
+    toast.classList.add("fade-out");
+    setTimeout(() => toast.remove(), 300);
+  }, 3000);
+}
+
+document.addEventListener("submit", function (e) {
+  if (!e.target.classList.contains("add-to-cart-form")) return;
+
+  e.preventDefault();
+
+  const form = e.target;
+  const btn = form.querySelector("button");
+  const formData = new FormData(form);
+
+  btn.disabled = true;
+
+  fetch("index.php?page=add-to-basket", {
+    method: "POST",
+    body: formData,
+    headers: {
+      "X-Requested-With": "XMLHttpRequest"
+    }
+  })
+    .then(res => res.json())
+    .then(data => {
+
+      if (!data.success) {
+        showToast(data.message || "Error adding to basket", "error");
+        return;
+      }
+
+      if (data.clamped) {
+        showToast("Adjusted to available stock", "error");
+      } else {
+        showToast("Added to basket");
+      }
+
+      // Update basket count
+      const basket = document.getElementById("basket-count");
+      if (basket) {
+        basket.textContent = data.basketCount;
+      }
+
+    })
+    .catch(() => {
+      showToast("Something went wrong", "error");
+    })
+    .finally(() => {
+      btn.disabled = false;
+    });
+});
+
+document.querySelectorAll(".filters select").forEach(select => {
+  select.addEventListener("change", () => {
+    select.form.submit();
+  });
+});
+
+function toggleSupport() {
+  const panel = document.getElementById("support-panel");
+  panel.classList.toggle("active");
+}
+
+document.addEventListener("click", function(e) {
+  if (!e.target.classList.contains("faq-question")) return;
+
+  document.querySelectorAll(".faq-item").forEach(i => i.classList.remove("active"));
+
+  const item = e.target.parentElement;
+  item.classList.add("active");
+});
+
+const searchInput = document.querySelector(".search-bar input[name='search']");
+const suggestionsBox = document.getElementById("search-suggestions");
+
+if (searchInput && suggestionsBox) {
+
+  let timeout;
+
+  searchInput.addEventListener("input", () => {
+
+    const query = searchInput.value.trim();
+
+    clearTimeout(timeout);
+
+    if (query.length < 2) {
+      suggestionsBox.style.display = "none";
+      return;
+    }
+
+    timeout = setTimeout(() => {
+
+      fetch(`search_suggestions.php?q=${encodeURIComponent(query)}`)
+        .then(res => res.json())
+        .then(data => {
+
+          if (data.length === 0) {
+            suggestionsBox.style.display = "none";
+            return;
+          }
+
+          suggestionsBox.innerHTML = data.map(item => `
+            <div class="suggestion-item" data-id="${item.product_id}">
+              ${item.name}
+            </div>
+          `).join("");
+
+          suggestionsBox.style.display = "block";
+
+        });
+
+    }, 300); // debounce
+
+  });
+
+  // Click suggestion
+  suggestionsBox.addEventListener("click", e => {
+    if (!e.target.classList.contains("suggestion-item")) return;
+
+    const id = e.target.dataset.id;
+    window.location.href = `index.php?page=product&id=${id}`;
+  });
+
+  // Hide when clicking outside
+  document.addEventListener("click", e => {
+    if (!e.target.closest(".search-bar")) {
+      suggestionsBox.style.display = "none";
+    }
+  });
+}

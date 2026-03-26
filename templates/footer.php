@@ -72,6 +72,32 @@ color:#777;
 
 <footer class="site-footer">
 
+<div class="support-widget">
+
+  <div class="support-tooltip">
+    Got questions? Check our FAQ
+  </div>
+
+  <button class="support-btn" onclick="toggleSupport()">
+    ?
+  </button>
+
+  <div class="support-panel" id="support-panel">
+
+    <h4>Quick Help</h4>
+
+    <ul>
+      <li><strong>Delivery time?</strong><br>2–4 working days.</li>
+      <li><strong>Returns?</strong><br>Within 7 days.</li>
+      <li><strong>Payment methods?</strong><br>Only Visa and Mastercard supported.</li>
+    </ul>
+
+    <a href="index.php?page=faq" class="btn">View Full FAQ</a>
+
+  </div>
+
+</div>
+
 <div class="footer-grid">
 
 <!-- BRAND -->

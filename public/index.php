@@ -72,20 +72,22 @@ switch ($page) {
 
         $userId = $_SESSION['user_id'];
 
-       $stmt = $db->prepare("  SELECT DISTINCT
-            p.product_id,
-            p.name,
-            p.slug,
-            p.price,
-            c.name AS category_name
-        FROM order_items oi
-        JOIN orders o ON oi.order_id = o.order_id
-        JOIN products p ON oi.product_id = p.product_id
-        JOIN categories c ON p.category_id = c.category_id
-        WHERE o.user_id = ?
-        AND o.status = 'delivered'
-        ORDER BY o.created_at DESC
-        LIMIT 4
+       $stmt = $db->prepare(" SELECT
+        p.product_id,
+        p.name,
+        p.slug,
+        p.price,
+        c.name AS category_name,
+        MAX(o.created_at) as latest_order
+    FROM order_items oi
+    JOIN orders o ON oi.order_id = o.order_id
+    JOIN products p ON oi.product_id = p.product_id
+    JOIN categories c ON p.category_id = c.category_id
+    WHERE o.user_id = ?
+    AND o.status = 'delivered'
+    GROUP BY p.product_id
+    ORDER BY latest_order DESC
+    LIMIT 4
     ");
 
     $stmt->execute([$userId]);
@@ -104,16 +106,27 @@ switch ($page) {
         $userId = $_SESSION['user_id'];
 
         // Get categories from delivered orders
-        $stmt = $db->prepare(" SELECT DISTINCT p.category_id, p.product_id
+        $stmt = $db->prepare(" SELECT DISTINCT p.category_id
+           FROM order_items oi
+           JOIN orders o ON oi.order_id = o.order_id
+           JOIN products p ON oi.product_id = p.product_id
+           WHERE o.user_id = ?
+           AND o.status = 'delivered'
+        ");
+
+        $stmt->execute([$userId]);
+        $baseCategories = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+        // Get purchased product IDs
+        $stmt = $db->prepare(" SELECT DISTINCT oi.product_id
             FROM order_items oi
             JOIN orders o ON oi.order_id = o.order_id
-            JOIN products p ON oi.product_id = p.product_id
             WHERE o.user_id = ?
             AND o.status = 'delivered'
         ");
 
         $stmt->execute([$userId]);
-        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $excludeIds = $stmt->fetchAll(PDO::FETCH_COLUMN);
 
         foreach ($rows as $row) {
             $baseCategories[] = $row['category_id'];
@@ -377,6 +390,9 @@ switch ($page) {
        $controller = new ProductController();
        $controller->list();
        break;
+    case 'faq':
+       include __DIR__ . '/templates/customer/faq.php';
+       break;
     case 'delete-account':
     (new AccountController())->deleteAccount();
     break;
@@ -466,6 +482,18 @@ switch ($page) {
         requireAdmin();
         $controller = new AdminReturnController();
         $controller->process();
+    break;
+    case 'admin-messages':
+        requireAdmin();
+        require_once __DIR__ . '/src/Controllers/AdminContactController.php';
+        $controller = new AdminContactController();
+        $controller->index();
+    break;
+    case 'admin-message-view':
+        requireAdmin();
+        require_once __DIR__ . '/src/Controllers/AdminContactController.php';
+        $controller = new AdminContactController();
+        $controller->view();
     break;
 
     // ---- Default ----

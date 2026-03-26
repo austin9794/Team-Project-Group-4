@@ -47,6 +47,12 @@ class AdminDashboardController extends BaseAdminController {
         ");
         $returnSummary = $returnStmt->fetch(PDO::FETCH_ASSOC);
 
+        // Get contact message summary
+        $messageStmt = $db->query("SELECT COUNT(*) as unread_messages
+         FROM contact_messages WHERE status = 'unread'
+        ");
+        $messageSummary = $messageStmt->fetch(PDO::FETCH_ASSOC);
+
         // Get latest pending returns
         $pendingReturnsStmt = $db->query(" SELECT r.return_id, r.quantity, r.requested_at,
            u.name AS customer_name,
